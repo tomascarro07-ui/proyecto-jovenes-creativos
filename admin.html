@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo Cultural - Administración</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1 class="logo">Nodo Cultural</h1>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Volver al sitio</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+
+    <section class="admin-intro">
+      <h2>Panel de administración</h2>
+      <p>Acá podés agregar, ver y eliminar las charlas que se muestran en el sitio. Los datos se guardan en este navegador.</p>
+    </section>
+
+    <!-- FORMULARIO PARA AGREGAR CHARLA -->
+    <section class="admin-form-section">
+      <h3>Agregar nueva charla</h3>
+
+      <form id="formCharla" class="admin-form">
+
+        <div class="form-grupo">
+          <label for="titulo">Título</label>
+          <input type="text" id="titulo" required placeholder="Ej: Historia del Barrio Histórico">
+        </div>
+
+        <div class="form-fila">
+          <div class="form-grupo">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" required>
+          </div>
+
+          <div class="form-grupo">
+            <label for="hora">Hora</label>
+            <input type="time" id="hora" required>
+          </div>
+        </div>
+
+        <div class="form-fila">
+          <div class="form-grupo">
+            <label for="lugar">Lugar</label>
+            <input type="text" id="lugar" required placeholder="Ej: Museo Portugués">
+          </div>
+
+          <div class="form-grupo">
+            <label for="cupos">Cupos</label>
+            <input type="number" id="cupos" required min="1" placeholder="Ej: 40">
+          </div>
+        </div>
+
+        <div class="form-grupo">
+          <label for="expositor">Expositor/a</label>
+          <input type="text" id="expositor" required placeholder="Ej: Lic. María Fernández">
+        </div>
+
+        <div class="form-grupo">
+          <label for="imagen">URL de la imagen</label>
+          <input type="url" id="imagen" required placeholder="https://...">
+        </div>
+
+        <div class="form-grupo">
+          <label for="descripcionCorta">Descripción corta</label>
+          <textarea id="descripcionCorta" required rows="2" placeholder="Aparece en la tarjeta de la home (1-2 líneas)"></textarea>
+        </div>
+
+        <div class="form-grupo">
+          <label for="descripcionCompleta">Descripción completa</label>
+          <textarea id="descripcionCompleta" required rows="4" placeholder="Aparece en el detalle de la charla"></textarea>
+        </div>
+
+        <button type="submit" class="btn">
+          <i class="fa-solid fa-plus"></i> Agregar charla
+        </button>
+
+      </form>
+    </section>
+
+    <!-- LISTADO DE CHARLAS CARGADAS -->
+    <section class="admin-lista-section">
+      <h3>Charlas cargadas</h3>
+      <div class="admin-lista" id="adminLista">
+        <!-- Se pinta dinámicamente con JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>2026 Nodo Cultural. Panel de administración.</p>
+    </div>
+  </footer>
+
+  <script src="js/charlas-data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+
+</html>
