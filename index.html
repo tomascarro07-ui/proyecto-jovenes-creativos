@@ -7,6 +7,7 @@
   <title>Nodo Cultural - Menu</title>
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -25,6 +26,50 @@
   </header>
 
   <main>
+
+    <!-- CARRUSEL DE EVENTOS -->
+    <section class="carrusel" aria-label="Próximos eventos">
+      <div class="carrusel-track" id="carruselTrack">
+
+        <div class="carrusel-slide">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfoBbK82PSc_uJJfYWg-a3przQQ32s3slujawZA48G98kGAAkeDVL01SzB&s=10" alt="Feria del Libro">
+          <div class="carrusel-caption">
+            <span class="carrusel-tag">Evento</span>
+            <h3>Feria del Libro de Colonia</h3>
+            <p>Del 10 al 12 de setiembre — Plaza 25 de Mayo</p>
+          </div>
+        </div>
+
+        <div class="carrusel-slide">
+          <img src="https://santacatalinacem.com/wp-content/uploads/2024/07/fotoweb-scaled.jpg" alt="Noche de Museos">
+          <div class="carrusel-caption">
+            <span class="carrusel-tag">Evento</span>
+            <h3>Noche de los Museos</h3>
+            <p>20 de setiembre — Barrio Histórico</p>
+          </div>
+        </div>
+
+        <div class="carrusel-slide">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn26_zE0arnwA9Dp4VefYwmI4_pulD9hjk9AyUVRcSMB76-veg-nk5OA8R&s=10" alt="Festival de Cine">
+          <div class="carrusel-caption">
+            <span class="carrusel-tag">Evento</span>
+            <h3>Festival de Cine Independiente</h3>
+            <p>3 al 5 de octubre — Teatro Bastión del Carmen</p>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="carrusel-btn carrusel-prev" id="carruselPrev" aria-label="Anterior">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="carrusel-btn carrusel-next" id="carruselNext" aria-label="Siguiente">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+      <div class="carrusel-dots" id="carruselDots"></div>
+    </section>
+
     <!-- Hero principal -->
     <section id="hero" class="hero">
       <h2>Bienvenido a Nodo Cultural</h2>
@@ -41,6 +86,44 @@
         para difundir su trabajo y facilitar el acceso a actividades, charlas y experiencias
         culturales para todos los públicos.
       </p>
+    </section>
+
+    <!-- EXPLORAR POR CATEGORÍAS -->
+    <section id="categorias" class="categorias">
+      <h2 class="categorias-titulo">Explorar por categorías</h2>
+      <div class="categorias-grid">
+
+        <a href="#" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-landmark"></i></div>
+          <h3>Museos</h3>
+        </a>
+
+        <a href="#" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3>Recorridos</h3>
+        </a>
+
+        <a href="#" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-palette"></i></div>
+          <h3>Arte y talleres</h3>
+        </a>
+
+        <a href="#" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-book-open"></i></div>
+          <h3>Charlas</h3>
+        </a>
+
+        <a href="#" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-utensils"></i></div>
+          <h3>Gastronomía</h3>
+        </a>
+
+        <a href="#" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-music"></i></div>
+          <h3>Música y espectáculos</h3>
+        </a>
+
+      </div>
     </section>
 
     <!-- Explorar actividades -->
@@ -64,6 +147,47 @@
           <h3>Talleres culturales</h3>
           <p>Participá de talleres y actividades organizadas por la comunidad.</p>
           <a href="#" class="btn btn-outline">Explorar</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- CURSOS Y TALLERES -->
+    <section id="cursos" class="cursos">
+      <h2 class="cursos-titulo">Cursos y talleres</h2>
+      <div class="cursos-grid">
+
+        <article class="curso-card">
+          <span class="curso-nivel">Iniciación</span>
+          <h3>Taller de fotografía patrimonial</h3>
+          <p>Aprendé a fotografiar el Barrio Histórico con técnicas básicas de composición.</p>
+          <div class="curso-detalle">
+            <span><i class="fa-regular fa-clock"></i> 4 clases</span>
+            <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
+          </div>
+          <a href="#" class="btn btn-outline">Inscribirme</a>
+        </article>
+
+        <article class="curso-card">
+          <span class="curso-nivel">Todo público</span>
+          <h3>Curso de guía turístico local</h3>
+          <p>Formación básica para quienes quieran guiar recorridos por Colonia.</p>
+          <div class="curso-detalle">
+            <span><i class="fa-regular fa-clock"></i> 6 semanas</span>
+            <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
+          </div>
+          <a href="#" class="btn btn-outline">Inscribirme</a>
+        </article>
+
+        <article class="curso-card">
+          <span class="curso-nivel">Online</span>
+          <h3>Historia del Barrio Histórico</h3>
+          <p>Un recorrido audiovisual por los orígenes coloniales de la ciudad.</p>
+          <div class="curso-detalle">
+            <span><i class="fa-regular fa-clock"></i> 3 clases</span>
+            <span><i class="fa-solid fa-laptop"></i> Online</span>
+          </div>
+          <a href="#" class="btn btn-outline">Inscribirme</a>
         </article>
 
       </div>
@@ -117,6 +241,79 @@
         <a href="#" class="btn">Ver todas las charlas</a>
       </div>
     </section>
+
+    <!-- NOTICIAS -->
+    <section id="noticias" class="noticias">
+      <h2 class="noticias-titulo">Noticias</h2>
+      <div class="noticias-grid">
+
+        <article class="noticia-card">
+          <span class="noticia-fecha"><i class="fa-regular fa-calendar"></i> 28 jul 2026</span>
+          <h3>Nodo Cultural suma nuevos museos aliados</h3>
+          <p>Tres nuevos espacios se incorporan a la red de museos participantes del departamento.</p>
+          <a href="#" class="noticia-link">Leer más <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+
+        <article class="noticia-card">
+          <span class="noticia-fecha"><i class="fa-regular fa-calendar"></i> 15 jul 2026</span>
+          <h3>Abren inscripciones para el taller de guías</h3>
+          <p>Ya está disponible el formulario para anotarse al curso de guía turístico local.</p>
+          <a href="#" class="noticia-link">Leer más <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+
+        <article class="noticia-card">
+          <span class="noticia-fecha"><i class="fa-regular fa-calendar"></i> 2 jul 2026</span>
+          <h3>Balance de la Noche de los Museos 2026</h3>
+          <p>Más de 3000 personas visitaron los espacios participantes en la última edición.</p>
+          <a href="#" class="noticia-link">Leer más <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- RECURSOS DESTACADOS (PDF) -->
+    <section id="recursos" class="recursos">
+      <h2 class="recursos-titulo">Recursos destacados</h2>
+      <p class="recursos-subtitulo">Material descargable para conocer más sobre Colonia</p>
+
+      <div class="recursos-grid">
+
+        <article class="recurso-card">
+          <div class="recurso-icono"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="recurso-info">
+            <h3>Guía del Barrio Histórico</h3>
+            <p>Mapa y reseña histórica de los principales puntos de interés.</p>
+            <a href="recursos/guia-barrio-historico.pdf" class="recurso-descarga" download>
+              <i class="fa-solid fa-download"></i> Descargar PDF
+            </a>
+          </div>
+        </article>
+
+        <article class="recurso-card">
+          <div class="recurso-icono"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="recurso-info">
+            <h3>Catálogo de museos 2026</h3>
+            <p>Listado completo de museos, horarios y datos de contacto.</p>
+            <a href="recursos/catalogo-museos-2026.pdf" class="recurso-descarga" download>
+              <i class="fa-solid fa-download"></i> Descargar PDF
+            </a>
+          </div>
+        </article>
+
+        <article class="recurso-card">
+          <div class="recurso-icono"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="recurso-info">
+            <h3>Historia de Colonia del Sacramento</h3>
+            <p>Reseña histórica desde la fundación hasta la actualidad.</p>
+            <a href="recursos/historia-colonia.pdf" class="recurso-descarga" download>
+              <i class="fa-solid fa-download"></i> Descargar PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer principal de la página -->
@@ -131,6 +328,7 @@
     </div>
   </footer>
 
+  <script src="js/carrusel.js"></script>
 </body>
 
 </html>
