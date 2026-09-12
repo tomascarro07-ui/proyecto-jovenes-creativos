@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo Cultural - Contacto</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1 class="logo">Nodo Cultural</h1>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="servicios.html">Servicios</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li id="sesionNav"></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+
+    <section class="admin-intro">
+      <h2>Contactanos</h2>
+      <p id="contactoIntro">¿Tenés dudas, querés reservar un recorrido o sumar tu museo a Nodo Cultural? Escribinos.</p>
+    </section>
+
+    <section class="admin-form-section">
+      <h3 id="contactoAsuntoTitulo">Envianos tu consulta</h3>
+
+      <form id="form-contacto" class="admin-form">
+
+        <div class="form-fila">
+          <div class="form-grupo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" maxlength="60" placeholder="Tu nombre" required>
+          </div>
+
+          <div class="form-grupo">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Tu correo" required>
+          </div>
+        </div>
+
+        <div class="form-grupo" id="grupoActividad" hidden>
+          <label for="actividad">Consulta sobre</label>
+          <input type="text" id="actividad" name="actividad" readonly>
+        </div>
+
+        <div class="form-grupo">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn">
+          <i class="fa-solid fa-paper-plane"></i> Enviar
+        </button>
+
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>2026 Nodo Cultural. Todos los derechos reservados.</p>
+      <ul class="footer-links">
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="servicios.html">Servicios</a></li>
+        <li><a href="index.html">Inicio</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="scripts/storage.js"></script>
+  <script src="scripts/autenticacion.js"></script>
+  <script src="scripts/index.js"></script>
+  <script src="scripts/contacto.js"></script>
+</body>
+
+</html>
