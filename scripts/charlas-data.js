@@ -40,7 +40,6 @@ const charlasIniciales = [
   }
 ];
 
-// Inicializa el localStorage con datos de ejemplo si está vacío
 function inicializarCharlas() {
   const data = localStorage.getItem(CHARLAS_KEY);
   if (!data) {
