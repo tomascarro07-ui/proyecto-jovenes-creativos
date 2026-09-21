@@ -5,75 +5,163 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nodo Cultural - Registro</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/inicio.css">
+  <link rel="stylesheet" href="css/auth.css">
 </head>
 
-<body>
-  <header class="header">
-    <h1 class="logo"><a href="index.html">Nodo Cultural</a></h1>
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Volver al sitio</a></li>
-        <li><a href="guia_uso.html">Ayuda</a></li>
-      </ul>
-    </nav>
+<body class="nc-home">
+
+  <header class="site-header">
+    <div class="site-header__inner">
+
+      <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
+        <img width="190" src="img/logo.png" alt="Nodo Cultural">
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="site-menu" id="menuPrincipal">
+        <nav class="site-nav" aria-label="Principal">
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="index.html#actividades">Actividades</a></li>
+            <li><a href="museos_colonia.html">Museos</a></li>
+            <li><a href="index.html#cursos">Cursos y Talleres</a></li>
+            <li><a href="index.html#recursos">Recursos</a></li>
+            <li><a href="index.html#boletin">Boletín</a></li>
+            <li><a href="nosotros.html">Sobre Nosotros</a></li>
+          </ul>
+        </nav>
+
+        <div class="site-actions">
+          <a href="guia_uso.html" class="site-login">Ayuda</a>
+          <a href="login.html" class="nc-btn nc-btn--pill">Iniciar sesión</a>
+        </div>
+      </div>
+
+    </div>
   </header>
 
-  <main class="admin-main">
+  <main class="auth-main">
 
-    <section class="admin-intro">
-      <h2>Creá tu cuenta</h2>
-      <p>Registrate para confirmar tu asistencia a charlas y anotarte en talleres.</p>
-    </section>
+    <section class="auth-card" aria-labelledby="registroTitulo">
 
-    <section class="admin-form-section">
-      <h3>¡Registrate en Nodo Cultural!</h3>
+      <div class="auth-lado">
+        <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+        <h1 id="registroTitulo">Creá tu cuenta</h1>
+        <p>Registrate para confirmar tu asistencia a charlas y anotarte en talleres.</p>
+      </div>
 
-      <form id="form-registro" class="admin-form">
+      <div class="auth-form-wrap">
+        <h2>¡Registrate en Nodo Cultural!</h2>
 
-        <div class="form-fila">
-          <div class="form-grupo">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" maxlength="60" placeholder="Tu nombre" required>
+        <form id="form-registro" class="auth-form">
+
+          <div class="auth-fila">
+            <div class="auth-campo">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" maxlength="60" placeholder="Tu nombre" required>
+            </div>
+
+            <div class="auth-campo">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" maxlength="60" placeholder="Tu apellido" required>
+            </div>
           </div>
 
-          <div class="form-grupo">
-            <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" maxlength="60" placeholder="Tu apellido" required>
+          <div class="auth-campo">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" maxlength="60" placeholder="Tu correo" required>
           </div>
-        </div>
 
-        <div class="form-grupo">
-          <label for="correo">Correo electrónico</label>
-          <input type="email" id="correo" maxlength="60" placeholder="Tu correo" required>
-        </div>
+          <div class="auth-campo">
+            <label for="contrasenia">Contraseña</label>
+            <input type="password" id="contrasenia" minlength="8" placeholder="Tu contraseña" required>
+          </div>
 
-        <div class="form-grupo">
-          <label for="contrasenia">Contraseña</label>
-          <input type="password" id="contrasenia" minlength="8" placeholder="Tu contraseña" required>
-        </div>
+          <div class="auth-campo">
+            <label for="nacimiento">Fecha de nacimiento</label>
+            <input type="date" id="nacimiento" required>
+          </div>
 
-        <div class="form-grupo">
-          <label for="nacimiento">Fecha de nacimiento</label>
-          <input type="date" id="nacimiento" required>
-        </div>
+          <button type="submit" class="nc-btn">
+            <i class="fa-solid fa-user-plus"></i> Registrarse
+          </button>
 
-        <button type="submit" class="btn">
-          <i class="fa-solid fa-user-plus"></i> Registrarse
-        </button>
+          <div class="auth-separador">o</div>
 
-        <a href="login.html" class="btn btn-outline">Ya tengo cuenta</a>
+          <a href="login.html" class="nc-btn nc-btn--outline">Ya tengo cuenta</a>
 
-      </form>
+        </form>
+
+        <p class="auth-ayuda">¿Necesitás ayuda? Mirá la <a href="guia_uso.html">guía de uso</a>.</p>
+      </div>
+
     </section>
 
   </main>
 
-  <footer class="footer">
-    <div class="footer-content">
-      <p>2026 Nodo Cultural. Todos los derechos reservados.</p>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+
+      <div class="footer-marca">
+        <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio">
+          <img src="img/logo.png" alt=""></img>
+          <span class="brand__text">Nodo<br>Cultural</span>
+        </a>
+        <p>Una red que conecta patrimonio, educación y comunidad.</p>
+        <div class="footer-redes">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Enlaces rápidos">
+        <h3>Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="index.html#actividades">Actividades</a></li>
+          <li><a href="museos_colonia.html">Museos</a></li>
+          <li><a href="index.html#cursos">Cursos y Talleres</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Recursos">
+        <h3>Recursos</h3>
+        <ul>
+          <li><a href="index.html#recursos">Recursos educativos</a></li>
+          <li><a href="recorridos.html">Recorridos</a></li>
+          <li><a href="index.html#recursos">Material descargable</a></li>
+          <li><a href="index.html#boletin">Boletín cultural</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Sobre Nodo Cultural">
+        <h3>Sobre Nodo Cultural</h3>
+        <ul>
+          <li><a href="nosotros.html">Quiénes somos</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="admin.html">Administración</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3>Contacto</h3>
+        <ul class="footer-contacto">
+          <li><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</li>
+          <li><i class="fa-solid fa-phone"></i> +598 99 123 456</li>
+          <li><i class="fa-solid fa-location-dot"></i> Colonia del Sacramento, Uruguay</li>
+        </ul>
+      </div>
+
     </div>
   </footer>
 

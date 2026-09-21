@@ -5,7 +5,7 @@ function renderizarCharlas() {
   grid.innerHTML = charlas.map(charla => `
     <article class="charla-card">
       <div class="charla-media">
-        <img class="charla-img" src="${charla.imagen}" alt="${charla.titulo}">
+        <img class="charla-img" src="${charla.imagen}" alt="${charla.titulo}" width="100">
         <span class="charla-fecha">${formatearFechaCorta(charla.fecha)}</span>
       </div>
       <div class="charla-info">
