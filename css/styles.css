@@ -1480,3 +1480,208 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ============================================
+   NODO CULTURAL — Administración
+   Se carga DESPUÉS de styles.css, inicio.css y auth.css.
+   Reutiliza los campos de formulario de auth.css (.auth-form, .auth-campo, .auth-fila).
+   ============================================ */
+
+.admin-pagina {
+  max-width: var(--nc-ancho, 1600px);
+  margin: 0 auto;
+  padding: 1.25rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Cabecera de la página */
+.admin-cabecera {
+  background-color: var(--nc-card);
+  border-radius: 14px;
+  padding: 2rem 2.5rem;
+}
+
+.admin-cabecera h1 {
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 600;
+  color: var(--color-primario);
+  margin-bottom: 0.6rem;
+}
+
+.admin-cabecera p {
+  max-width: 62ch;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-texto-claro);
+  margin: 0;
+}
+
+/* Dos paneles: formulario a la izquierda, lista a la derecha */
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.admin-panel {
+  background-color: var(--nc-card);
+  border-radius: 14px;
+  padding: 1.5rem 1.6rem 1.7rem;
+}
+
+.admin-panel--lista {
+  background-color: var(--nc-panel);
+}
+
+.admin-panel .nc-seccion__cabecera {
+  margin-bottom: 1.2rem;
+}
+
+/* Textareas con el mismo aspecto que los inputs */
+.auth-campo textarea {
+  font-family: var(--fuente-texto);
+  font-size: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--nc-linea);
+  border-radius: 8px;
+  background-color: #fff;
+  color: var(--color-texto);
+  resize: vertical;
+}
+
+.auth-campo textarea:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(9, 52, 58, 0.12);
+}
+
+/* Lista que dibuja admin.js (ajustes sobre las clases de styles.css) */
+.admin-panel--lista .admin-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.admin-panel--lista .admin-item {
+  background-color: var(--nc-card);
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 0.8rem 1rem;
+}
+
+.admin-panel--lista .admin-item-img {
+  width: 60px;
+  height: 60px;
+}
+
+.admin-panel--lista .admin-item-info h4 {
+  font-family: var(--fuente-texto);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.admin-panel--lista .admin-vacio {
+  padding: 1.5rem 0;
+  font-size: 0.85rem;
+}
+
+/* Botones de acción: ver (ojo) y eliminar (tacho) */
+.admin-panel--lista .admin-item-acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-panel--lista .admin-btn-ver,
+.admin-panel--lista .admin-btn-eliminar {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--nc-linea);
+  background-color: #fff;
+  font-size: 0.85rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.admin-panel--lista .admin-btn-ver {
+  color: var(--color-primario);
+}
+
+.admin-panel--lista .admin-btn-ver:hover {
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+  color: #fff;
+}
+
+.admin-panel--lista .admin-btn-eliminar {
+  color: #B5382B;
+}
+
+.admin-panel--lista .admin-btn-eliminar:hover {
+  background-color: #B5382B;
+  border-color: #B5382B;
+  color: #fff;
+  transform: none;
+}
+
+.admin-panel--lista .admin-btn-ver:focus-visible,
+.admin-panel--lista .admin-btn-eliminar:focus-visible {
+  outline: 3px solid rgba(9, 52, 58, 0.45);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .admin-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-pagina {
+    padding: 1rem 1rem 1.5rem;
+  }
+
+  .admin-cabecera {
+    padding: 1.4rem 1.3rem;
+  }
+
+  .admin-panel {
+    padding: 1.2rem 1.1rem 1.4rem;
+  }
+}
+
+.auth-campo select {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 100%;
+  padding: 0.75rem 2.6rem 0.75rem 1rem;
+
+  cursor: pointer;
+
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2309343A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px 8px;
+}
+
+.auth-campo select:invalid {
+  color: var(--color-texto-claro);
+}
+
+.auth-campo select option {
+  color: var(--color-texto);
+}
