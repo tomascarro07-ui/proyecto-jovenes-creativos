@@ -1,4 +1,4 @@
-const CHARLAS_KEY = leerDeStorage('nodo_cultural_charlas',[]);
+const CHARLAS_KEY = 'nodo_cultural_charlas'
 
 const charlasIniciales = [
   {
@@ -7,6 +7,7 @@ const charlasIniciales = [
     fecha: "2026-08-15",
     hora: "18:00",
     lugar: "Museo Portugués",
+    tipo: "Virtual",
     imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfoBbK82PSc_uJJfYWg-a3przQQ32s3slujawZA48G98kGAAkeDVL01SzB&s=10",
     expositor: "Lic. María Fernández",
     descripcionCorta: "Un recorrido por la historia y el patrimonio cultural del departamento.",
@@ -19,6 +20,7 @@ const charlasIniciales = [
     fecha: "2026-08-22",
     hora: "19:00",
     lugar: "Centro Cultural Bastión del Carmen",
+    tipo: "Online",
     imagen: "https://santacatalinacem.com/wp-content/uploads/2024/07/fotoweb-scaled.jpg",
     expositor: "Ing. Javier Rodríguez",
     descripcionCorta: "Charla abierta sobre turismo sostenible y organizaciones locales.",
@@ -31,6 +33,7 @@ const charlasIniciales = [
     fecha: "2026-08-29",
     hora: "18:30",
     lugar: "Museo Municipal",
+    tipo: "Virtual",
     imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn26_zE0arnwA9Dp4VefYwmI4_pulD9hjk9AyUVRcSMB76-veg-nk5OA8R&s=10",
     expositor: "Panel de referentes locales",
     descripcionCompleta: "Conversamos con referentes de distintos museos y espacios culturales de la zona sobre los desafíos y proyectos futuros para la difusión del patrimonio local.",

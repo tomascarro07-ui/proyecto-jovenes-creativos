@@ -18,7 +18,7 @@
     <div class="site-header__inner">
 
       <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
-        <img width="190" src="img/logo.png" alt="Nodo Cultural">
+        <img width="190" src="img/logo.png"></img>
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
@@ -28,21 +28,18 @@
       <div class="site-menu" id="menuPrincipal">
         <nav class="site-nav" aria-label="Principal">
           <ul>
-            <li><a href="index.html">Inicio</a></li>
+            <li><a href="index.html" aria-current="page">Inicio</a></li>
             <li><a href="actividades.html">Actividades</a></li>
             <li><a href="museos_colonia.html">Museos</a></li>
-            <li><a href="arte_talleres.html" aria-current="page">Cursos y Talleres</a></li>
-            <li><a href="index.html#recursos">Recursos</a></li>
-            <li><a href="index.html#boletin">Boletín</a></li>
+            <li><a href="arte_talleres.html">Cursos y Talleres</a></li>
+            <li><a href="#recursos">Recursos</a></li>
+            <li><a href="#boletin">Boletín</a></li>
             <li><a href="nosotros.html">Sobre Nosotros</a></li>
           </ul>
         </nav>
 
         <div class="site-actions">
-          <div id="sesionNav">
-            <a href="login.html" class="site-login">Iniciar sesión</a>
-          </div>
-          <a href="registro.html" class="nc-btn nc-btn--pill">Registrarme</a>
+          <p id="sesionNav"></p>
         </div>
       </div>
 
@@ -70,103 +67,7 @@
       </div>
 
       <div class="arte-cursos-grid">
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/camara.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Iniciación</span>
-            <h3>Taller de fotografía patrimonial</h3>
-            <p class="curso-desc">Aprendé a fotografiar el Barrio Histórico con técnicas básicas de composición.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 4 clases</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/tour.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Todo público</span>
-            <h3>Curso de guía turístico local</h3>
-            <p class="curso-desc">Formación básica para quienes quieran guiar recorridos por Colonia.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 6 semanas</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/barrio_historico.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Online</span>
-            <h3>Historia del Barrio Histórico</h3>
-            <p class="curso-desc">Un recorrido audiovisual por los orígenes coloniales de la ciudad.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 3 clases</span>
-              <span><i class="fa-solid fa-laptop"></i> Online</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/dibujo.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Iniciación</span>
-            <h3>Dibujo y acuarela al aire libre</h3>
-            <p class="curso-desc">Salidas por la rambla y las calles empedradas para dibujar el paisaje de la ciudad.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 5 clases</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/teatro.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Todo público</span>
-            <h3>Taller de teatro comunitario</h3>
-            <p class="curso-desc">Ejercicios de expresión, improvisación y armado de una muestra final abierta al público.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 8 clases</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/celular.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Online</span>
-            <h3>Introducción a la fotografía con celular</h3>
-            <p class="curso-desc">Encuadre, luz y edición básica para sacar mejores fotos con lo que ya tenés en el bolsillo.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 3 clases</span>
-              <span><i class="fa-solid fa-laptop"></i> Online</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
+        <p id="actividadesGrid"></p>
       </div>
     </section>
 
@@ -287,16 +188,9 @@
   </footer>
 
   <script src="scripts/storage.js"></script>
-  <script src="scripts/autenticacion.js"></script>
-  <script>
-    // Menú móvil
-    const navToggle = document.querySelector('.nav-toggle');
-    const menuPrincipal = document.getElementById('menuPrincipal');
-    navToggle.addEventListener('click', () => {
-      const abierto = menuPrincipal.classList.toggle('abierto');
-      navToggle.setAttribute('aria-expanded', abierto);
-    });
-  </script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/actividades/actividades.js"></script>
+  <script src="scripts/charlas/charlas-data.js"></script>
 </body>
 
 </html>

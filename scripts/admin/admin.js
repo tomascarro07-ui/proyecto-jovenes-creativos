@@ -3,6 +3,7 @@ const adminLista = document.getElementById('adminLista');
 
 function renderizarLista() {
   const charlas = obtenerCharlas();
+  const talleres = obtenerTalleres();
 
   if (charlas.length === 0) {
     adminLista.innerHTML = '<p class="admin-vacio">Todavía no hay charlas cargadas.</p>';
@@ -56,6 +57,7 @@ form.addEventListener('submit', (e) => {
     fecha: document.getElementById('fecha').value,
     hora: document.getElementById('hora').value,
     lugar: document.getElementById('museo').value,
+    tipo: document.getElementById('tipo').value,
     cupos: parseInt(document.getElementById('cupos').value),
     expositor: document.getElementById('expositor').value.trim(),
     imagen: document.getElementById('imagen').value.trim(),

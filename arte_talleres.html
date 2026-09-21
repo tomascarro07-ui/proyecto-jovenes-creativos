@@ -69,104 +69,8 @@
         <h2 id="talleresTitulo">Cursos y talleres</h2>
       </div>
 
-      <div class="arte-cursos-grid">
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/camara.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Iniciación</span>
-            <h3>Taller de fotografía patrimonial</h3>
-            <p class="curso-desc">Aprendé a fotografiar el Barrio Histórico con técnicas básicas de composición.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 4 clases</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/tour.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Todo público</span>
-            <h3>Curso de guía turístico local</h3>
-            <p class="curso-desc">Formación básica para quienes quieran guiar recorridos por Colonia.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 6 semanas</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/barrio_historico.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Online</span>
-            <h3>Historia del Barrio Histórico</h3>
-            <p class="curso-desc">Un recorrido audiovisual por los orígenes coloniales de la ciudad.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 3 clases</span>
-              <span><i class="fa-solid fa-laptop"></i> Online</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/dibujo.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Iniciación</span>
-            <h3>Dibujo y acuarela al aire libre</h3>
-            <p class="curso-desc">Salidas por la rambla y las calles empedradas para dibujar el paisaje de la ciudad.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 5 clases</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/teatro.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Todo público</span>
-            <h3>Taller de teatro comunitario</h3>
-            <p class="curso-desc">Ejercicios de expresión, improvisación y armado de una muestra final abierta al público.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 8 clases</span>
-              <span><i class="fa-solid fa-location-dot"></i> Presencial</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
-        <article class="curso-mini">
-          <div class="curso-mini__media">
-            <img src="img/celular.jpg"></img>
-          </div>
-          <div class="curso-mini__info">
-            <span class="act-tipo">Online</span>
-            <h3>Introducción a la fotografía con celular</h3>
-            <p class="curso-desc">Encuadre, luz y edición básica para sacar mejores fotos con lo que ya tenés en el bolsillo.</p>
-            <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i> 3 clases</span>
-              <span><i class="fa-solid fa-laptop"></i> Online</span>
-            </p>
-            <a href="contacto.html" class="nc-btn nc-btn--mini">Inscribirme</a>
-          </div>
-        </article>
-
+      <div>
+        <p id="talleresGrid" class="arte-cursos-grid"></p>
       </div>
     </section>
 
@@ -287,7 +191,9 @@
   </footer>
 
   <script src="scripts/storage.js"></script>
-  <script src="scripts/autenticacion.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/talleres/talleres-data.js"></script>
+  <script src="scripts/talleres/talleres-render.js"></script>
   <script>
     // Menú móvil
     const navToggle = document.querySelector('.nav-toggle');

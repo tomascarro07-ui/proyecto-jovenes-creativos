@@ -6,7 +6,6 @@ function renderizarCharlas() {
     <article class="charla-card">
       <div class="charla-media">
         <img class="charla-img" src="${charla.imagen}" alt="${charla.titulo}">
-        <span class="charla-fecha">${formatearFechaCorta(charla.fecha)}</span>
       </div>
       <div class="charla-info">
         <h3>${charla.titulo}</h3>

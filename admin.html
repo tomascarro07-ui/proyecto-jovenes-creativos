@@ -17,7 +17,7 @@
     <div class="site-header__inner">
 
       <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
-        <img width="190" src="img/logo.png" alt="Nodo Cultural">
+        <img width="190" src="img/logo.png"></img>
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
@@ -27,23 +27,23 @@
       <div class="site-menu" id="menuPrincipal">
         <nav class="site-nav" aria-label="Principal">
           <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="index.html#actividades">Actividades</a></li>
+            <li><a href="index.html" aria-current="page">Inicio</a></li>
+            <li><a href="actividades.html">Actividades</a></li>
             <li><a href="museos_colonia.html">Museos</a></li>
-            <li><a href="index.html#cursos">Cursos y Talleres</a></li>
-            <li><a href="index.html#recursos">Recursos</a></li>
-            <li><a href="index.html#boletin">Boletín</a></li>
+            <li><a href="arte_talleres.html">Cursos y Talleres</a></li>
+            <li><a href="#recursos">Recursos</a></li>
+            <li><a href="#boletin">Boletín</a></li>
             <li><a href="nosotros.html">Sobre Nosotros</a></li>
           </ul>
         </nav>
 
         <div class="site-actions">
-          <a href="index.html" class="nc-btn nc-btn--pill">Volver al sitio</a>
+          <p id="sesionNav"></p>
         </div>
       </div>
 
     </div>
-  </header>
+  </header>v
 
   <main class="admin-pagina">
 
@@ -81,6 +81,21 @@
 
           <div class="auth-fila">
             <div class="auth-campo">
+              <label for="tipo">Tipo</label>
+             <select name="tipo" id="tipo" required>
+                <option value="">Seleccionar modalidad</option>
+                <option value="Virtual">Virtual</option>
+                <option value="Presencial">Presencial</option>
+              </select> 
+            </div>
+
+            <div class="auth-campo">
+              <label for="cupos">Cupos</label>
+              <input type="number" id="cupos" required min="1" placeholder="Ej: 40">
+            </div>
+          </div>
+
+          <div class="auth-campo">
               <label for="lugar">Lugar</label>
              <select name="museo" id="museo" required>
                 <option value="">Seleccionar museo</option>
@@ -91,12 +106,6 @@
                 <option value="Espacio Paleontológico “Armando Calcaterra”">Espacio Paleontológico “Armando Calcaterra”</option>
                 <option value="Espacio Dr. B. Rebuffo — Museo de Colonia">Espacio Dr. B. Rebuffo — Museo de Colonia</option>
               </select> 
-            </div>
-
-            <div class="auth-campo">
-              <label for="cupos">Cupos</label>
-              <input type="number" id="cupos" required min="1" placeholder="Ej: 40">
-            </div>
           </div>
 
           <div class="auth-campo">
@@ -196,9 +205,9 @@
   </footer>
 
   <script src="scripts/storage.js"></script>
-  <script src="scripts/autenticacion.js"></script>
-  <script src="scripts/admin.js"></script>
-  <script src="scripts/charlas-data.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/admin/admin.js"></script>
+  <script src="scripts/charlas/charlas-data.js"></script>
   <script>
     // Menú móvil
     const navToggle = document.querySelector('.nav-toggle');
