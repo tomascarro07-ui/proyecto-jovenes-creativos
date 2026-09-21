@@ -521,7 +521,7 @@
   padding: 0.2rem 0.4rem;
   background-color: #fff;
   border-radius: 5px;
-  color: var(--color-primario);
+  color: var(--color-burbuja);
   font-size: 0.55rem;
   font-weight: 600;
   line-height: 1.1;
@@ -565,7 +565,6 @@
   margin-right: 0.2rem;
 }
 
-/* Si charlas-render.js dibuja tarjetas .charla-card dentro de la grilla, se ven compactas */
 .act-grid .charla-card {
   border-radius: 8px;
   box-shadow: none;
@@ -599,9 +598,6 @@
   overflow: hidden;
 }
 
-/* ============================================
-   CURSOS + RECURSOS
-   ============================================ */
 
 .nc-panel {
   background-color: var(--nc-panel);
@@ -1387,7 +1383,7 @@
 
 .auth-fila {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1.1rem;
 }
 
@@ -1684,4 +1680,197 @@
 
 .auth-campo select option {
   color: var(--color-texto);
+}
+
+/* ============================================
+   NODO CULTURAL — Arte y talleres
+   Se carga DESPUÉS de styles.css e inicio.css.
+   Reutiliza .nc-hero, .cat-card, .curso-mini, .recurso-lista,
+   header y footer de inicio.css. Acá solo va lo que el inicio no tiene.
+   ============================================ */
+
+.arte-main {
+  max-width: var(--nc-ancho, 1600px);
+  margin: 0 auto;
+  padding: 1.25rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.arte-bloque {
+  background-color: var(--nc-card);
+  border-radius: 14px;
+  padding: 1.4rem 1.5rem 1.6rem;
+}
+
+.arte-bloque--panel {
+  background-color: var(--nc-panel);
+}
+
+.arte-sub {
+  font-size: 0.8rem;
+  color: var(--color-texto-claro);
+  margin: -0.5rem 0 1.1rem;
+}
+
+/* Disciplinas: 4 tarjetas en una fila */
+.cat-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Cursos: 3 por fila */
+.arte-cursos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.arte-bloque .curso-mini__media {
+  height: 110px;
+  font-size: 2.2rem;
+}
+
+.curso-desc {
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--color-texto-claro);
+  margin: 0 0 0.9rem;
+}
+
+.arte-bloque .curso-mini .act-tipo {
+  margin-bottom: 0.4rem;
+}
+
+/* Cómo participar */
+.pasos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.paso {
+  background-color: #fff;
+  border: 1px solid var(--nc-linea);
+  border-radius: 10px;
+  padding: 1.3rem 1.3rem 1.4rem;
+}
+
+.paso__numero {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-primario);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+}
+
+.paso h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-primario);
+  margin-bottom: 0.4rem;
+}
+
+.paso p {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-texto-claro);
+  margin: 0;
+}
+
+/* Material descargable */
+.arte-bloque .recurso-lista {
+  max-width: 720px;
+  background-color: #fff;
+}
+
+.recurso-lista .recurso-desc {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--color-texto-claro);
+  margin-top: 0.15rem;
+}
+
+/* Llamado final */
+.arte-cta {
+  background-color: var(--color-primario);
+  color: #fff;
+  border-radius: 14px;
+  padding: 2rem 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.2rem 2rem;
+}
+
+.arte-cta h2 {
+  color: var(--color-burbuja);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.arte-cta p {
+  max-width: 56ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-burbuja);
+  margin: 0;
+}
+
+.arte-cta .nc-btn--claro {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  color: var(--color-burbuja);
+}
+
+.curso-mini__media {
+  position: relative;
+  overflow: hidden;
+}
+
+.curso-mini__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .arte-cursos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pasos-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .cat-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .arte-main {
+    padding: 1rem 1rem 1.5rem;
+  }
+
+  .arte-cursos-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .arte-cta {
+    padding: 1.5rem 1.4rem;
+  }
 }

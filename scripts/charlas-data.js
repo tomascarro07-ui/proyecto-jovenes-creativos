@@ -1,6 +1,5 @@
-const CHARLAS_KEY = 'nodo_cultural_charlas';
+const CHARLAS_KEY = leerDeStorage('nodo_cultural_charlas',[]);
 
-// Datos iniciales (se cargan la primera vez, si no hay nada en localStorage)
 const charlasIniciales = [
   {
     id: 1,
@@ -40,56 +39,55 @@ const charlasIniciales = [
   }
 ];
 
-function inicializarCharlas() {
-  const data = localStorage.getItem(CHARLAS_KEY);
-  if (!data) {
-    localStorage.setItem(CHARLAS_KEY, JSON.stringify(charlasIniciales));
-  }
-}
-
-// Devuelve todas las charlas
 function obtenerCharlas() {
-  inicializarCharlas();
-  return JSON.parse(localStorage.getItem(CHARLAS_KEY));
-}
+  let charlas = leerDeStorage(CHARLAS_KEY, null);
 
-// Devuelve una charla por ID
-function obtenerCharlaPorId(id) {
-  const charlas = obtenerCharlas();
-  return charlas.find(c => c.id === parseInt(id));
+  if (charlas === null) {
+    charlas = charlasIniciales;
+    guardarEnStorage(CHARLAS_KEY, charlas);
+  }
+
+  return charlas;
 }
 
 // Guarda el array completo de charlas
 function guardarCharlas(charlas) {
-  localStorage.setItem(CHARLAS_KEY, JSON.stringify(charlas));
+  guardarEnStorage(CHARLAS_KEY, charlas);
 }
 
-// Agrega una nueva charla
+// Devuelve una charla por id (o null si no existe)
+function obtenerCharlaPorId(id) {
+  const charlas = obtenerCharlas();
+
+  for (let i = 0; i < charlas.length; i++) {
+    if (charlas[i].id === Number(id)) {
+      return charlas[i];
+    }
+  }
+
+  return null;
+}
+
+// Agrega una charla nueva
 function agregarCharla(charla) {
   const charlas = obtenerCharlas();
-  const nuevoId = charlas.length > 0 ? Math.max(...charlas.map(c => c.id)) + 1 : 1;
-  charla.id = nuevoId;
+
+  charla.id = Date.now();
   charlas.push(charla);
+
   guardarCharlas(charlas);
 }
 
-// Elimina una charla por ID
+// Elimina una charla por id
 function eliminarCharla(id) {
-  let charlas = obtenerCharlas();
-  charlas = charlas.filter(c => c.id !== parseInt(id));
-  guardarCharlas(charlas);
-}
+  const charlas = obtenerCharlas();
+  const restantes = [];
 
-// Formatea fecha "2026-08-15" -> "15 Ago"
-function formatearFechaCorta(fechaStr) {
-  const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  const [anio, mes, dia] = fechaStr.split('-');
-  return `${dia} ${meses[parseInt(mes) - 1]}`;
-}
+  for (let i = 0; i < charlas.length; i++) {
+    if (charlas[i].id !== Number(id)) {
+      restantes.push(charlas[i]);
+    }
+  }
 
-// Formatea fecha "2026-08-15" -> "15 de agosto, 2026"
-function formatearFechaLarga(fechaStr) {
-  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const [anio, mes, dia] = fechaStr.split('-');
-  return `${dia} de ${meses[parseInt(mes) - 1]}, ${anio}`;
+  guardarCharlas(restantes);
 }

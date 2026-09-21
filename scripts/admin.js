@@ -1,7 +1,6 @@
 const form = document.getElementById('formCharla');
 const adminLista = document.getElementById('adminLista');
 
-// Renderiza la lista de charlas cargadas
 function renderizarLista() {
   const charlas = obtenerCharlas();
 
@@ -10,24 +9,32 @@ function renderizarLista() {
     return;
   }
 
-  adminLista.innerHTML = charlas.map(charla => `
-    <article class="admin-item">
-      <img src="${charla.imagen}" alt="${charla.titulo}" class="admin-item-img">
-      <div class="admin-item-info">
-        <span class="admin-item-fecha">${formatearFechaLarga(charla.fecha)} · ${charla.hora} hs</span>
-        <h4>${charla.titulo}</h4>
-        <p>${charla.lugar} — ${charla.cupos} cupos</p>
-      </div>
-      <div class="admin-item-acciones">
-        <a href="charla-detalle.html?id=${charla.id}" class="admin-btn-ver" title="Ver detalle">
-          <i class="fa-solid fa-eye"></i>
-        </a>
-        <button class="admin-btn-eliminar" data-id="${charla.id}" title="Eliminar">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-    </article>
-  `).join('');
+  let html = '';
+
+  for (let i = 0; i < charlas.length; i++) {
+    const charla = charlas[i];
+
+    html += `
+      <article class="admin-item">
+        <img src="${charla.imagen}" alt="${charla.titulo}" class="admin-item-img">
+        <div class="admin-item-info">
+          <span class="admin-item-fecha">${(charla.fecha)} · ${charla.hora} hs</span>
+          <h4>${charla.titulo}</h4>
+          <p>${charla.lugar} — ${charla.cupos} cupos</p>
+        </div>
+        <div class="admin-item-acciones">
+          <a href="charla-detalle.html?id=${charla.id}" class="admin-btn-ver" title="Ver detalle">
+            <i class="fa-solid fa-eye"></i>
+          </a>
+          <button class="admin-btn-eliminar" data-id="${charla.id}" title="Eliminar">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </article>
+    `
+  }
+
+  adminLista.innerHTML = html;
 
   // Enganchar los botones de eliminar recién creados
   document.querySelectorAll('.admin-btn-eliminar').forEach(btn => {
@@ -41,7 +48,6 @@ function renderizarLista() {
   });
 }
 
-// Maneja el envío del formulario
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -49,7 +55,7 @@ form.addEventListener('submit', (e) => {
     titulo: document.getElementById('titulo').value.trim(),
     fecha: document.getElementById('fecha').value,
     hora: document.getElementById('hora').value,
-    lugar: document.getElementById('lugar').value.trim(),
+    lugar: document.getElementById('museo').value,
     cupos: parseInt(document.getElementById('cupos').value),
     expositor: document.getElementById('expositor').value.trim(),
     imagen: document.getElementById('imagen').value.trim(),
@@ -61,7 +67,6 @@ form.addEventListener('submit', (e) => {
   form.reset();
   renderizarLista();
 
-  // Feedback simple
   const btn = form.querySelector('button[type="submit"]');
   const textoOriginal = btn.innerHTML;
   btn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Charla agregada!';
