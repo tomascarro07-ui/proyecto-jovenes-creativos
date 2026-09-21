@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="es">
 
@@ -298,3 +299,267 @@
 </body>
 
 </html>
+=======
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nodo Cultural: museos, recorridos, talleres, charlas y noticias culturales de Colonia del Sacramento en un solo lugar.">
+  <title>Nodo Cultural - Inicio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+  <!-- Header principal de la página -->
+  <header class="header">
+    <h1 class="logo">Nodo Cultural</h1>
+
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="servicios.html">Servicios</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li id="sesionNav"></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Carrusel de eventos destacados -->
+    <div id="carouselExampleCaptions" class="carousel slide">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://ladiaria.com.uy/media/photologue/photos/cache/RS214966_20240511ID_0072-lpr_1200w.jpg" class="d-block w-100" alt="Público recorriendo los stands de la Feria del Libro de Colonia">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Feria del Libro de Colonia</h5>
+            <p>Del 10 al 12 de setiembre — Plaza 25 de Mayo</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://imgs.elpais.com.uy/dims4/default/e98dae0/2147483647/strip/true/crop/2614x1271+0+235/resize/1440x700!/format/webp/quality/90/?url=https%3A%2F%2Fel-pais-uruguay-production-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F44%2Fb5%2F4a8d4c024dbca0fa023d5ea65b1f%2Fignacio-dominguez.jpg" class="d-block w-100" loading="lazy" alt="Visitantes recorriendo museos durante la Noche de los Museos en el Barrio Histórico">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Noche de los Museos</h5>
+            <p>20 de setiembre — Barrio Histórico</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://ladiaria.com.uy/media/photologue/photos/cache/20220325ID_0004_1200w.JPG" class="d-block w-100" loading="lazy" alt="Proyección de una película durante el Festival de Cine Independiente">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Festival de Cine Independiente</h5>
+            <p>3 al 5 de octubre — Teatro Bastión del Carmen</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+
+    <!-- Hero principal -->
+    <section id="hero" class="hero">
+      <h2>Bienvenido a Nodo Cultural</h2>
+      <p>Encontrá información acerca de museos y organizaciones del departamento</p>
+      <a href="#categorias" class="btn">Ver más</a>
+    </section>
+
+    <!-- NODO CULTURAL EN CIFRAS -->
+    <section id="cifras" class="actividades">
+      <h2 class="actividades-titulo">Nodo Cultural en cifras</h2>
+      <div class="categorias-grid">
+        <div class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-landmark"></i></div>
+          <h3><span id="cifraMuseos">6</span> museos aliados</h3>
+        </div>
+        <div class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-people-group"></i></div>
+          <h3>+3000 visitantes por edición</h3>
+        </div>
+        <div class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <h3>Charlas mensuales</h3>
+        </div>
+        <div class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-graduation-cap"></i></div>
+          <h3>Cursos y talleres abiertos</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORAR POR CATEGORÍAS -->
+    <section id="categorias" class="categorias">
+      <h2 class="categorias-titulo">Explorar por categorías</h2>
+      <div class="categorias-grid">
+
+        <a href="museos_colonia.html" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-landmark"></i></div>
+          <h3>Museos</h3>
+        </a>
+
+        <a href="recorridos.html" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3>Recorridos</h3>
+        </a>
+
+        <a href="arte_talleres.html" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-palette"></i></div>
+          <h3>Arte y talleres</h3>
+        </a>
+
+        <a href="#charlas" class="categoria-card">
+          <div class="categoria-icono"><i class="fa-solid fa-book-open"></i></div>
+          <h3>Charlas</h3>
+        </a>
+      </div>
+    </section>
+
+    <!-- CURSOS Y TALLERES -->
+    <section id="cursos" class="cursos">
+      <h2 class="cursos-titulo">Cursos y talleres</h2>
+      <div class="cursos-grid" id="cursosGrid" data-solo-destacados="true">
+        <!-- Los cursos se cargan acá con JS desde data/cursos.json -->
+      </div>
+    </section>
+
+    <!-- Sección donde se muestran las charlas -->
+    <section id="charlas" class="charlas">
+      <h2 class="charlas-titulo">Próximas charlas</h2>
+
+      <div class="charlas-grid" id="charlasGrid">
+        <!-- Las charlas se cargan acá dinámicamente con JS -->
+      </div>
+    </section>
+
+    <!-- NOTICIAS -->
+    <section id="noticias" class="noticias">
+      <h2 class="noticias-titulo">Noticias</h2>
+      <div class="noticias-grid">
+
+        <article class="noticia-card">
+          <span class="noticia-fecha"><i class="fa-regular fa-calendar"></i> 28 jul 2026</span>
+          <h3>Nodo Cultural suma nuevos museos aliados</h3>
+          <p>Tres nuevos espacios se incorporan a la red de museos participantes del departamento.</p>
+        </article>
+
+        <article class="noticia-card">
+          <span class="noticia-fecha"><i class="fa-regular fa-calendar"></i> 15 jul 2026</span>
+          <h3>Abren inscripciones para el taller de guías</h3>
+          <p>Ya está disponible el formulario para anotarse al curso de guía turístico local.</p>
+        </article>
+
+        <article class="noticia-card">
+          <span class="noticia-fecha"><i class="fa-regular fa-calendar"></i> 2 jul 2026</span>
+          <h3>Balance de la Noche de los Museos 2026</h3>
+          <p>Más de 3000 personas visitaron los espacios participantes en la última edición.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- RECURSOS DESTACADOS (PDF) -->
+    <section id="recursos" class="recursos">
+      <h2 class="recursos-titulo">Recursos destacados</h2>
+      <p class="recursos-subtitulo">Material descargable para conocer más sobre Colonia</p>
+
+      <div class="recursos-grid">
+
+        <article class="recurso-card">
+          <div class="recurso-icono"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="recurso-info">
+            <h3>Guía del Barrio Histórico</h3>
+            <p>Mapa y reseña histórica de los principales puntos de interés.</p>
+            <span class="recurso-proximamente"><i class="fa-regular fa-clock"></i> Próximamente</span>
+          </div>
+        </article>
+
+        <article class="recurso-card">
+          <div class="recurso-icono"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="recurso-info">
+            <h3>Catálogo de museos 2026</h3>
+            <p>Listado completo de museos, horarios y datos de contacto.</p>
+            <span class="recurso-proximamente"><i class="fa-regular fa-clock"></i> Próximamente</span>
+          </div>
+        </article>
+
+        <article class="recurso-card">
+          <div class="recurso-icono"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="recurso-info">
+            <h3>Historia de Colonia del Sacramento</h3>
+            <p>Reseña histórica desde la fundación hasta la actualidad.</p>
+            <span class="recurso-proximamente"><i class="fa-regular fa-clock"></i> Próximamente</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Quiénes somos -->
+    <section id="nosotros" class="nosotros">
+      <h2 class="nosotros-titulo">¿Quiénes somos?</h2>
+      <p class="nosotros-texto">
+        Nodo Cultural es un espacio pensado para acercar a la comunidad la riqueza turística
+        y cultural del departamento. Conectamos museos, organizaciones y referentes locales
+        para difundir su trabajo y facilitar el acceso a actividades, charlas y experiencias
+        culturales para todos los públicos.
+      </p>
+      <a href="nosotros.html" class="btn btn-outline">Conocer más sobre el proyecto</a>
+    </section>
+
+    <!-- CONTACTO RÁPIDO / VISITANOS -->
+    <section id="visitanos" class="nosotros">
+      <h2 class="nosotros-titulo">Visitanos</h2>
+      <p class="nosotros-texto">
+        ¿Tenés dudas o querés sumar tu museo, organización o actividad a Nodo Cultural?
+        Escribinos y te respondemos a la brevedad.
+      </p>
+      <div class="curso-detalle" style="justify-content:center; margin-bottom:1.5rem;">
+        <span><i class="fa-solid fa-location-dot"></i> Colonia del Sacramento, Uruguay</span>
+        <span><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</span>
+      </div>
+      <a href="contacto.html" class="btn">Ir a contacto</a>
+    </section>
+
+  </main>
+
+  <!-- Footer principal de la página -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>2026 Nodo Cultural. Todos los derechos reservados.</p>
+      <ul class="footer-links">
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="servicios.html">Servicios</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li><a href="admin.html">Administración</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="scripts/charlas-data.js"></script>
+  <script src="scripts/charlas-render.js"></script>
+  <script src="scripts/datos.js"></script>
+  <script src="scripts/cursos.js"></script>
+  <script src="scripts/cifras.js"></script>
+  <script src="scripts/storage.js"></script>
+  <script src="scripts/autenticacion.js"></script>
+  <script src="scripts/sesion-nav.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+
+</html>
+>>>>>>> Stashed changes

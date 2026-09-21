@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "tipo": "Clásico",
+    "titulo": "Barrio Histórico a pie",
+    "descripcion": "El recorrido de siempre: calles empedradas, el Faro, la Calle de los Suspiros y las murallas, con las historias de fundación portuguesa y toma española.",
+    "duracion": "1h 30min",
+    "detalle": {
+      "icono": "fa-solid fa-location-dot",
+      "texto": "Sale de Plaza 25 de Mayo"
+    }
+  },
+  {
+    "id": 2,
+    "tipo": "Activo",
+    "titulo": "Colonia en bicicleta",
+    "descripcion": "Recorré el Barrio Histórico, la Rambla y el Real de San Carlos sobre dos ruedas, con paradas para sacar fotos y escuchar anécdotas del guía en cada punto.",
+    "duracion": "2h 30min",
+    "detalle": {
+      "icono": "fa-solid fa-bicycle",
+      "texto": "Bici incluida"
+    }
+  },
+  {
+    "id": 3,
+    "tipo": "Romántico",
+    "titulo": "Colonia al atardecer",
+    "descripcion": "Un recorrido fotográfico pensado para la mejor luz del día: el Barrio Histórico con la puesta de sol de fondo, ideal para fotos y para cerrar el día tranquilo.",
+    "duracion": "1h",
+    "detalle": {
+      "icono": "fa-solid fa-camera",
+      "texto": "Ideal para fotos"
+    }
+  },
+  {
+    "id": 4,
+    "tipo": "Sabores",
+    "titulo": "Recorrido gastronómico",
+    "descripcion": "Bares, panaderías y almacenes tradicionales del Barrio Histórico, con degustaciones incluidas y las historias de las familias que los mantienen abiertos hace generaciones.",
+    "duracion": "2h",
+    "detalle": {
+      "icono": "fa-solid fa-utensils",
+      "texto": "Degustación incluida"
+    }
+  },
+  {
+    "id": 5,
+    "tipo": "Tradicional",
+    "titulo": "Paseo en carruaje",
+    "descripcion": "Una vuelta por el Barrio Histórico a paso de caballo, la forma más tranquila de recorrer las calles empedradas mientras el guía va contando la historia de cada rincón.",
+    "duracion": "40 min",
+    "detalle": {
+      "icono": "fa-solid fa-location-dot",
+      "texto": "Sale del Portón de Campo"
+    }
+  },
+  {
+    "id": 6,
+    "tipo": "Nocturno",
+    "titulo": "Leyendas de noche",
+    "descripcion": "Un recorrido diferente, con las historias, leyendas y personajes que se cuentan de generación en generación sobre el Barrio Histórico apenas cae el sol.",
+    "duracion": "1h 15min",
+    "detalle": {
+      "icono": "fa-solid fa-moon",
+      "texto": "Sale al atardecer"
+    }
+  }
+]

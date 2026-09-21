@@ -1,4 +1,4 @@
-const CONFIRMACIONES_KEY = 'nodo_cultural_confirmaciones';
+const CONFIRMACIONES_KEY = 'nodo_cultural_confirmaciones_v2';
 
 // Obtiene el ID desde la URL (?id=1)
 function obtenerIdDesdeUrl() {

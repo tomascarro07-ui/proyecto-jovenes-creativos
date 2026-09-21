@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "nivel": "Iniciación",
+    "titulo": "Taller de fotografía patrimonial",
+    "descripcion": "Aprendé a fotografiar el Barrio Histórico con técnicas básicas de composición.",
+    "duracion": "4 clases",
+    "modalidad": "Presencial",
+    "destacado": true
+  },
+  {
+    "id": 2,
+    "nivel": "Todo público",
+    "titulo": "Curso de guía turístico local",
+    "descripcion": "Formación básica para quienes quieran guiar recorridos por Colonia.",
+    "duracion": "6 semanas",
+    "modalidad": "Presencial",
+    "destacado": true
+  },
+  {
+    "id": 3,
+    "nivel": "Online",
+    "titulo": "Historia del Barrio Histórico",
+    "descripcion": "Un recorrido audiovisual por los orígenes coloniales de la ciudad.",
+    "duracion": "3 clases",
+    "modalidad": "Online",
+    "destacado": true
+  },
+  {
+    "id": 4,
+    "nivel": "Iniciación",
+    "titulo": "Dibujo y acuarela al aire libre",
+    "descripcion": "Salidas por la rambla y las calles empedradas para dibujar el paisaje de la ciudad.",
+    "duracion": "5 clases",
+    "modalidad": "Presencial",
+    "destacado": false
+  },
+  {
+    "id": 5,
+    "nivel": "Todo público",
+    "titulo": "Taller de teatro comunitario",
+    "descripcion": "Ejercicios de expresión, improvisación y armado de una muestra final abierta al público.",
+    "duracion": "8 clases",
+    "modalidad": "Presencial",
+    "destacado": false
+  },
+  {
+    "id": 6,
+    "nivel": "Online",
+    "titulo": "Introducción a la fotografía con celular",
+    "descripcion": "Encuadre, luz y edición básica para sacar mejores fotos con lo que ya tenés en el bolsillo.",
+    "duracion": "3 clases",
+    "modalidad": "Online",
+    "destacado": false
+  }
+]

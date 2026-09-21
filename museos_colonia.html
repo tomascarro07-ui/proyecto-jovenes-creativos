@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Museos de Colonia — Nodo Cultural</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1 class="logo">Nodo Cultural</h1>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Volver al sitio</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h2>Museos de Colonia del Sacramento</h2>
+    <p>Un recorrido por <span id="museosCantidad">6</span> espacios donde conviven la herencia portuguesa, la española y las culturas originarias que dieron forma a esta ciudad frente al Río de la Plata.</p>
+  </section>
+
+  <!-- QUIÉNES SOMOS (reutilizado como intro) -->
+  <section class="nosotros">
+    <p class="nosotros-texto">Colonia concentra una de las mayores densidades de museos por metro cuadrado del país. Cada uno cuenta un fragmento distinto de una misma disputa: casi 100 años de idas y vueltas entre Portugal y España por el control de la ciudad.</p>
+  </section>
+
+  <!-- MUSEOS (estructura de .cursos / .curso-card) -->
+  <section class="cursos">
+    <h2 class="cursos-titulo">Los museos, uno por uno</h2>
+
+    <div class="cursos-grid" id="museosGrid">
+        <!-- Los museos se cargan acá con JS desde data/museos.json -->
+      </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>2026 Nodo Cultural. Horarios y tarifas pueden variar según temporada — confirmá con la Oficina de Turismo de Colonia.</p>
+    </div>
+  </footer>
+
+  <script src="scripts/datos.js"></script>
+  <script src="scripts/museos.js"></script>
+</body>
+
+</html>

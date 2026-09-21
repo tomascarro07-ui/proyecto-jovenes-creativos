@@ -1,11 +1,15 @@
+<<<<<<< Updated upstream:js/charlas-data.js
 const CHARLAS_KEY = 'nodo_cultural_charlas';
+=======
+const CHARLAS_KEY = 'nodo_cultural_charlas_v2';
+>>>>>>> Stashed changes:scripts/charlas-data.js
 
 // Datos iniciales (se cargan la primera vez, si no hay nada en localStorage)
 const charlasIniciales = [
   {
     id: 1,
     titulo: "Historia del Barrio Histórico",
-    fecha: "2026-08-15",
+    fecha: "2026-10-10",
     hora: "18:00",
     lugar: "Museo Portugués",
     imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfoBbK82PSc_uJJfYWg-a3przQQ32s3slujawZA48G98kGAAkeDVL01SzB&s=10",
@@ -17,7 +21,7 @@ const charlasIniciales = [
   {
     id: 2,
     titulo: "Turismo sostenible en Colonia",
-    fecha: "2026-08-22",
+    fecha: "2026-10-17",
     hora: "19:00",
     lugar: "Centro Cultural Bastión del Carmen",
     imagen: "https://santacatalinacem.com/wp-content/uploads/2024/07/fotoweb-scaled.jpg",
@@ -29,7 +33,7 @@ const charlasIniciales = [
   {
     id: 3,
     titulo: "Referentes de museos y espacios culturales",
-    fecha: "2026-08-29",
+    fecha: "2026-10-24",
     hora: "18:30",
     lugar: "Museo Municipal",
     imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn26_zE0arnwA9Dp4VefYwmI4_pulD9hjk9AyUVRcSMB76-veg-nk5OA8R&s=10",
@@ -81,14 +85,22 @@ function eliminarCharla(id) {
   guardarCharlas(charlas);
 }
 
+<<<<<<< Updated upstream:js/charlas-data.js
 // Formatea fecha "2026-08-15" -> "15 Ago"
+=======
+// Formatea fecha "2026-10-10" -> "10 Oct"
+>>>>>>> Stashed changes:scripts/charlas-data.js
 function formatearFechaCorta(fechaStr) {
   const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   const [anio, mes, dia] = fechaStr.split('-');
   return `${dia} ${meses[parseInt(mes) - 1]}`;
 }
 
+<<<<<<< Updated upstream:js/charlas-data.js
 // Formatea fecha "2026-08-15" -> "15 de agosto, 2026"
+=======
+// Formatea fecha "2026-10-10" -> "10 de octubre, 2026"
+>>>>>>> Stashed changes:scripts/charlas-data.js
 function formatearFechaLarga(fechaStr) {
   const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   const [anio, mes, dia] = fechaStr.split('-');

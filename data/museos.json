@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "categoria": "Colonial",
+    "nombre": "Museo Municipal — Casa del Virrey",
+    "descripcion": "Reúne objetos y piezas que reconstruyen la vida cotidiana de Colonia durante el período colonial: mobiliario, utensilios y hallazgos que muestran cómo se vivía dentro de las murallas.",
+    "ubicacion": "Barrio Histórico",
+    "mapa": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3289.2110258284124!2d-57.855029623422695!3d-34.47217055056434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a3125c9483a2b5%3A0xaf4087244b84ae32!2sCasa%20del%20Virrey!5e0!3m2!1ses-419!2suy!4v1789828144760!5m2!1ses-419!2suy"
+  },
+  {
+    "id": 2,
+    "categoria": "Español",
+    "nombre": "Museo Español",
+    "descripcion": "Instalado en una antigua casa portuguesa reutilizada tras la toma española, exhibe la cultura y la vida material del período hispánico en la ciudad.",
+    "ubicacion": "Barrio Histórico",
+    "mapa": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3289.2996084428833!2d-57.85631310321044!3d-34.469923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a3125c4eb04385%3A0xff33ab77086f9bfc!2sEspacio%20Espa%C3%B1ol%20-%20Museo%20de%20Colonia%20del%20Sacramento!5e0!3m2!1ses-419!2suy!4v1789227363601!5m2!1ses-419!2suy"
+  },
+  {
+    "id": 3,
+    "categoria": "Arqueología",
+    "nombre": "Museo Indígena",
+    "descripcion": "Piezas arqueológicas y objetos vinculados a los pueblos originarios que habitaron la región mucho antes de la llegada de portugueses y españoles.",
+    "ubicacion": "Barrio Histórico",
+    "mapa": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3289.2613509726634!2d-57.8547666190683!3d-34.470893698312345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a313001d68dc23%3A0x6f81e5ea8927fb15!2sEspacio%20Ind%C3%ADgena%20-%20Museo%20de%20Colonia!5e0!3m2!1ses-419!2suy!4v1789227278576!5m2!1ses-419!2suy"
+  },
+  {
+    "id": 4,
+    "categoria": "Ocupación portuguesa",
+    "nombre": "Espacio Portugués",
+    "descripcion": "Documenta específicamente la etapa de ocupación portuguesa de la ciudad, con piezas y relatos centrados en ese tramo del dominio colonial.",
+    "ubicacion": "Barrio Histórico",
+    "mapa": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3289.186495395282!2d-57.85454052462553!3d-34.47279292300146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a3125cdac816d7%3A0xe63e0271ab7d6b4e!2sEspacio%20Portugu%C3%A9s%20-%20Museo%20de%20Colonia!5e0!3m2!1ses-419!2suy!4v1789227315072!5m2!1ses-419!2suy"
+  },
+  {
+    "id": 5,
+    "categoria": "Paleontología",
+    "nombre": "Espacio Paleontológico “Armando Calcaterra”",
+    "descripcion": "Exhibe fósiles de la megafauna de la región, como gliptodontes, perezosos gigantes y mastodontes, además de piezas geológicas y arqueológicas.",
+    "ubicacion": "Real de San Carlos",
+    "mapa": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3290.516359048989!2d-57.86166762342401!3d-34.4390381488213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a312db3287e7d7%3A0x88bdf851027c6b8b!2sEspacio%20Paleontol%C3%B3gico%20-%20Museo%20de%20Colonia!5e0!3m2!1ses-419!2suy!4v1789828275302!5m2!1ses-419!2suy"
+  },
+  {
+    "id": 6,
+    "categoria": "Colonial",
+    "nombre": "Espacio Dr. B. Rebuffo — Museo de Colonia",
+    "descripcion": "Estructura portuguesa del siglo XVIII, primer museo de la ciudad. Sus exhibiciones recorren la comunidad desde tiempos prehistóricos hasta la actualidad.",
+    "ubicacion": "Calle del Comercio, frente a Plaza Mayor",
+    "mapa": "https://www.google.com/maps?q=Museo+Municipal+Dr.+Bautista+Rebuffo+Colonia+del+Sacramento&output=embed"
+  }
+]

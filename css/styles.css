@@ -99,6 +99,18 @@ img {
 
 .nav a:hover::after {
   width: 100%;
+<<<<<<< Updated upstream
+=======
+}
+
+.nav ul {
+  align-items: center;
+}
+
+#sesionNav {
+  display: flex;
+  align-items: center;
+>>>>>>> Stashed changes
 }
 
 /* ============================================
@@ -107,6 +119,7 @@ img {
 
 .btn {
   display: inline-block;
+<<<<<<< Updated upstream
   background-color: var(--color-primario);
   color: #fff;
   padding: 0.8rem 1.8rem;
@@ -146,6 +159,52 @@ img {
   height: 460px;
   overflow: hidden;
   background-color: var(--color-primario);
+=======
+  background-color: var(--color-primario);
+  color: #fff;
+  padding: 0.8rem 1.8rem;
+  border: 2px solid var(--color-primario);
+  border-radius: var(--radio);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  background-color: var(--color-primario-hover);
+  border-color: var(--color-primario-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-hover);
+}
+
+.nav .btn:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primario);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primario);
+  color: #fff;
+}
+
+/* ============================================
+   CARRUSEL DE EVENTOS
+   ============================================ */
+
+.carrusel {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  overflow: hidden;
+  background-color: var(--color-primario);
+>>>>>>> Stashed changes
 }
 
 .carrusel-track {
@@ -1225,3 +1284,38 @@ img {
     padding: 1.5rem 1.4rem 2rem;
   }
 }
+<<<<<<< Updated upstream
+=======
+
+.carousel-item img {
+  height: 400px;
+  object-fit: cover;
+  object-position: center;
+}
+
+
+/* ============================================
+   MENSAJES DE ESTADO
+   ============================================ */
+
+/* Aviso cuando un contenido no se pudo cargar (ver mostrarErrorCarga en datos.js) */
+.carga-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-texto-claro);
+  padding: 2rem 1rem;
+}
+
+/* Recurso descargable que todavía no está disponible */
+.recurso-proximamente {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-texto-claro);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 2px dashed var(--color-borde);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radio);
+}
+>>>>>>> Stashed changes
