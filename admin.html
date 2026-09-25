@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo Cultural - Administración</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="nc-home">
+
+  <header class="site-header">
+    <div class="site-header__inner">
+
+      <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
+        <img width="190" src="img/logo.png" alt="Nodo Cultural">
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="site-menu" id="menuPrincipal">
+        <nav class="site-nav" aria-label="Principal">
+          <ul>
+            <li><a href="index.html" aria-current="page">Inicio</a></li>
+            <li><a href="charlas.html">Charlas</a></li>
+            <li><a href="museos.html">Museos</a></li>
+            <li><a href="cursos.html">Cursos y Talleres</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="nosotros.html">Sobre Nosotros</a></li>
+          </ul>
+        </nav>
+
+        <div class="site-actions">
+          <a href="index.html" class="nc-btn nc-btn--pill">Volver al sitio</a>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="admin-pagina">
+    
+    <section class="admin-cabecera" aria-labelledby="adminTitulo">
+      <h1 id="adminTitulo">Panel de administración</h1>
+      <p>Gestioná las charlas y los talleres del sitio: agregalos, revisá su estado y eliminalos cuando corresponda. Los datos se guardan en este navegador.</p>
+
+      <nav class="admin-tabs" aria-label="Secciones del panel">
+        <a href="#resumen"><i class="fa-solid fa-chart-simple"></i> Resumen</a>
+        <a href="#gestion-charlas"><i class="fa-solid fa-comments"></i> Charlas</a>
+        <a href="#gestion-talleres"><i class="fa-solid fa-palette"></i> Talleres</a>
+      </nav>
+    </section>
+
+    <section id="resumen" class="admin-panel" aria-labelledby="resumenTitulo">
+      <div class="nc-seccion__cabecera">
+        <h2 id="resumenTitulo">Estado general</h2>
+      </div>
+
+      <div class="admin-resumen-grid" id="resumenGrid">
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-comments"></i></div>
+          <div>
+            <p class="admin-stat__numero" id="resumenCharlasProximas"></p>
+            <span class="admin-stat__etiqueta">Charlas próximas</span>
+          </div>
+        </div>
+
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-palette"></i></div>
+          <div>
+            <span class="admin-stat__numero" id="resumenTalleresActivos">-</span>
+            <span class="admin-stat__etiqueta">Talleres activos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gestion-charlas" aria-labelledby="charlasSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="charlasSeccionTitulo"><i class="fa-solid fa-comments"></i> Charlas</h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevaCharlaTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevaCharlaTitulo">Agregar nueva charla</h3>
+          </div>
+
+          <form id="formCharla" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="charla-titulo">Título</label>
+              <input type="text" id="charla-titulo" required placeholder="Ej: Historia del Barrio Histórico">
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="charla-fecha">Fecha</label>
+                <input type="date" id="charla-fecha" required>
+              </div>
+
+              <div class="auth-campo">
+                <label for="charla-hora">Hora</label>
+                <input type="time" id="charla-hora" required>
+              </div>
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="charla-lugar">Lugar</label>
+                <input type="text" id="charla-lugar" required placeholder="Ej: Museo Portugués">
+              </div>
+
+              <div class="auth-campo">
+                <label for="charla-cupos">Cupos</label>
+                <input type="number" id="charla-cupos" required min="1" placeholder="Ej: 40">
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-expositor">Expositor/a</label>
+              <input type="text" id="charla-expositor" required placeholder="Ej: Lic. María Fernández">
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-tipo">Tipo de charla</label>
+              <select id="charla-tipo" class="nc-select" required>
+                <option value="Virtual">Virtual</option>
+                <option value="Presencial">Presencial</option>
+              </select>
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-imagen">URL de la imagen</label>
+              <input type="url" id="charla-imagen" required placeholder="https://...">
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-descripcionCorta">Descripción corta</label>
+              <textarea id="charla-descripcionCorta" required rows="2" placeholder="Aparece en la tarjeta de la home (1-2 líneas)"></textarea>
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-descripcionCompleta">Descripción completa</label>
+              <textarea id="charla-descripcionCompleta" required rows="4" placeholder="Aparece en el detalle de la charla"></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar charla
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaCharlasTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaCharlasTitulo">Charlas cargadas</h3>
+          </div>
+          <div class="admin-lista" id="listaCharlas">
+            <p id="adminCharla">Cargando charlas...</p>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <section id="gestion-talleres" aria-labelledby="talleresSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="talleresSeccionTitulo"><i class="fa-solid fa-palette"></i> Talleres</h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevoTallerTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevoTallerTitulo">Agregar nuevo taller</h3>
+          </div>
+
+          <form id="formTaller" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="taller-titulo">Título</label>
+              <input type="text" id="taller-titulo" required placeholder="Ej: Taller de fotografía patrimonial">
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="taller-nivel">Nivel</label>
+                <select id="taller-nivel" class="nc-select" required>
+                  <option value="iniciacion">Iniciación</option>
+                  <option value="todo-publico">Todo público</option>
+                  <option value="avanzado">Avanzado</option>
+                </select>
+              </div>
+
+              <div class="auth-campo">
+                <label for="taller-modalidad">Modalidad</label>
+                <select id="taller-modalidad" class="nc-select" required>
+                  <option value="presencial">Presencial</option>
+                  <option value="online">Online</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="taller-duracion">Duración (Digitar unicamente el número de clases)</label>
+                <input type="text" id="taller-duracion" required placeholder="Ej: 4 clases">
+              </div>
+
+              <div class="auth-campo">
+                <label for="taller-cupos">Cupos</label>
+                <input type="number" id="taller-cupos" required min="1" placeholder="Ej: 20">
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="taller-imagen">URL de la imagen</label>
+              <input type="url" id="taller-imagen" required placeholder="https://...">
+            </div>
+
+            <div class="auth-campo">
+              <label for="taller-lugar">Lugar</label>
+              <input type="text" id="taller-lugar" required placeholder="Ej: Barrio Histórico">
+            </div>
+
+            <div class="auth-campo">
+              <label for="taller-descripcion">Descripción</label>
+              <textarea id="taller-descripcion" required rows="3" placeholder="Breve descripción del taller"></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar taller
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaTalleresTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaTalleresTitulo">Talleres cargados</h3>
+          </div>
+          <div class="admin-lista" id="listaTalleres">
+            <p id="adminTaller">Cargando talleres...</p>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+
+      <div class="footer-marca">
+        <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio">
+          <img src="img/logo-blanco.png" alt="" width="190"></img>
+        </a>
+        <p>Una red que conecta patrimonio, educación y comunidad.</p>
+        <div class="footer-redes">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Enlaces rápidos">
+        <h3>Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="charlas.html">Charlas</a></li>
+          <li><a href="museos_colonia.html">Museos</a></li>
+          <li><a href="#cursos">Cursos y Talleres</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Recursos">
+        <h3>Recursos</h3>
+        <ul>
+          <li><a href="#recursos">Recursos educativos</a></li>
+          <li><a href="recorridos.html">Recorridos</a></li>
+          <li><a href="#recursos">Material descargable</a></li>
+          <li><a href="#boletin">Boletín cultural</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Sobre Nodo Cultural">
+        <h3>Sobre Nodo Cultural</h3>
+        <ul>
+          <li><a href="nosotros.html">Quiénes somos</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="admin.html">Administración</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3>Contacto</h3>
+        <ul class="footer-contacto">
+          <li><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</li>
+          <li><i class="fa-solid fa-phone"></i> +598 99 123 456</li>
+          <li><i class="fa-solid fa-location-dot"></i> Colonia del Sacramento, Uruguay</li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="scripts/base/storage.js"></script>
+  <script src="scripts/base/key.js"></script>
+  <script src="scripts/gestores/gestorCharlas.js"></script>
+  <script src="scripts/charlas/charlaData.js"></script>
+  <script src="scripts/gestores/gestorTalleres.js"></script>
+  <script src="scripts/talleres/tallerData.js"></script>
+  <script src="scripts/modelos/taller.js"></script>
+  <script src="scripts/modelos/charla.js"></script>
+  <script src="scripts/admin/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo Cultural - Inicio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="nc-home">
+
+  <header class="site-header">
+    <div class="site-header__inner">
+
+      <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
+        <img width="190" src="img/logo.png"></img>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="site-menu" id="menuPrincipal">
+        <nav class="site-nav" aria-label="Principal">
+          <ul>
+            <li><a href="index.html" aria-current="page">Inicio</a></li>
+            <li><a href="charlas.html">Charlas</a></li>
+            <li><a href="museos.html">Museos</a></li>
+            <li><a href="cursos.html">Cursos y Talleres</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="nosotros.html">Sobre Nosotros</a></li>
+          </ul>
+        </nav>
+
+        <div class="site-actions">
+          <p id="sesionNav"></p>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="nc-layout">
+
+    <div class="nc-main">
+
+      <section class="nc-hero" aria-labelledby="heroTitulo">
+        <div class="nc-hero__texto">
+          <h1 id="heroTitulo">Conectando cultura, educación y comunidad</h1>
+          <p>Nodo Cultural es la plataforma que conecta museos, instituciones educativas y personas a través del patrimonio y la cultura.</p>
+          <div class="nc-hero__acciones">
+            <a href="#actividades" class="nc-btn">Explorar actividades</a>
+            <a href="#boletin" class="nc-btn nc-btn--outline">Suscribirme al boletín</a>
+          </div>
+        </div>
+
+        <div id="carouselDestacados" class="carousel slide nc-carousel" data-bs-ride="carousel" data-bs-interval="6000" aria-label="Eventos destacados">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselDestacados" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Evento 1"></button>
+            <button type="button" data-bs-target="#carouselDestacados" data-bs-slide-to="1" aria-label="Evento 2"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="https://imgs.elpais.com.uy/dims4/default/e98dae0/2147483647/strip/true/crop/2614x1271+0+235/resize/1440x700!/format/webp/quality/90/?url=https%3A%2F%2Fel-pais-uruguay-production-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F44%2Fb5%2F4a8d4c024dbca0fa023d5ea65b1f%2Fignacio-dominguez.jpg" alt="Visitantes recorriendo museos durante la Noche de los Museos en el Barrio Histórico">
+              <div class="nc-slide__caption">
+                <span class="nc-slide__etiqueta">Evento destacado</span>
+                <h2>Noche de los Museos</h2>
+                <p>20 de setiembre, Barrio Histórico</p>
+                <a href="#actividades" class="nc-btn nc-btn--claro">Ver más</a>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="https://ladiaria.com.uy/media/photologue/photos/cache/20220325ID_0004_1200w.JPG" loading="lazy" alt="Proyección de una película durante el Festival de Cine Independiente">
+              <div class="nc-slide__caption">
+                <span class="nc-slide__etiqueta">Evento destacado</span>
+                <h2>Festival de Cine Independiente</h2>
+                <p>3 al 5 de octubre, Teatro Bastión del Carmen</p>
+                <a href="#actividades" class="nc-btn nc-btn--claro">Ver más</a>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="nc-row">
+
+        <section id="categorias" aria-labelledby="catTitulo">
+          <div class="nc-seccion__cabecera">
+            <h2 id="catTitulo">Explorá por categorías</h2>
+          </div>
+          <div class="cat-grid">
+            <a href="museos_colonia.html" class="cat-card">
+              <i class="fa-solid fa-landmark"></i><span>Museos</span>
+            </a>
+            <a href="recorridos.html" class="cat-card">
+              <i class="fa-solid fa-industry"></i><span>Patrimonio Industrial</span>
+            </a>
+            <a href="arte_talleres.html" class="cat-card">
+              <i class="fa-solid fa-palette"></i><span>Arte y Exposiciones</span>
+            </a>
+            <a href="#actividades" class="cat-card">
+              <i class="fa-solid fa-monument"></i><span>Arqueología</span>
+            </a>
+            <a href="#actividades" class="cat-card">
+              <i class="fa-solid fa-people-group"></i><span>Actividades Familiares</span>
+            </a>
+            <a href="#recursos" class="cat-card">
+              <i class="fa-solid fa-book-open"></i><span>Recursos Educativos</span>
+            </a>
+          </div>
+        </section>
+
+        <section id="actividades" class="nc-actividades" aria-labelledby="actTitulo">
+          <div class="nc-seccion__cabecera">
+            <h2 id="actTitulo">Próximas actividades</h2>
+            <a href="actividades.html" class="nc-vertodas">Ver todas</a>
+          </div>
+            <div class="act-grid" id="charlasGrid">
+          </div>
+        </section>
+
+      </div>
+
+      <div class="nc-panel">
+
+        <section id="cursos" aria-labelledby="cursosTitulo">
+          <div class="nc-seccion__cabecera">
+            <h2 id="cursosTitulo">Cursos y Talleres</h2>
+            <a href="arte_talleres.html" class="nc-vertodas">Ver todos</a>
+          </div>
+
+          <div class="curso-grid">
+            <div class="act-grid" id="talleresGrid">
+          </div>
+        </section>
+
+        <section id="recursos" aria-labelledby="recursosTitulo">
+          <div class="nc-seccion__cabecera">
+            <h2 id="recursosTitulo">Recursos destacados</h2>
+            <a href="#recursos" class="nc-vertodas">Ver todos</a>
+          </div>
+
+          <ul class="recurso-lista">
+            <li>
+              <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
+              <div>
+                <strong>Guía del Barrio Histórico</strong>
+                <span>PDF</span>
+              </div>
+              <a href="recursos/Guia_Historica_de_Colonia_del_Sacramento.pdf" download>Descargar <i class="fa-solid fa-download"></i></a>
+            </li>
+            <li>
+              <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
+              <div>
+                <strong>Catálogo de museos 2026</strong>
+                <span>PDF</span>
+              </div>
+              <a href="recursos/catalogo-museos-2026.pdf" download>Descargar <i class="fa-solid fa-download"></i></a>
+            </li>
+            <li>
+              <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
+              <div>
+                <strong>Historia de Colonia del Sacramento</strong>
+                <span>PDF</span>
+              </div>
+              <a href="recursos/Historia_de_Colonia_del_Sacramento.pdf" download>Descargar <i class="fa-solid fa-download"></i></a>
+            </li>
+          </ul>
+
+          <div class="recurso-todos">
+            <a href="#recursos" class="nc-btn nc-btn--outline nc-btn--mini">Ir a todos los recursos</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <aside class="nc-side">
+
+      <section class="asistente" aria-labelledby="asistenteTitulo">
+        <h2 id="asistenteTitulo">Asistente Cultural <span class="asistente-ia">IA</span></h2>
+        <p class="asistente-saludo">Hola, soy tu asistente cultural.<br>¿En qué puedo ayudarte hoy?</p>
+
+        <div class="asistente-mensajes" id="asistenteMensajes" aria-live="polite">
+          <p class="asistente-burbuja">Busco actividades para estudiantes sobre patrimonio industrial.</p>
+        </div>
+
+        <div class="asistente-sugerencias">
+          <p>Te recomiendo estas actividades:</p>
+          <ul>
+            <li>
+              <a href="#actividades">
+                <span class="sug-thumb"><i class="fa-solid fa-industry"></i></span>
+                <span class="sug-texto">
+                  <strong>Exposición Sudamtex</strong>
+                  <small>Colonia del Sacramento</small>
+                  <small>15 de julio al 30 de agosto</small>
+                </span>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#cursos">
+                <span class="sug-thumb"><i class="fa-solid fa-hammer"></i></span>
+                <span class="sug-texto">
+                  <strong>Taller Memoria Obrera</strong>
+                  <small>Museo de la Revolución Industrial</small>
+                  <small>22 de julio</small>
+                </span>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="recorridos.html">
+                <span class="sug-thumb"><i class="fa-solid fa-map-location-dot"></i></span>
+                <span class="sug-texto">
+                  <strong>Rutas del patrimonio industrial</strong>
+                  <small>Visita guiada</small>
+                  <small>Todos los sábados</small>
+                </span>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <form class="asistente-form" id="formAsistente">
+          <label for="asistenteInput" class="visually-hidden">Escribí tu consulta</label>
+          <input type="text" id="asistenteInput" placeholder="Escribí tu consulta..." autocomplete="off">
+          <button type="submit" aria-label="Enviar consulta"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </section>
+
+      <section id="boletin" class="boletin" aria-labelledby="boletinTitulo">
+        <div class="boletin-cabecera">
+          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          <div>
+            <h2 id="boletinTitulo">Boletín Cultural</h2>
+            <p>Recibí novedades, actividades y recursos según tus intereses.</p>
+          </div>
+        </div>
+
+        <form id="formBoletin">
+          <div class="boletin-email">
+            <label for="boletinEmail" class="visually-hidden">Tu correo electrónico</label>
+            <input type="email" id="boletinEmail" placeholder="Tu correo electrónico" required>
+            <button type="submit" class="nc-btn nc-btn--mini">Suscribirme</button>
+          </div>
+
+          <fieldset class="boletin-cats">
+            <legend>Elegí tus categorías de interés:</legend>
+            <label><input type="checkbox" name="cat" value="Museos"> Museos</label>
+            <label><input type="checkbox" name="cat" value="Historia"> Historia</label>
+            <label><input type="checkbox" name="cat" value="Patrimonio Industrial"> Patrimonio Industrial</label>
+            <label><input type="checkbox" name="cat" value="Educación"> Educación</label>
+            <label><input type="checkbox" name="cat" value="Arte y Exposiciones"> Arte y Exposiciones</label>
+            <label><input type="checkbox" name="cat" value="Medio Ambiente"> Medio Ambiente</label>
+            <label><input type="checkbox" name="cat" value="Arqueología"> Arqueología</label>
+            <label><input type="checkbox" name="cat" value="Eventos por Departamento"> Eventos por Departamento</label>
+            <label><input type="checkbox" name="cat" value="Actividades Familiares"> Actividades Familiares</label>
+          </fieldset>
+
+          <p class="boletin-msg" id="boletinMsg" role="status" hidden></p>
+        </form>
+      </section>
+
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+
+      <div class="footer-marca">
+        <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio">
+          <img src="img/logo-blanco.png" alt="" width="190"></img>
+        </a>
+        <p>Una red que conecta patrimonio, educación y comunidad.</p>
+        <div class="footer-redes">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Enlaces rápidos">
+        <h3>Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="#actividades">Actividades</a></li>
+          <li><a href="museos_colonia.html">Museos</a></li>
+          <li><a href="#cursos">Cursos y Talleres</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Recursos">
+        <h3>Recursos</h3>
+        <ul>
+          <li><a href="#recursos">Recursos educativos</a></li>
+          <li><a href="recorridos.html">Recorridos</a></li>
+          <li><a href="#recursos">Material descargable</a></li>
+          <li><a href="#boletin">Boletín cultural</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Sobre Nodo Cultural">
+        <h3>Sobre Nodo Cultural</h3>
+        <ul>
+          <li><a href="nosotros.html">Quiénes somos</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="admin.html">Administración</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3>Contacto</h3>
+        <ul class="footer-contacto">
+          <li><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</li>
+          <li><i class="fa-solid fa-phone"></i> +598 99 123 456</li>
+          <li><i class="fa-solid fa-location-dot"></i> Colonia del Sacramento, Uruguay</li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="scripts/base/storage.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/base/commonFunctions.js"></script>
+  <script src="scripts/base/key.js"></script>
+  <script src="scripts/base/initializer.js"></script>
+  <script src="scripts/gestores/gestorCharlas.js"></script>
+  <script src="scripts/charlas/charlaDetalleIndex.js"></script>
+  <script src="scripts/gestores/gestorTalleres.js"></script>
+  <script src="scripts/talleres/tallerDetalleIndex.js"></script>
+  <script src="scripts/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+
+</html>
