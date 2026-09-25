@@ -1,6 +1,28 @@
 const parametros = new URLSearchParams(window.location.search);
 const recorrido = parametros.get("recorrido");
 const duracion = parametros.get("duracion");
+const tallerId = parametros.get("id");
+
+if (tallerId) {
+
+  const taller = obtenerTallerPorId(tallerId);
+
+  if (taller) {
+    const grupoActividad = document.getElementById("grupoActividad");
+    const campoActividad = document.getElementById("actividad");
+    const mensaje = document.getElementById("mensaje");
+    const titulo = document.getElementById("contactoAsuntoTitulo");
+    const intro = document.getElementById("contactoIntro");
+
+    grupoActividad.hidden = false;
+    campoActividad.value = `${taller.titulo} (${taller.cantClases} clases)`;
+
+    mensaje.value = `Hola, quiero inscribirme al taller "${taller.titulo}". Quedo atento/a a los próximos pasos.`;
+
+    titulo.textContent = "Inscribite al taller";
+    intro.textContent = `Estás por consultar sobre: ${taller.titulo}. Completá tus datos y te contactamos para coordinar.`;
+  }
+}
 
 if (recorrido) {
   const grupoActividad = document.getElementById("grupoActividad");

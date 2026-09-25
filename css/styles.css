@@ -14,6 +14,14 @@
   --nc-naranja: #D9744A;
   --nc-ancho: 1600px;
   --color-burbuja: #09343A;
+
+  /* Usadas en todo el sitio pero nunca definidas: sin esto, títulos, botones
+     "outline" y el hover del menú quedan sin color (ver README). */
+  --color-primario: #09343A;
+  --color-primario-hover: #0F4B54;
+  --color-texto: #2B2B28;
+  --color-texto-claro: #6B6B63;
+  --fuente-texto: 'Poppins', 'Segoe UI', sans-serif;
 }
 
 .nc-home {

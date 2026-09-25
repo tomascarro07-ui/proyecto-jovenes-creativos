@@ -4,7 +4,7 @@ const charlasIniciales = [
   {
     id: 1,
     titulo: "Historia del Barrio Histórico",
-    fecha: "2026-08-15",
+    fecha: "2026-10-10",
     hora: "18:00",
     lugar: "Museo Portugués",
     tipo: "Virtual",
@@ -17,7 +17,7 @@ const charlasIniciales = [
   {
     id: 2,
     titulo: "Turismo sostenible en Colonia",
-    fecha: "2026-08-22",
+    fecha: "2026-10-17",
     hora: "19:00",
     lugar: "Centro Cultural Bastión del Carmen",
     tipo: "Online",
@@ -30,7 +30,7 @@ const charlasIniciales = [
   {
     id: 3,
     titulo: "Referentes de museos y espacios culturales",
-    fecha: "2026-08-29",
+    fecha: "2026-10-24",
     hora: "18:30",
     lugar: "Museo Municipal",
     tipo: "Virtual",
@@ -53,12 +53,10 @@ function obtenerCharlas() {
   return charlas;
 }
 
-// Guarda el array completo de charlas
 function guardarCharlas(charlas) {
   guardarEnStorage(CHARLAS_KEY, charlas);
 }
 
-// Devuelve una charla por id (o null si no existe)
 function obtenerCharlaPorId(id) {
   const charlas = obtenerCharlas();
 
@@ -71,7 +69,6 @@ function obtenerCharlaPorId(id) {
   return null;
 }
 
-// Agrega una charla nueva
 function agregarCharla(charla) {
   const charlas = obtenerCharlas();
 
@@ -81,7 +78,6 @@ function agregarCharla(charla) {
   guardarCharlas(charlas);
 }
 
-// Elimina una charla por id
 function eliminarCharla(id) {
   const charlas = obtenerCharlas();
   const restantes = [];
@@ -93,4 +89,23 @@ function eliminarCharla(id) {
   }
 
   guardarCharlas(restantes);
+}
+
+function formatearFechaCorta(fecha) {
+  const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+  const partes = fecha.split('-');
+  const dia = Number(partes[2]);
+  const mes = meses[Number(partes[1]) - 1];
+
+  return `${dia} ${mes}`;
+}
+
+function formatearFechaLarga(fecha) {
+  const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const partes = fecha.split('-');
+  const dia = Number(partes[2]);
+  const mes = meses[Number(partes[1]) - 1];
+  const anio = partes[0];
+
+  return `${dia} de ${mes}, ${anio}`;
 }

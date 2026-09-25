@@ -5,7 +5,7 @@ const sesionNav = document.getElementById("sesionNav");
 if (!usuarioActual) {
   sesionNav.innerHTML = `<div class="site-actions">
           <button class="site-buscar" type="button" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
-          <div id="sesionNav">
+          <div>
             <a href="login.html" class="site-login">Iniciar sesión</a>
             <a href="registro.html" class="nc-btn nc-btn--pill">Registrarme</a>
           </div>

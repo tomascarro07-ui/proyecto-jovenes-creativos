@@ -37,7 +37,6 @@ function renderizarLista() {
 
   adminLista.innerHTML = html;
 
-  // Enganchar los botones de eliminar recién creados
   document.querySelectorAll('.admin-btn-eliminar').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-id');
