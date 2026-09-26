@@ -2031,3 +2031,168 @@
     text-align: center;
   }
 }
+
+.auth-main {
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  min-height: 60vh;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  width: 100%;
+  margin: 0 auto;
+  background-color: var(--nc-card, #FCFAF6);
+  border-radius: 14px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+/* Lado izquierdo: mensaje */
+.auth-lado {
+  background-color: var(--color-primario);
+  color: var(--color-burbuja);
+  padding: 2.8rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.auth-lado i {
+  font-size: 1.8rem;
+  opacity: 0.85;
+}
+
+.auth-lado h1 {
+  color: var(--color-burbuja);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.auth-lado p {
+  color: var(--color-burbuja);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 34ch;
+}
+
+/* Lado derecho: formulario */
+.auth-form-wrap {
+  padding: 2.8rem 2.6rem;
+}
+
+.auth-form-wrap h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-primario);
+  margin-bottom: 1.5rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.auth-fila {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.1rem;
+}
+
+.auth-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.auth-campo label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-texto);
+}
+
+.auth-campo input {
+  font-family: var(--fuente-texto);
+  font-size: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--nc-linea);
+  border-radius: 8px;
+  background-color: #fff;
+  color: var(--color-texto);
+}
+
+.auth-campo input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(9, 52, 58, 0.12);
+}
+
+.auth-form .nc-btn {
+  width: 100%;
+  text-align: center;
+  padding: 0.85rem 1rem;
+}
+
+.auth-separador {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.75rem;
+  color: var(--color-texto-claro);
+}
+
+.auth-separador::before,
+.auth-separador::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--nc-linea);
+}
+
+.auth-ayuda {
+  margin: 1.4rem 0 0;
+  font-size: 0.78rem;
+  color: var(--color-texto-claro);
+  text-align: center;
+}
+
+.auth-ayuda a {
+  color: var(--color-primario);
+  font-weight: 500;
+}
+
+@media (max-width: 800px) {
+  .auth-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .auth-lado {
+    padding: 1.8rem 1.6rem;
+  }
+
+  .auth-lado h1 {
+    font-size: 1.5rem;
+  }
+
+  .auth-form-wrap {
+    padding: 1.8rem 1.6rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-main {
+    padding: 1rem;
+  }
+
+  .auth-fila {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

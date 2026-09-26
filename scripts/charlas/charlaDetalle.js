@@ -60,9 +60,37 @@ function renderizarCharla() {
                 <span class="charla-detalle__cupos">
                     <i class="fa-solid fa-users"></i> ${charla.cupos} cupos disponibles
                 </span>
-                <a href="contacto.html?idCharla=${charla.id}" class="nc-btn">
+                <button type="button" id="btnMostrarForm" class="nc-btn">
                     Inscribirme
-                </a>
+                </button>
+
+                <form id="formConfirmacion" class="admin-panel" style="display: none;">
+                    <h3>Confirmá tu asistencia</h3>
+
+                    <div class="auth-campo">
+                        <label for="nombre">Nombre y apellido</label>
+                        <input type="text" id="nombre" required placeholder="Tu nombre completo">
+                    </div>
+
+                    <div class="auth-campo">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required placeholder="tuemail@ejemplo.com">
+                    </div>
+
+                    <div class="auth-campo">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" required placeholder="09X XXX XXX">
+                    </div>
+
+                    <div class="auth-campo">
+                        <label for="cantidadPersonas">Cantidad de personas</label>
+                        <input type="number" id="cantidadPersonas" required min="1" max="${charla.cupos}" value="1">
+                    </div>
+
+                    <button type="submit" class="btn">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar confirmación
+                    </button>
+                    </form>
                 </div>
 
             </div>
@@ -73,9 +101,21 @@ function renderizarCharla() {
     }
 
     contenedor.innerHTML = html;
+
+    let btnMostrar = document.getElementById("btnMostrarForm");
+    if(btnMostrar) {
+        btnMostrar.addEventListener("click", function() {
+            document.getElementById('formConfirmacion').style.display = 'flex';
+            btnMostrar.style.display = 'none';
+        })
+    }
 }
 
+
+
 document.addEventListener('DOMContentLoaded', renderizarCharla);
+
+
 // const CONFIRMACIONES_KEY = 'nodo_cultural_confirmaciones';
 
 //   const id = obtenerIdDesdeUrl();

@@ -12,7 +12,7 @@ if (!usuarioActual) {
         </div>`;
  
 } else if (usuarioActual.esAdministrador === true) {
-  sesionNav.innerHTML = `<a href="admin.html" class="btn btn-outline">Panel de administrador</a>`;
+  sesionNav.innerHTML = `<a href="admin.html" class="nc-btn nc-btn--pill">Panel de administrador</a>`;
  
 } else {
   sesionNav.innerHTML = `<span>¡Hola, <b>${usuarioActual.nombre}</b>!</span>`;
