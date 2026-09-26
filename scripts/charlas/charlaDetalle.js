@@ -5,46 +5,77 @@ function renderizarCharla() {
     let id = gestorCharlas.obtenerIdDesdeUrl();
 
     if (!id) {
-        contenedor.innerHTML = '<p class="detalle-error">No se especificó ninguna charla.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">No se encontró la charla.</p>';
         return;
     }
 
     const charlas = gestorCharlas.obtenerCharlas();
 
     if (charlas.length === 0) {
-        grid.innerHTML = '<p>Todavía no hay charlas cargadas.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">Todavía no hay charlas cargadas.</p>';
         return;
     }
 
     let html = "";
 
     for (let i = 0; i < charlas.length; i++) {
-        const charla = charlas[i];
 
-        html += `
-        <article class="curso-mini">
-            <div class="curso-mini__media">
-                <img src="${charla.imagen} alt="${charla.titulo}"}"></img>
+        let charla = charlas[i];
+
+        if (charla.id == id) {
+
+            html += `
+            <div class="charla-detalle">
+
+            <div class="charla-detalle__media">
+                <img src="${charla.imagen}" alt="${charla.titulo}">
+                <span class="charla-detalle__tag">${charla.tipo}</span>
             </div>
-            <div class="curso-mini__info">
-                <span class="act-tipo">${charla.tipo}</span>
-                <h3>${charla.titulo}</h3>
-                <p class="curso-desc">${charla.descripcionCorta}</p>
-                <p class="curso-mini__meta">
-                <span><i class="fa-regular fa-clock"></i>${charla.lugar}</span>
-                <span><i class="fa-solid fa-laptop"></i>${charla.tipo}</span>
-                </p>
-                <a href="contacto.html?idCharla=${charla.id}" class="nc-btn nc-btn--outline nc-btn--mini">Inscribirme</a>
+
+            <div class="charla-detalle__body">
+
+                <h1>${charla.titulo}</h1>
+                <p class="charla-detalle__desc">${charla.descripcionCompleta}</p>
+
+                <dl class="charla-detalle__datos">
+                <div>
+                    <dt><i class="fa-regular fa-calendar"></i> Fecha</dt>
+                    <dd>${charla.fecha}</dd>
+                </div>
+                <div>
+                    <dt><i class="fa-regular fa-clock"></i> Hora</dt>
+                    <dd>${charla.hora}</dd>
+                </div>
+                <div>
+                    <dt><i class="fa-solid fa-location-dot"></i> Lugar</dt>
+                    <dd>${charla.lugar}</dd>
+                </div>
+                <div>
+                    <dt><i class="fa-solid fa-user"></i> Expositor</dt>
+                    <dd>${charla.expositor}</dd>
+                </div>
+                </dl>
+
+                <div class="charla-detalle__footer">
+                <span class="charla-detalle__cupos">
+                    <i class="fa-solid fa-users"></i> ${charla.cupos} cupos disponibles
+                </span>
+                <a href="contacto.html?idCharla=${charla.id}" class="nc-btn">
+                    Inscribirme
+                </a>
+                </div>
+
             </div>
-            </article>
-    `;
+
+            </div>
+            `;
+        }
     }
 
-    grid.innerHTML = html;
+    contenedor.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarCharlas);
-
+document.addEventListener('DOMContentLoaded', renderizarCharla);
 // const CONFIRMACIONES_KEY = 'nodo_cultural_confirmaciones';
 
 //   const id = obtenerIdDesdeUrl();
