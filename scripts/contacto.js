@@ -4,7 +4,7 @@ const duracion = parametros.get("duracion");
 const tallerId = parametros.get("id");
 
 if (tallerId) {
-
+  // "Inscribirme" en un taller manda acá con ?id=..., buscamos el taller por id
   const taller = obtenerTallerPorId(tallerId);
 
   if (taller) {

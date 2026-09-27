@@ -1033,7 +1033,7 @@
 }
 
 .site-footer__inner {
-  max-width: var(--color-burbuja);
+  max-width: var(--nc-ancho);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
@@ -1362,7 +1362,7 @@
 /* Lado izquierdo: mensaje */
 .auth-lado {
   background-color: var(--color-primario);
-  color: var(--color-burbuja);
+  color: #fff;
   padding: 2.8rem 2.4rem;
   display: flex;
   flex-direction: column;
@@ -1376,7 +1376,7 @@
 }
 
 .auth-lado h1 {
-  color: var(--color-burbuja);
+  color: #fff;
   font-size: 1.9rem;
   font-weight: 600;
   line-height: 1.2;
@@ -1384,7 +1384,7 @@
 }
 
 .auth-lado p {
-  color: var(--color-burbuja);
+  color: #fff;
   font-size: 0.92rem;
   line-height: 1.7;
   margin: 0;
@@ -1839,7 +1839,7 @@
 }
 
 .arte-cta h2 {
-  color: var(--color-burbuja);
+  color: #fff;
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.4rem;
@@ -1849,7 +1849,7 @@
   max-width: 56ch;
   font-size: 0.9rem;
   line-height: 1.6;
-  color: var(--color-burbuja);
+  color: #fff;
   margin: 0;
 }
 
@@ -1901,4 +1901,19 @@
   .arte-cta {
     padding: 1.5rem 1.4rem;
   }
+}
+/* Tarjetas de los creadores del proyecto, en nosotros.html */
+.creadores-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  max-width: 520px;
+}
+
+.creadores-grid .curso-mini__media {
+  height: 220px;
+}
+
+.creadores-grid .curso-mini__media img {
+  object-position: center 20%;
 }

@@ -191,6 +191,15 @@
   <script src="scripts/auth/autenticacion.js"></script>
   <script src="scripts/charlas/actividades.js"></script>
   <script src="scripts/charlas/charlas-data.js"></script>
+<script>
+
+    const navToggle = document.querySelector('.nav-toggle');
+    const menuPrincipal = document.getElementById('menuPrincipal');
+    navToggle.addEventListener('click', () => {
+      const abierto = menuPrincipal.classList.toggle('abierto');
+      navToggle.setAttribute('aria-expanded', abierto);
+    });
+  </script>
 </body>
 
 </html>

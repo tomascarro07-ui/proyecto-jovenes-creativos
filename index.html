@@ -346,7 +346,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
   <script>
-    // Menú móvil
+
     const navToggle = document.querySelector('.nav-toggle');
     const menuPrincipal = document.getElementById('menuPrincipal');
     navToggle.addEventListener('click', () => {
@@ -354,7 +354,6 @@
       navToggle.setAttribute('aria-expanded', abierto);
     });
 
-    // Asistente (solo interfaz, todavía sin conexión a ningún servicio)
     const formAsistente = document.getElementById('formAsistente');
     const asistenteMensajes = document.getElementById('asistenteMensajes');
     formAsistente.addEventListener('submit', (e) => {

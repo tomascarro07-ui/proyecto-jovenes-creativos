@@ -1,3 +1,7 @@
+// ============================================================
+// museos.js — dibuja las tarjetas de museos (museos_colonia.html)
+// a partir de data/museos.json
+// ============================================================
 
 async function renderizarMuseos() {
   const contenedor = document.querySelector('.museos-grid');

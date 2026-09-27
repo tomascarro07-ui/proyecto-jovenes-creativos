@@ -68,10 +68,12 @@ function obtenerTalleres() {
   return talleres;
 }
 
+// Guarda el array completo de talleres
 function guardarTalleres(talleres) {
   guardarEnStorage(TALLERES_KEY, talleres);
 }
 
+// Devuelve un taller por id
 function obtenerTallerPorId(id) {
   const talleres = obtenerTalleres();
 
@@ -84,6 +86,7 @@ function obtenerTallerPorId(id) {
   return null;
 }
 
+// Agrega un taller nuevo
 function agregarTaller(taller) {
   const talleres = obtenerTalleres();
 
@@ -94,6 +97,7 @@ function agregarTaller(taller) {
   guardarTalleres(talleres);
 }
 
+// Elimina un taller por id
 function eliminarTaller(id) {
   const talleres = obtenerTalleres();
   const restantes = [];

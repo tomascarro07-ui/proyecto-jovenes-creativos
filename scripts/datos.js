@@ -1,4 +1,10 @@
+// ============================================================
+// datos.js — funciones compartidas para cargar contenido desde
+// archivos JSON (carpeta data/) usando fetch.
+// ============================================================
 
+// Pide un archivo JSON y devuelve su contenido ya convertido a objeto/array.
+// Si algo falla (archivo inexistente, sin conexión, JSON mal escrito) devuelve null.
 async function cargarJSON(ruta) {
   try {
     const respuesta = await fetch(ruta);
@@ -15,6 +21,7 @@ async function cargarJSON(ruta) {
   }
 }
 
+// Muestra un mensaje de error dentro del contenedor indicado
 function mostrarErrorCarga(contenedor) {
   const abiertoComoArchivo = window.location.protocol === 'file:';
 
@@ -27,6 +34,8 @@ function mostrarErrorCarga(contenedor) {
   `;
 }
 
+// Convierte caracteres especiales (<, >, ", &, ') para que un texto
+// nunca se interprete como HTML cuando lo metemos con innerHTML.
 function escaparHTML(texto) {
   return String(texto).replace(/[&<>"']/g, caracter => ({
     '&': '&amp;',

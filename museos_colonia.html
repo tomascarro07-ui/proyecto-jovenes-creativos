@@ -66,7 +66,6 @@
       </div>
 
       <div class="museos-grid">
-        <!-- Los museos se cargan acá con JS desde data/museos.json -->
       </div>
     </section>
 
@@ -130,5 +129,14 @@
   </footer>
   <script src="scripts/datos.js"></script>
   <script src="scripts/museos.js"></script>
+<script>
+
+    const navToggle = document.querySelector('.nav-toggle');
+    const menuPrincipal = document.getElementById('menuPrincipal');
+    navToggle.addEventListener('click', () => {
+      const abierto = menuPrincipal.classList.toggle('abierto');
+      navToggle.setAttribute('aria-expanded', abierto);
+    });
+  </script>
 </body>
 </html>

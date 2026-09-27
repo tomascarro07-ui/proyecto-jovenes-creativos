@@ -1,10 +1,12 @@
 const CONFIRMACIONES_KEY = 'nodo_cultural_confirmaciones';
 
+// Obtiene el ID desde la URL (?id=1)
 function obtenerIdDesdeUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id');
 }
 
+// Guarda una confirmación de asistencia
 function guardarConfirmacion(confirmacion) {
   const data = localStorage.getItem(CONFIRMACIONES_KEY);
   const confirmaciones = data ? JSON.parse(data) : [];
@@ -12,6 +14,7 @@ function guardarConfirmacion(confirmacion) {
   localStorage.setItem(CONFIRMACIONES_KEY, JSON.stringify(confirmaciones));
 }
 
+// Cuenta cuántas confirmaciones tiene una charla
 function contarConfirmaciones(idCharla) {
   const data = localStorage.getItem(CONFIRMACIONES_KEY);
   const confirmaciones = data ? JSON.parse(data) : [];
@@ -118,6 +121,7 @@ function renderizarDetalle() {
     </article>
   `;
 
+  // Mostrar el form al hacer click en "Confirmar asistencia"
   const btnMostrar = document.getElementById('btnMostrarForm');
   if (btnMostrar) {
     btnMostrar.addEventListener('click', () => {
@@ -126,6 +130,7 @@ function renderizarDetalle() {
     });
   }
 
+  // Manejar el envío del form
   const form = document.getElementById('formConfirmacion');
   if (form) {
     form.addEventListener('submit', (e) => {

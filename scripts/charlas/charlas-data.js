@@ -53,10 +53,12 @@ function obtenerCharlas() {
   return charlas;
 }
 
+// Guarda el array completo de charlas
 function guardarCharlas(charlas) {
   guardarEnStorage(CHARLAS_KEY, charlas);
 }
 
+// Devuelve una charla por id (o null si no existe)
 function obtenerCharlaPorId(id) {
   const charlas = obtenerCharlas();
 
@@ -69,6 +71,7 @@ function obtenerCharlaPorId(id) {
   return null;
 }
 
+// Agrega una charla nueva
 function agregarCharla(charla) {
   const charlas = obtenerCharlas();
 
@@ -78,6 +81,7 @@ function agregarCharla(charla) {
   guardarCharlas(charlas);
 }
 
+// Elimina una charla por id
 function eliminarCharla(id) {
   const charlas = obtenerCharlas();
   const restantes = [];
@@ -90,7 +94,7 @@ function eliminarCharla(id) {
 
   guardarCharlas(restantes);
 }
-
+// Formatea fecha "2026-10-10" -> "10 Oct" (se usa en charla-detalle.html)
 function formatearFechaCorta(fecha) {
   const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
   const partes = fecha.split('-');
@@ -100,6 +104,7 @@ function formatearFechaCorta(fecha) {
   return `${dia} ${mes}`;
 }
 
+// Formatea fecha "2026-10-10" -> "10 de octubre, 2026" (se usa en charla-detalle.html)
 function formatearFechaLarga(fecha) {
   const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   const partes = fecha.split('-');
