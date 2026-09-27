@@ -7,6 +7,7 @@
   --nc-naranja: #D9744A;
   --nc-ancho: 1600px;
   --color-burbuja: #09343A;
+  --color-boton: #2C7D87;
 }
 
 .nc-home {
@@ -74,9 +75,9 @@
 }
 
 .nc-btn--claro {
-  background-color: #fff;
-  border-color: #fff;
-  color: var(--color-texto);
+  background-color: var(--nc-menta);
+  border-color: var(--nc-menta);
+  color: #09343a;
   padding: 0.5rem 1.1rem;
   font-size: 0.8rem;
 }
@@ -769,6 +770,14 @@
   margin: 0;
 }
 
+.asistente-burbuja--ia {
+  align-self: flex-start;
+  background-color: var(--nc-bg);
+  color: var(--color-texto);
+  border: 1px solid var(--nc-linea);
+  white-space: pre-line;
+}
+
 .asistente-aviso {
   align-self: flex-start;
   font-size: 0.72rem;
@@ -866,10 +875,9 @@
 
 .asistente-form button {
   flex-shrink: 0;
-  width: 42px;
   border: none;
   border-radius: 6px;
-  background-color: var(--color-primario);
+  background-color: var(--color-burbuja);
   color: #fff;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -878,6 +886,7 @@
 .asistente-form button:hover {
   background-color: var(--color-primario-hover);
 }
+
 
 .boletin {
   background-color: var(--nc-menta);
@@ -2196,3 +2205,4 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+

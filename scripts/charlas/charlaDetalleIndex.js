@@ -21,7 +21,7 @@ function renderizarCharlas() {
           <h3>${charla.titulo}</h3>
           <p>${charla.descripcionCorta}</p>
           <p><i class="fa-solid fa-location-dot"></i> ${charla.lugar}</p>
-          <a href="charla-detalle.html?id=${charla.id}" class="nc-btn nc-btn--outline nc-btn--mini">Ver más</a>
+          <a href="charla-detalle.html?idCharla=${charla.id}" class="nc-btn nc-btn--outline nc-btn--mini">Ver más</a>
         </div>
       </article>
   `;

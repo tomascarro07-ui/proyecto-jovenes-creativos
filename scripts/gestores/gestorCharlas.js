@@ -12,7 +12,7 @@ class GestorCharlas {
     }
 
     obtenerNumeroCharlas() {
-        let charlas = leerDeStorage(CHARLAS_KEY,null);
+        let charlas = this.obtenerCharlas();
 
         return charlas.length;
     }
@@ -58,6 +58,6 @@ class GestorCharlas {
 
     obtenerIdDesdeUrl() {
         const params = new URLSearchParams(window.location.search);
-        return params.get('id');
+        return params.get("idCharla");
     }
 }

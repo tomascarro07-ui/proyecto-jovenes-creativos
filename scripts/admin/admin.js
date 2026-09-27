@@ -1,7 +1,9 @@
 const formCharla = document.getElementById('formCharla');
 const formTaller = document.getElementById('formTaller');
+const formRecorrido = document.getElementById('formRecorrido');
 const adminCharla = document.getElementById('adminCharla');
 const adminTaller = document.getElementById('adminTaller');
+const adminRecorrido = document.getElementById('adminRecorrido');
 
 function renderizarCharla() {
   let charlas = gestorCharlas.obtenerCharlas();
@@ -124,3 +126,116 @@ talleresProximas.textContent = gestorTalleres.obtenerNumeroTalleres();
 
 document.addEventListener('DOMContentLoaded', renderizarTaller);
 
+function renderizarCharla() {
+  let charlas = gestorCharlas.obtenerCharlas();
+
+  if (charlas.length === 0) {
+    adminLista.textContent = '<p class="admin-vacio">Todavía no hay charlas cargadas.</p>';
+    return;
+  }
+
+  let htmlCharla = "";
+
+  for (let i = 0; i < charlas.length; i++) {
+    const charla = charlas[i];
+
+    htmlCharla += `
+      <article class="admin-item">
+        <img src="${charla.imagen}" alt="${charla.titulo}" class="admin-item-img">
+        <div class="admin-item-info">
+          <span class="admin-item-fecha">${(charla.fecha)} · ${charla.hora} hs</span>
+          <h4>${charla.titulo}</h4>
+          <p>${charla.lugar} — ${charla.cupos} cupos</p>
+        </div>
+        <div class="admin-item-acciones">
+          <a href="charla-detalle.html?id=${charla.id}" class="admin-btn-ver" title="Ver detalle">
+            <i class="fa-solid fa-eye"></i>
+          </a>
+          <button class="admin-btn-eliminar" data-id="${charla.id}" title="Eliminar">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <button class="admin-btn-check" data-id="${charla.id}" title="Finalizada">
+            <i class="fa-solid fa-check"></i>
+          </button>
+        </div>
+      </article>
+    `
+  }
+
+  adminCharla.innerHTML = htmlCharla;
+}
+
+formCharla.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  gestorCharlas.agregarCharla (
+    document.getElementById("charla-titulo").value.trim(),
+    document.getElementById("charla-fecha").value,
+    document.getElementById("charla-hora").value,
+    document.getElementById("charla-lugar").value,
+    document.getElementById("charla-tipo").value,
+    document.getElementById("charla-imagen").value,
+    document.getElementById("charla-expositor").value,
+    document.getElementById("charla-descripcionCorta").value.trim(),
+    document.getElementById("charla-descripcionCompleta").value.trim(),
+    parseInt(document.getElementById("charla-cupos").value)
+  );
+  formCharla.reset();
+});
+
+function renderizarRecorrido() {
+  let recorridos = gestorRecorridos.obtenerRecorridos();
+
+  if (recorridos.length === 0) {
+    adminRecorrido.innerHTML = '<p class="admin-vacio">Todavía no hay recorridos cargados.</p>';
+    return;
+  }
+
+  let htmlRecorrido = "";
+
+  for (let i = 0; i < recorridos.length; i++) {
+    const recorrido = recorridos[i];
+
+    htmlRecorrido += `
+      <article class="admin-item">
+        <img src="${recorrido.imagen}" alt="${recorrido.titulo}" class="admin-item-img">
+        <div class="admin-item-info">
+          <h4>${recorrido.titulo}</h4>
+          <p>${recorrido.tipo} — ${recorrido.duracion}</p>
+        </div>
+        <div class="admin-item-acciones">
+          <a href="recorrido-detalle.html?idRecorrido=${recorrido.id}" class="admin-btn-ver" title="Ver detalle">
+            <i class="fa-solid fa-eye"></i>
+          </a>
+          <button class="admin-btn-eliminar" data-id="${recorrido.id}" title="Eliminar">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </article>
+    `
+  }
+
+  adminRecorrido.innerHTML = htmlRecorrido;
+}
+
+formRecorrido.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  gestorRecorridos.agregarRecorrido (
+    document.getElementById("recorrido-titulo").value.trim(),
+    document.getElementById("recorrido-tipo").value.trim(),
+    document.getElementById("recorrido-duracion").value.trim(),
+    document.getElementById("recorrido-puntoSalida").value.trim(),
+    document.getElementById("recorrido-imagen").value,
+    document.getElementById("recorrido-descripcionCorta").value.trim()
+  );
+
+  formRecorrido.reset();
+  renderizarRecorrido();
+  recorridosActivos.textContent = gestorRecorridos.obtenerNumeroRecorridos();
+});
+
+let recorridosActivos = document.getElementById("resumenRecorridosActivos")
+recorridosActivos.textContent = gestorRecorridos.obtenerNumeroRecorridos();
+
+document.addEventListener('DOMContentLoaded', renderizarRecorrido);

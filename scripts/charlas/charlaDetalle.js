@@ -63,35 +63,44 @@ function renderizarCharla() {
                 <button type="button" id="btnMostrarForm" class="nc-btn">
                     Inscribirme
                 </button>
+            </div>
 
-                <form id="formConfirmacion" class="admin-panel" style="display: none;">
-                    <h3>Confirmá tu asistencia</h3>
 
-                    <div class="auth-campo">
-                        <label for="nombre">Nombre y apellido</label>
-                        <input type="text" id="nombre" required placeholder="Tu nombre completo">
-                    </div>
+            <div>
+                <section class="admin-panel">
 
-                    <div class="auth-campo">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" required placeholder="tuemail@ejemplo.com">
-                    </div>
+                    <form id="formConfirmacion" class="form-contacto" style="display: none;">
 
-                    <div class="auth-campo">
-                        <label for="telefono">Teléfono</label>
-                        <input type="tel" id="telefono" required placeholder="09X XXX XXX">
-                    </div>
+                        <h3>Confirmá tu asistencia</h3>
 
-                    <div class="auth-campo">
-                        <label for="cantidadPersonas">Cantidad de personas</label>
-                        <input type="number" id="cantidadPersonas" required min="1" max="${charla.cupos}" value="1">
-                    </div>
+                        <div class="auth-campo">
+                            <label for="nombre">Nombre y apellido</label>
+                            <input type="text" id="nombre" required placeholder="Tu nombre completo">
+                        </div>
 
-                    <button type="submit" class="btn">
-                        <i class="fa-solid fa-paper-plane"></i> Enviar confirmación
-                    </button>
+                        <div class="auth-campo">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required placeholder="tuemail@ejemplo.com">
+                        </div>
+
+                        <div class="auth-campo">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" required placeholder="09X XXX XXX">
+                        </div>
+
+                        <div class="auth-campo">
+                            <label for="cantidadPersonas">Cantidad de personas</label>
+                            <input type="number" id="cantidadPersonas" required min="1" max="${charla.cupos}" value="1">
+                        </div>
+
+                        <button type="submit" class="nc-btn nc-btn--pill">
+                            <i class="fa-solid fa-paper-plane"></i> Enviar confirmación
+                        </button>
+
                     </form>
-                </div>
+
+                </section>
+            </div>
 
             </div>
 
@@ -103,11 +112,22 @@ function renderizarCharla() {
     contenedor.innerHTML = html;
 
     let btnMostrar = document.getElementById("btnMostrarForm");
-    if(btnMostrar) {
-        btnMostrar.addEventListener("click", function() {
+    let mensajeLogin = document.getElementById("mensajeLogin");
+
+    if (btnMostrar) {
+        btnMostrar.addEventListener("click", function () {
+
+            let sesionActiva = validarSesion();
+
+            if (!sesionActiva) {
+                let modal = new bootstrap.Modal(mensajeLogin);
+                modal.show();
+                return;
+            }
+
             document.getElementById('formConfirmacion').style.display = 'flex';
             btnMostrar.style.display = 'none';
-        })
+        });
     }
 }
 

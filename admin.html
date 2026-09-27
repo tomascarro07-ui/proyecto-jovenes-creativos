@@ -32,7 +32,7 @@
             <li><a href="museos.html">Museos</a></li>
             <li><a href="cursos.html">Cursos y Talleres</a></li>
             <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="recorridos.html">Recorridos</a></li>
           </ul>
         </nav>
 
@@ -54,6 +54,7 @@
         <a href="#resumen"><i class="fa-solid fa-chart-simple"></i> Resumen</a>
         <a href="#gestion-charlas"><i class="fa-solid fa-comments"></i> Charlas</a>
         <a href="#gestion-talleres"><i class="fa-solid fa-palette"></i> Talleres</a>
+        <a href="#gestion-recorridos"><i class="fa-solid fa-route"></i> Recorridos</a>
       </nav>
     </section>
 
@@ -76,6 +77,14 @@
           <div>
             <span class="admin-stat__numero" id="resumenTalleresActivos">-</span>
             <span class="admin-stat__etiqueta">Talleres activos</span>
+          </div>
+        </div>
+
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-route"></i></div>
+          <div>
+            <span class="admin-stat__numero" id="resumenRecorridosActivos">-</span>
+            <span class="admin-stat__etiqueta">Recorridos activos</span>
           </div>
         </div>
       </div>
@@ -255,6 +264,71 @@
       </div>
     </section>
 
+    <section id="gestion-recorridos" aria-labelledby="recorridosSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="recorridosSeccionTitulo"><i class="fa-solid fa-route"></i> Recorridos</h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevoRecorridoTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevoRecorridoTitulo">Agregar nuevo recorrido</h3>
+          </div>
+
+          <form id="formRecorrido" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="recorrido-titulo">Título</label>
+              <input type="text" id="recorrido-titulo" required placeholder="Ej: Barrio Histórico a pie">
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="recorrido-tipo">Tipo</label>
+                <input type="text" id="recorrido-tipo" required placeholder="Ej: Clásico">
+              </div>
+
+              <div class="auth-campo">
+                <label for="recorrido-duracion">Duración</label>
+                <input type="text" id="recorrido-duracion" required placeholder="Ej: 1h 30min">
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="recorrido-puntoSalida">Punto de salida</label>
+              <input type="text" id="recorrido-puntoSalida" required placeholder="Ej: Plaza 25 de Mayo">
+            </div>
+
+            <div class="auth-campo">
+              <label for="recorrido-imagen">URL de la imagen</label>
+              <input type="url" id="recorrido-imagen" required placeholder="https://...">
+            </div>
+
+            <div class="auth-campo">
+              <label for="recorrido-descripcionCorta">Descripción corta</label>
+              <textarea id="recorrido-descripcionCorta" required rows="3" placeholder="Breve descripción del recorrido"></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar recorrido
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaRecorridosTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaRecorridosTitulo">Recorridos cargados</h3>
+          </div>
+          <div class="admin-lista" id="listaRecorridos">
+            <p id="adminRecorrido">Cargando recorridos...</p>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -316,12 +390,16 @@
 
   <script src="scripts/base/storage.js"></script>
   <script src="scripts/base/key.js"></script>
+  <script src="scripts/base/initializer.js"></script>
   <script src="scripts/gestores/gestorCharlas.js"></script>
   <script src="scripts/charlas/charlaData.js"></script>
   <script src="scripts/gestores/gestorTalleres.js"></script>
   <script src="scripts/talleres/tallerData.js"></script>
+  <script src="scripts/gestores/gestorRecorridos.js"></script>
+  <script src="scripts/recorridos/recorridoData.js"></script>
   <script src="scripts/modelos/taller.js"></script>
   <script src="scripts/modelos/charla.js"></script>
+  <script src="scripts/modelos/recorrido.js"></script>
   <script src="scripts/admin/admin.js"></script>
 </body>
 

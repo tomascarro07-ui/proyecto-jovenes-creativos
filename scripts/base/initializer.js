@@ -102,3 +102,60 @@ const charlasIniciales = [
     cupos: 50
   }
 ];
+
+const recorridosIniciales = [
+  {
+    id: 1,
+    titulo: "Barrio Histórico a pie",
+    tipo: "Clásico",
+    duracion: "1h 30min",
+    imagen: "img/recorrido-barrio-historico.webp",
+    puntoSalida: "Plaza 25 de Mayo",
+    descripcionCorta: "Recorrido por las calles empedradas, el Faro, la Calle de los Suspiros y las murallas, con historias de la fundación portuguesa y la toma española."
+  },
+  {
+    id: 2,
+    titulo: "Colonia en bicicleta",
+    tipo: "Activo",
+    duracion: "2h 30min",
+    imagen: "img/colonia-bicicleta.webp",
+    puntoSalida: "Bici incluida",
+    descripcionCorta: "Recorrido por el Barrio Histórico, la Rambla y el Real de San Carlos, con paradas para sacar fotos y conocer historias locales."
+  },
+  {
+    id: 3,
+    titulo: "Colonia al atardecer",
+    tipo: "Romántico",
+    duracion: "1h",
+    imagen: "img/colonia-atardecer.webp",
+    puntoSalida: "Ideal para fotos",
+    descripcionCorta: "Recorrido fotográfico por el Barrio Histórico durante la puesta de sol, pensado para disfrutar del paisaje y sacar fotografías."
+  },
+  {
+    id: 4,
+    titulo: "Recorrido gastronómico",
+    tipo: "Sabores",
+    duracion: "2h",
+    imagen: "img/recorrido-gastronomico.webp",
+    puntoSalida: "Degustación incluida",
+    descripcionCorta: "Recorrido por bares, panaderías y almacenes tradicionales del Barrio Histórico, con degustaciones e historias de familias locales."
+  },
+  {
+    id: 5,
+    titulo: "Paseo en carruaje",
+    tipo: "Tradicional",
+    duracion: "40 min",
+    imagen: "img/paseo-carruaje.webp",
+    puntoSalida: "Portón de Campo",
+    descripcionCorta: "Paseo en carruaje por el Barrio Histórico mientras el guía cuenta la historia de sus calles y rincones."
+  },
+  {
+    id: 6,
+    titulo: "Leyendas de noche",
+    tipo: "Nocturno",
+    duracion: "1h 15min",
+    imagen: "img/leyendas-noche.webp",
+    puntoSalida: "Sale al atardecer",
+    descripcionCorta: "Recorrido nocturno por el Barrio Histórico con historias, leyendas y personajes transmitidos de generación en generación."
+  }
+];

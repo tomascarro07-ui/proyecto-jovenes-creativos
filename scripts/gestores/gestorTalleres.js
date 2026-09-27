@@ -12,7 +12,7 @@ class GestorTalleres {
     }
 
     obtenerNumeroTalleres() {
-        let talleres = leerDeStorage(TALLERES_KEY,null);
+        let talleres = this.obtenerTalleres();
 
         return talleres.length;
     }
@@ -55,5 +55,10 @@ class GestorTalleres {
         }
 
         this.guardarTalleres(restantes);
+    }
+
+    obtenerIdDesdeUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("idTaller");
     }
 }

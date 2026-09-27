@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Detalle charla</title>
+  <meta name="description" content="Arte y talleres en Nodo Cultural: cursos, talleres y actividades artísticas de Colonia del Sacramento.">
+  <title>Nodo Cultural - Recorridos guiados</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,7 +18,7 @@
     <div class="site-header__inner">
 
       <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
-        <img width="190" src="img/logo.png" alt="Nodo Cultural">
+        <img width="190" src="img/logo.png"></img>
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
@@ -27,69 +28,69 @@
       <div class="site-menu" id="menuPrincipal">
         <nav class="site-nav" aria-label="Principal">
           <ul>
-            <li><a href="index.html" aria-current="page">Inicio</a></li>
+            <li><a href="index.html">Inicio</a></li>
             <li><a href="charlas.html">Charlas</a></li>
             <li><a href="museos.html">Museos</a></li>
             <li><a href="cursos.html">Cursos y Talleres</a></li>
             <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="recorridos.html">Recorridos</a></li>
+            <li><a href="recorridos.html" aria-current="page">Recorridos</a></li>
           </ul>
         </nav>
 
         <div class="site-actions">
-          <a href="index.html" class="nc-btn nc-btn--pill">Volver al sitio</a>
+          <p id="sesionNav"></p>
         </div>
       </div>
 
     </div>
   </header>
 
-  <main class="detalle-main">
+  <main class="arte-main">
 
-    <div id="detalleContenido" class="detalle-wrapper"></div>
-
-  </main>
-
-  <div class="modal" tabindex="-1" id="mensajeLogin">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal-cuenta">
-
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="bi bi-lock-fill me-2"></i>
-                    Necesitás una cuenta
-                </h5>
-
-                <button type="button" class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Cerrar">
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>
-                    Para inscribirte a esta charla necesitás tener una cuenta.
-                </p>
-
-                <p>
-                    Podés iniciar sesión si ya tenés una cuenta o registrarte
-                    para crear una nueva.
-                </p>
-            </div>
-
-            <div class="modal-footer">
-                <a href="login.html" class="btn btn-outline-secondary">
-                    Iniciar sesión
-                </a>
-
-                <a href="register.html" class="btn btn-cuenta">
-                    Registrarme
-                </a>
-            </div>
-
+    <section class="nc-hero" aria-labelledby="arteTitulo">
+      <div class="nc-hero__texto">
+        <h1 id="arteTitulo">Recorridos guiados</h1>
+        <p>Sumate a recorridos turísticos con guías locales especializados.</p>
+        <div class="nc-hero__acciones">
+          <a href="#recorridos" class="nc-btn">Ver recorridos</a>
         </div>
-    </div>
-</div>
+      </div>
+      <div class="nc-hero__texto">
+        <p>Cada recorrido está pensado y llevado adelante por guías de Colonia, gente que conoce cada calle empedrada, cada fachada y cada historia de primera mano. Elegí el que más te cierre según el tiempo que tengas y lo que te interese descubrir.</p>
+      </div>
+    </section>
+
+    <section id="talleres" class="arte-bloque arte-bloque--panel" aria-labelledby="talleresTitulo">
+      <div class="nc-seccion__cabecera">
+        <h2 id="recorridos">Recorridos guiados</h2>
+      </div>
+
+      <div class="museos-grid" id="recorridosGrid"></div>
+    </section>
+
+    <section class="arte-bloque" aria-labelledby="participarTitulo">
+      <div class="nc-seccion__cabecera">
+        <h2 id="participarTitulo">¿Cómo reservo?</h2>
+      </div>
+      <div class="pasos-grid">
+        <article class="paso">
+          <div class="paso__numero">1</div>
+          <h3>Escribinos</h3>
+          <p>Todos los recorridos son grupales y con cupo limitado</p>
+        </article>
+        <article class="paso">
+          <div class="paso__numero">2</div>
+          <h3>Grupos reducidos</h3>
+          <p>Trabajamos con grupos chicos para que la experiencia sea cercana y todos puedan escuchar bien al guía.</p>
+        </article>
+        <article class="paso">
+          <div class="paso__numero">3</div>
+          <h3>Sujeto al clima</h3>
+          <p>Los recorridos al aire libre pueden reprogramarse por lluvia; te avisamos con anticipación.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
   <footer class="site-footer">
     <div class="site-footer__inner">
@@ -149,13 +150,11 @@
   </footer>
 
   <script src="scripts/base/storage.js"></script>
-  <script src="scripts/base/key.js"></script>
   <script src="scripts/auth/autenticacion.js"></script>
-  <script src="scripts/gestores/gestorCharlas.js"></script>
-  <script src="scripts/charlas/charlaData.js"></script>
-  <script src="scripts/modelos/charla.js"></script>
-  <script src="scripts/charlas/charlaDetalle.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="scripts/base/initializer.js"></script>
+  <script src="scripts/base/key.js"></script>
+  <script src="scripts/gestores/gestorRecorridos.js"></script>
+  <script src="scripts/recorridos/recorridoData.js"></script>
 </body>
 
 </html>
