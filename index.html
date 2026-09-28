@@ -16,7 +16,7 @@
     <div class="site-header__inner">
 
       <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
-        <img width="190" src="img/logo.png"></img>
+        <img width="190" src="img/logo.png" alt="Nodo Cultural">
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
@@ -26,17 +26,20 @@
       <div class="site-menu" id="menuPrincipal">
         <nav class="site-nav" aria-label="Principal">
           <ul>
-            <li><a href="index.html" aria-current="page">Inicio</a></li>
+            <li><a href="index.html">Inicio</a></li>
             <li><a href="charlas.html">Charlas</a></li>
             <li><a href="museos.html">Museos</a></li>
             <li><a href="cursos.html">Cursos y Talleres</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
             <li><a href="recorridos.html">Recorridos</a></li>
+            <li><a href="recursos.html" aria-current="page">Recursos</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="nosotros.html">Sobre nosotros</a></li>
           </ul>
         </nav>
 
-        <div class="site-actions">
-          <p id="sesionNav"></p>
+        <div class="site-actions" id="accionesSesion">
+          <a href="login.html" class="site-login">Iniciar sesión</a>
+          <a href="registro.html" class="nc-btn nc-btn--pill">Registrarme</a>
         </div>
       </div>
 

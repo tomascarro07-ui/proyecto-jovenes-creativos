@@ -1251,6 +1251,27 @@
   border: 0;
 }
 
+.creadores-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.creadores-grid .curso-mini {
+  width: 254px;
+  flex: 0 0 auto;
+}
+
+.creadores-grid .curso-mini__media {
+  height: 220px;
+}
+
+.creadores-grid .curso-mini__info {
+  text-align: center;
+  align-items: center;
+}
+
 .museo-desc {
   font-size: 0.78rem;
   line-height: 1.65;
@@ -1374,7 +1395,7 @@
 }
 
 .arte-cta {
-  background-color: var(--color-primario);
+  background-color: var(--color-burbuja);
   color: #fff;
   border-radius: 14px;
   padding: 2rem 2.2rem;
@@ -1386,7 +1407,7 @@
 }
 
 .arte-cta h2 {
-  color: var(--color-burbuja);
+  color: var(--nc-bg);
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.4rem;
@@ -1396,7 +1417,7 @@
   max-width: 56ch;
   font-size: 0.9rem;
   line-height: 1.6;
-  color: var(--color-burbuja);
+  color: var(--nc-bg);
   margin: 0;
 }
 
@@ -1673,7 +1694,6 @@
   gap: 0.9rem;
   background-color: var(--nc-card);
   border: none;
-  border-radius: 10px;
   box-shadow: none;
   padding: 0.8rem 1rem;
 }

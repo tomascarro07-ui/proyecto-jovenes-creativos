@@ -16,7 +16,7 @@
     <div class="site-header__inner">
 
       <a class="brand" href="index.html" aria-label="Nodo Cultural, ir al inicio">
-        <img width="190" src="img/logo.png"></img>
+        <img width="190" src="img/logo.png" alt="Nodo Cultural">
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menuPrincipal" aria-label="Abrir menú">
@@ -28,19 +28,18 @@
           <ul>
             <li><a href="index.html">Inicio</a></li>
             <li><a href="charlas.html">Charlas</a></li>
-            <li><a href="museos.html" aria-current="page">Museos</a></li>
+            <li><a href="museos.html">Museos</a></li>
             <li><a href="cursos.html">Cursos y Talleres</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
             <li><a href="recorridos.html">Recorridos</a></li>
+            <li><a href="recursos.html" aria-current="page">Recursos</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="nosotros.html">Sobre nosotros</a></li>
           </ul>
         </nav>
 
-        <div class="site-actions">
-          <button class="site-buscar" type="button" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
-          <div id="sesionNav">
-            <a href="login.html" class="site-login">Iniciar sesión</a>
-            <a href="registro.html" class="nc-btn nc-btn--pill">Registrarme</a>
-          </div>
+        <div class="site-actions" id="accionesSesion">
+          <a href="login.html" class="site-login">Iniciar sesión</a>
+          <a href="registro.html" class="nc-btn nc-btn--pill">Registrarme</a>
         </div>
       </div>
 
@@ -199,5 +198,7 @@
 
     </div>
   </footer>
+  <script src="scripts/base/storage.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
 </body>
 </html>
