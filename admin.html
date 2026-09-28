@@ -38,10 +38,7 @@
           </ul>
         </nav>
 
-        <div class="site-actions" id="accionesSesion">
-          <a href="login.html" class="site-login">Iniciar sesión</a>
-          <a href="registro.html" class="nc-btn nc-btn--pill">Registrarme</a>
-        </div>
+        <a href="index.html" class="nc-btn nc-btn--pill">Volver al inicio</a>
       </div>
 
     </div>
@@ -90,6 +87,15 @@
             <span class="admin-stat__etiqueta">Recorridos activos</span>
           </div>
         </div>
+
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-book"></i></div>
+          <div>
+            <span class="admin-stat__numero" id="resumenRecursosActivos">-</span>
+            <span class="admin-stat__etiqueta">Recursos activos</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -332,6 +338,95 @@
       </div>
     </section>
 
+    <section id="gestion-recursos" aria-labelledby="recursosSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="recursosSeccionTitulo">
+          <i class="fa-solid fa-book"></i> Recursos
+        </h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevoRecursoTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevoRecursoTitulo">Agregar nuevo recurso</h3>
+          </div>
+
+          <form id="formRecurso" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="recurso-titulo">Título</label>
+              <input
+                type="text"
+                id="recurso-titulo"
+                required
+                placeholder="Ej: Historia de Colonia"
+              >
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="recurso-tipo">Tipo</label>
+                <input
+                  type="text"
+                  id="recurso-tipo"
+                  required
+                  placeholder="Ej: Paper académico"
+                >
+              </div>
+
+              <div class="auth-campo">
+                <label for="recurso-autor">Autor</label>
+                <input
+                  type="text"
+                  id="recurso-autor"
+                  required
+                  placeholder="Ej: Sebastián Rivero"
+                >
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="recurso-archivo">Archivo</label>
+              <input
+                type="file"
+                id="recurso-archivo"
+                required
+              >
+            </div>
+
+            <div class="auth-campo">
+              <label for="recurso-descripcionCorta">Descripción corta</label>
+              <textarea
+                id="recurso-descripcionCorta"
+                required
+                rows="3"
+                placeholder="Breve descripción del recurso"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar recurso
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaRecursosTitulo">
+
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaRecursosTitulo">Recursos cargados</h3>
+          </div>
+
+          <ul class="recurso-lista" id="recursosGrid">
+            <li id="adminRecurso">Cargando recursos...</li>
+          </ul>
+
+        </section>
+
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -401,6 +496,8 @@
   <script src="scripts/talleres/tallerData.js"></script>
   <script src="scripts/gestores/gestorRecorridos.js"></script>
   <script src="scripts/recorridos/recorridoData.js"></script>
+  <script src="scripts/gestores/gestorRecursos.js"></script>
+  <script src="scripts/recursos/recursosData.js"></script>
   <script src="scripts/modelos/taller.js"></script>
   <script src="scripts/modelos/charla.js"></script>
   <script src="scripts/modelos/recorrido.js"></script>

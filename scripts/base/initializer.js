@@ -159,3 +159,60 @@ const recorridosIniciales = [
     descripcionCorta: "Recorrido nocturno por el Barrio Histórico con historias, leyendas y personajes transmitidos de generación en generación."
   }
 ];
+
+const recursosIniciales = [
+  {
+    id: 1,
+    titulo: "Fundación de Colonia del Sacramento (1680)",
+    categoria: "Fundación, murallas y ciudad",
+    descripcion: "La fundación de la ciudad y los vínculos atlánticos y regionales que la rodearon.",
+    fuente: "Estampas Colonienses, enero 2006",
+    paginas: 5,
+    archivo: "recursos/Fundacion_de_Colonia_del_Sacramento_1680.pdf"
+  },
+  {
+    id: 2,
+    titulo: "Las murallas de Colonia",
+    categoria: "Fundación, murallas y ciudad",
+    descripcion: "Las murallas leídas a través del informe histórico de 1854, que inaugura la producción histórica local.",
+    fuente: "Sebastián Rivero Scirgalea, 2008",
+    paginas: 5,
+    archivo: "recursos/Las_murallas_de_Colonia.pdf"
+  },
+  {
+    id: 3,
+    titulo: "Desarrollo urbano de Colonia del Sacramento",
+    categoria: "Fundación, murallas y ciudad",
+    descripcion: "Las murallas y la ciudad: historias del adentro y del afuera.",
+    fuente: "Sebastián Rivero Scirgalea, 2009",
+    paginas: 7,
+    archivo: "recursos/Desarrollo_urbano_de_Colonia_del_Sacramento.pdf"
+  },
+  {
+    id: 4,
+    titulo: "Estación de trenes - Colonia",
+    categoria: "Patrimonio y cultura local",
+    descripcion: "Síntesis histórica de la estación, punto de unión de la ciudad con el afuera.",
+    fuente: "Sebastián Rivero Scirgalea",
+    paginas: 16,
+    archivo: "recursos/Estacion_de_trenes_Colonia.pdf"
+  },
+  {
+    id: 5,
+    titulo: "Imagen del Real de San Carlos y el complejo Mihanovich",
+    categoria: "Patrimonio y cultura local",
+    descripcion: "Un repaso por la bibliografía y la imagen del Real de San Carlos y su complejo turístico.",
+    fuente: "Sebastián Rivero Scirgalea",
+    paginas: 15,
+    archivo: "recursos/Imagen_del_Real_de_San_Carlos.pdf"
+  },
+  {
+    id: 6,
+    titulo: "Cultura de Colonia",
+    categoria: "Patrimonio y cultura local",
+    descripcion: "Una visión de la cultura coloniense desde los «márgenes».",
+    fuente: "Sebastián Rivero, abril 2005",
+    paginas: 2,
+    archivo: "recursos/Cultura_de_Colonia.pdf"
+  }
+];

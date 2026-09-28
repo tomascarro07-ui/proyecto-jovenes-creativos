@@ -33,12 +33,23 @@ class GestorRecorridos {
         return null;
     }
 
-    agregarRecorrido(id,titulo,tipo,duracion,puntoSalida,descripcionCorta) {
+    agregarRecorrido(titulo,tipo,duracion,puntoSalida,imagen,descripcionCorta) {
         const recorridos = this.obtenerRecorridos();
-        let recorrido = new Recorrido(id,titulo,tipo,duracion,puntoSalida,descripcionCorta)
+        let recorrido = new Recorrido(Date.now(),titulo,tipo,duracion,puntoSalida,imagen,descripcionCorta)
 
-        recorrido.id = Date.now();
         recorridos.push(recorrido);
+
+        this.guardarRecorridos(recorridos);
+    }
+
+    marcarFinalizada(id) {
+        const recorridos = this.obtenerRecorridos();
+
+        for (let i = 0; i < recorridos.length; i++) {
+            if (recorridos[i].id === Number(id)) {
+                recorridos[i].finalizada = !recorridos[i].finalizada;
+            }
+        }
 
         this.guardarRecorridos(recorridos);
     }

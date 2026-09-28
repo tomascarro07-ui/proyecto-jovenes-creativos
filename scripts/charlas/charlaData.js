@@ -31,7 +31,7 @@ function renderizarCharlas() {
               <span><i class="fa-regular fa-clock"></i>${charla.lugar}</span>
               <span><i class="fa-solid fa-laptop"></i>${charla.tipo}</span>
             </p>
-            <a href="charla-detalle.html?id=${charla.id}" class="nc-btn nc-btn--outline nc-btn--mini">Ver más</a>
+            <a href="charla-detalle.html?idCharla=${charla.id}" class="nc-btn nc-btn--outline nc-btn--mini">Ver más</a>
           </div>
         </article>
   `;

@@ -12,7 +12,7 @@ class GestorTalleres {
     }
 
     obtenerNumeroTalleres() {
-        let talleres = this.obtenerTalleres();
+        let talleres = leerDeStorage(TALLERES_KEY,null);
 
         return talleres.length;
     }
@@ -40,6 +40,18 @@ class GestorTalleres {
         taller.id = Date.now();
 
         talleres.push(taller);
+
+        this.guardarTalleres(talleres);
+    }
+
+    marcarFinalizada(id) {
+        const talleres = this.obtenerTalleres();
+
+        for (let i = 0; i < talleres.length; i++) {
+            if (talleres[i].id === Number(id)) {
+                talleres[i].finalizada = !talleres[i].finalizada;
+            }
+        }
 
         this.guardarTalleres(talleres);
     }

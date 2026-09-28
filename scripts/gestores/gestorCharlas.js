@@ -12,7 +12,7 @@ class GestorCharlas {
     }
 
     obtenerNumeroCharlas() {
-        let charlas = this.obtenerCharlas();
+        let charlas = leerDeStorage(CHARLAS_KEY,null);
 
         return charlas.length;
     }
@@ -33,12 +33,23 @@ class GestorCharlas {
         return null;
     }
 
-    agregarCharla(id,titulo,fecha,hora,lugar,tipo,imagen,expositor,descripcionCorta,descripcionCompleta,cupos) {
+    agregarCharla(titulo,fecha,hora,lugar,tipo,imagen,expositor,descripcionCorta,descripcionCompleta,cupos) {
         const charlas = this.obtenerCharlas();
-        let charla = new Charla(id,titulo,fecha,hora,lugar,tipo,imagen,expositor,descripcionCorta,descripcionCompleta,cupos)
+        let charla = new Charla(Date.now(),titulo,fecha,hora,lugar,tipo,imagen,expositor,descripcionCorta,descripcionCompleta,cupos)
 
-        charla.id = Date.now();
         charlas.push(charla);
+
+        this.guardarCharlas(charlas);
+    }
+
+    marcarFinalizada(id) {
+        const charlas = this.obtenerCharlas();
+
+        for (let i = 0; i < charlas.length; i++) {
+            if (charlas[i].id === Number(id)) {
+                charlas[i].finalizada = !charlas[i].finalizada;
+            }
+        }
 
         this.guardarCharlas(charlas);
     }
