@@ -28,33 +28,29 @@ function renderizarRecorrido() {
             <div class="charla-detalle">
 
                 <div class="charla-detalle__media">
-                    <img src="${taller.imagen}" alt="${taller.titulo}">
-                    <span class="charla-detalle__tag">${taller.modalidad}</span>
+                    <img src="${recorrido.imagen}" alt="${recorrido.titulo}">
+                    <span class="charla-detalle__tag">${recorrido.tipo}</span>
                 </div>
 
                 <div class="charla-detalle__body">
 
-                    <h1>${taller.titulo}</h1>
-                    <p class="charla-detalle__desc">${taller.descripcionCorta}</p>
+                    <h1>${recorrido.titulo}</h1>
+                    <p class="charla-detalle__desc">${recorrido.descripcionCorta}</p>
 
                     <dl class="charla-detalle__datos">
                     <div>
-                        <dt><i class="fa-solid fa-layer-group"></i> Nivel</dt>
-                        <dd>${taller.nivel}</dd>
+                        <dt><i class="fa-solid fa-location-dot"></i> Punto de salida</dt>
+                        <dd>${recorrido.puntoSalida}</dd>
                     </div>
                     <div>
-                        <dt><i class="fa-solid fa-laptop"></i> Modalidad</dt>
-                        <dd>${taller.modalidad}</dd>
-                    </div>
-                    <div>
-                        <dt><i class="fa-regular fa-calendar"></i> Clases</dt>
-                        <dd>${taller.cantClases}</dd>
+                        <dt><i class="fa-regular fa-clock"></i> Duración</dt>
+                        <dd>${recorrido.duracion}</dd>
                     </div>
                     </dl>
 
                     <div class="charla-detalle__footer">
                     <span class="charla-detalle__cupos">
-                        <i class="fa-solid fa-users"></i> ${taller.cupos} cupos disponibles
+                        <i class="fa-solid fa-users"></i> ${recorrido.cupos} cupos disponibles
                     </span>
                     <button type="button" id="btnMostrarForm" class="nc-btn">
                         Inscribirme
@@ -87,7 +83,7 @@ function renderizarRecorrido() {
 
                         <div class="auth-campo">
                             <label for="cantidadPersonas">Cantidad de personas</label>
-                            <input type="number" id="cantidadPersonas" required min="1" max="${taller.cupos}" value="1">
+                            <input type="number" id="cantidadPersonas" required min="1" max="${recorrido.cupos}" value="1">
                         </div>
 
                         <button type="submit" class="nc-btn nc-btn--pill">
@@ -130,5 +126,5 @@ function renderizarRecorrido() {
 
 
 
-document.addEventListener('DOMContentLoaded', renderizarTaller);
+document.addEventListener('DOMContentLoaded', renderizarRecorrido);
 

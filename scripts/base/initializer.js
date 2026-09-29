@@ -111,6 +111,7 @@ const recorridosIniciales = [
     duracion: "1h 30min",
     imagen: "img/recorrido-barrio-historico.webp",
     puntoSalida: "Plaza 25 de Mayo",
+    cupos: "5",
     descripcionCorta: "Recorrido por las calles empedradas, el Faro, la Calle de los Suspiros y las murallas, con historias de la fundación portuguesa y la toma española."
   },
   {
@@ -120,6 +121,7 @@ const recorridosIniciales = [
     duracion: "2h 30min",
     imagen: "img/colonia-bicicleta.webp",
     puntoSalida: "Bici incluida",
+    cupos: "5",
     descripcionCorta: "Recorrido por el Barrio Histórico, la Rambla y el Real de San Carlos, con paradas para sacar fotos y conocer historias locales."
   },
   {
@@ -129,6 +131,7 @@ const recorridosIniciales = [
     duracion: "1h",
     imagen: "img/colonia-atardecer.webp",
     puntoSalida: "Ideal para fotos",
+    cupos: "5",
     descripcionCorta: "Recorrido fotográfico por el Barrio Histórico durante la puesta de sol, pensado para disfrutar del paisaje y sacar fotografías."
   },
   {
@@ -138,6 +141,7 @@ const recorridosIniciales = [
     duracion: "2h",
     imagen: "img/recorrido-gastronomico.webp",
     puntoSalida: "Degustación incluida",
+    cupos: "5",
     descripcionCorta: "Recorrido por bares, panaderías y almacenes tradicionales del Barrio Histórico, con degustaciones e historias de familias locales."
   },
   {
@@ -147,6 +151,7 @@ const recorridosIniciales = [
     duracion: "40 min",
     imagen: "img/paseo-carruaje.webp",
     puntoSalida: "Portón de Campo",
+    cupos: "5",
     descripcionCorta: "Paseo en carruaje por el Barrio Histórico mientras el guía cuenta la historia de sus calles y rincones."
   },
   {
@@ -156,6 +161,7 @@ const recorridosIniciales = [
     duracion: "1h 15min",
     imagen: "img/leyendas-noche.webp",
     puntoSalida: "Sale al atardecer",
+    cupos: "5",
     descripcionCorta: "Recorrido nocturno por el Barrio Histórico con historias, leyendas y personajes transmitidos de generación en generación."
   }
 ];

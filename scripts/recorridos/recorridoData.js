@@ -41,7 +41,7 @@ function renderizarRecorridos() {
 
     <p>${recorrido.descripcionCorta}</p>
 
-    <a href="contacto.html?recorrido=${encodeURIComponent(recorrido.titulo)}&duracion=${encodeURIComponent(recorrido.duracion)}"
+    <a href="recorrido-detalle.html?idRecorrido=${recorrido.id}"
        class="nc-btn nc-btn--outline nc-btn--mini">
       Reservar
     </a>

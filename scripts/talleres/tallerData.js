@@ -30,7 +30,7 @@ function renderizarTalleres() {
             <span><i class="fa-solid fa-location-dot"></i>${taller.modalidad}</span>
           </p>
           <p>${taller.descripcionCorta}</p>
-          <a href="contacto.html?idTaller=${taller.id}" class="nc-btn nc-btn--outline nc-btn--mini">Inscribirme</a>
+          <a href="taller-detalle.html?idTaller=${taller.id}" class="nc-btn nc-btn--outline nc-btn--mini">Inscribirme</a>
         </div>
       </article>
   `;
