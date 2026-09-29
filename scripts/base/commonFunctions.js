@@ -1,14 +1,28 @@
 function separarFecha(fecha) {
-  const meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
-  const partes = fecha.split('-');
 
-  return {
-    dia: Number(partes[2]),
-    mes: meses[Number(partes[1]) - 1]
-  };
-}
+    const meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
 
-function obtenerIdDesdeUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('id');
+    if (!fecha) {
+        return {
+            dia: '',
+            mes: ''
+        };
+    }
+
+    const partes = fecha.split('-');
+
+    const dia = Number(partes[2]);
+    const numeroMes = Number(partes[1]);
+
+    if (!dia || numeroMes < 1 || numeroMes > 12) {
+        return {
+            dia: '',
+            mes: ''
+        };
+    }
+
+    return {
+        dia: dia,
+        mes: meses[numeroMes - 1]
+    };
 }

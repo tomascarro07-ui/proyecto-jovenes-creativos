@@ -58,7 +58,7 @@ class GestorRecursos {
         return filtrados;
     }
 
-    agregarRecurso(titulo, categoria, descripcion, fuente, paginas, tamano, archivo) {
+    agregarRecurso(titulo,categoria,descripcion,fuente,paginas,tamano,archivo) {
         const recursos = this.obtenerRecursos();
 
         const recurso = {

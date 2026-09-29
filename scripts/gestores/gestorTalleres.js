@@ -12,9 +12,7 @@ class GestorTalleres {
     }
 
     obtenerNumeroTalleres() {
-        let talleres = leerDeStorage(TALLERES_KEY,null);
-
-        return talleres.length;
+        return this.obtenerTalleres().length;
     }
 
     guardarTalleres(talleres) {
@@ -33,9 +31,9 @@ class GestorTalleres {
         return null;
     }
 
-    agregarTaller(id,titulo,tipo,modalidad,cantClases,cupos,imagen,descripcionCorta) {
+    agregarTaller(titulo,tipo,modalidad,cantClases,cupos,imagen,descripcionCorta) {
         const talleres = this.obtenerTalleres();
-        let taller = new Taller(id,titulo,tipo,modalidad,cantClases,cupos,imagen,descripcionCorta)
+        let taller = new Taller(titulo,tipo,modalidad,cantClases,cupos,imagen,descripcionCorta)
 
         taller.id = Date.now();
 

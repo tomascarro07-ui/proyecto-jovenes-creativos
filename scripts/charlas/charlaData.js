@@ -21,7 +21,7 @@ function renderizarCharlas() {
     html += `
     <article class="curso-mini">
           <div class="curso-mini__media">
-            <img src="${charla.imagen} alt="${charla.titulo}"}"></img>
+            <img src="${charla.imagen}" alt="${charla.titulo}"></img>
           </div>
           <div class="curso-mini__info">
             <span class="act-tipo">${charla.tipo}</span>

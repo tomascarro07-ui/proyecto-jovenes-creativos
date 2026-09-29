@@ -223,7 +223,7 @@ if (formRecorrido) {
     gestorRecorridos.agregarRecorrido(
       document.getElementById("recorrido-titulo").value.trim(),
       document.getElementById("recorrido-tipo").value.trim(),
-      document.getElementById("recorrido-duracion").value.trim(),
+      parseInt(document.getElementById("recorrido-duracion").value.trim()),
       document.getElementById("recorrido-puntoSalida").value.trim(),
       document.getElementById("recorrido-imagen").value,
       document.getElementById("recorrido-descripcionCorta").value.trim()

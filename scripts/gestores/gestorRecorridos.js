@@ -12,9 +12,7 @@ class GestorRecorridos {
     }
 
     obtenerNumeroRecorridos() {
-        let recorridos = this.obtenerRecorridos();
-
-        return recorridos.length;
+        return this.obtenerRecorridos().length;
     }
 
     guardarRecorridos(recorridos) {
@@ -33,9 +31,9 @@ class GestorRecorridos {
         return null;
     }
 
-    agregarRecorrido(titulo,tipo,duracion,puntoSalida,imagen,descripcionCorta) {
+    agregarRecorrido(titulo,tipo,duracion,puntoSalida,cupos,imagen,descripcionCorta) {
         const recorridos = this.obtenerRecorridos();
-        let recorrido = new Recorrido(Date.now(),titulo,tipo,duracion,puntoSalida,imagen,descripcionCorta)
+        let recorrido = new Recorrido(Date.now(),titulo,tipo,duracion,puntoSalida,cupos,imagen,descripcionCorta)
 
         recorridos.push(recorrido);
 

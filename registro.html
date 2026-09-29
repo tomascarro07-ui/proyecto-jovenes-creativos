@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Detalle Recorrido</title>
+  <title>Nodo Cultural - Registro</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -28,80 +28,90 @@
         <nav class="site-nav" aria-label="Principal">
           <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="charlas.html">Charlas</a></li>
-            <li><a href="museos.html">Museos</a></li>
-            <li><a href="cursos.html">Cursos y Talleres</a></li>
-            <li><a href="recorridos.html">Recorridos</a></li>
-            <li><a href="recursos.html" aria-current="page">Recursos</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="nosotros.html">Sobre nosotros</a></li>
+            <li><a href="index.html#actividades">Actividades</a></li>
+            <li><a href="museos_colonia.html">Museos</a></li>
+            <li><a href="index.html#cursos">Cursos y Talleres</a></li>
+            <li><a href="index.html#recursos">Recursos</a></li>
+            <li><a href="index.html#boletin">Boletín</a></li>
+            <li><a href="nosotros.html">Sobre Nosotros</a></li>
           </ul>
         </nav>
 
-        <div class="site-actions" id="accionesSesion">
-          <a href="login.html" class="site-login">Iniciar sesión</a>
-          <a href="registro.html" class="nc-btn nc-btn--pill">Registrarme</a>
+        <div class="site-actions">
+          <a href="guia_uso.html" class="site-login">Ayuda</a>
+          <a href="login.html" class="nc-btn nc-btn--pill">Iniciar sesión</a>
         </div>
       </div>
 
     </div>
   </header>
 
-  <main class="detalle-main">
-    <div class="volver">
-      <a href="cursos.html" class="nc-btn nc-btn--pill"><i class="fa-solid fa-left-long"></i> Volver a talleres</a>
-    </div>
-    <div id="detalleContenido" class="detalle-wrapper"></div>
+  <main class="auth-main">
+
+    <section class="auth-card" aria-labelledby="registroTitulo">
+
+      <div class="auth-lado">
+        <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+        <h1 id="registroTitulo">Creá tu cuenta</h1>
+        <p>Registrate para confirmar tu asistencia a charlas y anotarte en talleres.</p>
+      </div>
+
+      <div class="auth-form-wrap">
+        <h2>¡Registrate en Nodo Cultural!</h2>
+
+        <form id="form-registro" class="auth-form">
+
+          <div class="auth-fila">
+            <div class="auth-campo">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" maxlength="60" placeholder="Tu nombre" required>
+            </div>
+
+            <div class="auth-campo">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" maxlength="60" placeholder="Tu apellido" required>
+            </div>
+          </div>
+
+          <div class="auth-campo">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" maxlength="60" placeholder="Tu correo" required>
+          </div>
+
+          <div class="auth-campo">
+            <label for="contrasenia">Contraseña</label>
+            <input type="password" id="contrasenia" minlength="8" placeholder="Tu contraseña" required>
+          </div>
+
+          <div class="auth-campo">
+            <label for="nacimiento">Fecha de nacimiento</label>
+            <input type="date" id="nacimiento" required>
+          </div>
+
+          <button type="submit" class="nc-btn">
+            <i class="fa-solid fa-user-plus"></i> Registrarse
+          </button>
+
+          <div class="auth-separador">o</div>
+
+          <a href="login.html" class="nc-btn nc-btn--outline">Ya tengo cuenta</a>
+
+        </form>
+
+        <p class="auth-ayuda">¿Necesitás ayuda? Mirá la <a href="guia_uso.html">guía de uso</a>.</p>
+      </div>
+
+    </section>
 
   </main>
-
-  <div class="modal" tabindex="-1" id="mensajeLogin">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal-cuenta">
-
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="bi bi-lock-fill me-2"></i>
-                    Necesitás una cuenta
-                </h5>
-
-                <button type="button" class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Cerrar">
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>
-                    Para inscribirte a este taller necesitás tener una cuenta.
-                </p>
-
-                <p>
-                    Podés iniciar sesión si ya tenés una cuenta o registrarte
-                    para crear una nueva.
-                </p>
-            </div>
-
-            <div class="modal-footer">
-                <a href="login.html" class="btn btn-outline-secondary">
-                    Iniciar sesión
-                </a>
-
-                <a href="register.html" class="btn btn-cuenta">
-                    Registrarme
-                </a>
-            </div>
-
-        </div>
-    </div>
-</div>
 
   <footer class="site-footer">
     <div class="site-footer__inner">
 
       <div class="footer-marca">
         <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio">
-          <img src="img/logo-blanco.png" alt="" width="190"></img>
+          <img src="img/logo.png" alt=""></img>
+          <span class="brand__text">Nodo<br>Cultural</span>
         </a>
         <p>Una red que conecta patrimonio, educación y comunidad.</p>
         <div class="footer-redes">
@@ -115,19 +125,19 @@
         <h3>Enlaces rápidos</h3>
         <ul>
           <li><a href="index.html">Inicio</a></li>
-          <li><a href="charlas.html">Charlas</a></li>
+          <li><a href="index.html#actividades">Actividades</a></li>
           <li><a href="museos_colonia.html">Museos</a></li>
-          <li><a href="#cursos">Cursos y Talleres</a></li>
+          <li><a href="index.html#cursos">Cursos y Talleres</a></li>
         </ul>
       </nav>
 
       <nav class="footer-col" aria-label="Recursos">
         <h3>Recursos</h3>
         <ul>
-          <li><a href="#recursos">Recursos educativos</a></li>
+          <li><a href="index.html#recursos">Recursos educativos</a></li>
           <li><a href="recorridos.html">Recorridos</a></li>
-          <li><a href="#recursos">Material descargable</a></li>
-          <li><a href="#boletin">Boletín cultural</a></li>
+          <li><a href="index.html#recursos">Material descargable</a></li>
+          <li><a href="index.html#boletin">Boletín cultural</a></li>
         </ul>
       </nav>
 
@@ -154,13 +164,9 @@
   </footer>
 
   <script src="scripts/base/storage.js"></script>
-  <script src="scripts/base/key.js"></script>
-  <script src="scripts/auth/autenticacion.js"></script>
   <script src="scripts/base/headerSesion.js"></script>
-  <script src="scripts/gestores/gestorTalleres.js"></script>
-  <script src="scripts/talleres/tallerData.js"></script>
-  <script src="scripts/talleres/tallerDetalle.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="scripts/modelos/usuario.js"></script>
+  <script src="scripts/auth/registro.js"></script>
 </body>
 
 </html>

@@ -12,9 +12,7 @@ class GestorCharlas {
     }
 
     obtenerNumeroCharlas() {
-        let charlas = leerDeStorage(CHARLAS_KEY,null);
-
-        return charlas.length;
+        return this.obtenerCharlas().length;
     }
 
     guardarCharlas(charlas) {

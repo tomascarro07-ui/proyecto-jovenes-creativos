@@ -1,14 +1,15 @@
 let parametros = new URLSearchParams(window.location.search);
 let correo = parametros.get("correo");
-let usuarios = leerDeStorage("usuariosRegistrados",[]);
+let usuarios = leerDeStorage(USUARIOS_REGISTRADOS_KEY,[]);
 const admin = {
     correo: "admin@admin",
     contrasenia: "admin123",
 };
 
-document.getElementById("correo").value = correo;
-
 document.addEventListener("DOMContentLoaded",function() {
+
+	document.getElementById("correo").value = correo;
+
 	let formLogin = document.getElementById("form-login");
 	if(formLogin) {
 		formLogin.addEventListener("submit",function(e) {
@@ -20,14 +21,14 @@ document.addEventListener("DOMContentLoaded",function() {
 			if (correoUsuario === admin.correo && contraseniaUsuario === admin.contrasenia) {
 				let sesionAdmin = new Usuario (
 					usuarios.length + 1,
-					document.getElementById("correo").value,
+					document.getElementById("correo").value.trim(),
 					"Admin",
-					"Mundo Perifericos",
-					document.getElementById("contrasenia").value,
+					"",
+					document.getElementById("contrasenia").value.trim(),
 					true,
 					"Administrador",
 				);
-				guardarEnStorage("sesionActual",sesionAdmin);
+				guardarEnStorage(SESION_KEY,sesionAdmin);
 				window.location.href = "admin.html";
 				return;
 			};

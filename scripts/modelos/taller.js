@@ -5,6 +5,7 @@ class Taller {
 		this.tipo = tipo;
 		this.modalidad = modalidad;
 		this.cantClases = cantClases;
+		this.cupos = cupos;
 		this.imagen = imagen;
 		this.descripcionCorta = descripcionCorta;
 	}
