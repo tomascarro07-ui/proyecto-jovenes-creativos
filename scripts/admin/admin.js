@@ -223,9 +223,11 @@ if (formRecorrido) {
     gestorRecorridos.agregarRecorrido(
       document.getElementById("recorrido-titulo").value.trim(),
       document.getElementById("recorrido-tipo").value.trim(),
-      parseInt(document.getElementById("recorrido-duracion").value.trim()),
-      document.getElementById("recorrido-puntoSalida").value.trim(),
+      parseInt(document.getElementById("recorrido-horas").value.trim()),
+      parseInt(document.getElementById("recorrido-minutos").value.trim()),
       document.getElementById("recorrido-imagen").value,
+      document.getElementById("recorrido-puntoSalida").value.trim(),
+      parseInt(document.getElementById("recorrido-cupos").value.trim()),
       document.getElementById("recorrido-descripcionCorta").value.trim()
     );
 

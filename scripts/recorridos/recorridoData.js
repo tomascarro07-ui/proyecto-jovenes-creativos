@@ -1,9 +1,37 @@
 const gestorRecorridos = new GestorRecorridos();
 
+function formatearDuracion(recorrido) {
+
+  const horas = Number(recorrido.duracionHoras);
+  const minutos = Number(recorrido.duracionMinutos);
+
+  if (!isNaN(horas) && !isNaN(minutos)) {
+
+    if (horas === 0) {
+      return `${minutos}min`;
+    }
+
+    if (minutos === 0) {
+      return `${horas}h`;
+    }
+
+    return `${horas}h ${minutos}min`;
+  }
+
+  if (recorrido.duracion) {
+    return recorrido.duracion;
+  }
+
+  return "Duración no disponible";
+}
+
+
 function renderizarRecorridos() {
+
   const grid = document.getElementById("recorridosGrid");
+
   if (grid === null) {
-    return; 
+    return;
   }
 
   const recorridos = gestorRecorridos.obtenerRecorridos();
@@ -16,41 +44,53 @@ function renderizarRecorridos() {
   let html = "";
 
   for (let i = 0; i < recorridos.length; i++) {
+
     const recorrido = recorridos[i];
 
+    // Obtenemos la duración con el formato correcto
+    const duracionTexto = formatearDuracion(recorrido);
+
     html += `
-    <article class="curso-mini">
-  <div class="curso-mini__media">
-    <img src="${recorrido.imagen}" alt="${recorrido.titulo}">
-  </div>
+      <article class="curso-mini">
 
-  <div class="curso-mini__info">
-    <h3>${recorrido.titulo}</h3>
+        <div class="curso-mini__media">
+          <img src="${recorrido.imagen}" alt="${recorrido.titulo}">
+        </div>
 
-    <p class="curso-mini__meta">
-      <span>
-        <i class="fa-regular fa-clock"></i>
-        ${recorrido.duracion}
-      </span>
+        <div class="curso-mini__info">
 
-      <span>
-        <i class="fa-solid fa-location-dot"></i>
-        ${recorrido.puntoSalida}
-      </span>
-    </p>
+          <h3>${recorrido.titulo}</h3>
 
-    <p>${recorrido.descripcionCorta}</p>
+          <p class="curso-mini__meta">
 
-    <a href="recorrido-detalle.html?idRecorrido=${recorrido.id}"
-       class="nc-btn nc-btn--outline nc-btn--mini">
-      Reservar
-    </a>
-  </div>
-</article>
-  `;
+            <span>
+              <i class="fa-regular fa-clock"></i>
+              ${duracionTexto}
+            </span>
+
+            <span>
+              <i class="fa-solid fa-location-dot"></i>
+              ${recorrido.puntoSalida}
+            </span>
+
+          </p>
+
+          <p>${recorrido.descripcionCorta}</p>
+
+          <a
+            href="recorrido-detalle.html?idRecorrido=${recorrido.id}"
+            class="nc-btn nc-btn--outline nc-btn--mini">
+            Reservar
+          </a>
+
+        </div>
+
+      </article>
+    `;
   }
 
   grid.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarRecorridos);
+
+document.addEventListener("DOMContentLoaded", renderizarRecorridos);

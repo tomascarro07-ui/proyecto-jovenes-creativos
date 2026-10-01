@@ -31,9 +31,9 @@ class GestorRecorridos {
         return null;
     }
 
-    agregarRecorrido(titulo,tipo,duracion,puntoSalida,cupos,imagen,descripcionCorta) {
+    agregarRecorrido(id,titulo,tipo,duracionHoras,duracionMinutos,imagen,puntoSalida,cupos,descripcionCorta) {
         const recorridos = this.obtenerRecorridos();
-        let recorrido = new Recorrido(Date.now(),titulo,tipo,duracion,puntoSalida,cupos,imagen,descripcionCorta)
+        let recorrido = new Recorrido(Date.now(),id,titulo,tipo,duracionHoras,duracionMinutos,imagen,puntoSalida,cupos,descripcionCorta)
 
         recorridos.push(recorrido);
 
