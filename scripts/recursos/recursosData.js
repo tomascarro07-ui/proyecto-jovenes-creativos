@@ -35,9 +35,8 @@ function renderizarRecursos() {
             <div>
               <strong>${recurso.titulo}</strong>
               <span class="recurso-desc">${recurso.descripcion}</span>
-              <span class="recurso-desc">${recurso.fuente} · PDF · ${recurso.paginas} ${textoPaginas} · ${recurso.tamano}</span>
+              <span class="recurso-desc">${recurso.fuente} · PDF · ${recurso.paginas} ${textoPaginas}</span>
             </div>
-            <a href="recurso-detalle.html?idRecurso=${recurso.id}" aria-label="Ver detalle de ${recurso.titulo}">Detalle</a>
             <a href="${recurso.archivo}" download aria-label="Descargar ${recurso.titulo}, PDF">Descargar <i class="fa-solid fa-download"></i></a>
           </li>
       `;

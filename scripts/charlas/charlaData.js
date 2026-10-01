@@ -28,7 +28,7 @@ function renderizarCharlas() {
             <h3>${charla.titulo}</h3>
             <p class="curso-desc">${charla.descripcionCorta}</p>
             <p class="curso-mini__meta">
-              <span><i class="fa-regular fa-clock"></i>${charla.lugar}</span>
+              <span><i class="fa-regular fa-clock"></i>${charla.hora}</span>
               <span><i class="fa-solid fa-laptop"></i>${charla.tipo}</span>
             </p>
             <a href="charla-detalle.html?idCharla=${charla.id}" class="nc-btn nc-btn--outline nc-btn--mini">Ver más</a>

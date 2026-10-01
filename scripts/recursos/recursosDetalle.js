@@ -41,10 +41,6 @@ function renderizarRecurso() {
             <dt><i class="fa-regular fa-file-lines"></i> Páginas</dt>
             <dd>${recurso.paginas} ${textoPaginas}</dd>
           </div>
-          <div>
-            <dt><i class="fa-solid fa-weight-hanging"></i> Tamaño</dt>
-            <dd>${recurso.tamano}</dd>
-          </div>
         </dl>
 
         <div class="charla-detalle__footer">

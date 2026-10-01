@@ -5,65 +5,66 @@ function renderizarTaller() {
     let id = gestorTalleres.obtenerIdDesdeUrl();
 
     if (!id) {
-        contenedor.innerHTML = '<p class="admin-vacio">No se encontró la charla.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">No se encontró el taller.</p>';
         return;
     }
 
-    const talleres = gestorTalleres.obtenerTalleres();
+    const taller = gestorTalleres.obtenerTallerPorId(id);
 
-    if (talleres.length === 0) {
-        contenedor.innerHTML = '<p class="admin-vacio">Todavía no hay talleres cargados.</p>';
+    if (!taller) {
+        contenedor.innerHTML = '<p class="admin-vacio">No se encontró el taller.</p>';
         return;
     }
 
-    let html = "";
+    let html = `
 
-    for (let i = 0; i < talleres.length; i++) {
+        <div class="charla-detalle">
 
-        let taller = talleres[i];
+            <div class="charla-detalle__media">
+                <img src="${taller.imagen}" alt="${taller.titulo}">
+                <span class="charla-detalle__tag">${taller.modalidad}</span>
+            </div>
 
-        if (taller.id == id) {
+            <div class="charla-detalle__body">
 
-            html += `
-            <div class="charla-detalle">
+                <h1>${taller.titulo}</h1>
+                <p class="charla-detalle__desc">${taller.descripcionCorta}</p>
 
-                <div class="charla-detalle__media">
-                    <img src="${taller.imagen}" alt="${taller.titulo}">
-                    <span class="charla-detalle__tag">${taller.modalidad}</span>
-                </div>
+                <dl class="charla-detalle__datos">
 
-                <div class="charla-detalle__body">
-
-                    <h1>${taller.titulo}</h1>
-                    <p class="charla-detalle__desc">${taller.descripcionCorta}</p>
-
-                    <dl class="charla-detalle__datos">
                     <div>
                         <dt><i class="fa-solid fa-layer-group"></i> Nivel</dt>
                         <dd>${taller.nivel}</dd>
                     </div>
+
                     <div>
                         <dt><i class="fa-solid fa-laptop"></i> Modalidad</dt>
                         <dd>${taller.modalidad}</dd>
                     </div>
+
                     <div>
                         <dt><i class="fa-regular fa-calendar"></i> Clases</dt>
                         <dd>${taller.cantClases}</dd>
                     </div>
-                    </dl>
 
-                    <div class="charla-detalle__footer">
+                </dl>
+
+                <div class="charla-detalle__footer">
+
                     <span class="charla-detalle__cupos">
                         <i class="fa-solid fa-users"></i> ${taller.cupos} cupos disponibles
                     </span>
+
                     <button type="button" id="btnMostrarForm" class="nc-btn">
                         Inscribirme
                     </button>
+
                 </div>
+
             </div>
 
-
             <div>
+
                 <section class="admin-panel">
 
                     <form id="formConfirmacion" class="form-contacto" style="display: none;">
@@ -97,14 +98,11 @@ function renderizarTaller() {
                     </form>
 
                 </section>
-            </div>
 
             </div>
 
-            </div>
-            `;
-        }
-    }
+        </div>
+    `;
 
     contenedor.innerHTML = html;
 
@@ -112,6 +110,7 @@ function renderizarTaller() {
     let mensajeLogin = document.getElementById("mensajeLogin");
 
     if (btnMostrar) {
+
         btnMostrar.addEventListener("click", function () {
 
             let sesionActiva = validarSesion();
@@ -122,13 +121,10 @@ function renderizarTaller() {
                 return;
             }
 
-            document.getElementById('formConfirmacion').style.display = 'flex';
-            btnMostrar.style.display = 'none';
+            document.getElementById("formConfirmacion").style.display = "flex";
+            btnMostrar.style.display = "none";
         });
     }
 }
 
-
-
-document.addEventListener('DOMContentLoaded', renderizarTaller);
-
+document.addEventListener("DOMContentLoaded", renderizarTaller);

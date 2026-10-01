@@ -9,23 +9,16 @@ function renderizarCharla() {
         return;
     }
 
-    const charlas = gestorCharlas.obtenerCharlas();
+    const charla = gestorCharlas.obtenerCharlaPorId(id);
 
-    if (charlas.length === 0) {
-        contenedor.innerHTML = '<p class="admin-vacio">Todavía no hay charlas cargadas.</p>';
+    if (!charla) {
+        contenedor.innerHTML = '<p class="admin-vacio">No se encontró la charla.</p>';
         return;
     }
 
-    let html = "";
+    let html = `
 
-    for (let i = 0; i < charlas.length; i++) {
-
-        let charla = charlas[i];
-
-        if (charla.id == id) {
-
-            html += `
-            <div class="charla-detalle">
+        <div class="charla-detalle">
 
             <div class="charla-detalle__media">
                 <img src="${charla.imagen}" alt="${charla.titulo}">
@@ -35,79 +28,91 @@ function renderizarCharla() {
             <div class="charla-detalle__body">
 
                 <h1>${charla.titulo}</h1>
-                <p class="charla-detalle__desc">${charla.descripcionCompleta}</p>
+
+                <p class="charla-detalle__desc">
+                    ${charla.descripcionCompleta}
+                </p>
 
                 <dl class="charla-detalle__datos">
-                <div>
-                    <dt><i class="fa-regular fa-calendar"></i> Fecha</dt>
-                    <dd>${charla.fecha}</dd>
-                </div>
-                <div>
-                    <dt><i class="fa-regular fa-clock"></i> Hora</dt>
-                    <dd>${charla.hora}</dd>
-                </div>
-                <div>
-                    <dt><i class="fa-solid fa-location-dot"></i> Lugar</dt>
-                    <dd>${charla.lugar}</dd>
-                </div>
-                <div>
-                    <dt><i class="fa-solid fa-user"></i> Expositor</dt>
-                    <dd>${charla.expositor}</dd>
-                </div>
+
+                    <div>
+                        <dt><i class="fa-regular fa-calendar"></i> Fecha</dt>
+                        <dd>${charla.fecha}</dd>
+                    </div>
+
+                    <div>
+                        <dt><i class="fa-regular fa-clock"></i> Hora</dt>
+                        <dd>${charla.hora}</dd>
+                    </div>
+
+                    <div>
+                        <dt><i class="fa-solid fa-location-dot"></i> Lugar</dt>
+                        <dd>${charla.lugar}</dd>
+                    </div>
+
+                    <div>
+                        <dt><i class="fa-solid fa-user"></i> Expositor</dt>
+                        <dd>${charla.expositor}</dd>
+                    </div>
+
                 </dl>
 
                 <div class="charla-detalle__footer">
-                <span class="charla-detalle__cupos">
-                    <i class="fa-solid fa-users"></i> ${charla.cupos} cupos disponibles
-                </span>
-                <button type="button" id="btnMostrarForm" class="nc-btn">
-                    Inscribirme
-                </button>
+
+                    <span class="charla-detalle__cupos">
+                        <i class="fa-solid fa-users"></i>
+                        ${charla.cupos} cupos disponibles
+                    </span>
+
+                    <button type="button" id="btnMostrarForm" class="nc-btn">
+                        Inscribirme
+                    </button>
+
+                </div>
+
+                <div>
+
+                    <section class="admin-panel">
+
+                        <form id="formConfirmacion" class="form-contacto" style="display: none;">
+
+                            <h3>Confirmá tu asistencia</h3>
+
+                            <div class="auth-campo">
+                                <label for="nombre">Nombre y apellido</label>
+                                <input type="text" id="nombre" required placeholder="Tu nombre completo">
+                            </div>
+
+                            <div class="auth-campo">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" required placeholder="tuemail@ejemplo.com">
+                            </div>
+
+                            <div class="auth-campo">
+                                <label for="telefono">Teléfono</label>
+                                <input type="tel" id="telefono" required placeholder="09X XXX XXX">
+                            </div>
+
+                            <div class="auth-campo">
+                                <label for="cantidadPersonas">Cantidad de personas</label>
+                                <input type="number" id="cantidadPersonas" required min="1" max="${charla.cupos}" value="1">
+                            </div>
+
+                            <button type="submit" class="nc-btn nc-btn--pill">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Enviar confirmación
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                </div>
+
             </div>
 
-
-            <div>
-                <section class="admin-panel">
-
-                    <form id="formConfirmacion" class="form-contacto" style="display: none;">
-
-                        <h3>Confirmá tu asistencia</h3>
-
-                        <div class="auth-campo">
-                            <label for="nombre">Nombre y apellido</label>
-                            <input type="text" id="nombre" required placeholder="Tu nombre completo">
-                        </div>
-
-                        <div class="auth-campo">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" required placeholder="tuemail@ejemplo.com">
-                        </div>
-
-                        <div class="auth-campo">
-                            <label for="telefono">Teléfono</label>
-                            <input type="tel" id="telefono" required placeholder="09X XXX XXX">
-                        </div>
-
-                        <div class="auth-campo">
-                            <label for="cantidadPersonas">Cantidad de personas</label>
-                            <input type="number" id="cantidadPersonas" required min="1" max="${charla.cupos}" value="1">
-                        </div>
-
-                        <button type="submit" class="nc-btn nc-btn--pill">
-                            <i class="fa-solid fa-paper-plane"></i> Enviar confirmación
-                        </button>
-
-                    </form>
-
-                </section>
-            </div>
-
-            </div>
-
-            </div>
-            `;
-        }
-    }
+        </div>
+    `;
 
     contenedor.innerHTML = html;
 
@@ -115,6 +120,7 @@ function renderizarCharla() {
     let mensajeLogin = document.getElementById("mensajeLogin");
 
     if (btnMostrar) {
+
         btnMostrar.addEventListener("click", function () {
 
             let sesionActiva = validarSesion();
@@ -125,49 +131,10 @@ function renderizarCharla() {
                 return;
             }
 
-            document.getElementById('formConfirmacion').style.display = 'flex';
-            btnMostrar.style.display = 'none';
+            document.getElementById("formConfirmacion").style.display = "flex";
+            btnMostrar.style.display = "none";
         });
     }
 }
 
-
-
-document.addEventListener('DOMContentLoaded', renderizarCharla);
-
-
-// const CONFIRMACIONES_KEY = 'nodo_cultural_confirmaciones';
-
-//   const id = obtenerIdDesdeUrl();
-//   const contenedor = document.getElementById('detalleContenido');
-
-//   
-
-//   const charla = obtenerCharlaPorId(id);
-
-//   if (!charla) {
-//     contenedor.innerHTML = '<p class="detalle-error">No se encontró la charla solicitada.</p>';
-//     return;
-//   }
-// // Obtiene el ID desde la URL (?id=1)
-// function obtenerIdDesdeUrl() {
-//   const params = new URLSearchParams(window.location.search);
-//   return params.get('id');
-// }
-
-// // Guarda una confirmación de asistencia
-// function guardarConfirmacion(confirmacion) {
-//   const data = localStorage.getItem(CONFIRMACIONES_KEY);
-//   const confirmaciones = data ? JSON.parse(data) : [];
-//   confirmaciones.push(confirmacion);
-//   localStorage.setItem(CONFIRMACIONES_KEY, JSON.stringify(confirmaciones));
-// }
-
-// // Cuenta cuántas confirmaciones tiene una charla
-// function contarConfirmaciones(idCharla) {
-//   const data = localStorage.getItem(CONFIRMACIONES_KEY);
-//   const confirmaciones = data ? JSON.parse(data) : [];
-//   return confirmaciones
-//     .filter(c => c.idCharla === parseInt(idCharla))
-//     .reduce((total, c) => total + c.cantidadPersonas, 0);
-// }
+document.addEventListener("DOMContentLoaded", renderizarCharla);
