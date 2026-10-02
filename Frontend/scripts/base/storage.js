@@ -17,3 +17,9 @@ function leerDeStorage(clave,valorDefecto) {
 		return valorDefecto;
 	}
 }
+
+function escaparHtml(texto) {
+	return String(texto == null ? "" : texto)
+		.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}

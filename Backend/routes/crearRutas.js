@@ -1,3 +1,4 @@
+const { verificarToken, soloAdmin } = require("../middleware/auth");
 const express = require("express");
 
 function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
@@ -27,7 +28,7 @@ function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
   });
 
   // POST / → crear (solo se guardan los campos permitidos)
-  router.post("/", async (req, res) => {
+  router.post("/", verificarToken, soloAdmin, async (req, res) => {
     try {
       const datos = {};
       for (const campo of campos) {
@@ -45,7 +46,7 @@ function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
 
   // PATCH /:id/finalizada → alternar finalizada (solo si corresponde)
   if (finalizable) {
-    router.patch("/:id/finalizada", async (req, res) => {
+    router.patch("/:id/finalizada", verificarToken, soloAdmin, async (req, res) => {
       try {
         const item = await Modelo.findById(req.params.id);
         if (!item) {
@@ -61,7 +62,7 @@ function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
   }
 
   // DELETE /:id → eliminar
-  router.delete("/:id", async (req, res) => {
+  router.delete("/:id", verificarToken, soloAdmin, async (req, res) => {
     try {
       const item = await Modelo.findByIdAndDelete(req.params.id);
       if (!item) {

@@ -1,68 +1,38 @@
 class GestorCharlas {
 
-    obtenerCharlas() {
-        let charlas = leerDeStorage(CHARLAS_KEY, null);
-
-        if (charlas === null) {
-            charlas = charlasIniciales;
-            guardarEnStorage(CHARLAS_KEY, charlas);
-        }
-
-        return charlas;
+    async obtenerCharlas() {
+        return await pedirApi("/charlas");
     }
 
-    obtenerNumeroCharlas() {
-        return this.obtenerCharlas().length;
+    async obtenerNumeroCharlas() {
+        const charlas = await this.obtenerCharlas();
+        return charlas.length;
     }
 
-    guardarCharlas(charlas) {
-        guardarEnStorage(CHARLAS_KEY, charlas);
-    }
-
-    obtenerCharlaPorId(id) {
-        const charlas = this.obtenerCharlas();
-
-        for (let i = 0; i < charlas.length; i++) {
-            if (charlas[i].id === Number(id)) {
-            return charlas[i];
+    async obtenerCharlaPorId(id) {
+        try {
+            return await pedirApi("/charlas/" + encodeURIComponent(id));
+        } catch (error) {
+            if (error.status === 404 || error.status === 400) {
+                return null;
             }
+            throw error;
         }
-
-        return null;
     }
 
-    agregarCharla(titulo,fecha,hora,lugar,tipo,imagen,expositor,descripcionCorta,descripcionCompleta,cupos) {
-        const charlas = this.obtenerCharlas();
-        let charla = new Charla(Date.now(),titulo,fecha,hora,lugar,tipo,imagen,expositor,descripcionCorta,descripcionCompleta,cupos)
-
-        charlas.push(charla);
-
-        this.guardarCharlas(charlas);
+    async agregarCharla(titulo, fecha, hora, lugar, tipo, imagen, expositor, descripcionCorta, descripcionCompleta, cupos) {
+        return await pedirApi("/charlas", {
+            method: "POST",
+            body: { titulo, fecha, hora, lugar, tipo, imagen, expositor, descripcionCorta, descripcionCompleta, cupos }
+        });
     }
 
-    marcarFinalizada(id) {
-        const charlas = this.obtenerCharlas();
-
-        for (let i = 0; i < charlas.length; i++) {
-            if (charlas[i].id === Number(id)) {
-                charlas[i].finalizada = !charlas[i].finalizada;
-            }
-        }
-
-        this.guardarCharlas(charlas);
+    async marcarFinalizada(id) {
+        return await pedirApi("/charlas/" + encodeURIComponent(id) + "/finalizada", { method: "PATCH" });
     }
 
-    eliminarCharla(id) {
-        const charlas = this.obtenerCharlas();
-        const restantes = [];
-
-        for (let i = 0; i < charlas.length; i++) {
-            if (charlas[i].id !== Number(id)) {
-            restantes.push(charlas[i]);
-            }
-        }
-
-        this.guardarCharlas(restantes);
+    async eliminarCharla(id) {
+        return await pedirApi("/charlas/" + encodeURIComponent(id), { method: "DELETE" });
     }
 
     obtenerIdDesdeUrl() {

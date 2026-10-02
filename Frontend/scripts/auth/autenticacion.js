@@ -1,24 +1,20 @@
+// La sesión guardada es { token, usuario }. Sirve para mostrar el header,
+// pero la autoridad real es el servidor (ver protegerPagina y el middleware).
 let usuarioActual = validarSesion();
 
-function login(email, contrasenia, destino) {
-    let usuario = sesionActiva(email);
-
-    if (!usuario) {
-        alert("Los datos ingresados son incorrectos. Intente de nuevo");
-        return;
-    }
-
-    if (usuario.contrasenia.trim() === contrasenia.trim()) {
-        guardarEnStorage(SESION_KEY, usuario);
-        window.location.href = destino;
-    } else {
-        alert("Los datos ingresados son incorrectos. Intente de nuevo");
-    }
+function validarSesion() {
+    const sesion = leerDeStorage(SESION_KEY, null);
+    return sesion && sesion.token ? sesion.usuario : null;
 }
 
-function validarSesion() {
-    let userActual = leerDeStorage(SESION_KEY, null);
-    return userActual;
+async function login(correo, contrasenia, destinoUsuario, destinoAdmin) {
+    try {
+        const r = await pedirApi("/auth/login", { method: "POST", body: { correo, contrasenia } });
+        guardarEnStorage(SESION_KEY, { token: r.token, usuario: r.usuario });
+        window.location.href = r.usuario.esAdministrador ? destinoAdmin : destinoUsuario;
+    } catch (error) {
+        alert(error.message);
+    }
 }
 
 function cerrarSesion() {
@@ -26,21 +22,19 @@ function cerrarSesion() {
     window.location.href = "index.html";
 }
 
-function sesionActiva(correo) {
-    let usuarios = leerDeStorage(USUARIOS_REGISTRADOS_KEY, []);
-
-    return usuarios.find(function(usuario) {
-        return usuario.correo === correo;
-    }) || false;
-}
-
 function esAdmin() {
-    return usuarioActual && usuarioActual.esAdministrador === true;
+    return !!(usuarioActual && usuarioActual.esAdministrador === true);
 }
 
-function protegerPagina() {
-    if (!esAdmin()) {
-        window.location.href = "index.html";
+// Pregunta al servidor quién es el usuario. Si no es admin, lo saca de la página.
+async function protegerPagina() {
+    try {
+        const r = await pedirApi("/auth/yo");
+        if (!r.usuario.esAdministrador) throw new Error("no admin");
+        document.documentElement.style.visibility = "visible";
+        return true;
+    } catch (e) {
+        window.location.replace("index.html");
+        return false;
     }
 }
-

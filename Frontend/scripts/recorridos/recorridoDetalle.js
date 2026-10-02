@@ -26,7 +26,7 @@ function formatearDuracion(recorrido) {
 }
 
 
-function renderizarRecorrido() {
+async function renderizarRecorrido() {
 
     let id = gestorRecorridos.obtenerIdDesdeUrl();
 
@@ -35,7 +35,7 @@ function renderizarRecorrido() {
         return;
     }
 
-    const recorrido = gestorRecorridos.obtenerRecorridoPorId(id);
+    const recorrido = await gestorRecorridos.obtenerRecorridoPorId(id);
 
     if (!recorrido) {
         contenedor.innerHTML = '<p class="admin-vacio">No se encontró el recorrido.</p>';
@@ -207,7 +207,12 @@ function renderizarRecorrido() {
             btnMostrar.style.display = "none";
         });
     }
+    enlazarInscripcion("recorrido", recorrido.id);
 }
 
 
-document.addEventListener("DOMContentLoaded", renderizarRecorrido);
+document.addEventListener("DOMContentLoaded", function () {
+  renderizarRecorrido().catch(function () {
+    mostrarErrorServidor(contenedor);
+  });
+});

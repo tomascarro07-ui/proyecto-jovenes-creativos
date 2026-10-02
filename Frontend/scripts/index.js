@@ -14,7 +14,7 @@ function formatearFechaLarga(fecha) {
   return `${dia} de ${mes}`;
 }
 
-function renderizarCarruselCharlas() {
+async function renderizarCarruselCharlas() {
   const indicadores = document.getElementById("carouselIndicadores");
   const inner = document.getElementById("carouselInner");
 
@@ -22,7 +22,7 @@ function renderizarCarruselCharlas() {
     return;
   }
 
-  const charlas = gestorCharlasCarrusel.obtenerCharlas();
+  const charlas = await gestorCharlasCarrusel.obtenerCharlas();
 
   if (charlas.length === 0) {
     indicadores.innerHTML = "";
@@ -65,4 +65,8 @@ function renderizarCarruselCharlas() {
   inner.innerHTML = htmlInner;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarCarruselCharlas);
+document.addEventListener('DOMContentLoaded', function () {
+  renderizarCarruselCharlas().catch(function () {
+    mostrarErrorServidor(document.getElementById("carouselInner"));
+  });
+});

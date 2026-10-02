@@ -12,9 +12,21 @@ let talleresProximas = document.getElementById("resumenTalleresActivos");
 let recorridosActivos = document.getElementById("resumenRecorridosActivos");
 let recursosActivos = document.getElementById("resumenRecursosActivos");
 
+// Ejecuta una acción contra la API y, si sale bien, vuelve a dibujar la lista.
+// Si falla, avisa con un mensaje en vez de romper el panel.
+async function accionAdmin(accion, redibujar) {
+  try {
+    await accion();
+    await redibujar();
+  } catch (error) {
+    alert("No se pudo completar la acción: " + error.message);
+  }
+}
 
-function renderizarCharla() {
-  let charlas = gestorCharlas.obtenerCharlas();
+
+async function renderizarCharla() {
+  let charlas = await gestorCharlas.obtenerCharlas();
+  charlasProximas.textContent = charlas.length;
 
   if (charlas.length === 0) {
     adminCharla.innerHTML = '<p class="admin-vacio">Todavía no hay charlas cargadas.</p>';
@@ -46,6 +58,9 @@ function renderizarCharla() {
           <button type="button" class="${claseCheck}" data-id="${charla.id}" title="Marcar como finalizada">
             <i class="fa-solid fa-check"></i>
           </button>
+          <button type="button" class="admin-btn-ver" data-inscriptos data-tipo="charla" data-id="${charla.id}" title="Ver inscriptos">
+            <i class="fa-solid fa-users"></i>
+          </button>
         </div>
       </article>
     `;
@@ -55,10 +70,11 @@ function renderizarCharla() {
 }
 
 if (formCharla) {
-  formCharla.addEventListener('submit', function (e) {
+  formCharla.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    gestorCharlas.agregarCharla(
+    try {
+    await gestorCharlas.agregarCharla(
       document.getElementById("charla-titulo").value.trim(),
       document.getElementById("charla-fecha").value,
       document.getElementById("charla-hora").value,
@@ -72,33 +88,33 @@ if (formCharla) {
     );
 
     formCharla.reset();
-    renderizarCharla();
-    charlasProximas.textContent = gestorCharlas.obtenerNumeroCharlas();
+    await renderizarCharla();
+    } catch (error) {
+      alert("No se pudo guardar la charla: " + error.message);
+    }
   });
 }
 
 if (adminCharla) {
-  adminCharla.addEventListener('click', function (e) {
+  adminCharla.addEventListener('click', async function (e) {
     const btnEliminar = e.target.closest('.admin-btn-eliminar');
     const btnCheck = e.target.closest('.admin-btn-check');
 
     if (btnEliminar) {
-      gestorCharlas.eliminarCharla(btnEliminar.dataset.id);
-      renderizarCharla();
-      charlasProximas.textContent = gestorCharlas.obtenerNumeroCharlas();
+      await accionAdmin(() => gestorCharlas.eliminarCharla(btnEliminar.dataset.id), renderizarCharla);
     }
 
     if (btnCheck) {
-      gestorCharlas.marcarFinalizada(btnCheck.dataset.id);
-      renderizarCharla();
+      await accionAdmin(() => gestorCharlas.marcarFinalizada(btnCheck.dataset.id), renderizarCharla);
     }
   });
 }
 
 
 
-function renderizarTaller() {
-  let talleres = gestorTalleres.obtenerTalleres();
+async function renderizarTaller() {
+  let talleres = await gestorTalleres.obtenerTalleres();
+  talleresProximas.textContent = talleres.length;
 
   if (talleres.length === 0) {
     adminTaller.innerHTML = '<p class="admin-vacio">Todavía no hay talleres cargados.</p>';
@@ -129,6 +145,9 @@ function renderizarTaller() {
           <button type="button" class="${claseCheck}" data-id="${taller.id}" title="Marcar como finalizado">
             <i class="fa-solid fa-check"></i>
           </button>
+          <button type="button" class="admin-btn-ver" data-inscriptos data-tipo="taller" data-id="${taller.id}" title="Ver inscriptos">
+            <i class="fa-solid fa-users"></i>
+          </button>
         </div>
       </article>
     `;
@@ -138,46 +157,48 @@ function renderizarTaller() {
 }
 
 if (formTaller) {
-  formTaller.addEventListener('submit', function (e) {
+  formTaller.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    gestorTalleres.agregarTaller(
+    try {
+    await gestorTalleres.agregarTaller(
       document.getElementById("taller-titulo").value.trim(),
+      document.getElementById('taller-nivel').value,
       document.getElementById('taller-modalidad').value,
-      document.getElementById('taller-duracion').value,
+      parseInt(document.getElementById('taller-duracion').value),
       parseInt(document.getElementById('taller-cupos').value),
       document.getElementById('taller-imagen').value,
-      document.getElementById('taller-descripcion').value
+      document.getElementById('taller-descripcion').value.trim()
     );
 
     formTaller.reset();
-    renderizarTaller();
-    talleresProximas.textContent = gestorTalleres.obtenerNumeroTalleres();
+    await renderizarTaller();
+    } catch (error) {
+      alert("No se pudo guardar el taller: " + error.message);
+    }
   });
 }
 
 if (adminTaller) {
-  adminTaller.addEventListener('click', function (e) {
+  adminTaller.addEventListener('click', async function (e) {
     const btnEliminar = e.target.closest('.admin-btn-eliminar');
     const btnCheck = e.target.closest('.admin-btn-check');
 
     if (btnEliminar) {
-      gestorTalleres.eliminarTaller(btnEliminar.dataset.id);
-      renderizarTaller();
-      talleresProximas.textContent = gestorTalleres.obtenerNumeroTalleres();
+      await accionAdmin(() => gestorTalleres.eliminarTaller(btnEliminar.dataset.id), renderizarTaller);
     }
 
     if (btnCheck) {
-      gestorTalleres.marcarFinalizada(btnCheck.dataset.id);
-      renderizarTaller();
+      await accionAdmin(() => gestorTalleres.marcarFinalizada(btnCheck.dataset.id), renderizarTaller);
     }
   });
 }
 
 
 
-function renderizarRecorrido() {
-  let recorridos = gestorRecorridos.obtenerRecorridos();
+async function renderizarRecorrido() {
+  let recorridos = await gestorRecorridos.obtenerRecorridos();
+  recorridosActivos.textContent = recorridos.length;
 
   if (recorridos.length === 0) {
     adminRecorrido.innerHTML = '<p class="admin-vacio">Todavía no hay recorridos cargados.</p>';
@@ -196,7 +217,7 @@ function renderizarRecorrido() {
         <img src="${recorrido.imagen}" alt="${recorrido.titulo}" class="admin-item-img">
         <div class="admin-item-info">
           <h4>${recorrido.titulo}</h4>
-          <p>${recorrido.tipo} — ${recorrido.duracion}</p>
+          <p>${recorrido.tipo} — ${formatearDuracion(recorrido)}</p>
         </div>
         <div class="admin-item-acciones">
           <a href="recorrido-detalle.html?idRecorrido=${recorrido.id}" class="admin-btn-ver" title="Ver detalle">
@@ -208,6 +229,9 @@ function renderizarRecorrido() {
           <button type="button" class="${claseCheck}" data-id="${recorrido.id}" title="Marcar como finalizado">
             <i class="fa-solid fa-check"></i>
           </button>
+          <button type="button" class="admin-btn-ver" data-inscriptos data-tipo="recorrido" data-id="${recorrido.id}" title="Ver inscriptos">
+            <i class="fa-solid fa-users"></i>
+          </button>
         </div>
       </article>
     `;
@@ -217,10 +241,11 @@ function renderizarRecorrido() {
 }
 
 if (formRecorrido) {
-  formRecorrido.addEventListener('submit', function (e) {
+  formRecorrido.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    gestorRecorridos.agregarRecorrido(
+    try {
+    await gestorRecorridos.agregarRecorrido(
       document.getElementById("recorrido-titulo").value.trim(),
       document.getElementById("recorrido-tipo").value.trim(),
       parseInt(document.getElementById("recorrido-horas").value.trim()),
@@ -232,33 +257,33 @@ if (formRecorrido) {
     );
 
     formRecorrido.reset();
-    renderizarRecorrido();
-    recorridosActivos.textContent = gestorRecorridos.obtenerNumeroRecorridos();
+    await renderizarRecorrido();
+    } catch (error) {
+      alert("No se pudo guardar el recorrido: " + error.message);
+    }
   });
 }
 
 if (adminRecorrido) {
-  adminRecorrido.addEventListener('click', function (e) {
+  adminRecorrido.addEventListener('click', async function (e) {
     const btnEliminar = e.target.closest('.admin-btn-eliminar');
     const btnCheck = e.target.closest('.admin-btn-check');
 
     if (btnEliminar) {
-      gestorRecorridos.eliminarRecorrido(btnEliminar.dataset.id);
-      renderizarRecorrido();
-      recorridosActivos.textContent = gestorRecorridos.obtenerNumeroRecorridos();
+      await accionAdmin(() => gestorRecorridos.eliminarRecorrido(btnEliminar.dataset.id), renderizarRecorrido);
     }
 
     if (btnCheck) {
-      gestorRecorridos.marcarFinalizada(btnCheck.dataset.id);
-      renderizarRecorrido();
+      await accionAdmin(() => gestorRecorridos.marcarFinalizada(btnCheck.dataset.id), renderizarRecorrido);
     }
   });
 }
 
 
 
-function renderizarRecursos() {
-  let recursos = gestorRecursos.obtenerRecursos();
+async function renderizarRecursos() {
+  let recursos = await gestorRecursos.obtenerRecursos();
+  recursosActivos.textContent = recursos.length;
 
   if (recursos.length === 0) {
     recursosGrid.innerHTML = '<p class="admin-vacio">Todavía no hay recursos cargados.</p>';
@@ -293,10 +318,11 @@ function renderizarRecursos() {
 }
 
 if (formRecurso) {
-  formRecurso.addEventListener('submit', function (e) {
+  formRecurso.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    gestorRecursos.agregarRecurso(
+    try {
+    await gestorRecursos.agregarRecurso(
       document.getElementById("recurso-titulo").value.trim(),
       document.getElementById("recurso-tipo").value.trim(),
       document.getElementById("recurso-descripcionCorta").value.trim(),
@@ -306,34 +332,66 @@ if (formRecurso) {
     );
 
     formRecurso.reset();
-    renderizarRecursos();
-    recursosActivos.textContent = gestorRecursos.obtenerNumeroRecursos();
+    await renderizarRecursos();
+    } catch (error) {
+      alert("No se pudo guardar el recurso: " + error.message);
+    }
   });
 }
 
 if (recursosGrid) {
-  recursosGrid.addEventListener('click', function (e) {
+  recursosGrid.addEventListener('click', async function (e) {
     const btnEliminar = e.target.closest('.recurso-eliminar');
 
     if (btnEliminar) {
       e.preventDefault();
-      gestorRecursos.eliminarRecurso(btnEliminar.dataset.id);
-      renderizarRecursos();
-      recursosActivos.textContent = gestorRecursos.obtenerNumeroRecursos();
+      await accionAdmin(() => gestorRecursos.eliminarRecurso(btnEliminar.dataset.id), renderizarRecursos);
     }
   });
 }
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-  renderizarCharla();
-  renderizarTaller();
-  renderizarRecorrido();
-  renderizarRecursos();
+document.addEventListener('DOMContentLoaded', async function () {
+  if (!(await protegerPagina())) return;
+  try {
+    await Promise.all([
+      renderizarCharla(),
+      renderizarTaller(),
+      renderizarRecorrido(),
+      renderizarRecursos()
+    ]);
+  } catch (error) {
+    alert("No se pudo conectar con el servidor. Revisá que el backend esté encendido.");
+  }
+});
 
-  charlasProximas.textContent = gestorCharlas.obtenerNumeroCharlas();
-  talleresProximas.textContent = gestorTalleres.obtenerNumeroTalleres();
-  recorridosActivos.textContent = gestorRecorridos.obtenerNumeroRecorridos();
-  recursosActivos.textContent = gestorRecursos.obtenerNumeroRecursos();
+document.addEventListener("click", async function (e) {
+  const boton = e.target.closest("[data-inscriptos]");
+  if (!boton) return;
+
+  try {
+    const inscriptos = await gestorInscripciones.deActividad(boton.dataset.tipo, boton.dataset.id);
+    const personas = inscriptos.reduce((t, i) => t + i.cantidadPersonas, 0);
+
+    let filas = inscriptos.map(function (i) {
+      return `<tr><td>${escaparHtml(i.nombre)}</td><td>${escaparHtml(i.correo)}</td><td>${escaparHtml(i.telefono)}</td><td>${i.cantidadPersonas}</td></tr>`;
+    }).join("");
+
+    const dialogo = document.createElement("dialog");
+    dialogo.style.cssText = "max-width:90vw;border-radius:12px;padding:1.5rem;";
+    dialogo.innerHTML = `
+      <h3>Inscriptos (${inscriptos.length} · ${personas} personas)</h3>
+      ${inscriptos.length === 0 ? "<p>Todavía no hay inscriptos.</p>" : `
+      <div style="overflow-x:auto"><table class="table">
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Personas</th></tr></thead>
+        <tbody>${filas}</tbody>
+      </table></div>`}
+      <button type="button" class="nc-btn" id="cerrarInscriptos">Cerrar</button>`;
+    document.body.appendChild(dialogo);
+    dialogo.querySelector("#cerrarInscriptos").onclick = function () { dialogo.close(); dialogo.remove(); };
+    dialogo.showModal();
+  } catch (error) {
+    alert("No se pudieron cargar los inscriptos: " + error.message);
+  }
 });

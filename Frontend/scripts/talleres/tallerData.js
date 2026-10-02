@@ -1,12 +1,12 @@
 const gestorTalleres = new GestorTalleres();
 
-function renderizarTalleres() {
+async function renderizarTalleres() {
   const grid = document.getElementById('talleresGrid');
   if (grid === null) {
     return; 
   }
 
-  const talleres = gestorTalleres.obtenerTalleres();
+  const talleres = await gestorTalleres.obtenerTalleres();
 
   if (talleres.length === 0) {
     grid.innerHTML = '<p>Todavía no hay talleres cargadas.</p>';
@@ -39,4 +39,8 @@ function renderizarTalleres() {
   grid.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarTalleres);
+document.addEventListener('DOMContentLoaded', function () {
+  renderizarTalleres().catch(function () {
+    mostrarErrorServidor(document.getElementById("talleresGrid"));
+  });
+});

@@ -1,6 +1,6 @@
 let contenedor = document.getElementById("detalleContenido");
 
-function renderizarCharla() {
+async function renderizarCharla() {
 
     let id = gestorCharlas.obtenerIdDesdeUrl();
 
@@ -9,7 +9,7 @@ function renderizarCharla() {
         return;
     }
 
-    const charla = gestorCharlas.obtenerCharlaPorId(id);
+    const charla = await gestorCharlas.obtenerCharlaPorId(id);
 
     if (!charla) {
         contenedor.innerHTML = '<p class="admin-vacio">No se encontró la charla.</p>';
@@ -135,6 +135,11 @@ function renderizarCharla() {
             btnMostrar.style.display = "none";
         });
     }
+    enlazarInscripcion("charla", charla.id);
 }
 
-document.addEventListener("DOMContentLoaded", renderizarCharla);
+document.addEventListener("DOMContentLoaded", function () {
+  renderizarCharla().catch(function () {
+    mostrarErrorServidor(contenedor);
+  });
+});

@@ -1,68 +1,38 @@
 class GestorRecorridos {
 
-    obtenerRecorridos() {
-        let recorridos = leerDeStorage(RECORRIDOS_KEY, null);
-
-        if (recorridos === null) {
-            recorridos = recorridosIniciales;
-            guardarEnStorage(RECORRIDOS_KEY, recorridos);
-        }
-
-        return recorridos;
+    async obtenerRecorridos() {
+        return await pedirApi("/recorridos");
     }
 
-    obtenerNumeroRecorridos() {
-        return this.obtenerRecorridos().length;
+    async obtenerNumeroRecorridos() {
+        const recorridos = await this.obtenerRecorridos();
+        return recorridos.length;
     }
 
-    guardarRecorridos(recorridos) {
-        guardarEnStorage(RECORRIDOS_KEY, recorridos);
-    }
-
-    obtenerRecorridoPorId(id) {
-        const recorridos = this.obtenerRecorridos();
-
-        for (let i = 0; i < recorridos.length; i++) {
-            if (recorridos[i].id === Number(id)) {
-            return recorridos[i];
+    async obtenerRecorridoPorId(id) {
+        try {
+            return await pedirApi("/recorridos/" + encodeURIComponent(id));
+        } catch (error) {
+            if (error.status === 404 || error.status === 400) {
+                return null;
             }
+            throw error;
         }
-
-        return null;
     }
 
-    agregarRecorrido(id,titulo,tipo,duracionHoras,duracionMinutos,imagen,puntoSalida,cupos,descripcionCorta) {
-        const recorridos = this.obtenerRecorridos();
-        let recorrido = new Recorrido(Date.now(),id,titulo,tipo,duracionHoras,duracionMinutos,imagen,puntoSalida,cupos,descripcionCorta)
-
-        recorridos.push(recorrido);
-
-        this.guardarRecorridos(recorridos);
+    async agregarRecorrido(titulo, tipo, duracionHoras, duracionMinutos, imagen, puntoSalida, cupos, descripcionCorta) {
+        return await pedirApi("/recorridos", {
+            method: "POST",
+            body: { titulo, tipo, duracionHoras, duracionMinutos, imagen, puntoSalida, cupos, descripcionCorta }
+        });
     }
 
-    marcarFinalizada(id) {
-        const recorridos = this.obtenerRecorridos();
-
-        for (let i = 0; i < recorridos.length; i++) {
-            if (recorridos[i].id === Number(id)) {
-                recorridos[i].finalizada = !recorridos[i].finalizada;
-            }
-        }
-
-        this.guardarRecorridos(recorridos);
+    async marcarFinalizada(id) {
+        return await pedirApi("/recorridos/" + encodeURIComponent(id) + "/finalizada", { method: "PATCH" });
     }
 
-    eliminarRecorrido(id) {
-        const recorridos = this.obtenerRecorridos();
-        const restantes = [];
-
-        for (let i = 0; i < recorridos.length; i++) {
-            if (recorridos[i].id !== Number(id)) {
-            restantes.push(recorridos[i]);
-            }
-        }
-
-        this.guardarRecorridos(restantes);
+    async eliminarRecorrido(id) {
+        return await pedirApi("/recorridos/" + encodeURIComponent(id), { method: "DELETE" });
     }
 
     obtenerIdDesdeUrl() {

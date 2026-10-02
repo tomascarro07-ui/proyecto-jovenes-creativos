@@ -1,6 +1,6 @@
 const contenedorRecurso = document.getElementById("detalleContenido");
 
-function renderizarRecurso() {
+async function renderizarRecurso() {
   if (contenedorRecurso === null) {
     return;
   }
@@ -12,7 +12,7 @@ function renderizarRecurso() {
     return;
   }
 
-  const recurso = gestorRecursos.obtenerRecursoPorId(id);
+  const recurso = await gestorRecursos.obtenerRecursoPorId(id);
 
   if (recurso === null) {
     contenedorRecurso.innerHTML = '<p class="admin-vacio">No se encontró el recurso.</p>';
@@ -57,4 +57,8 @@ function renderizarRecurso() {
   `;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarRecurso);
+document.addEventListener('DOMContentLoaded', function () {
+  renderizarRecurso().catch(function () {
+    mostrarErrorServidor(contenedorRecurso);
+  });
+});

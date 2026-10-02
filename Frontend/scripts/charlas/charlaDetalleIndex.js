@@ -1,9 +1,9 @@
 const gestorCharla = new GestorCharlas();
 
-function renderizarCharlas() {
+async function renderizarCharlas() {
 
   const grid = document.getElementById("charlasGrid");
-  const charlas = gestorCharla.obtenerCharlas();
+  const charlas = await gestorCharla.obtenerCharlas();
 
   let html = "";
   for(let i = 0; i < charlas.length; i++) {
@@ -30,4 +30,8 @@ function renderizarCharlas() {
   grid.innerHTML  = html;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarCharlas);
+document.addEventListener('DOMContentLoaded', function () {
+  renderizarCharlas().catch(function () {
+    mostrarErrorServidor(document.getElementById("charlasGrid"));
+  });
+});

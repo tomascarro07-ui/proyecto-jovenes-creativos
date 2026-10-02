@@ -1,9 +1,9 @@
 const gestorTalleres = new GestorTalleres();
 
-function renderizarTalleres() {
+async function renderizarTalleres() {
 
   const grid = document.getElementById("talleresGrid");
-  const talleres = gestorTalleres.obtenerTalleres();
+  const talleres = await gestorTalleres.obtenerTalleres();
 
   let html = "";
   for(let i = 0; i < talleres.length; i++) {
@@ -29,4 +29,8 @@ function renderizarTalleres() {
   grid.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarTalleres);
+document.addEventListener('DOMContentLoaded', function () {
+  renderizarTalleres().catch(function () {
+    mostrarErrorServidor(document.getElementById("talleresGrid"));
+  });
+});

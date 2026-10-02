@@ -26,7 +26,7 @@ function formatearDuracion(recorrido) {
 }
 
 
-function renderizarRecorridos() {
+async function renderizarRecorridos() {
 
   const grid = document.getElementById("recorridosGrid");
 
@@ -34,7 +34,7 @@ function renderizarRecorridos() {
     return;
   }
 
-  const recorridos = gestorRecorridos.obtenerRecorridos();
+  const recorridos = await gestorRecorridos.obtenerRecorridos();
 
   if (recorridos.length === 0) {
     grid.innerHTML = '<p>Todavía no hay recorridos cargados.</p>';
@@ -93,4 +93,8 @@ function renderizarRecorridos() {
 }
 
 
-document.addEventListener("DOMContentLoaded", renderizarRecorridos);
+document.addEventListener("DOMContentLoaded", function () {
+  renderizarRecorridos().catch(function () {
+    mostrarErrorServidor(document.getElementById("recorridosGrid"));
+  });
+});

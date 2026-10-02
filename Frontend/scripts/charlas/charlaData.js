@@ -1,12 +1,12 @@
 const gestorCharlas = new GestorCharlas();
 
-function renderizarCharlas() {
+async function renderizarCharlas() {
   const grid = document.getElementById('actividadesGrid');
   if (grid === null) {
     return; 
   }
 
-  const charlas = gestorCharlas.obtenerCharlas();
+  const charlas = await gestorCharlas.obtenerCharlas();
 
   if (charlas.length === 0) {
     grid.innerHTML = '<p>Todavía no hay charlas cargadas.</p>';
@@ -40,4 +40,8 @@ function renderizarCharlas() {
   grid.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarCharlas);
+document.addEventListener('DOMContentLoaded', function () {
+  renderizarCharlas().catch(function () {
+    mostrarErrorServidor(document.getElementById("actividadesGrid"));
+  });
+});

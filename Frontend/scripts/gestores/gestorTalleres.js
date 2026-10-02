@@ -1,70 +1,38 @@
 class GestorTalleres {
 
-    obtenerTalleres() {
-        let talleres = leerDeStorage(TALLERES_KEY, null);
-
-        if (talleres === null) {
-            talleres = talleresIniciales;
-            guardarEnStorage(TALLERES_KEY, talleres);
-        }
-
-        return talleres;
+    async obtenerTalleres() {
+        return await pedirApi("/talleres");
     }
 
-    obtenerNumeroTalleres() {
-        return this.obtenerTalleres().length;
+    async obtenerNumeroTalleres() {
+        const talleres = await this.obtenerTalleres();
+        return talleres.length;
     }
 
-    guardarTalleres(talleres) {
-        guardarEnStorage(TALLERES_KEY, talleres);
-    }
-
-    obtenerTallerPorId(id) {
-        const talleres = this.obtenerTalleres();
-
-        for (let i = 0; i < talleres.length; i++) {
-            if (talleres[i].id === Number(id)) {
-            return talleres[i];
+    async obtenerTallerPorId(id) {
+        try {
+            return await pedirApi("/talleres/" + encodeURIComponent(id));
+        } catch (error) {
+            if (error.status === 404 || error.status === 400) {
+                return null;
             }
+            throw error;
         }
-
-        return null;
     }
 
-    agregarTaller(titulo,tipo,modalidad,cantClases,cupos,imagen,descripcionCorta) {
-        const talleres = this.obtenerTalleres();
-        let taller = new Taller(titulo,tipo,modalidad,cantClases,cupos,imagen,descripcionCorta)
-
-        taller.id = Date.now();
-
-        talleres.push(taller);
-
-        this.guardarTalleres(talleres);
+    async agregarTaller(titulo, nivel, modalidad, cantClases, cupos, imagen, descripcionCorta) {
+        return await pedirApi("/talleres", {
+            method: "POST",
+            body: { titulo, nivel, modalidad, cantClases, cupos, imagen, descripcionCorta }
+        });
     }
 
-    marcarFinalizada(id) {
-        const talleres = this.obtenerTalleres();
-
-        for (let i = 0; i < talleres.length; i++) {
-            if (talleres[i].id === Number(id)) {
-                talleres[i].finalizada = !talleres[i].finalizada;
-            }
-        }
-
-        this.guardarTalleres(talleres);
+    async marcarFinalizada(id) {
+        return await pedirApi("/talleres/" + encodeURIComponent(id) + "/finalizada", { method: "PATCH" });
     }
 
-    eliminarTaller(id) {
-        const talleres = this.obtenerTalleres();
-        const restantes = [];
-
-        for (let i = 0; i < talleres.length; i++) {
-            if (talleres[i].id !== Number(id)) {
-            restantes.push(talleres[i]);
-            }
-        }
-
-        this.guardarTalleres(restantes);
+    async eliminarTaller(id) {
+        return await pedirApi("/talleres/" + encodeURIComponent(id), { method: "DELETE" });
     }
 
     obtenerIdDesdeUrl() {

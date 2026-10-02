@@ -2,32 +2,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const formRegistro = document.getElementById("form-registro");
   if (!formRegistro) return;
 
-  formRegistro.addEventListener("submit", function (e) {
+  formRegistro.addEventListener("submit", async function (e) {
     e.preventDefault();
-
-    const correo = document.getElementById("correo").value.trim();
-    const usuarios = leerDeStorage(USUARIOS_REGISTRADOS_KEY, []);
-
-    const yaExiste = usuarios.some(usuario => usuario.correo === correo);
-    if (yaExiste) {
-      alert("Ya existe una cuenta con ese correo.");
-      return;
+    try {
+      await pedirApi("/auth/registro", {
+        method: "POST",
+        body: {
+          correo: document.getElementById("correo").value.trim(),
+          nombre: document.getElementById("nombre").value.trim(),
+          apellido: document.getElementById("apellido").value.trim(),
+          contrasenia: document.getElementById("contrasenia").value,
+          fechaNacimiento: document.getElementById("nacimiento").value,
+        },
+      });
+      // Se registra y se pide iniciar sesión (como lo tenías antes)
+      guardarEnStorage(SESION_KEY, null);
+      window.location.href = "login.html";
+    } catch (error) {
+      alert(error.message);
     }
-
-    const nuevoUsuario = new Usuario(
-      usuarios.length + 1,
-      correo,
-      document.getElementById("nombre").value.trim(),
-      document.getElementById("apellido").value.trim(),
-      document.getElementById("contrasenia").value,
-      false,
-      document.getElementById("nacimiento").value
-    );
-
-    usuarios.push(nuevoUsuario);
-    guardarEnStorage(USUARIOS_REGISTRADOS_KEY, usuarios);
-
-    guardarEnStorage(SESION_KEY, nuevoUsuario);
-    window.location.href = "login.html";
   });
 });

@@ -1,12 +1,13 @@
 const gestorRecursos = new GestorRecursos();
 
-function renderizarRecursos() {
+async function renderizarRecursos() {
   const grid = document.getElementById('recursosGrid');
   if (grid === null) {
     return;
   }
 
-  const categorias = gestorRecursos.obtenerCategorias();
+  const todos = await gestorRecursos.obtenerRecursos();
+  const categorias = gestorRecursos.obtenerCategorias(todos);
 
   if (categorias.length === 0) {
     grid.innerHTML = '<p>Todavía no hay recursos cargados.</p>';
@@ -17,7 +18,7 @@ function renderizarRecursos() {
 
   for (let i = 0; i < categorias.length; i++) {
     const categoria = categorias[i];
-    const recursos = gestorRecursos.obtenerRecursosPorCategoria(categoria);
+    const recursos = gestorRecursos.obtenerRecursosPorCategoria(categoria, todos);
 
     html += `
       <div class="col-lg-6">
@@ -51,4 +52,8 @@ function renderizarRecursos() {
   grid.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', renderizarRecursos);
+document.addEventListener('DOMContentLoaded', function () {
+  renderizarRecursos().catch(function () {
+    mostrarErrorServidor(document.getElementById("recursosGrid"));
+  });
+});

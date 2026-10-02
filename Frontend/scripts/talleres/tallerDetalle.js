@@ -1,6 +1,6 @@
 let contenedor = document.getElementById("detalleContenido");
 
-function renderizarTaller() {
+async function renderizarTaller() {
 
     let id = gestorTalleres.obtenerIdDesdeUrl();
 
@@ -9,7 +9,7 @@ function renderizarTaller() {
         return;
     }
 
-    const taller = gestorTalleres.obtenerTallerPorId(id);
+    const taller = await gestorTalleres.obtenerTallerPorId(id);
 
     if (!taller) {
         contenedor.innerHTML = '<p class="admin-vacio">No se encontró el taller.</p>';
@@ -125,6 +125,11 @@ function renderizarTaller() {
             btnMostrar.style.display = "none";
         });
     }
+    enlazarInscripcion("taller", taller.id);
 }
 
-document.addEventListener("DOMContentLoaded", renderizarTaller);
+document.addEventListener("DOMContentLoaded", function () {
+  renderizarTaller().catch(function () {
+    mostrarErrorServidor(contenedor);
+  });
+});
