@@ -93,11 +93,6 @@ async function renderizarCharla() {
                                 <input type="tel" id="telefono" required placeholder="09X XXX XXX">
                             </div>
 
-                            <div class="auth-campo">
-                                <label for="cantidadPersonas">Cantidad de personas</label>
-                                <input type="number" id="cantidadPersonas" required min="1" max="${charla.cupos}" value="1">
-                            </div>
-
                             <button type="submit" class="nc-btn nc-btn--pill">
                                 <i class="fa-solid fa-paper-plane"></i>
                                 Enviar confirmación
@@ -135,6 +130,7 @@ async function renderizarCharla() {
             btnMostrar.style.display = "none";
         });
     }
+
     enlazarInscripcion("charla", charla.id);
 }
 

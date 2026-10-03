@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
           fechaNacimiento: document.getElementById("nacimiento").value,
         },
       });
-      // Se registra y se pide iniciar sesión (como lo tenías antes)
+      // Se registra y se pide iniciar sesión
       guardarEnStorage(SESION_KEY, null);
       window.location.href = "login.html";
     } catch (error) {

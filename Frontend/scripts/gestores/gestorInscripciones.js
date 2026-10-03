@@ -20,15 +20,14 @@ class GestorInscripciones {
 const gestorInscripciones = new GestorInscripciones();
 
 // Conecta el formulario #formConfirmacion de las páginas de detalle con el servidor.
-// Se llama al final de renderizarTaller / renderizarCharla / renderizarRecorrido.
 function enlazarInscripcion(tipo, idActividad) {
     const form = document.getElementById("formConfirmacion");
     if (!form) return;
 
-    // Pre-llenar con los datos de la cuenta; el email lo fija el servidor
     const usuario = validarSesion();
     if (usuario) {
         document.getElementById("nombre").value = (usuario.nombre + " " + (usuario.apellido || "")).trim();
+        document.getElementById("telefono").value = usuario.telefono || "";
         const email = document.getElementById("email");
         email.value = usuario.correo;
         email.readOnly = true;
@@ -43,8 +42,7 @@ function enlazarInscripcion(tipo, idActividad) {
                 tipo: tipo,
                 actividad: idActividad,
                 nombre: document.getElementById("nombre").value.trim(),
-                telefono: document.getElementById("telefono").value.trim(),
-                cantidadPersonas: parseInt(document.getElementById("cantidadPersonas").value, 10)
+                telefono: document.getElementById("telefono").value.trim()
             });
             alert("¡Inscripción confirmada! Podés verla en \"Mis inscripciones\".");
             window.location.reload();

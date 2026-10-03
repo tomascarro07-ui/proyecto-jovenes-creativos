@@ -50,15 +50,9 @@ async function renderizarTaller() {
                 </dl>
 
                 <div class="charla-detalle__footer">
-
-                    <span class="charla-detalle__cupos">
-                        <i class="fa-solid fa-users"></i> ${taller.cupos} cupos disponibles
-                    </span>
-
                     <button type="button" id="btnMostrarForm" class="nc-btn">
                         Inscribirme
                     </button>
-
                 </div>
 
             </div>
@@ -125,6 +119,7 @@ async function renderizarTaller() {
             btnMostrar.style.display = "none";
         });
     }
+
     enlazarInscripcion("taller", taller.id);
 }
 

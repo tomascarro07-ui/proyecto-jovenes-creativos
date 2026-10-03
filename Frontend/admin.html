@@ -5,11 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nodo Cultural - Administración</title>
-  <style>html { visibility: hidden; }</style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <style>html { visibility: hidden; }</style>
 </head>
 
 <body class="nc-home">
@@ -250,6 +250,17 @@
               <input type="text" id="taller-lugar" required placeholder="Ej: Barrio Histórico">
             </div>
 
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="taller-fecha">Fecha (para el calendario)</label>
+                <input type="date" id="taller-fecha">
+              </div>
+              <div class="auth-campo">
+                <label for="taller-hora">Hora</label>
+                <input type="time" id="taller-hora">
+              </div>
+            </div>
+
             <div class="auth-campo">
               <label for="taller-descripcion">Descripción</label>
               <textarea id="taller-descripcion" required rows="3" placeholder="Breve descripción del taller"></textarea>
@@ -328,6 +339,17 @@
               <input type="url" id="recorrido-imagen" required placeholder="https://...">
             </div>
 
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="recorrido-fecha">Fecha (para el calendario)</label>
+                <input type="date" id="recorrido-fecha">
+              </div>
+              <div class="auth-campo">
+                <label for="recorrido-hora">Hora</label>
+                <input type="time" id="recorrido-hora">
+              </div>
+            </div>
+            
             <div class="auth-campo">
               <label for="recorrido-descripcionCorta">Descripción corta</label>
               <textarea id="recorrido-descripcionCorta" required rows="3" placeholder="Breve descripción del recorrido"></textarea>
@@ -502,10 +524,11 @@
 
   <script src="scripts/base/storage.js"></script>
   <script src="scripts/base/key.js"></script>
-  <script src="scripts/base/config.js"></script>
-  <script src="scripts/base/api.js"></script>
   <script src="scripts/auth/autenticacion.js"></script>
   <script src="scripts/base/headerSesion.js"></script>
+  <script src="scripts/base/config.js"></script>
+  <script src="scripts/base/api.js"></script>
+  <script src="scripts/gestores/gestorInscripciones.js"></script>
   <script src="scripts/gestores/gestorCharlas.js"></script>
   <script src="scripts/charlas/charlaData.js"></script>
   <script src="scripts/gestores/gestorTalleres.js"></script>
@@ -514,7 +537,6 @@
   <script src="scripts/recorridos/recorridoData.js"></script>
   <script src="scripts/gestores/gestorRecursos.js"></script>
   <script src="scripts/recursos/recursosData.js"></script>
-  <script src="scripts/gestores/gestorInscripciones.js"></script>
   <script src="scripts/admin/admin.js"></script>
 </body>
 

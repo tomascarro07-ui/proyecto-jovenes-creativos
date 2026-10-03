@@ -16,7 +16,7 @@ router.post("/", verificarToken, async (req, res) => {
     const tipo = String(req.body.tipo || "");
     const Modelo = MODELOS[tipo];
     const idActividad = String(req.body.actividad || "");
-    const cantidad = Number(req.body.cantidadPersonas);
+    const cantidad = 1;
     const nombre = limpiar(req.body.nombre);
     const telefono = limpiar(req.body.telefono);
 
@@ -73,7 +73,18 @@ router.post("/", verificarToken, async (req, res) => {
 router.get("/mias", verificarToken, async (req, res) => {
   try {
     const lista = await Inscripcion.find({ usuario: req.usuario._id }).sort({ createdAt: -1 });
-    res.json(lista);
+
+    const estado = {};
+    for (const tipo of Object.keys(MODELOS)) {
+      const ids = lista.filter((i) => i.tipo === tipo).map((i) => i.actividad);
+      const docs = ids.length ? await MODELOS[tipo].find({ _id: { $in: ids } }).select("_id finalizada") : [];
+      estado[tipo] = new Map(docs.map((d) => [String(d._id), d.finalizada]));
+    }
+
+    res.json(lista.map((i) => {
+      const fin = estado[i.tipo].get(String(i.actividad));
+      return { ...i.toJSON(), disponible: fin !== undefined, finalizada: fin === true };
+    }));
   } catch (e) {
     res.status(500).json({ error: "No se pudieron obtener tus inscripciones" });
   }

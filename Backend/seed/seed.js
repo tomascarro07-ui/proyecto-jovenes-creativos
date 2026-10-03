@@ -4,6 +4,7 @@ const Taller = require("../models/Taller");
 const Charla = require("../models/Charla");
 const Recorrido = require("../models/Recorrido");
 const Recurso = require("../models/Recurso");
+const Inscripcion = require("../models/Inscripcion");
 const { talleres, charlas, recorridos, recursos } = require("./datos");
 
 async function cargar(Modelo, datos, nombre) {
@@ -18,6 +19,7 @@ async function sembrar() {
   await cargar(Charla, charlas, "Charlas");
   await cargar(Recorrido, recorridos, "Recorridos");
   await cargar(Recurso, recursos, "Recursos");
+  await Inscripcion.deleteMany({});
   await mongoose.disconnect();
 }
 

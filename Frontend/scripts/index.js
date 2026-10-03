@@ -55,7 +55,7 @@ async function renderizarCarruselCharlas() {
           <span class="nc-slide__etiqueta">Evento destacado</span>
           <h2>${charla.titulo}</h2>
           <p>${formatearFechaLarga(charla.fecha)}, ${charla.lugar}</p>
-          <a href="charla-detalle.html?idCharla=${charla.id}" class="nc-btn nc-btn--claro">Ver más</a>
+          <a href="charla-detalle.html?idCharla=${charla.id}" class="insc-btn insc-btn--primario">Ver más</a>
         </div>
       </div>
     `;

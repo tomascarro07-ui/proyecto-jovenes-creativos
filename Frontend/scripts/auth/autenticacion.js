@@ -38,3 +38,11 @@ async function protegerPagina() {
         return false;
     }
 }
+
+function actualizarSesionUsuario(usuario) {
+    const sesion = leerDeStorage(SESION_KEY, null);
+    if (!sesion) return;
+    sesion.usuario = usuario;
+    guardarEnStorage(SESION_KEY, sesion);
+    usuarioActual = usuario;
+}

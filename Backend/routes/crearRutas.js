@@ -1,5 +1,6 @@
 const { verificarToken, soloAdmin } = require("../middleware/auth");
 const express = require("express");
+const Valoracion = require("../models/Valoracion");
 
 function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
   const router = express.Router();
@@ -67,6 +68,15 @@ function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
       const item = await Modelo.findByIdAndDelete(req.params.id);
       if (!item) {
         return res.status(404).json({ error: "No encontrado" });
+      }
+      // Borrado en cascada: se eliminan las inscripciones de esa actividad
+      if (TIPO_INSCRIPCION[nombre]) {
+        await Inscripcion.deleteMany({ tipo: TIPO_INSCRIPCION[nombre], actividad: item._id });
+      }
+      if (nombre === "recorridos") {
+        await Valoracion.deleteMany({
+          recorrido: item._id
+        });
       }
       res.json({ mensaje: "Eliminado" });
     } catch (error) {

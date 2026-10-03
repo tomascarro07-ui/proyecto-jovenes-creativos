@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Detalle charla</title>
+  <title>Nodo Cultural - Mi cuenta</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -47,54 +47,53 @@
     </div>
   </header>
 
-  <main class="detalle-main">
-    <div class="volver">
-      <a href="charlas.html" class="nc-btn nc-btn--pill"><i class="fa-solid fa-left-long"></i> Volver a charlas</a>
-    </div>
-    <div id="detalleContenido" class="detalle-wrapper"></div>
-
-  </main>
-
-  <div class="modal" tabindex="-1" id="mensajeLogin">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal-cuenta">
-
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="bi bi-lock-fill me-2"></i>
-                    Necesitás una cuenta
-                </h5>
-
-                <button type="button" class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Cerrar">
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>
-                    Para inscribirte a esta charla necesitás tener una cuenta.
-                </p>
-
-                <p>
-                    Podés iniciar sesión si ya tenés una cuenta o registrarte
-                    para crear una nueva.
-                </p>
-            </div>
-
-            <div class="modal-footer">
-                <a href="login.html" class="btn btn-outline-secondary">
-                    Iniciar sesión
-                </a>
-
-                <a href="registro.html" class="btn btn-cuenta">
-                    Registrarme
-                </a>
-            </div>
-
+  <main class="insc-main">
+    <header class="insc-hero cuenta-hero">
+        <div class="cuenta-avatar" id="cuentaAvatar"></div>
+        <div class="cuenta-hero__info">
+        <p class="insc-hero__eyebrow">Mi cuenta</p>
+        <h1 id="cuentaNombre"></h1>
+        <p class="insc-hero__sub" id="cuentaCorreo"></p>
+        <div class="cuenta-hero__acciones">
+            <label class="insc-btn insc-btn--primario" for="inputFoto"><i class="fa-solid fa-camera"></i> Cambiar foto</label>
+            <input type="file" id="inputFoto" accept="image/*" hidden>
+            <button type="button" class="insc-btn insc-btn--peligro" id="btnQuitarFoto" hidden>Quitar foto</button>
         </div>
+        </div>
+        <div class="insc-resumen" id="cuentaStats"></div>
+    </header>
+
+    <div class="cuenta-grid">
+        <section class="cuenta-card">
+        <h2>Datos personales</h2>
+        <form id="formDatos" class="cuenta-form">
+            <div class="cuenta-form__fila">
+            <div class="cuenta-campo"><label for="cuenta-nombre">Nombre</label><input id="cuenta-nombre" maxlength="40" required></div>
+            <div class="cuenta-campo"><label for="cuenta-apellido">Apellido</label><input id="cuenta-apellido" maxlength="40"></div>
+            </div>
+            <div class="cuenta-campo"><label for="cuenta-correo">Correo</label><input id="cuenta-correo" readonly></div>
+            <div class="cuenta-form__fila">
+            <div class="cuenta-campo"><label for="cuenta-telefono">Teléfono</label><input id="cuenta-telefono" type="tel" maxlength="20" placeholder="09X XXX XXX"></div>
+            <div class="cuenta-campo"><label for="cuenta-nacimiento">Fecha de nacimiento</label><input id="cuenta-nacimiento" type="date"></div>
+            </div>
+            <div class="cuenta-campo"><label for="cuenta-bio">Sobre mí</label><textarea id="cuenta-bio" rows="3" maxlength="200" placeholder="Contanos algo sobre vos (máx. 200 caracteres)"></textarea></div>
+            <button type="submit" class="insc-btn insc-btn--primario"><i class="fa-solid fa-floppy-disk"></i> Guardar cambios</button>
+        </form>
+        </section>
+
+        <section class="cuenta-card">
+        <h2>Seguridad</h2>
+        <form id="formPass" class="cuenta-form">
+            <div class="cuenta-campo"><label for="pass-actual">Contraseña actual</label><input id="pass-actual" type="password" required></div>
+            <div class="cuenta-campo"><label for="pass-nueva">Nueva contraseña</label><input id="pass-nueva" type="password" minlength="8" required></div>
+            <div class="cuenta-campo"><label for="pass-repetir">Repetir nueva contraseña</label><input id="pass-repetir" type="password" minlength="8" required></div>
+            <button type="submit" class="insc-btn insc-btn--primario"><i class="fa-solid fa-lock"></i> Cambiar contraseña</button>
+        </form>
+        <a href="mis-inscripciones.html" class="insc-btn insc-btn--peligro cuenta-link"><i class="fa-regular fa-calendar-check"></i> Ver mis inscripciones</a>
+        </section>
     </div>
-</div>
+    <div class="cuenta-aviso" id="cuentaAviso" role="status"></div>
+    </main>
 
   <footer class="site-footer">
     <div class="site-footer__inner">
@@ -155,15 +154,11 @@
 
   <script src="scripts/base/storage.js"></script>
   <script src="scripts/base/key.js"></script>
-  <script src="scripts/auth/autenticacion.js"></script>
-  <script src="scripts/base/headerSesion.js"></script>
   <script src="scripts/base/config.js"></script>
   <script src="scripts/base/api.js"></script>
-  <script src="scripts/gestores/gestorInscripciones.js"></script>
-  <script src="scripts/gestores/gestorCharlas.js"></script>
-  <script src="scripts/charlas/charlaData.js"></script>
-  <script src="scripts/charlas/charlaDetalle.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/base/headerSesion.js"></script>
+  <script src="scripts/cuenta/cuenta.js"></script>
 </body>
 
 </html>

@@ -8,6 +8,9 @@ const usuarioSchema = new mongoose.Schema(
     contrasenia: { type: String, required: true, select: false },
     esAdministrador: { type: Boolean, default: false },
     fechaNacimiento: { type: String, default: "" },
+    telefono: { type: String, trim: true, maxlength: 20, default: "" },
+    bio: { type: String, trim: true, maxlength: 200, default: "" },
+    foto: { type: String, default: "" }
   },
   { timestamps: true }
 );

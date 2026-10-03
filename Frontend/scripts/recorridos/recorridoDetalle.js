@@ -151,20 +151,6 @@ async function renderizarRecorrido() {
                                 placeholder="09X XXX XXX">
                         </div>
 
-                        <div class="auth-campo">
-                            <label for="cantidadPersonas">
-                                Cantidad de personas
-                            </label>
-
-                            <input
-                                type="number"
-                                id="cantidadPersonas"
-                                required
-                                min="1"
-                                max="${recorrido.cupos}"
-                                value="1">
-                        </div>
-
                         <button
                             type="submit"
                             class="nc-btn nc-btn--pill">
@@ -207,7 +193,9 @@ async function renderizarRecorrido() {
             btnMostrar.style.display = "none";
         });
     }
+
     enlazarInscripcion("recorrido", recorrido.id);
+    cargarValoraciones(recorrido.id);
 }
 
 

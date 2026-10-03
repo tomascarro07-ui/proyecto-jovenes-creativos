@@ -21,9 +21,13 @@ function crearToken(usuario) {
 }
 
 function datosPublicos(u) {
-  return { id: u._id, correo: u.correo, nombre: u.nombre, apellido: u.apellido, esAdministrador: u.esAdministrador };
+  return {
+    id: u._id, correo: u.correo, nombre: u.nombre, apellido: u.apellido,
+    telefono: u.telefono || "", fechaNacimiento: u.fechaNacimiento || "",
+    bio: u.bio || "", foto: u.foto || "",
+    esAdministrador: u.esAdministrador, creadoEn: u.createdAt,
+  };
 }
-
 // POST /api/auth/registro  (SIEMPRE crea usuarios normales)
 router.post("/registro", limitador, async (req, res) => {
   try {
@@ -79,6 +83,64 @@ router.post("/login", limitador, async (req, res) => {
 // GET /api/auth/yo  → el frontend lo usa para validar la sesión de verdad
 router.get("/yo", verificarToken, (req, res) => {
   res.json({ usuario: datosPublicos(req.usuario) });
+});
+
+const TEL_OK = /^[0-9+\s()-]{0,20}$/;
+const FOTO_OK = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/;
+
+// PATCH /api/auth/yo → editar mi perfil
+router.patch("/yo", verificarToken, async (req, res) => {
+  try {
+    const u = req.usuario;
+    const b = req.body;
+
+    if (b.nombre !== undefined) {
+      const nombre = limpiar(b.nombre);
+      if (!nombre) return res.status(400).json({ error: "El nombre no puede estar vacío" });
+      u.nombre = nombre;
+    }
+    if (b.apellido !== undefined) u.apellido = limpiar(b.apellido);
+    if (b.bio !== undefined) u.bio = limpiar(b.bio);
+    if (b.fechaNacimiento !== undefined) u.fechaNacimiento = limpiar(b.fechaNacimiento);
+    if (b.telefono !== undefined) {
+      const tel = limpiar(b.telefono);
+      if (!TEL_OK.test(tel)) return res.status(400).json({ error: "Teléfono inválido" });
+      u.telefono = tel;
+    }
+    if (b.foto !== undefined) {
+      const foto = String(b.foto);
+      if (foto !== "" && (foto.length > 70000 || !FOTO_OK.test(foto))) {
+        return res.status(400).json({ error: "La foto no es válida o pesa demasiado" });
+      }
+      u.foto = foto;
+    }
+
+    await u.save();
+    res.json({ usuario: datosPublicos(u) });
+  } catch (e) {
+    res.status(400).json({ error: "No se pudo actualizar el perfil" });
+  }
+});
+
+// PATCH /api/auth/contrasenia
+router.patch("/contrasenia", limitador, verificarToken, async (req, res) => {
+  try {
+    const actual = String(req.body.actual || "");
+    const nueva = String(req.body.nueva || "");
+    if (nueva.length < 8) {
+      return res.status(400).json({ error: "La nueva contraseña debe tener al menos 8 caracteres" });
+    }
+    const u = await Usuario.findById(req.usuario._id).select("+contrasenia");
+    if (!(await bcrypt.compare(actual, u.contrasenia))) {
+      // 400 y no 401: un 401 haría que el frontend cierre la sesión
+      return res.status(400).json({ error: "La contraseña actual es incorrecta" });
+    }
+    u.contrasenia = await bcrypt.hash(nueva, 12);
+    await u.save();
+    res.json({ mensaje: "Contraseña actualizada" });
+  } catch (e) {
+    res.status(500).json({ error: "No se pudo cambiar la contraseña" });
+  }
 });
 
 module.exports = router;

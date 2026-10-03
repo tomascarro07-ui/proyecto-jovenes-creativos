@@ -168,7 +168,9 @@ if (formTaller) {
       parseInt(document.getElementById('taller-duracion').value),
       parseInt(document.getElementById('taller-cupos').value),
       document.getElementById('taller-imagen').value,
-      document.getElementById('taller-descripcion').value.trim()
+      document.getElementById('taller-descripcion').value.trim(),
+      document.getElementById('taller-fecha').value,
+      document.getElementById('taller-hora').value
     );
 
     formTaller.reset();
@@ -253,7 +255,9 @@ if (formRecorrido) {
       document.getElementById("recorrido-imagen").value,
       document.getElementById("recorrido-puntoSalida").value.trim(),
       parseInt(document.getElementById("recorrido-cupos").value.trim()),
-      document.getElementById("recorrido-descripcionCorta").value.trim()
+      document.getElementById("recorrido-descripcionCorta").value.trim(),
+      document.getElementById('recorrido-fecha').value,
+      document.getElementById('recorrido-hora').value
     );
 
     formRecorrido.reset();
@@ -372,19 +376,18 @@ document.addEventListener("click", async function (e) {
 
   try {
     const inscriptos = await gestorInscripciones.deActividad(boton.dataset.tipo, boton.dataset.id);
-    const personas = inscriptos.reduce((t, i) => t + i.cantidadPersonas, 0);
 
     let filas = inscriptos.map(function (i) {
-      return `<tr><td>${escaparHtml(i.nombre)}</td><td>${escaparHtml(i.correo)}</td><td>${escaparHtml(i.telefono)}</td><td>${i.cantidadPersonas}</td></tr>`;
+      return `<tr><td>${escaparHtml(i.nombre)}</td><td>${escaparHtml(i.correo)}</td><td>${escaparHtml(i.telefono)}</td></tr>`;
     }).join("");
 
     const dialogo = document.createElement("dialog");
     dialogo.style.cssText = "max-width:90vw;border-radius:12px;padding:1.5rem;";
     dialogo.innerHTML = `
-      <h3>Inscriptos (${inscriptos.length} · ${personas} personas)</h3>
+      <h3>Inscriptos (${inscriptos.length})</h3>
       ${inscriptos.length === 0 ? "<p>Todavía no hay inscriptos.</p>" : `
       <div style="overflow-x:auto"><table class="table">
-        <thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Personas</th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th></tr></thead>
         <tbody>${filas}</tbody>
       </table></div>`}
       <button type="button" class="nc-btn" id="cerrarInscriptos">Cerrar</button>`;

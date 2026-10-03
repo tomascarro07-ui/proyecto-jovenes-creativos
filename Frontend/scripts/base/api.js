@@ -29,9 +29,11 @@ async function pedirApi(ruta, opciones) {
   }
 
   if (!respuesta.ok) {
+    if (respuesta.status === 401 && ruta.indexOf("/auth/login") === -1) {
+      guardarEnStorage(SESION_KEY, null); // token vencido o inválido
+    }
     const error = new Error((datos && datos.error) || "Error del servidor");
     error.status = respuesta.status;
-    guardarEnStorage(SESION_KEY, null);
     throw error;
   }
 
