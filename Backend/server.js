@@ -24,6 +24,24 @@ app.use(helmet());
 app.use(cors({ origin: (process.env.FRONTEND_ORIGIN || "").split(",") }));
 app.use(express.json({ limit: "100kb" }));
 
+// Conexión a MongoDB reutilizada entre peticiones (necesario en Vercel)
+let conexion = null;
+function asegurarDB() {
+  if (!conexion) conexion = conectarDB();
+  return conexion;
+}
+
+app.use(async (req, res, next) => {
+  try {
+    await asegurarDB();
+    next();
+  } catch (error) {
+    conexion = null;
+    console.error("Error de MongoDB:", error.message);
+    res.status(500).json({ error: "No se pudo conectar a la base de datos" });
+  }
+});
+
 app.get("/api/salud", (req, res) => {
   res.json({ estado: "ok", mensaje: "El servidor funciona" });
 });
@@ -38,12 +56,17 @@ app.use("/api/valoraciones", valoracionesRoutes);
 app.use("/api/museos", museosRoutes);
 app.use("/api/mapa", mapaRoutes);
 
-conectarDB()
-  .then(() => {
-    app.listen(PUERTO, () => {
-      console.log(`Servidor escuchando en http://localhost:${PUERTO}`);
+// Solo escucha en un puerto cuando lo corrés en tu PC (npm run dev)
+if (require.main === module) {
+  asegurarDB()
+    .then(() => {
+      app.listen(PUERTO, () => {
+        console.log(`Servidor escuchando en http://localhost:${PUERTO}`);
+      });
+    })
+    .catch((error) => {
+      console.error("No se pudo conectar a MongoDB:", error.message);
     });
-  })
-  .catch((error) => {
-    console.error("No se pudo conectar a MongoDB:", error.message);
-  });
+}
+
+module.exports = app;
