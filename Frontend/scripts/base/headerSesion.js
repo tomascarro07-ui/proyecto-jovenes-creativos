@@ -8,14 +8,19 @@ function avatarHeader(u) {
         : `<span class="hdr-avatar">${escaparHtml(iniciales(u))}</span>`;
 }
 
-function agregarLinkCalendario() {
+function agregarLinkMenu(href, texto) {
     const ul = document.querySelector(".site-nav ul");
-    if (!ul || ul.querySelector('a[href="calendario.html"]')) return;
-    const actual = window.location.pathname.split("/").pop() === "calendario.html";
+    if (!ul || ul.querySelector('a[href="' + href + '"]')) return;
+    const actual = window.location.pathname.split("/").pop() === href;
     const li = document.createElement("li");
-    li.innerHTML = `<a href="calendario.html"${actual ? ' aria-current="page"' : ""}>Calendario</a>`;
+    li.innerHTML = `<a href="${href}"${actual ? ' aria-current="page"' : ""}>${texto}</a>`;
     const contacto = ul.querySelector('a[href="contacto.html"]');
     ul.insertBefore(li, contacto ? contacto.parentElement : null);
+}
+
+function agregarLinkCalendario() {
+    agregarLinkMenu("mapa.html", "Mapa cultural");
+    agregarLinkMenu("calendario.html", "Calendario");
 }
 
 function actualizarHeaderSesion() {

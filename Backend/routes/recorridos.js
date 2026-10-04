@@ -3,6 +3,6 @@ const crearRutas = require("./crearRutas");
 
 module.exports = crearRutas(Recorrido, {
   nombre: "recorridos",
-  campos: ["titulo", "tipo", "duracionHoras", "duracionMinutos", "imagen", "puntoSalida", "cupos", "descripcionCorta","fecha","hora"],
+  campos: ["titulo", "tipo", "duracionHoras", "duracionMinutos", "imagen", "puntoSalida", "cupos", "descripcionCorta", "fecha", "hora", "lat", "lng", "museo"],
   finalizable: true,
 });

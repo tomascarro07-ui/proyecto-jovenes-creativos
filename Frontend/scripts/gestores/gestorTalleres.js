@@ -20,10 +20,10 @@ class GestorTalleres {
         }
     }
 
-    async agregarTaller(titulo, nivel, modalidad, cantClases, cupos, imagen, descripcionCorta, fecha = "", hora = "") {
+    async agregarTaller(titulo, nivel, modalidad, cantClases, cupos, imagen, descripcionCorta, fecha = "", hora = "", lat = null, lng = null, lugar = "", museo = null) {
         return await pedirApi("/talleres", {
             method: "POST",
-            body: { titulo, nivel, modalidad, cantClases, cupos, imagen, descripcionCorta, fecha, hora }
+            body: { titulo, nivel, modalidad, cantClases, cupos, imagen, descripcionCorta, fecha, hora, lat, lng, lugar, museo }
         });
     }
 

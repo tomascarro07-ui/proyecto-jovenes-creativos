@@ -10,6 +10,8 @@ const recursosRoutes = require("./routes/recursos");
 const authRoutes = require("./routes/auth");
 const inscripcionesRoutes = require("./routes/inscripciones");
 const valoracionesRoutes = require("./routes/valoraciones");
+const museosRoutes = require("./routes/museos");
+const mapaRoutes = require("./routes/mapa");
 
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
   throw new Error("Falta JWT_SECRET (mínimo 32 caracteres) en .env");
@@ -33,6 +35,8 @@ app.use("/api/recorridos", recorridosRoutes);
 app.use("/api/recursos", recursosRoutes);
 app.use("/api/inscripciones", inscripcionesRoutes);
 app.use("/api/valoraciones", valoracionesRoutes);
+app.use("/api/museos", museosRoutes);
+app.use("/api/mapa", mapaRoutes);
 
 conectarDB()
   .then(() => {

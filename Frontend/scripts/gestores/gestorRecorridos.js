@@ -20,10 +20,10 @@ class GestorRecorridos {
         }
     }
 
-    async agregarRecorrido(titulo, tipo, duracionHoras, duracionMinutos, imagen, puntoSalida, cupos, descripcionCorta, fecha = "", hora = "") {
+    async agregarRecorrido(titulo, tipo, duracionHoras, duracionMinutos, imagen, puntoSalida, cupos, descripcionCorta, fecha = "", hora = "", lat = null, lng = null, museo = null) {
         return await pedirApi("/recorridos", {
             method: "POST",
-            body: { titulo, tipo, duracionHoras, duracionMinutos, imagen, puntoSalida, cupos, descripcionCorta, fecha, hora }
+            body: { titulo, tipo, duracionHoras, duracionMinutos, imagen, puntoSalida, cupos, descripcionCorta, fecha, hora, lat, lng, museo }
         });
     }
 

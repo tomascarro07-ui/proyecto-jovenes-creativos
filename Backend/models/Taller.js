@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const camposUbicacion = require("./Ubicacion");
 
 const tallerSchema = new mongoose.Schema(
   {
@@ -9,9 +10,11 @@ const tallerSchema = new mongoose.Schema(
     cupos: { type: Number, required: true, min: 0 },
     imagen: { type: String, default: "" },
     descripcionCorta: { type: String, required: true },
+    ...camposUbicacion,
     finalizada: { type: Boolean, default: false },
-        fecha: { type: String, default: "", match: /^(\d{4}-\d{2}-\d{2})?$/ },
+    fecha: { type: String, default: "", match: /^(\d{4}-\d{2}-\d{2})?$/ },
     hora: { type: String, default: "" },
+    lugar: { type: String, trim: true, default: "" }
   },
   { timestamps: true }
 );

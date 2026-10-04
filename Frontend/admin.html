@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="css/styles.css">
   <style>html { visibility: hidden; }</style>
 </head>
@@ -56,6 +57,7 @@
         <a href="#gestion-charlas"><i class="fa-solid fa-comments"></i> Charlas</a>
         <a href="#gestion-talleres"><i class="fa-solid fa-palette"></i> Talleres</a>
         <a href="#gestion-recorridos"><i class="fa-solid fa-route"></i> Recorridos</a>
+        <a href="#gestion-museos"><i class="fa-solid fa-landmark"></i> Museos</a>
       </nav>
     </section>
 
@@ -121,6 +123,13 @@
 
             <div class="auth-fila">
               <div class="auth-campo">
+                <label for="charla-cupos">Cupos</label>
+                <input type="number" id="charla-cupos" required min="1" value="1">
+              </div>
+            </div>
+
+                        <div class="auth-fila">
+              <div class="auth-campo">
                 <label for="charla-fecha">Fecha</label>
                 <input type="date" id="charla-fecha" required>
               </div>
@@ -131,16 +140,26 @@
               </div>
             </div>
 
-            <div class="auth-fila">
-              <div class="auth-campo">
-                <label for="charla-lugar">Lugar</label>
-                <input type="text" id="charla-lugar" required placeholder="Ej: Museo Portugués">
-              </div>
+            <div class="auth-campo" data-lugar>
+              <label for="charla-lugar-select">Lugar</label>
+              <select id="charla-lugar-select" data-lugar-select required>
+                <option value="">Cargando lugares...</option>
+              </select>
 
-              <div class="auth-campo">
-                <label for="charla-cupos">Cupos</label>
-                <input type="number" id="charla-cupos" required min="1" value="1">
+              <div class="lugar-otro" data-lugar-otro data-ubicacion hidden>
+                <input type="text" data-lugar-texto maxlength="120" placeholder="Nombre del lugar (ej: Plaza Mayor)">
+                <input type="hidden" data-lat>
+                <input type="hidden" data-lng>
+                <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                  <i class="fa-solid fa-location-dot"></i> Marcar ubicación
+                </button>
+                <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
               </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-cupos">Cupos</label>
+              <input type="number" id="charla-cupos" required min="1" value="1">
             </div>
 
             <div class="auth-campo">
@@ -245,9 +264,21 @@
               <input type="url" id="taller-imagen" required placeholder="https://...">
             </div>
 
-            <div class="auth-campo">
-              <label for="taller-lugar">Lugar</label>
-              <input type="text" id="taller-lugar" required placeholder="Ej: Barrio Histórico">
+            <div class="auth-campo" data-lugar>
+              <label for="taller-lugar-select">Lugar</label>
+              <select id="taller-lugar-select" data-lugar-select required>
+                <option value="">Cargando lugares...</option>
+              </select>
+
+              <div class="lugar-otro" data-lugar-otro data-ubicacion hidden>
+                <input type="text" data-lugar-texto maxlength="120" placeholder="Nombre del lugar (ej: Plaza Mayor)">
+                <input type="hidden" data-lat>
+                <input type="hidden" data-lng>
+                <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                  <i class="fa-solid fa-location-dot"></i> Marcar ubicación
+                </button>
+                <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
+              </div>
             </div>
 
             <div class="auth-fila">
@@ -329,9 +360,21 @@
               <input type="text" id="recorrido-tipo" required placeholder="Ej: Clásico">
             </div>
 
-            <div class="auth-campo">
-              <label for="recorrido-puntoSalida">Punto de salida</label>
-              <input type="text" id="recorrido-puntoSalida" required placeholder="Ej: Plaza 25 de Mayo">
+            <div class="auth-campo" data-lugar>
+              <label for="recorrido-lugar-select">Lugar / punto de salida</label>
+              <select id="recorrido-lugar-select" data-lugar-select required>
+                <option value="">Cargando lugares...</option>
+              </select>
+
+              <div class="lugar-otro" data-lugar-otro data-ubicacion hidden>
+                <input type="text" data-lugar-texto maxlength="120" placeholder="Nombre del lugar (ej: Plaza Mayor)">
+                <input type="hidden" data-lat>
+                <input type="hidden" data-lng>
+                <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                  <i class="fa-solid fa-location-dot"></i> Marcar ubicación
+                </button>
+                <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
+              </div>
             </div>
 
             <div class="auth-campo">
@@ -463,6 +506,65 @@
       </div>
     </section>
 
+        <section id="gestion-museos" aria-labelledby="museosSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="museosSeccionTitulo"><i class="fa-solid fa-landmark"></i> Museos</h2>
+      </div>
+
+      <div class="admin-layout">
+        <section class="admin-panel" aria-labelledby="nuevoMuseoTitulo">
+          <div class="nc-seccion__cabecera"><h3 id="nuevoMuseoTitulo">Agregar nuevo museo</h3></div>
+
+          <form id="formMuseo" class="auth-form">
+            <div class="auth-campo">
+              <label for="museo-nombre">Nombre</label>
+              <input type="text" id="museo-nombre" required maxlength="120" placeholder="Ej: Museo Portugués">
+            </div>
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="museo-tipo">Tipo</label>
+                <input type="text" id="museo-tipo" required maxlength="40" placeholder="Ej: Histórico">
+              </div>
+              <div class="auth-campo">
+                <label for="museo-horario">Horario</label>
+                <input type="text" id="museo-horario" maxlength="120" placeholder="Ej: Mar a Dom, 11 a 17 hs">
+              </div>
+            </div>
+            <div class="auth-campo">
+              <label for="museo-direccion">Dirección</label>
+              <input type="text" id="museo-direccion" maxlength="120" placeholder="Ej: Calle de los Suspiros 123">
+            </div>
+            <div class="auth-campo">
+              <label for="museo-imagen">URL de la imagen (opcional)</label>
+              <input type="url" id="museo-imagen" placeholder="https://...">
+            </div>
+            <div class="auth-campo">
+              <label for="museo-descripcion">Descripción</label>
+              <textarea id="museo-descripcion" required rows="3" maxlength="600" placeholder="Breve descripción del museo"></textarea>
+            </div>
+
+            <div class="auth-campo" data-ubicacion>
+              <label>Ubicación en el mapa cultural</label>
+              <input type="hidden" data-lat>
+              <input type="hidden" data-lng>
+              <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                <i class="fa-solid fa-location-dot"></i> Marcar en el mapa
+              </button>
+              <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
+            </div>
+
+            <button type="submit" class="nc-btn"><i class="fa-solid fa-plus"></i> Agregar museo</button>
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaMuseosTitulo">
+          <div class="nc-seccion__cabecera"><h3 id="listaMuseosTitulo">Museos cargados</h3></div>
+          <div class="admin-lista" id="listaMuseos">
+            <p id="adminMuseo">Cargando museos...</p>
+          </div>
+        </section>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -537,7 +639,11 @@
   <script src="scripts/recorridos/recorridoData.js"></script>
   <script src="scripts/gestores/gestorRecursos.js"></script>
   <script src="scripts/recursos/recursosData.js"></script>
+  <script src="scripts/gestores/gestorMuseos.js"></script>
+  <script src="scripts/mapa/selectorLugar.js"></script>
+  <script src="scripts/mapa/selectorUbicacion.js"></script>
   <script src="scripts/admin/admin.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 
 </html>

@@ -6,6 +6,8 @@ const Recorrido = require("../models/Recorrido");
 const Recurso = require("../models/Recurso");
 const Inscripcion = require("../models/Inscripcion");
 const { talleres, charlas, recorridos, recursos } = require("./datos");
+const Museo = require("../models/Museo");
+const SEDES = require("./sedes");
 
 async function cargar(Modelo, datos, nombre) {
   await Modelo.deleteMany({});
@@ -13,11 +15,20 @@ async function cargar(Modelo, datos, nombre) {
   console.log(`${nombre}: ${datos.length} cargados`);
 }
 
+async function conSede(lista, sedes) {
+  const museos = await Museo.find();
+  const idPorNombre = new Map(museos.map((m) => [m.nombre, m._id]));
+  return lista.map((item) => {
+    const nombre = sedes[item.titulo];
+    return nombre && idPorNombre.has(nombre) ? { ...item, museo: idPorNombre.get(nombre) } : item;
+  });
+}
+
 async function sembrar() {
   await mongoose.connect(process.env.MONGODB_URI);
-  await cargar(Taller, talleres, "Talleres");
-  await cargar(Charla, charlas, "Charlas");
-  await cargar(Recorrido, recorridos, "Recorridos");
+  await cargar(Taller, await conSede(talleres, SEDES.talleres), "Talleres");
+  await cargar(Charla, await conSede(charlas, SEDES.charlas), "Charlas");
+  await cargar(Recorrido, await conSede(recorridos, SEDES.recorridos), "Recorridos");
   await cargar(Recurso, recursos, "Recursos");
   await Inscripcion.deleteMany({});
   await mongoose.disconnect();

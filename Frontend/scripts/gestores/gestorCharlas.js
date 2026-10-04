@@ -20,10 +20,10 @@ class GestorCharlas {
         }
     }
 
-    async agregarCharla(titulo, fecha, hora, lugar, tipo, imagen, expositor, descripcionCorta, descripcionCompleta, cupos) {
+    async agregarCharla(titulo, fecha, hora, lugar, tipo, imagen, expositor, descripcionCorta, descripcionCompleta, cupos, lat = null, lng = null, museo = null) {
         return await pedirApi("/charlas", {
             method: "POST",
-            body: { titulo, fecha, hora, lugar, tipo, imagen, expositor, descripcionCorta, descripcionCompleta, cupos }
+            body: { titulo, fecha, hora, lugar, tipo, imagen, expositor, descripcionCorta, descripcionCompleta, cupos, lat, lng, museo }
         });
     }
 

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const opcionesJSON = require("./opcionesJSON");
+const camposUbicacion = require("./Ubicacion");
 
 const charlaSchema = new mongoose.Schema(
   {
@@ -13,6 +14,7 @@ const charlaSchema = new mongoose.Schema(
     descripcionCorta: { type: String, required: true },
     descripcionCompleta: { type: String, required: true },
     cupos: { type: Number, required: true, min: 0 },
+    ...camposUbicacion,
     finalizada: { type: Boolean, default: false },
   },
   { timestamps: true }
