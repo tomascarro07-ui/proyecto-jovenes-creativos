@@ -48,3 +48,40 @@ function actualizarHeaderSesion() {
 }
 
 actualizarHeaderSesion();
+
+// Menú hamburguesa (celulares y tabletas)
+function iniciarMenuMovil() {
+    const boton = document.querySelector(".nav-toggle");
+    const menu = document.getElementById("menuPrincipal");
+    if (!boton || !menu) return;
+
+    function cerrarMenu() {
+        menu.classList.remove("abierto");
+        boton.setAttribute("aria-expanded", "false");
+        boton.setAttribute("aria-label", "Abrir menú");
+        const icono = boton.querySelector("i");
+        if (icono) icono.className = "fa-solid fa-bars";
+    }
+
+    boton.addEventListener("click", function () {
+        const abierto = menu.classList.toggle("abierto");
+        boton.setAttribute("aria-expanded", abierto ? "true" : "false");
+        boton.setAttribute("aria-label", abierto ? "Cerrar menú" : "Abrir menú");
+        const icono = boton.querySelector("i");
+        if (icono) icono.className = abierto ? "fa-solid fa-xmark" : "fa-solid fa-bars";
+    });
+
+    menu.addEventListener("click", function (e) {
+        if (e.target.closest("a")) cerrarMenu();
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") cerrarMenu();
+    });
+
+    window.matchMedia("(min-width: 1280px)").addEventListener("change", function (e) {
+        if (e.matches) cerrarMenu();
+    });
+}
+
+iniciarMenuMovil();

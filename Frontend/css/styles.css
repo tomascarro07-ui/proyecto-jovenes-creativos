@@ -2908,3 +2908,365 @@
   border-color: green;
   color: #fff;
 }
+
+/* =========================================================
+   RESPONSIVE GLOBAL (celulares, tabletas y notebooks)
+   Este bloque va al FINAL de styles.css.
+   ========================================================= */
+
+/* ---- Base ---- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: clip; } /* red de seguridad: nunca scroll horizontal */
+img, video, iframe, svg { max-width: 100%; }
+.brand img { height: auto; }
+.brand--footer img { width: 190px; max-width: 100%; height: auto; }
+.site-footer__inner { max-width: var(--nc-ancho); } /* antes usaba una variable de color por error */
+.footer-col ul { padding-left: 0; margin: 0; }
+.creadores-grid .curso-mini { width: min(254px, 100%); }
+
+/* ---- Header: menú hamburguesa hasta 1279px ---- */
+@media (max-width: 1279px) {
+  .site-header__inner {
+    flex-wrap: wrap;
+    gap: 1rem;
+    min-height: 72px;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-menu {
+    display: none;
+    flex: 1 0 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding-bottom: 0.8rem;
+    max-height: calc(100vh - 90px);
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+  }
+
+  .site-menu.abierto { display: flex; }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-nav a {
+    height: auto;
+    min-height: 44px;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--nc-linea);
+  }
+
+  .site-nav a[aria-current="page"]::after { display: none; }
+
+  .site-nav a[aria-current="page"] {
+    color: var(--color-primario);
+    font-weight: 600;
+  }
+
+  .site-actions {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.8rem 1.2rem;
+  }
+}
+
+/* ---- Header: notebooks chicas (1280px a 1599px), todo en una línea ---- */
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .site-header__inner { gap: 1.25rem; padding-left: 1.25rem; padding-right: 1.25rem; }
+  .site-menu { gap: 1rem; }
+  .site-nav ul { gap: 1.25rem; padding: 0; margin: 0; }
+  .site-nav a { font-size: 0.82rem; white-space: nowrap; }
+  .site-actions { gap: 0.9rem; flex-shrink: 0; }
+  .site-login { white-space: nowrap; }
+  .brand img { width: 150px; }
+}
+
+/* ---- Tabletas (601px a 1000px) ---- */
+@media (max-width: 1000px) {
+  .nc-hero__texto .nc-hero__acciones { gap: 0.7rem; }
+  .arte-bloque, .arte-bloque--panel { padding: 1.3rem 1.3rem 1.5rem; }
+  .museo-det__cuerpo { padding: 1.5rem; }
+}
+
+/* ---- Celulares (hasta 600px) ---- */
+@media (max-width: 600px) {
+  /* márgenes laterales */
+  .cal-main, .mapa-main, .museo-det, .val-seccion { padding: 1.25rem 1rem 2.5rem; }
+  .detalle-wrapper { padding: 1.25rem 1rem 2rem; }
+  .museo-det__cuerpo { padding: 1.25rem; }
+  .site-footer { padding: 2rem 1rem 2.2rem; }
+  .arte-bloque, .arte-bloque--panel, .museos-panel, .nc-panel, .nc-row { padding: 1.1rem 1rem 1.3rem; }
+
+  /* botones a todo el ancho donde conviene */
+  .nc-hero__acciones { flex-direction: column; align-items: stretch; }
+  .nc-hero__acciones .nc-btn { width: 100%; text-align: center; }
+  .arte-cta { align-items: stretch; }
+  .arte-cta .nc-btn { width: 100%; text-align: center; }
+  .boletin-email { flex-direction: column; }
+  .boletin-email .nc-btn { width: 100%; text-align: center; }
+  .museo-det__acciones .nc-btn, .museo-det__acciones .insc-btn { flex: 1 1 100%; }
+
+  /* carrusel */
+  .nc-slide__caption { left: 1rem; right: 1rem; bottom: 2rem; }
+  .nc-slide__caption h2 { font-size: 1.15rem; }
+  .nc-slide__caption p { font-size: 0.8rem; }
+
+  /* textos que eran demasiado chicos */
+  .act-card__info p, .act-grid .charla-info p, .curso-mini__meta,
+  .recurso-lista span, .sug-texto small, .boletin-cabecera p, .insc-card__datos,
+  .insc-card__aviso, .asistente-aviso { font-size: 0.78rem; }
+  .act-tipo, .insc-badge { font-size: 0.7rem; }
+  .cat-card span { font-size: 0.78rem; }
+  .nc-vertodas { font-size: 0.82rem; }
+  .recurso-lista strong, .sug-texto strong, .boletin-cats label, .asistente-burbuja { font-size: 0.85rem; }
+  .recurso-lista a { font-size: 0.8rem; }
+  .footer-col a, .footer-contacto li, .footer-marca p { font-size: 0.85rem; }
+  .footer-col a { display: inline-block; padding: 0.2rem 0; }
+
+  /* 16px en los campos evita el zoom automático de iPhone al tocarlos */
+  .asistente-form input, .boletin-email input, .auth-campo input, .auth-campo textarea,
+  .auth-campo select, .cuenta-campo input, .cuenta-campo textarea, .val-form textarea,
+  .ubic-input, .ubic-select, .nc-select--mini { font-size: 16px; }
+
+  /* admin */
+  .admin-tabs a { flex: 1 1 calc(50% - 0.6rem); justify-content: center; }
+  .admin-seccion-titulo { flex-wrap: wrap; }
+
+  /* cuenta, avisos, calendario, mapa */
+  .cuenta-card { padding: 1.2rem; border-radius: 16px; }
+  .cuenta-aviso { max-width: calc(100% - 2rem); width: max-content; text-align: center; border-radius: 18px; }
+  .cal-card, .cal-panel { border-radius: 16px; }
+  .cal-panel { padding: 1.2rem; }
+  .mapa-contenedor { height: 78vh; height: 78dvh; min-height: 420px; }
+  .mapa-chip { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+
+  /* nosotros: los logos llevan estilos en línea, por eso !important */
+  div:has(> img[src*="logoROFE"]) { flex-wrap: wrap !important; gap: 16px !important; padding: 10px !important; }
+  img[src*="logoROFE"], img[src*="logo-JC"] { width: min(180px, 42%) !important; max-width: 100% !important; height: auto !important; }
+}
+
+/* ---- Celulares angostos (hasta 420px) ---- */
+@media (max-width: 420px) {
+  .cal-semana span { font-size: 0.62rem; letter-spacing: 0.02em; }
+  .cal-nav h1 { font-size: 1.1rem; }
+  .cal-toolbar { gap: 0.6rem; }
+  .charla-detalle__body h1, .museo-det__cuerpo h1 { overflow-wrap: anywhere; }
+  .nc-btn { padding-left: 1.2rem; padding-right: 1.2rem; }
+}
+
+/* ---- Celular en horizontal: el header no tapa media pantalla ---- */
+@media (max-height: 480px) and (orientation: landscape) {
+  .site-header { position: static; }
+  .mapa-contenedor { height: 85vh; min-height: 300px; }
+}
+
+/* ---- Pantallas táctiles: botones fáciles de tocar (mínimo 44px) ---- */
+@media (pointer: coarse) {
+  .nc-btn, .insc-btn, .cal-hoy, .mapa-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+  }
+  .nc-btn--mini { min-height: 40px; }
+  .site-login { display: inline-flex; align-items: center; min-height: 44px; }
+  .cal-icono { width: 44px; height: 44px; }
+  .mc-cerrar { width: 44px; height: 44px; margin-bottom: -44px; }
+  .admin-panel--lista .admin-btn-ver,
+  .admin-panel--lista .admin-btn-eliminar,
+  .admin-panel--lista .admin-btn-check { width: 44px; height: 44px; }
+  .footer-redes a { width: 40px; height: 40px; }
+}
+
+/* =========================================================
+   RESPONSIVE GLOBAL (celulares, tabletas y notebooks)
+   Este bloque va al FINAL de styles.css.
+   ========================================================= */
+
+/* ---- Base ---- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: clip; } /* red de seguridad: nunca scroll horizontal */
+img, video, iframe, svg { max-width: 100%; }
+.brand img { height: auto; }
+.brand--footer img { width: 190px; max-width: 100%; height: auto; }
+.site-footer__inner { max-width: var(--nc-ancho); } /* antes usaba una variable de color por error */
+.footer-col ul { padding-left: 0; margin: 0; }
+.creadores-grid .curso-mini { width: min(254px, 100%); }
+
+/* ---- Header: menú hamburguesa hasta 1279px ---- */
+@media (max-width: 1279px) {
+  .site-header__inner {
+    flex-wrap: wrap;
+    gap: 1rem;
+    min-height: 72px;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-menu {
+    display: none;
+    flex: 1 0 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding-bottom: 0.8rem;
+    max-height: calc(100vh - 90px);
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+  }
+
+  .site-menu.abierto { display: flex; }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-nav a {
+    height: auto;
+    min-height: 44px;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--nc-linea);
+  }
+
+  .site-nav a[aria-current="page"]::after { display: none; }
+
+  .site-nav a[aria-current="page"] {
+    color: var(--color-primario);
+    font-weight: 600;
+  }
+
+  .site-actions {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.8rem 1.2rem;
+  }
+}
+
+/* ---- Header: notebooks chicas (1280px a 1599px), todo en una línea ---- */
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .site-header__inner { gap: 1.25rem; padding-left: 1.25rem; padding-right: 1.25rem; }
+  .site-menu { gap: 1rem; }
+  .site-nav ul { gap: 1.25rem; padding: 0; margin: 0; }
+  .site-nav a { font-size: 0.82rem; white-space: nowrap; }
+  .site-actions { gap: 0.9rem; flex-shrink: 0; }
+  .site-login { white-space: nowrap; }
+  .brand img { width: 150px; }
+}
+
+/* ---- Tabletas (601px a 1000px) ---- */
+@media (max-width: 1000px) {
+  .nc-hero__texto .nc-hero__acciones { gap: 0.7rem; }
+  .arte-bloque, .arte-bloque--panel { padding: 1.3rem 1.3rem 1.5rem; }
+  .museo-det__cuerpo { padding: 1.5rem; }
+}
+
+/* ---- Celulares (hasta 600px) ---- */
+@media (max-width: 600px) {
+  /* márgenes laterales */
+  .cal-main, .mapa-main, .museo-det, .val-seccion { padding: 1.25rem 1rem 2.5rem; }
+  .detalle-wrapper { padding: 1.25rem 1rem 2rem; }
+  .museo-det__cuerpo { padding: 1.25rem; }
+  .site-footer { padding: 2rem 1rem 2.2rem; }
+  .arte-bloque, .arte-bloque--panel, .museos-panel, .nc-panel, .nc-row { padding: 1.1rem 1rem 1.3rem; }
+
+  /* botones a todo el ancho donde conviene */
+  .nc-hero__acciones { flex-direction: column; align-items: stretch; }
+  .nc-hero__acciones .nc-btn { width: 100%; text-align: center; }
+  .arte-cta { align-items: stretch; }
+  .arte-cta .nc-btn { width: 100%; text-align: center; }
+  .boletin-email { flex-direction: column; }
+  .boletin-email .nc-btn { width: 100%; text-align: center; }
+  .museo-det__acciones .nc-btn, .museo-det__acciones .insc-btn { flex: 1 1 100%; }
+
+  /* carrusel */
+  .nc-slide__caption { left: 1rem; right: 1rem; bottom: 2rem; }
+  .nc-slide__caption h2 { font-size: 1.15rem; }
+  .nc-slide__caption p { font-size: 0.8rem; }
+
+  /* textos que eran demasiado chicos */
+  .act-card__info p, .act-grid .charla-info p, .curso-mini__meta,
+  .recurso-lista span, .sug-texto small, .boletin-cabecera p, .insc-card__datos,
+  .insc-card__aviso, .asistente-aviso { font-size: 0.78rem; }
+  .act-tipo, .insc-badge { font-size: 0.7rem; }
+  .cat-card span { font-size: 0.78rem; }
+  .nc-vertodas { font-size: 0.82rem; }
+  .recurso-lista strong, .sug-texto strong, .boletin-cats label, .asistente-burbuja { font-size: 0.85rem; }
+  .recurso-lista a { font-size: 0.8rem; }
+  .footer-col a, .footer-contacto li, .footer-marca p { font-size: 0.85rem; }
+  .footer-col a { display: inline-block; padding: 0.2rem 0; }
+
+  /* 16px en los campos evita el zoom automático de iPhone al tocarlos */
+  .asistente-form input, .boletin-email input, .auth-campo input, .auth-campo textarea,
+  .auth-campo select, .cuenta-campo input, .cuenta-campo textarea, .val-form textarea,
+  .ubic-input, .ubic-select, .nc-select--mini { font-size: 16px; }
+
+  /* admin */
+  .admin-tabs a { flex: 1 1 calc(50% - 0.6rem); justify-content: center; }
+  .admin-seccion-titulo { flex-wrap: wrap; }
+
+  /* cuenta, avisos, calendario, mapa */
+  .cuenta-card { padding: 1.2rem; border-radius: 16px; }
+  .cuenta-aviso { max-width: calc(100% - 2rem); width: max-content; text-align: center; border-radius: 18px; }
+  .cal-card, .cal-panel { border-radius: 16px; }
+  .cal-panel { padding: 1.2rem; }
+  .mapa-contenedor { height: 78vh; height: 78dvh; min-height: 420px; }
+  .mapa-chip { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+
+  /* nosotros: los logos llevan estilos en línea, por eso !important */
+  div:has(> img[src*="logoROFE"]) { flex-wrap: wrap !important; gap: 16px !important; padding: 10px !important; }
+  img[src*="logoROFE"], img[src*="logo-JC"] { width: min(180px, 42%) !important; max-width: 100% !important; height: auto !important; }
+}
+
+/* ---- Celulares angostos (hasta 420px) ---- */
+@media (max-width: 420px) {
+  .cal-semana span { font-size: 0.62rem; letter-spacing: 0.02em; }
+  .cal-nav h1 { font-size: 1.1rem; }
+  .cal-toolbar { gap: 0.6rem; }
+  .charla-detalle__body h1, .museo-det__cuerpo h1 { overflow-wrap: anywhere; }
+  .nc-btn { padding-left: 1.2rem; padding-right: 1.2rem; }
+}
+
+/* ---- Celular en horizontal: el header no tapa media pantalla ---- */
+@media (max-height: 480px) and (orientation: landscape) {
+  .site-header { position: static; }
+  .mapa-contenedor { height: 85vh; min-height: 300px; }
+}
+
+/* ---- Pantallas táctiles: botones fáciles de tocar (mínimo 44px) ---- */
+@media (pointer: coarse) {
+  .nc-btn, .insc-btn, .cal-hoy, .mapa-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+  }
+  .nc-btn--mini { min-height: 40px; }
+  .site-login { display: inline-flex; align-items: center; min-height: 44px; }
+  .cal-icono { width: 44px; height: 44px; }
+  .mc-cerrar { width: 44px; height: 44px; margin-bottom: -44px; }
+  .admin-panel--lista .admin-btn-ver,
+  .admin-panel--lista .admin-btn-eliminar,
+  .admin-panel--lista .admin-btn-check { width: 44px; height: 44px; }
+  .footer-redes a { width: 40px; height: 40px; }
+}
