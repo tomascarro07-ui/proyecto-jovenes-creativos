@@ -20,8 +20,20 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
 const app = express();
 const PUERTO = process.env.PORT || 3000;
 
+// En Vercel hay un proxy delante del servidor. Sin esto, express-rate-limit
+// ve la IP del proxy y cuenta los intentos de TODOS los usuarios juntos.
+app.set("trust proxy", 1);
+
 app.use(helmet());
-app.use(cors({ origin: (process.env.FRONTEND_ORIGIN || "").split(",") }));
+// Dominios del frontend autorizados (separados por coma, sin "/" final).
+const origenesPermitidos = (process.env.FRONTEND_ORIGIN || "")
+  .split(",")
+  .map((o) => o.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
+if (origenesPermitidos.length === 0) {
+  console.warn("Aviso: FRONTEND_ORIGIN está vacío; el navegador va a bloquear los pedidos del frontend (CORS).");
+}
+app.use(cors({ origin: origenesPermitidos }));
 app.use(express.json({ limit: "100kb" }));
 
 // Conexión a MongoDB reutilizada entre peticiones (necesario en Vercel)

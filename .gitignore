@@ -1,0 +1,10 @@
+# Archivos comprimidos (no subir copias del proyecto dentro del repo)
+*.zip
+
+# Dependencias y secretos
+node_modules/
+.env
+
+# Sistema
+.DS_Store
+Thumbs.db

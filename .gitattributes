@@ -1,0 +1,11 @@
+# Normaliza los fines de línea: en el repo siempre LF, sin importar el sistema.
+* text=auto eol=lf
+
+# Archivos binarios: git no debe tocarlos.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.gif  binary
+*.pdf  binary
+*.zip  binary
