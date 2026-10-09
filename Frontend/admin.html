@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo Cultural - Administración</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>html { visibility: hidden; }</style>
+</head>
+
+<body class="nc-home">
+
+  <header class="site-header" id="siteHeader"></header>
+
+  <main class="admin-pagina">
+    
+    <section class="admin-cabecera" aria-labelledby="adminTitulo">
+      <h1 id="adminTitulo">Panel de administración</h1>
+      <p>Gestioná las charlas y los talleres del sitio: agregalos, revisá su estado y eliminalos cuando corresponda. Los datos se guardan en este navegador.</p>
+
+      <nav class="admin-tabs" aria-label="Secciones del panel">
+        <a href="#resumen"><i class="fa-solid fa-chart-simple"></i> Resumen</a>
+        <a href="#gestion-charlas"><i class="fa-solid fa-comments"></i> Charlas</a>
+        <a href="#gestion-talleres"><i class="fa-solid fa-palette"></i> Talleres</a>
+        <a href="#gestion-recorridos"><i class="fa-solid fa-route"></i> Recorridos</a>
+        <a href="#gestion-museos"><i class="fa-solid fa-landmark"></i> Museos</a>
+      </nav>
+    </section>
+
+    <section id="resumen" class="admin-panel" aria-labelledby="resumenTitulo">
+      <div class="nc-seccion__cabecera">
+        <h2 id="resumenTitulo">Estado general</h2>
+      </div>
+
+      <div class="admin-resumen-grid" id="resumenGrid">
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-comments"></i></div>
+          <div>
+            <p class="admin-stat__numero" id="resumenCharlasProximas"></p>
+            <span class="admin-stat__etiqueta">Charlas próximas</span>
+          </div>
+        </div>
+
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-palette"></i></div>
+          <div>
+            <span class="admin-stat__numero" id="resumenTalleresActivos">-</span>
+            <span class="admin-stat__etiqueta">Talleres activos</span>
+          </div>
+        </div>
+
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-route"></i></div>
+          <div>
+            <span class="admin-stat__numero" id="resumenRecorridosActivos">-</span>
+            <span class="admin-stat__etiqueta">Recorridos activos</span>
+          </div>
+        </div>
+
+        <div class="admin-stat">
+          <div class="admin-stat__icono"><i class="fa-solid fa-book"></i></div>
+          <div>
+            <span class="admin-stat__numero" id="resumenRecursosActivos">-</span>
+            <span class="admin-stat__etiqueta">Recursos activos</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="gestion-charlas" aria-labelledby="charlasSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="charlasSeccionTitulo"><i class="fa-solid fa-comments"></i> Charlas</h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevaCharlaTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevaCharlaTitulo">Agregar nueva charla</h3>
+          </div>
+
+          <form id="formCharla" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="charla-titulo">Título</label>
+              <input type="text" id="charla-titulo" required placeholder="Ej: Historia del Barrio Histórico">
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="charla-cupos">Cupos</label>
+                <input type="number" id="charla-cupos" required min="1" value="1">
+              </div>
+            </div>
+
+                        <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="charla-fecha">Fecha</label>
+                <input type="date" id="charla-fecha" required>
+              </div>
+
+              <div class="auth-campo">
+                <label for="charla-hora">Hora</label>
+                <input type="time" id="charla-hora" required>
+              </div>
+            </div>
+
+            <div class="auth-campo" data-lugar>
+              <label for="charla-lugar-select">Lugar</label>
+              <select id="charla-lugar-select" data-lugar-select required>
+                <option value="">Cargando lugares...</option>
+              </select>
+
+              <div class="lugar-otro" data-lugar-otro data-ubicacion hidden>
+                <input type="text" data-lugar-texto maxlength="120" placeholder="Nombre del lugar (ej: Plaza Mayor)">
+                <input type="hidden" data-lat>
+                <input type="hidden" data-lng>
+                <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                  <i class="fa-solid fa-location-dot"></i> Marcar ubicación
+                </button>
+                <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-cupos">Cupos</label>
+              <input type="number" id="charla-cupos" required min="1" value="1">
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-expositor">Expositor/a</label>
+              <input type="text" id="charla-expositor" required placeholder="Ej: Lic. María Fernández">
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-tipo">Tipo de charla</label>
+              <select id="charla-tipo" class="nc-select" required>
+                <option value="Virtual">Virtual</option>
+                <option value="Presencial">Presencial</option>
+              </select>
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-imagen">URL de la imagen</label>
+              <input type="url" id="charla-imagen" required placeholder="https://...">
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-descripcionCorta">Descripción corta</label>
+              <textarea id="charla-descripcionCorta" required rows="2" placeholder="Aparece en la tarjeta de la home (1-2 líneas)"></textarea>
+            </div>
+
+            <div class="auth-campo">
+              <label for="charla-descripcionCompleta">Descripción completa</label>
+              <textarea id="charla-descripcionCompleta" required rows="4" placeholder="Aparece en el detalle de la charla"></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar charla
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaCharlasTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaCharlasTitulo">Charlas cargadas</h3>
+          </div>
+          <div class="admin-lista" id="listaCharlas">
+            <p id="adminCharla">Cargando charlas...</p>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <section id="gestion-talleres" aria-labelledby="talleresSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="talleresSeccionTitulo"><i class="fa-solid fa-palette"></i> Talleres</h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevoTallerTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevoTallerTitulo">Agregar nuevo taller</h3>
+          </div>
+
+          <form id="formTaller" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="taller-titulo">Título</label>
+              <input type="text" id="taller-titulo" required placeholder="Ej: Taller de fotografía patrimonial">
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="taller-nivel">Nivel</label>
+                <select id="taller-nivel" class="nc-select" required>
+                  <option value="iniciacion">Iniciación</option>
+                  <option value="todo-publico">Todo público</option>
+                  <option value="avanzado">Avanzado</option>
+                </select>
+              </div>
+
+              <div class="auth-campo">
+                <label for="taller-modalidad">Modalidad</label>
+                <select id="taller-modalidad" class="nc-select" required>
+                  <option value="presencial">Presencial</option>
+                  <option value="online">Online</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="taller-duracion">Duración (Digitar unicamente el número de clases)</label>
+                <input type="text" id="taller-duracion" required placeholder="Ej: 4 clases">
+              </div>
+
+              <div class="auth-campo">
+                <label for="taller-cupos">Cupos</label>
+                <input type="number" id="taller-cupos" required min="1" value="1">
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="taller-imagen">URL de la imagen</label>
+              <input type="url" id="taller-imagen" required placeholder="https://...">
+            </div>
+
+            <div class="auth-campo" data-lugar>
+              <label for="taller-lugar-select">Lugar</label>
+              <select id="taller-lugar-select" data-lugar-select required>
+                <option value="">Cargando lugares...</option>
+              </select>
+
+              <div class="lugar-otro" data-lugar-otro data-ubicacion hidden>
+                <input type="text" data-lugar-texto maxlength="120" placeholder="Nombre del lugar (ej: Plaza Mayor)">
+                <input type="hidden" data-lat>
+                <input type="hidden" data-lng>
+                <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                  <i class="fa-solid fa-location-dot"></i> Marcar ubicación
+                </button>
+                <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
+              </div>
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="taller-fecha">Fecha (para el calendario)</label>
+                <input type="date" id="taller-fecha">
+              </div>
+              <div class="auth-campo">
+                <label for="taller-hora">Hora</label>
+                <input type="time" id="taller-hora">
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="taller-descripcion">Descripción</label>
+              <textarea id="taller-descripcion" required rows="3" placeholder="Breve descripción del taller"></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar taller
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaTalleresTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaTalleresTitulo">Talleres cargados</h3>
+          </div>
+          <div class="admin-lista" id="listaTalleres">
+            <p id="adminTaller">Cargando talleres...</p>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <section id="gestion-recorridos" aria-labelledby="recorridosSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="recorridosSeccionTitulo"><i class="fa-solid fa-route"></i> Recorridos</h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevoRecorridoTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevoRecorridoTitulo">Agregar nuevo recorrido</h3>
+          </div>
+
+          <form id="formRecorrido" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="recorrido-titulo">Título</label>
+              <input type="text" id="recorrido-titulo" required placeholder="Ej: Barrio Histórico a pie">
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="recorrido-cupos">Cupos</label>
+                <input type="number" value="1" min="1" id="recorrido-cupos" required>
+              </div>
+
+              <div class="auth-campo">
+                <label>Duración</label>
+
+                <div>
+                  <input type="number" id="recorrido-horas" min="0" max="23" value="0" required>
+                  <span>horas</span>
+
+                  <input type="number" id="recorrido-minutos" min="0" max="59" value="0" required>
+                  <span>minutos</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="auth-campo">
+              <label for="recorrido-tipo">Tipo</label>
+              <input type="text" id="recorrido-tipo" required placeholder="Ej: Clásico">
+            </div>
+
+            <div class="auth-campo" data-lugar>
+              <label for="recorrido-lugar-select">Lugar / punto de salida</label>
+              <select id="recorrido-lugar-select" data-lugar-select required>
+                <option value="">Cargando lugares...</option>
+              </select>
+
+              <div class="lugar-otro" data-lugar-otro data-ubicacion hidden>
+                <input type="text" data-lugar-texto maxlength="120" placeholder="Nombre del lugar (ej: Plaza Mayor)">
+                <input type="hidden" data-lat>
+                <input type="hidden" data-lng>
+                <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                  <i class="fa-solid fa-location-dot"></i> Marcar ubicación
+                </button>
+                <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="recorrido-imagen">URL de la imagen</label>
+              <input type="url" id="recorrido-imagen" required placeholder="https://...">
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="recorrido-fecha">Fecha (para el calendario)</label>
+                <input type="date" id="recorrido-fecha">
+              </div>
+              <div class="auth-campo">
+                <label for="recorrido-hora">Hora</label>
+                <input type="time" id="recorrido-hora">
+              </div>
+            </div>
+            
+            <div class="auth-campo">
+              <label for="recorrido-descripcionCorta">Descripción corta</label>
+              <textarea id="recorrido-descripcionCorta" required rows="3" placeholder="Breve descripción del recorrido"></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar recorrido
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaRecorridosTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaRecorridosTitulo">Recorridos cargados</h3>
+          </div>
+          <div class="admin-lista" id="listaRecorridos">
+            <p id="adminRecorrido">Cargando recorridos...</p>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <section id="gestion-recursos" aria-labelledby="recursosSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="recursosSeccionTitulo">
+          <i class="fa-solid fa-book"></i> Recursos
+        </h2>
+      </div>
+
+      <div class="admin-layout">
+
+        <section class="admin-panel" aria-labelledby="nuevoRecursoTitulo">
+          <div class="nc-seccion__cabecera">
+            <h3 id="nuevoRecursoTitulo">Agregar nuevo recurso</h3>
+          </div>
+
+          <form id="formRecurso" class="auth-form">
+
+            <div class="auth-campo">
+              <label for="recurso-titulo">Título</label>
+              <input
+                type="text"
+                id="recurso-titulo"
+                required
+                placeholder="Ej: Historia de Colonia"
+              >
+            </div>
+
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="recurso-tipo">Tipo</label>
+                <input
+                  type="text"
+                  id="recurso-tipo"
+                  required
+                  placeholder="Ej: Paper académico"
+                >
+              </div>
+
+              <div class="auth-campo">
+                <label for="recurso-autor">Autor</label>
+                <input
+                  type="text"
+                  id="recurso-autor"
+                  required
+                  placeholder="Ej: Sebastián Rivero"
+                >
+              </div>
+            </div>
+
+            <div class="auth-campo">
+              <label for="recurso-archivo">Archivo</label>
+              <input
+                type="file"
+                id="recurso-archivo"
+                required
+              >
+            </div>
+
+            <div class="auth-campo">
+              <label for="recurso-descripcionCorta">Descripción corta</label>
+              <textarea
+                id="recurso-descripcionCorta"
+                required
+                rows="3"
+                placeholder="Breve descripción del recurso"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="nc-btn">
+              <i class="fa-solid fa-plus"></i> Agregar recurso
+            </button>
+
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaRecursosTitulo">
+
+          <div class="nc-seccion__cabecera">
+            <h3 id="listaRecursosTitulo">Recursos cargados</h3>
+          </div>
+
+          <ul class="recurso-lista" id="recursosGrid">
+            <li id="adminRecurso">Cargando recursos...</li>
+          </ul>
+
+        </section>
+
+      </div>
+    </section>
+
+        <section id="gestion-museos" aria-labelledby="museosSeccionTitulo">
+      <div class="admin-seccion-titulo">
+        <h2 id="museosSeccionTitulo"><i class="fa-solid fa-landmark"></i> Museos</h2>
+      </div>
+
+      <div class="admin-layout">
+        <section class="admin-panel" aria-labelledby="nuevoMuseoTitulo">
+          <div class="nc-seccion__cabecera"><h3 id="nuevoMuseoTitulo">Agregar nuevo museo</h3></div>
+
+          <form id="formMuseo" class="auth-form">
+            <div class="auth-campo">
+              <label for="museo-nombre">Nombre</label>
+              <input type="text" id="museo-nombre" required maxlength="120" placeholder="Ej: Espacio Portugués">
+            </div>
+            <div class="auth-fila">
+              <div class="auth-campo">
+                <label for="museo-tipo">Tipo</label>
+                <input type="text" id="museo-tipo" required maxlength="40" placeholder="Ej: Histórico">
+              </div>
+              <div class="auth-campo">
+                <label for="museo-horario">Horario</label>
+                <input type="text" id="museo-horario" maxlength="120" placeholder="Ej: Mar a Dom, 11 a 17 hs">
+              </div>
+            </div>
+            <div class="auth-campo">
+              <label for="museo-direccion">Dirección</label>
+              <input type="text" id="museo-direccion" maxlength="120" placeholder="Ej: Calle de los Suspiros 123">
+            </div>
+            <div class="auth-campo">
+              <label for="museo-imagen">Imagen (opcional)</label>
+              <input type="text" inputmode="url" id="museo-imagen" maxlength="300" placeholder="img/mi-museo.webp o https://...">
+            </div>
+            <div class="auth-campo">
+              <label for="museo-descripcion">Descripción</label>
+              <textarea id="museo-descripcion" required rows="3" maxlength="600" placeholder="Breve descripción del museo"></textarea>
+            </div>
+
+            <div class="auth-campo" data-ubicacion>
+              <label>Ubicación en el mapa cultural</label>
+              <input type="hidden" data-lat>
+              <input type="hidden" data-lng>
+              <button type="button" class="nc-btn nc-btn--outline" data-ubicacion-btn>
+                <i class="fa-solid fa-location-dot"></i> Marcar en el mapa
+              </button>
+              <small class="ubic-estado" data-ubicacion-estado>Sin ubicación</small>
+            </div>
+
+            <button type="submit" class="nc-btn"><i class="fa-solid fa-plus"></i> Agregar museo</button>
+          </form>
+        </section>
+
+        <section class="admin-panel admin-panel--lista" aria-labelledby="listaMuseosTitulo">
+          <div class="nc-seccion__cabecera"><h3 id="listaMuseosTitulo">Museos cargados</h3></div>
+          <div class="admin-lista" id="listaMuseos">
+            <p id="adminMuseo">Cargando museos...</p>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+
+      <div class="footer-marca">
+        <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio" data-i18n-attr="aria-label:hd.irInicio">
+          <img src="img/logo-blanco.png" alt="" width="190"></img>
+        </a>
+        <p data-i18n="ft.lema">Una red que conecta patrimonio, educación y comunidad.</p>
+        <div class="footer-redes">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Enlaces rápidos" data-i18n-attr="aria-label:ft.enlaces">
+        <h3 data-i18n="ft.enlaces">Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html" data-i18n="ft.inicio">Inicio</a></li>
+          <li><a href="charlas.html">Charlas</a></li>
+          <li><a href="museos_colonia.html" data-i18n="ft.museos">Museos</a></li>
+          <li><a href="#cursos" data-i18n="ft.cursos">Cursos y Talleres</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Recursos" data-i18n-attr="aria-label:ft.recursos">
+        <h3 data-i18n="ft.recursos">Recursos</h3>
+        <ul>
+          <li><a href="#recursos" data-i18n="ft.recursosEdu">Recursos educativos</a></li>
+          <li><a href="recorridos.html" data-i18n="ft.recorridos">Recorridos</a></li>
+          <li><a href="#recursos" data-i18n="ft.material">Material descargable</a></li>
+          <li><a href="#boletin" data-i18n="ft.boletin">Boletín cultural</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Sobre Nodo Cultural" data-i18n-attr="aria-label:ft.sobre">
+        <h3 data-i18n="ft.sobre">Sobre Nodo Cultural</h3>
+        <ul>
+          <li><a href="nosotros.html" data-i18n="ft.quienes">Quiénes somos</a></li>
+          <li><a href="servicios.html" data-i18n="ft.servicios">Servicios</a></li>
+          <li><a href="contacto.html" data-i18n="ft.contacto">Contacto</a></li>
+          <li><a href="admin.html" data-i18n="ft.admin">Administración</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3 data-i18n="ft.contacto">Contacto</h3>
+        <ul class="footer-contacto">
+          <li><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</li>
+          <li><i class="fa-solid fa-phone"></i> +598 99 123 456</li>
+          <li><i class="fa-solid fa-location-dot"></i> <span data-i18n="ft.ubicacion">Colonia del Sacramento, Uruguay</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="scripts/base/storage.js"></script>
+  <script src="scripts/base/key.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/i18n/i18n.js"></script>
+  <script src="scripts/i18n/es.js"></script>
+  <script src="scripts/i18n/en.js"></script>
+  <script src="scripts/i18n/pt.js"></script>
+  <script src="scripts/base/headerSesion.js"></script>
+  <script src="scripts/base/config.js"></script>
+  <script src="scripts/base/api.js"></script>
+  <script src="scripts/gestores/gestorInscripciones.js"></script>
+  <script src="scripts/gestores/gestorCharlas.js"></script>
+  <script src="scripts/charlas/charlaData.js"></script>
+  <script src="scripts/gestores/gestorTalleres.js"></script>
+  <script src="scripts/talleres/tallerData.js"></script>
+  <script src="scripts/gestores/gestorRecorridos.js"></script>
+  <script src="scripts/recorridos/recorridoData.js"></script>
+  <script src="scripts/gestores/gestorRecursos.js"></script>
+  <script src="scripts/recursos/recursosData.js"></script>
+  <script src="scripts/gestores/gestorMuseos.js"></script>
+  <script src="scripts/mapa/selectorLugar.js"></script>
+  <script src="scripts/mapa/selectorUbicacion.js"></script>
+  <script src="scripts/admin/admin.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+
+</html>

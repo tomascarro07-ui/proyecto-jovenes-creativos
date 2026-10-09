@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Descargá material en PDF sobre la fundación, las murallas, el desarrollo urbano y la cultura de Colonia del Sacramento.">
+  <title>Recursos — Nodo Cultural</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="nc-home">
+
+  <header class="site-header" id="siteHeader"></header>
+
+  <main class="arte-main">
+
+    <section class="nc-hero nc-hero--imagen" style="background-image: url('img/recursos.webp');" aria-labelledby="arteTitulo">
+      <div class="nc-hero__texto">
+        <h1 id="recursosTitulo">Recursos</h1>
+        <p>Leé, estudiá y compartí. Documentos para conocer mejor la historia, el patrimonio y la cultura de Colonia del Sacramento.</p>
+        <div class="nc-hero__acciones">
+          <a href="#descargas" class="nc-btn">Ver material</a>
+        </div>
+      </div>
+      <div class="nc-hero__texto">
+        <p>Reunimos textos de referencia sobre la fundación de la ciudad, sus murallas, su desarrollo urbano y su vida cultural. Todos están en formato PDF y se pueden descargar gratis para leerlos cuando quieras, incluso sin conexión.</p>
+      </div>
+    </section>
+
+    <section id="descargas" class="arte-bloque arte-bloque--panel" aria-labelledby="materialTitulo">
+      <div class="nc-seccion__cabecera">
+        <h2 id="materialTitulo">Material descargable</h2>
+      </div>
+      <p class="arte-sub">Documentos en PDF sobre la historia y el patrimonio de Colonia del Sacramento</p>
+
+      <div class="row g-4" id="recursosGrid">
+        <p>Cargando recursos...</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+
+      <div class="footer-marca">
+        <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio" data-i18n-attr="aria-label:hd.irInicio">
+          <img src="img/logo-blanco.png" alt="" width="190"></img>
+        </a>
+        <p data-i18n="ft.lema">Una red que conecta patrimonio, educación y comunidad.</p>
+        <div class="footer-redes">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Enlaces rápidos" data-i18n-attr="aria-label:ft.enlaces">
+        <h3 data-i18n="ft.enlaces">Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html" data-i18n="ft.inicio">Inicio</a></li>
+          <li><a href="charlas.html">Charlas</a></li>
+          <li><a href="museos.html" data-i18n="ft.museos">Museos</a></li>
+          <li><a href="cursos.html" data-i18n="ft.cursos">Cursos y Talleres</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Recursos" data-i18n-attr="aria-label:ft.recursos">
+        <h3 data-i18n="ft.recursos">Recursos</h3>
+        <ul>
+          <li><a href="recursos.html" data-i18n="ft.recursosEdu">Recursos educativos</a></li>
+          <li><a href="recorridos.html" data-i18n="ft.recorridos">Recorridos</a></li>
+          <li><a href="#descargas" data-i18n="ft.material">Material descargable</a></li>
+          <li><a href="index.html#boletin" data-i18n="ft.boletin">Boletín cultural</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Sobre Nodo Cultural" data-i18n-attr="aria-label:ft.sobre">
+        <h3 data-i18n="ft.sobre">Sobre Nodo Cultural</h3>
+        <ul>
+          <li><a href="nosotros.html" data-i18n="ft.quienes">Quiénes somos</a></li>
+          <li><a href="servicios.html" data-i18n="ft.servicios">Servicios</a></li>
+          <li><a href="contacto.html" data-i18n="ft.contacto">Contacto</a></li>
+          <li><a href="admin.html" data-i18n="ft.admin">Administración</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3 data-i18n="ft.contacto">Contacto</h3>
+        <ul class="footer-contacto">
+          <li><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</li>
+          <li><i class="fa-solid fa-phone"></i> +598 99 123 456</li>
+          <li><i class="fa-solid fa-location-dot"></i> <span data-i18n="ft.ubicacion">Colonia del Sacramento, Uruguay</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="scripts/base/storage.js"></script>
+  <script src="scripts/base/key.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/i18n/i18n.js"></script>
+  <script src="scripts/i18n/es.js"></script>
+  <script src="scripts/i18n/en.js"></script>
+  <script src="scripts/i18n/pt.js"></script>
+  <script src="scripts/base/headerSesion.js"></script>
+  <script src="scripts/base/config.js"></script>
+  <script src="scripts/base/api.js"></script>
+  <script src="scripts/gestores/gestorRecursos.js"></script>
+  <script src="scripts/recursos/recursosData.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+
+</html>

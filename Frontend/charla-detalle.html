@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo Cultural - Detalle charla</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="nc-home">
+
+  <header class="site-header" id="siteHeader"></header>
+
+  <main class="detalle-main">
+    <div class="volver">
+      <a href="charlas.html" class="nc-btn nc-btn--pill"><i class="fa-solid fa-left-long"></i> Volver a charlas</a>
+    </div>
+    <div id="detalleContenido" class="detalle-wrapper"></div>
+
+  </main>
+
+  <div class="modal" tabindex="-1" id="mensajeLogin">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-cuenta">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-lock-fill me-2"></i>
+                    Necesitás una cuenta
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Cerrar">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    Para inscribirte a esta charla necesitás tener una cuenta.
+                </p>
+
+                <p>
+                    Podés iniciar sesión si ya tenés una cuenta o registrarte
+                    para crear una nueva.
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <a href="login.html" class="btn btn-outline-secondary">
+                    Iniciar sesión
+                </a>
+
+                <a href="registro.html" class="btn btn-cuenta">
+                    Registrarme
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+
+      <div class="footer-marca">
+        <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio" data-i18n-attr="aria-label:hd.irInicio">
+          <img src="img/logo-blanco.png" alt="" width="190"></img>
+        </a>
+        <p data-i18n="ft.lema">Una red que conecta patrimonio, educación y comunidad.</p>
+        <div class="footer-redes">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Enlaces rápidos" data-i18n-attr="aria-label:ft.enlaces">
+        <h3 data-i18n="ft.enlaces">Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html" data-i18n="ft.inicio">Inicio</a></li>
+          <li><a href="charlas.html">Charlas</a></li>
+          <li><a href="museos_colonia.html" data-i18n="ft.museos">Museos</a></li>
+          <li><a href="#cursos" data-i18n="ft.cursos">Cursos y Talleres</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Recursos" data-i18n-attr="aria-label:ft.recursos">
+        <h3 data-i18n="ft.recursos">Recursos</h3>
+        <ul>
+          <li><a href="#recursos" data-i18n="ft.recursosEdu">Recursos educativos</a></li>
+          <li><a href="recorridos.html" data-i18n="ft.recorridos">Recorridos</a></li>
+          <li><a href="#recursos" data-i18n="ft.material">Material descargable</a></li>
+          <li><a href="#boletin" data-i18n="ft.boletin">Boletín cultural</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Sobre Nodo Cultural" data-i18n-attr="aria-label:ft.sobre">
+        <h3 data-i18n="ft.sobre">Sobre Nodo Cultural</h3>
+        <ul>
+          <li><a href="nosotros.html" data-i18n="ft.quienes">Quiénes somos</a></li>
+          <li><a href="servicios.html" data-i18n="ft.servicios">Servicios</a></li>
+          <li><a href="contacto.html" data-i18n="ft.contacto">Contacto</a></li>
+          <li><a href="admin.html" data-i18n="ft.admin">Administración</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3 data-i18n="ft.contacto">Contacto</h3>
+        <ul class="footer-contacto">
+          <li><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</li>
+          <li><i class="fa-solid fa-phone"></i> +598 99 123 456</li>
+          <li><i class="fa-solid fa-location-dot"></i> <span data-i18n="ft.ubicacion">Colonia del Sacramento, Uruguay</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="scripts/base/storage.js"></script>
+  <script src="scripts/base/key.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/i18n/i18n.js"></script>
+  <script src="scripts/i18n/es.js"></script>
+  <script src="scripts/i18n/en.js"></script>
+  <script src="scripts/i18n/pt.js"></script>
+  <script src="scripts/base/headerSesion.js"></script>
+  <script src="scripts/base/config.js"></script>
+  <script src="scripts/base/api.js"></script>
+  <script src="scripts/gestores/gestorInscripciones.js"></script>
+  <script src="scripts/gestores/gestorCharlas.js"></script>
+  <script src="scripts/charlas/charlaData.js"></script>
+  <script src="scripts/charlas/charlaDetalle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+
+</html>
