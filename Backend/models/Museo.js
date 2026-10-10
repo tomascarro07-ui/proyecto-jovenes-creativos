@@ -11,6 +11,8 @@ const museoSchema = new mongoose.Schema(
     imagen: { type: String, default: "" },
     lat: { type: Number, required: true, min: -90, max: 90 },
     lng: { type: Number, required: true, min: -180, max: 180 },
+    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
+    traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
   },
   { timestamps: true }
 );

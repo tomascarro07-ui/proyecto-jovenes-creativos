@@ -4,16 +4,18 @@ const Valoracion = require("../models/Valoracion");
 const mongoose = require("mongoose");
 const Museo = require("../models/Museo");
 const Inscripcion = require("../models/Inscripcion");
+const { localizar } = require("../config/idioma");
 const TIPO_INSCRIPCION = { talleres: "taller", charlas: "charla", recorridos: "recorrido" };
 
-function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
+// traducibles: campos de texto que pueden venir traducidos (en / pt) desde la propiedad "traducciones" del documento
+function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = false }) {
   const router = express.Router();
 
   // GET / → lista completa
   router.get("/", async (req, res) => {
     try {
       const items = await Modelo.find().sort({ _id: 1 });
-      res.json(items);
+      res.json(items.map((i) => localizar(i, req.idioma, traducibles)));
     } catch (error) {
       res.status(500).json({ error: `No se pudieron obtener: ${nombre}` });
     }
@@ -26,7 +28,7 @@ function crearRutas(Modelo, { nombre, campos, finalizable = false }) {
       if (!item) {
         return res.status(404).json({ error: "No encontrado" });
       }
-      res.json(item);
+      res.json(localizar(item, req.idioma, traducibles));
     } catch (error) {
       res.status(400).json({ error: "ID inválido" });
     }

@@ -1,11 +1,17 @@
+// Le avisa al servidor en qué idioma está el sitio (?idioma=en|pt) para que responda traducido.
+// En español no se agrega nada, y el panel de administración siempre trabaja en español.
+function rutaConIdioma(ruta) {
+  if (typeof idiomaActual !== "function" || /admin/i.test(window.location.pathname)) return ruta;
+  const idioma = idiomaActual();
+  if (idioma === "es") return ruta;
+  return ruta + (ruta.indexOf("?") === -1 ? "?" : "&") + "idioma=" + idioma;
+}
+
 // Función única para hablar con el backend.
 // ruta:     "/talleres", "/talleres/123", etc. (se le suma API_URL adelante)
 async function pedirApi(ruta, opciones) {
   const op = opciones || {};
   const config = { method: op.method || "GET", headers: {} };
-
-  // Le avisa al servidor en qué idioma está el sitio (para que pueda responder traducido)
-  if (typeof idiomaActual === "function") config.headers["Accept-Language"] = idiomaActual();
 
   const sesion = leerDeStorage(SESION_KEY, null);
   if (sesion && sesion.token) {
@@ -24,7 +30,7 @@ async function pedirApi(ruta, opciones) {
 
   let respuesta;
   try {
-    respuesta = await fetch(API_URL + ruta, config);
+    respuesta = await fetch(API_URL + rutaConIdioma(ruta), config);
   } catch (e) {
     throw new Error(t("api.sinConexion"));
   }

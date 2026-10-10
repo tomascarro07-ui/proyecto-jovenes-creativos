@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const opcionesJSON = require("./opcionesJSON");
 const camposUbicacion = require("./Ubicacion");
 
 const tallerSchema = new mongoose.Schema(
@@ -14,18 +15,13 @@ const tallerSchema = new mongoose.Schema(
     finalizada: { type: Boolean, default: false },
     fecha: { type: String, default: "", match: /^(\d{4}-\d{2}-\d{2})?$/ },
     hora: { type: String, default: "" },
-    lugar: { type: String, trim: true, default: "" }
+    lugar: { type: String, trim: true, default: "" },
+    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
+    traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
   },
   { timestamps: true }
 );
 
-// Hace que el JSON tenga "id" en vez de "_id" (como espera tu frontend)
-tallerSchema.set("toJSON", {
-  virtuals: true,
-  versionKey: false,
-  transform: (doc, ret) => {
-    delete ret._id;
-  },
-});
+tallerSchema.set("toJSON", opcionesJSON);
 
 module.exports = mongoose.model("Taller", tallerSchema);

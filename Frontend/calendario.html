@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Detalle Recorrido</title>
+  <title data-i18n="cal.titulo">Nodo Cultural - Calendario</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,18 +19,18 @@
     <section class="cal-card">
         <div class="cal-toolbar">
         <div class="cal-nav">
-            <button type="button" class="cal-hoy" id="calHoy">Hoy</button>
-            <button type="button" class="cal-icono" id="calPrev" aria-label="Mes anterior"><i class="fa-solid fa-chevron-left"></i></button>
-            <button type="button" class="cal-icono" id="calNext" aria-label="Mes siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+            <button type="button" class="cal-hoy" id="calHoy" data-i18n="cal.hoy">Hoy</button>
+            <button type="button" class="cal-icono" id="calPrev" aria-label="Mes anterior" data-i18n-attr="aria-label:cal.prev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="cal-icono" id="calNext" aria-label="Mes siguiente" data-i18n-attr="aria-label:cal.next"><i class="fa-solid fa-chevron-right"></i></button>
             <h1 id="calTitulo"></h1>
         </div>
         <div class="cal-filtros" id="calFiltros">
-            <label class="cal-filtro cal-filtro--charla"><input type="checkbox" value="charla" checked><span>Charlas</span></label>
-            <label class="cal-filtro cal-filtro--taller"><input type="checkbox" value="taller" checked><span>Talleres</span></label>
-            <label class="cal-filtro cal-filtro--recorrido"><input type="checkbox" value="recorrido" checked><span>Recorridos</span></label>
+            <label class="cal-filtro cal-filtro--charla"><input type="checkbox" value="charla" checked><span data-i18n="tipo.charla.p">Charlas</span></label>
+            <label class="cal-filtro cal-filtro--taller"><input type="checkbox" value="taller" checked><span data-i18n="tipo.taller.p">Talleres</span></label>
+            <label class="cal-filtro cal-filtro--recorrido"><input type="checkbox" value="recorrido" checked><span data-i18n="tipo.recorrido.p">Recorridos</span></label>
         </div>
         </div>
-        <div class="cal-semana"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+        <div class="cal-semana"><span data-i18n="cal.d1">Lun</span><span data-i18n="cal.d2">Mar</span><span data-i18n="cal.d3">Mié</span><span data-i18n="cal.d4">Jue</span><span data-i18n="cal.d5">Vie</span><span data-i18n="cal.d6">Sáb</span><span data-i18n="cal.d7">Dom</span></div>
         <div class="cal-grid" id="calGrid"></div>
     </section>
     <aside class="cal-panel" id="calPanel" aria-live="polite"></aside>

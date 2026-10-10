@@ -61,7 +61,7 @@ function chipHtml(e) {
 function pintarMes() {
     const y = estado.mes.getFullYear();
     const m = estado.mes.getMonth();
-    titulo.textContent = cap(estado.mes.toLocaleDateString("es-UY", { month: "long", year: "numeric" }));
+    titulo.textContent = cap(estado.mes.toLocaleDateString(t("fecha.locale"), { month: "long", year: "numeric" }));
 
     const desfase = (estado.mes.getDay() + 6) % 7; // la semana arranca el lunes
     const diasDelMes = new Date(y, m + 1, 0).getDate();
@@ -80,11 +80,11 @@ function pintarMes() {
 
         html += `
         <div class="${clases}" data-fecha="${k}" role="button" tabindex="0"
-             aria-label="${d.getDate()} de ${d.toLocaleDateString("es-UY", { month: "long" })}, ${evs.length} actividades">
+             aria-label="${t("cal.celdaAria", { dia: d.getDate(), mes: d.toLocaleDateString(t("fecha.locale"), { month: "long" }), n: evs.length })}">
             <span class="cal-num">${d.getDate()}</span>
             <div class="cal-chips">
                 ${evs.slice(0, 3).map(chipHtml).join("")}
-                ${evs.length > 3 ? `<span class="cal-mas">+${evs.length - 3} más</span>` : ""}
+                ${evs.length > 3 ? `<span class="cal-mas">${t("cal.mas", { n: evs.length - 3 })}</span>` : ""}
             </div>
             <span class="cal-puntos">${evs.slice(0, 4).map(function (e) { return `<i class="cal-punto cal-punto--${e.tipo}"></i>`; }).join("")}</span>
         </div>`;
@@ -97,12 +97,12 @@ function tarjetaHtml(e) {
     const tipo = TIPOS[e.tipo];
     return `
     <a class="cal-evento cal-evento--${e.tipo}" href="${tipo.url}${e.id}">
-        <span class="cal-evento__hora">${e.hora ? escaparHtml(e.hora) : "Todo el día"}</span>
+        <span class="cal-evento__hora">${e.hora ? escaparHtml(e.hora) : t("cal.todoDia")}</span>
         <div class="cal-evento__cuerpo">
-            <span class="cal-evento__tipo">${tipo.nombre}</span>
+            <span class="cal-evento__tipo">${t("tipo." + e.tipo)}</span>
             <strong>${escaparHtml(e.titulo)}</strong>
-            ${e.inscripto ? '<em class="cal-evento__ok"><i class="fa-solid fa-circle-check"></i> Estás inscripto</em>' : ""}
-            ${e.finalizada ? '<em class="cal-evento__fin">Finalizada</em>' : ""}
+            ${e.inscripto ? '<em class="cal-evento__ok"><i class="fa-solid fa-circle-check"></i> ${t("cal.inscripto")}</em>' : ""}
+            ${e.finalizada ? '<em class="cal-evento__fin">' + t("cupo.fin") + '</em>' : ""}
         </div>
         <i class="fa-solid fa-chevron-right"></i>
     </a>`;
@@ -117,14 +117,14 @@ function pintarPanel() {
     if (evs.length) {
         cuerpo = evs.map(tarjetaHtml).join("");
     } else if (estado.eventos.length === 0) {
-        cuerpo = '<div class="cal-panel__vacio"><i class="fa-regular fa-calendar"></i><p>Todavía no hay actividades con fecha cargada.</p></div>';
+        cuerpo = '<div class="cal-panel__vacio"><i class="fa-regular fa-calendar"></i><p>' + t("cal.sinFecha") + '</p></div>';
     } else {
-        cuerpo = '<div class="cal-panel__vacio"><i class="fa-regular fa-calendar"></i><p>No hay actividades este día.</p></div>';
+        cuerpo = '<div class="cal-panel__vacio"><i class="fa-regular fa-calendar"></i><p>' + t("cal.sinDia") + '</p></div>';
     }
 
     panel.innerHTML = `
-        <h2>${cap(fecha.toLocaleDateString("es-UY", { weekday: "long" }))}</h2>
-        <p class="cal-panel__fecha">${fecha.toLocaleDateString("es-UY", { day: "numeric", month: "long", year: "numeric" })}</p>
+        <h2>${cap(fecha.toLocaleDateString(t("fecha.locale"), { weekday: "long" }))}</h2>
+        <p class="cal-panel__fecha">${fecha.toLocaleDateString(t("fecha.locale"), { day: "numeric", month: "long", year: "numeric" })}</p>
         ${cuerpo}`;
 }
 
@@ -176,4 +176,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         else estado.filtros.delete(e.target.value);
         pintarMes();
     });
+});
+
+// Al cambiar de idioma se vuelve a dibujar el mes y el panel del día
+document.addEventListener("idiomacambiado", function () {
+    if (estado.mes && grid.innerHTML) pintarMes();
 });

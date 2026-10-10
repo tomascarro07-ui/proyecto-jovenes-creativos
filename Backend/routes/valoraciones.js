@@ -43,7 +43,7 @@ router.get("/recorrido/:id", async (req, res) => {
         comentario: v.comentario,
         creadaEn: v.createdAt,
         autor: {
-          nombre: v.usuario ? v.usuario.nombre + (v.usuario.apellido ? " " + v.usuario.apellido.charAt(0) + "." : "") : "Usuario",
+          nombre: v.usuario ? v.usuario.nombre + (v.usuario.apellido ? " " + v.usuario.apellido.charAt(0) + "." : "") : req.t("Usuario"),
           foto: v.usuario ? v.usuario.foto : "",
         },
       })),

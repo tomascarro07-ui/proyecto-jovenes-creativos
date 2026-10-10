@@ -18,14 +18,14 @@
 
     function textoFecha(a) {
         const d = partesFecha(a.fecha);
-        if (!d) return "Fecha a confirmar";
-        return d.toLocaleDateString("es-UY", { weekday: "short", day: "numeric", month: "long" }) + (a.hora ? " · " + a.hora : "");
+        if (!d) return t("md.fechaConfirmar");
+        return d.toLocaleDateString(t("fecha.locale"), { weekday: "short", day: "numeric", month: "long" }) + (a.hora ? " · " + a.hora : "");
     }
 
     function textoCupos(a) {
-        if (a.finalizada) return '<span class="mc-cupos mc-cupos--fin">Finalizada</span>';
-        if (a.cupos === 0) return '<span class="mc-cupos mc-cupos--agotado">Sin cupos</span>';
-        if (typeof a.cupos === "number") return `<span class="mc-cupos">${a.cupos} ${a.cupos === 1 ? "cupo disponible" : "cupos disponibles"}</span>`;
+        if (a.finalizada) return '<span class="mc-cupos mc-cupos--fin">' + t("cupo.fin") + '</span>';
+        if (a.cupos === 0) return '<span class="mc-cupos mc-cupos--agotado">' + t("cupo.agotado") + '</span>';
+        if (typeof a.cupos === "number") return `<span class="mc-cupos">${a.cupos === 1 ? t("cupo.uno", { n: a.cupos }) : t("det.cupos", { n: a.cupos })}</span>`;
         return "";
     }
 
@@ -34,28 +34,28 @@
     }
 
     function avisar(texto) {
-        let t = document.getElementById("mdAviso");
-        if (!t) {
-            t = document.createElement("div");
-            t.id = "mdAviso";
-            t.className = "cuenta-aviso";
-            t.setAttribute("role", "status");
-            document.body.appendChild(t);
+        let el = document.getElementById("mdAviso");
+        if (!el) {
+            el = document.createElement("div");
+            el.id = "mdAviso";
+            el.className = "cuenta-aviso";
+            el.setAttribute("role", "status");
+            document.body.appendChild(el);
         }
-        t.textContent = texto;
-        t.classList.add("cuenta-aviso--visible");
-        clearTimeout(avisar.t);
-        avisar.t = setTimeout(function () { t.classList.remove("cuenta-aviso--visible"); }, 2500);
+        el.textContent = texto;
+        el.classList.add("cuenta-aviso--visible");
+        clearTimeout(avisar.temporizador);
+        avisar.temporizador = setTimeout(function () { el.classList.remove("cuenta-aviso--visible"); }, 2500);
     }
 
     // ── Piezas de la página ─────────────────────────────────
     function htmlActividad(a) {
-        const t = ACTIVIDADES[a.tipo];
+        const tp = ACTIVIDADES[a.tipo];
         return `
-        <a class="md-act tipo-${a.tipo}${a.finalizada ? " md-act--fin" : ""}" href="${t.url(a.id)}">
-            <span class="md-act__icono"><i class="fa-solid ${t.icono}" aria-hidden="true"></i></span>
+        <a class="md-act tipo-${a.tipo}${a.finalizada ? " md-act--fin" : ""}" href="${tp.url(a.id)}">
+            <span class="md-act__icono"><i class="fa-solid ${tp.icono}" aria-hidden="true"></i></span>
             <span class="md-act__info">
-                <small>${t.nombre}${a.virtual ? " · Virtual" : ""}</small>
+                <small>${t("tipo." + a.tipo)}${a.virtual ? " · " + t("dato.Virtual") : ""}</small>
                 <strong>${escaparHtml(a.titulo)}</strong>
                 <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> ${escaparHtml(textoFecha(a))}</span>
             </span>
@@ -66,14 +66,14 @@
 
     function htmlActividades(proximas, pasadas) {
         let html = `<section class="md-bloque" aria-labelledby="mdActTitulo">
-            <h2 id="mdActTitulo"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i> Actividades en este museo</h2>`;
+            <h2 id="mdActTitulo"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i> ${t("md.actTitulo")}</h2>`;
         if (proximas.length) {
             html += `<div class="md-acts">${proximas.map(htmlActividad).join("")}</div>`;
         } else {
-            html += `<p class="md-vacio">Por ahora no hay actividades programadas acá. Mirá el <a href="calendario.html">calendario</a> para ver las próximas propuestas.</p>`;
+            html += `<p class="md-vacio">${t("md.sinActs")}</p>`;
         }
         if (pasadas.length) {
-            html += `<details class="md-pasadas"><summary>Actividades finalizadas (${pasadas.length})</summary>
+            html += `<details class="md-pasadas"><summary>${t("md.finalizadas", { n: pasadas.length })}</summary>
                 <div class="md-acts">${pasadas.map(htmlActividad).join("")}</div></details>`;
         }
         return html + "</section>";
@@ -91,8 +91,8 @@
             </a>`;
         }).join("");
         return `<section class="md-bloque" aria-labelledby="mdOtrosTitulo">
-            <div class="md-bloque__cab"><h2 id="mdOtrosTitulo"><i class="fa-solid fa-landmark" aria-hidden="true"></i> Otros museos de Colonia</h2>
-            <a href="museos.html">Ver todos</a></div>
+            <div class="md-bloque__cab"><h2 id="mdOtrosTitulo"><i class="fa-solid fa-landmark" aria-hidden="true"></i> ${t("md.otros")}</h2>
+            <a href="museos.html">${t("md.verTodos")}</a></div>
             <div class="md-otros">${tarjetas}</div></section>`;
     }
 
@@ -100,30 +100,30 @@
         const cuantas = proximas.length;
         const destino = encodeURIComponent(m.lat + "," + m.lng);
         const hero = tieneImagen(m)
-            ? `<img class="md-hero__img" src="${escaparHtml(m.imagen)}" alt="Fachada de ${escaparHtml(m.nombre)}">`
+            ? `<img class="md-hero__img" src="${escaparHtml(m.imagen)}" alt="${escaparHtml(t("md.fachada", { nombre: m.nombre }))}">`
             : `<div class="md-hero__img md-hero__img--vacia"><i class="fa-solid fa-landmark" aria-hidden="true"></i></div>`;
 
         return `
-        <nav class="md-migas" aria-label="Ubicación en el sitio">
-            <a href="index.html">Inicio</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-            <a href="museos.html">Museos</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        <nav class="md-migas" aria-label="${t("md.ubicacionAria")}">
+            <a href="index.html">${t("nav.inicio")}</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            <a href="museos.html">${t("nav.museos")}</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
             <span aria-current="page">${escaparHtml(m.nombre)}</span>
         </nav>
 
         <article class="md-hero tipo-museo">
             ${hero}
             <div class="md-hero__cuerpo">
-                <span class="mc-badge"><i class="fa-solid fa-landmark" aria-hidden="true"></i> Museo · ${escaparHtml(m.tipo)}</span>
+                <span class="mc-badge"><i class="fa-solid fa-landmark" aria-hidden="true"></i> ${t("tipo.museo")} · ${escaparHtml(m.tipo)}</span>
                 <h1>${escaparHtml(m.nombre)}</h1>
                 <ul class="md-datos-rapidos">
                     ${m.direccion ? `<li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> ${escaparHtml(m.direccion)}</li>` : ""}
                     ${m.horario ? `<li><i class="fa-regular fa-clock" aria-hidden="true"></i> ${escaparHtml(m.horario)}</li>` : ""}
-                    <li><i class="fa-regular fa-calendar-check" aria-hidden="true"></i> ${cuantas ? cuantas + (cuantas === 1 ? " actividad próxima" : " actividades próximas") : "Sin actividades próximas"}</li>
+                    <li><i class="fa-regular fa-calendar-check" aria-hidden="true"></i> ${cuantas ? t(cuantas === 1 ? "md.proxUna" : "md.proxVarias", { n: cuantas }) : t("md.sinProx")}</li>
                 </ul>
                 <div class="md-acciones">
-                    <a class="insc-btn insc-btn--primario" href="https://www.google.com/maps/dir/?api=1&destination=${destino}" target="_blank" rel="noopener"><i class="fa-solid fa-route" aria-hidden="true"></i> Cómo llegar</a>
-                    <a class="insc-btn" href="mapa.html?foco=museo:${encodeURIComponent(m.id)}"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver en el mapa cultural</a>
-                    <button type="button" class="insc-btn" id="mdCompartir"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Compartir</button>
+                    <a class="insc-btn insc-btn--primario" href="https://www.google.com/maps/dir/?api=1&destination=${destino}" target="_blank" rel="noopener"><i class="fa-solid fa-route" aria-hidden="true"></i> ${t("md.comoLlegar")}</a>
+                    <a class="insc-btn" href="mapa.html?foco=museo:${encodeURIComponent(m.id)}"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> ${t("md.verMapa")}</a>
+                    <button type="button" class="insc-btn" id="mdCompartir"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> ${t("md.compartir")}</button>
                 </div>
             </div>
         </article>
@@ -131,28 +131,28 @@
         <div class="md-columnas">
             <div class="md-col-principal">
                 <section class="md-bloque" aria-labelledby="mdSobreTitulo">
-                    <h2 id="mdSobreTitulo"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Sobre este museo</h2>
+                    <h2 id="mdSobreTitulo"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> ${t("md.sobre")}</h2>
                     <p class="md-texto">${escaparHtml(m.descripcionCorta)}</p>
                 </section>
                 ${htmlActividades(proximas, pasadas)}
             </div>
 
-            <aside class="md-col-lateral" aria-label="Información práctica">
+            <aside class="md-col-lateral" aria-label="${t("md.info")}">
                 <section class="md-bloque md-bloque--mapa">
-                    <div id="museoMini" class="museo-det__mapa md-mapa" role="img" aria-label="Mapa con la ubicación de ${escaparHtml(m.nombre)}"></div>
+                    <div id="museoMini" class="museo-det__mapa md-mapa" role="img" aria-label="${escaparHtml(t("md.mapaAria", { nombre: m.nombre }))}"></div>
                     <dl class="md-info">
-                        <div><dt><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Dirección</dt><dd>${escaparHtml(m.direccion || "Colonia del Sacramento")}</dd></div>
-                        <div><dt><i class="fa-regular fa-clock" aria-hidden="true"></i> Horario</dt><dd>${escaparHtml(m.horario || "Consultá el horario con el museo")}</dd></div>
-                        <div><dt><i class="fa-solid fa-tag" aria-hidden="true"></i> Tipo</dt><dd>${escaparHtml(m.tipo)}</dd></div>
+                        <div><dt><i class="fa-solid fa-location-dot" aria-hidden="true"></i> ${t("md.direccion")}</dt><dd>${escaparHtml(m.direccion || t("md.dirDefault"))}</dd></div>
+                        <div><dt><i class="fa-regular fa-clock" aria-hidden="true"></i> ${t("md.horario")}</dt><dd>${escaparHtml(m.horario || t("md.horarioDefault"))}</dd></div>
+                        <div><dt><i class="fa-solid fa-tag" aria-hidden="true"></i> ${t("md.tipo")}</dt><dd>${escaparHtml(m.tipo)}</dd></div>
                     </dl>
-                    <a class="nc-btn nc-btn--outline md-btn-bloque" href="https://www.google.com/maps/dir/?api=1&destination=${destino}" target="_blank" rel="noopener"><i class="fa-solid fa-route" aria-hidden="true"></i> Abrir indicaciones</a>
+                    <a class="nc-btn nc-btn--outline md-btn-bloque" href="https://www.google.com/maps/dir/?api=1&destination=${destino}" target="_blank" rel="noopener"><i class="fa-solid fa-route" aria-hidden="true"></i> ${t("md.indicaciones")}</a>
                 </section>
             </aside>
         </div>
 
         ${htmlOtros(otros)}
 
-        <p class="md-volver"><a class="insc-btn" href="museos.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a museos</a></p>`;
+        <p class="md-volver"><a class="insc-btn" href="museos.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> ${t("md.volver")}</a></p>`;
     }
 
     // El mapa es un extra: si falla (por ejemplo, Leaflet bloqueado), el resto de la página sigue.
@@ -172,7 +172,7 @@
             }).addTo(mini);
         } catch (e) {
             console.error("No se pudo dibujar el mapa:", e);
-            el.outerHTML = '<p class="md-vacio">No se pudo cargar el mapa. Usá “Cómo llegar” para ver la ubicación.</p>';
+            el.outerHTML = '<p class="md-vacio">' + t("md.mapaFalla") + '</p>';
         }
     }
 
@@ -184,10 +184,10 @@
             try {
                 if (navigator.share) { await navigator.share(datos); return; }
                 await navigator.clipboard.writeText(location.href);
-                avisar("Enlace copiado");
+                avisar(t("md.copiado"));
             } catch (e) {
                 if (e && e.name === "AbortError") return; // el usuario cerró el menú de compartir
-                avisar("No se pudo copiar. Copiá la dirección desde la barra del navegador.");
+                avisar(t("md.noCopio"));
             }
         });
     }
@@ -197,11 +197,11 @@
         const m = id ? await gestorMuseos.obtenerMuseoPorId(id) : null;
 
         if (!m) {
-            document.title = "Nodo Cultural - Museo no encontrado";
+            document.title = t("md.noEncTitulo");
             cont.innerHTML = `<div class="insc-vacio"><i class="fa-solid fa-landmark" aria-hidden="true"></i>
-                <h2>No encontramos este museo</h2>
-                <p>Puede que el enlace esté incompleto o que el museo ya no esté en la lista.</p>
-                <a class="insc-btn insc-btn--primario" href="museos.html">Ver todos los museos</a></div>`;
+                <h2>${t("md.noEncH")}</h2>
+                <p>${t("md.noEncP")}</p>
+                <a class="insc-btn insc-btn--primario" href="museos.html">${t("md.verTodosMuseos")}</a></div>`;
             return;
         }
 
@@ -223,9 +223,12 @@
         activarCompartir(m);
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
+    function iniciarMuseo() {
         renderizarMuseo().catch(function () {
             mostrarErrorServidor(cont);
         });
-    });
+    }
+
+    document.addEventListener("DOMContentLoaded", iniciarMuseo);
+    document.addEventListener("idiomacambiado", iniciarMuseo);
 })();

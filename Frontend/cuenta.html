@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Mi cuenta</title>
+  <title data-i18n="cuenta.titulo">Nodo Cultural - Mi cuenta</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,13 +19,13 @@
     <header class="insc-hero cuenta-hero">
         <div class="cuenta-avatar" id="cuentaAvatar"></div>
         <div class="cuenta-hero__info">
-        <p class="insc-hero__eyebrow">Mi cuenta</p>
+        <p class="insc-hero__eyebrow" data-i18n="hd.miCuenta">Mi cuenta</p>
         <h1 id="cuentaNombre"></h1>
         <p class="insc-hero__sub" id="cuentaCorreo"></p>
         <div class="cuenta-hero__acciones">
-            <label class="insc-btn insc-btn--primario" for="inputFoto"><i class="fa-solid fa-camera"></i> Cambiar foto</label>
+            <label class="insc-btn insc-btn--primario" for="inputFoto"><i class="fa-solid fa-camera"></i> <span data-i18n="cuenta.cambiarFoto">Cambiar foto</span></label>
             <input type="file" id="inputFoto" accept="image/*" hidden>
-            <button type="button" class="insc-btn insc-btn--peligro" id="btnQuitarFoto" hidden>Quitar foto</button>
+            <button type="button" class="insc-btn insc-btn--peligro" id="btnQuitarFoto" hidden data-i18n="cuenta.quitarFoto">Quitar foto</button>
         </div>
         </div>
         <div class="insc-resumen" id="cuentaStats"></div>
@@ -33,31 +33,31 @@
 
     <div class="cuenta-grid">
         <section class="cuenta-card">
-        <h2>Datos personales</h2>
+        <h2 data-i18n="cuenta.datos">Datos personales</h2>
         <form id="formDatos" class="cuenta-form">
             <div class="cuenta-form__fila">
-            <div class="cuenta-campo"><label for="cuenta-nombre">Nombre</label><input id="cuenta-nombre" maxlength="40" required></div>
-            <div class="cuenta-campo"><label for="cuenta-apellido">Apellido</label><input id="cuenta-apellido" maxlength="40"></div>
+            <div class="cuenta-campo"><label for="cuenta-nombre" data-i18n="registro.nombre">Nombre</label><input id="cuenta-nombre" maxlength="40" required></div>
+            <div class="cuenta-campo"><label for="cuenta-apellido" data-i18n="registro.apellido">Apellido</label><input id="cuenta-apellido" maxlength="40"></div>
             </div>
-            <div class="cuenta-campo"><label for="cuenta-correo">Correo</label><input id="cuenta-correo" readonly></div>
+            <div class="cuenta-campo"><label for="cuenta-correo" data-i18n="auth.correo">Correo</label><input id="cuenta-correo" readonly></div>
             <div class="cuenta-form__fila">
-            <div class="cuenta-campo"><label for="cuenta-telefono">Teléfono</label><input id="cuenta-telefono" type="tel" maxlength="20" placeholder="09X XXX XXX"></div>
-            <div class="cuenta-campo"><label for="cuenta-nacimiento">Fecha de nacimiento</label><input id="cuenta-nacimiento" type="date"></div>
+            <div class="cuenta-campo"><label for="cuenta-telefono" data-i18n="det.telefono">Teléfono</label><input id="cuenta-telefono" type="tel" maxlength="20" placeholder="09X XXX XXX"></div>
+            <div class="cuenta-campo"><label for="cuenta-nacimiento" data-i18n="registro.nacimiento">Fecha de nacimiento</label><input id="cuenta-nacimiento" type="date"></div>
             </div>
-            <div class="cuenta-campo"><label for="cuenta-bio">Sobre mí</label><textarea id="cuenta-bio" rows="3" maxlength="200" placeholder="Contanos algo sobre vos (máx. 200 caracteres)"></textarea></div>
-            <button type="submit" class="insc-btn insc-btn--primario"><i class="fa-solid fa-floppy-disk"></i> Guardar cambios</button>
+            <div class="cuenta-campo"><label for="cuenta-bio" data-i18n="cuenta.bio">Sobre mí</label><textarea id="cuenta-bio" rows="3" maxlength="200" placeholder="Contanos algo sobre vos (máx. 200 caracteres)" data-i18n-attr="placeholder:cuenta.bioPh"></textarea></div>
+            <button type="submit" class="insc-btn insc-btn--primario"><i class="fa-solid fa-floppy-disk"></i> <span data-i18n="cuenta.guardar">Guardar cambios</span></button>
         </form>
         </section>
 
         <section class="cuenta-card">
-        <h2>Seguridad</h2>
+        <h2 data-i18n="cuenta.seguridad">Seguridad</h2>
         <form id="formPass" class="cuenta-form">
-            <div class="cuenta-campo"><label for="pass-actual">Contraseña actual</label><input id="pass-actual" type="password" required></div>
-            <div class="cuenta-campo"><label for="pass-nueva">Nueva contraseña</label><input id="pass-nueva" type="password" minlength="8" required></div>
-            <div class="cuenta-campo"><label for="pass-repetir">Repetir nueva contraseña</label><input id="pass-repetir" type="password" minlength="8" required></div>
-            <button type="submit" class="insc-btn insc-btn--primario"><i class="fa-solid fa-lock"></i> Cambiar contraseña</button>
+            <div class="cuenta-campo"><label for="pass-actual" data-i18n="cuenta.passActual">Contraseña actual</label><input id="pass-actual" type="password" required></div>
+            <div class="cuenta-campo"><label for="pass-nueva" data-i18n="rest.nueva">Nueva contraseña</label><input id="pass-nueva" type="password" minlength="8" required></div>
+            <div class="cuenta-campo"><label for="pass-repetir" data-i18n="cuenta.passRepetir">Repetir nueva contraseña</label><input id="pass-repetir" type="password" minlength="8" required></div>
+            <button type="submit" class="insc-btn insc-btn--primario"><i class="fa-solid fa-lock"></i> <span data-i18n="cuenta.cambiarPass">Cambiar contraseña</span></button>
         </form>
-        <a href="mis-inscripciones.html" class="insc-btn insc-btn--peligro cuenta-link"><i class="fa-regular fa-calendar-check"></i> Ver mis inscripciones</a>
+        <a href="mis-inscripciones.html" class="insc-btn insc-btn--peligro cuenta-link"><i class="fa-regular fa-calendar-check"></i> <span data-i18n="cuenta.verInsc">Ver mis inscripciones</span></a>
         </section>
     </div>
     <div class="cuenta-aviso" id="cuentaAviso" role="status"></div>

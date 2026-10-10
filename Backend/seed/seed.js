@@ -9,11 +9,17 @@ const { talleres, charlas, recorridos, recursos } = require("./datos");
 const Museo = require("../models/Museo");
 const SEDES = require("./sedes");
 const { sembrarMuseos } = require("./seedMuseos");
+const TRADUCCIONES = require("./traducciones");
 
 async function cargar(Modelo, datos, nombre) {
   await Modelo.deleteMany({});
   await Modelo.insertMany(datos);
   console.log(`${nombre}: ${datos.length} cargados`);
+}
+
+// Agrega los textos en inglés y portugués (seed/traducciones.js) a cada elemento, según su título
+function conTraducciones(lista, traducciones) {
+  return lista.map((item) => (traducciones[item.titulo] ? { ...item, traducciones: traducciones[item.titulo] } : item));
 }
 
 async function conSede(lista, sedes) {
@@ -29,10 +35,10 @@ async function sembrar() {
   await mongoose.connect(process.env.MONGODB_URI);
   const m = await sembrarMuseos(); // primero los museos, para poder asignarles sede a las actividades
   console.log(`Museos: ${m.museos} cargados`);
-  await cargar(Taller, await conSede(talleres, SEDES.talleres), "Talleres");
-  await cargar(Charla, await conSede(charlas, SEDES.charlas), "Charlas");
-  await cargar(Recorrido, await conSede(recorridos, SEDES.recorridos), "Recorridos");
-  await cargar(Recurso, recursos, "Recursos");
+  await cargar(Taller, conTraducciones(await conSede(talleres, SEDES.talleres), TRADUCCIONES.talleres), "Talleres");
+  await cargar(Charla, conTraducciones(await conSede(charlas, SEDES.charlas), TRADUCCIONES.charlas), "Charlas");
+  await cargar(Recorrido, conTraducciones(await conSede(recorridos, SEDES.recorridos), TRADUCCIONES.recorridos), "Recorridos");
+  await cargar(Recurso, conTraducciones(recursos, TRADUCCIONES.recursos), "Recursos");
   await Inscripcion.deleteMany({});
   await mongoose.disconnect();
 }

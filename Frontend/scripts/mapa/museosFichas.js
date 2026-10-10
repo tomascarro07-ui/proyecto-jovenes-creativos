@@ -3,11 +3,11 @@
     const cont = document.getElementById("museosFichas");
     if (!cont) return;
 
-    document.addEventListener("DOMContentLoaded", async function () {
+    async function cargarMuseos() {
         try {
             const museos = await gestorMuseos.obtenerMuseos();
             if (!museos.length) {
-                cont.innerHTML = '<p class="museo-det__vacio">Todavía no hay museos cargados.</p>';
+                cont.innerHTML = '<p class="museo-det__vacio">' + t("museos.sin") + '</p>';
                 return;
             }
             cont.innerHTML = museos.map(function (m) {
@@ -27,5 +27,8 @@
         } catch (e) {
             mostrarErrorServidor(cont);
         }
-    });
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarMuseos);
+    document.addEventListener("idiomacambiado", cargarMuseos);
 })();

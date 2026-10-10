@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Detalle Recorrido</title>
+  <title data-i18n="mapa.titulo">Nodo Cultural - Mapa cultural</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,25 +17,25 @@
 
   <main class="mapa-main">
     <header class="mapa-cabecera">
-        <p class="insc-hero__eyebrow">Explorá Colonia del Sacramento</p>
-        <h1>Mapa cultural</h1>
-        <p>Museos, charlas, talleres y recorridos de Nodo Cultural, ubicados en un solo lugar.</p>
+        <p class="insc-hero__eyebrow" data-i18n="mapa.eyebrow">Explorá Colonia del Sacramento</p>
+        <h1 data-i18n="nav.mapa">Mapa cultural</h1>
+        <p data-i18n="mapa.hero">Museos, charlas, talleres y recorridos de Nodo Cultural, ubicados en un solo lugar.</p>
     </header>
 
     <div class="mapa-barra">
         <div class="mapa-chips" id="mapaFiltros"></div>
         <div class="mapa-opciones">
-        <label class="mapa-switch"><input type="checkbox" id="optFinalizadas"><span>Mostrar finalizadas</span></label>
-        <label class="mapa-switch"><input type="checkbox" id="optCalles"><span>Nombres de calles</span></label>
+        <label class="mapa-switch"><input type="checkbox" id="optFinalizadas"><span data-i18n="mapa.finalizadas">Mostrar finalizadas</span></label>
+        <label class="mapa-switch"><input type="checkbox" id="optCalles"><span data-i18n="mapa.calles">Nombres de calles</span></label>
         </div>
     </div>
 
     <div class="mapa-contenedor">
-        <div id="mapaCultural" role="application" aria-label="Mapa cultural de Colonia del Sacramento"></div>
+        <div id="mapaCultural" role="application" aria-label="Mapa cultural de Colonia del Sacramento" data-i18n-attr="aria-label:mapa.aria"></div>
         <aside class="mapa-tarjeta" id="mapaTarjeta" hidden aria-live="polite"></aside>
         <div class="mapa-vacio" id="mapaVacio" hidden>
         <i class="fa-regular fa-map"></i>
-        <p>No hay propuestas con ubicación para mostrar.</p>
+        <p data-i18n="mapa.vacio">No hay propuestas con ubicación para mostrar.</p>
         </div>
     </div>
   </main>

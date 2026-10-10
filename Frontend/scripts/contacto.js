@@ -2,6 +2,8 @@ const parametros = new URLSearchParams(window.location.search);
 const idTaller = parametros.get("idTaller");
 const idCharla = parametros.get("idCharla");
 
+let ultimoMensajeAuto = "";
+
 async function prepararContacto() {
   // Si no se llegó desde un taller o una charla, el formulario queda como está.
   if (!idTaller && !idCharla) {
@@ -21,11 +23,11 @@ async function prepararContacto() {
       return;
     }
 
-    titulo.textContent = "Reservá tu recorrido";
-    intro.innerHTML = `Estás por consultar sobre nuestro <b>${taller.titulo}.</b> Completá tus datos y te contactaremos para coordinar.`;
+    titulo.textContent = t("contacto.reservaTaller");
+    intro.innerHTML = t("contacto.introTaller", { titulo: escaparHtml(taller.titulo) });
     grupoActividad.hidden = false;
     campoActividad.value = taller.titulo;
-    mensaje.value = `Hola, quiero reservar el recorrido "${taller.titulo}". Quedo atento/a a los próximos pasos.`;
+    ponerMensajeAuto(mensaje, t("contacto.msgTaller", { titulo: taller.titulo }));
 
   } else if (idCharla) {
     const charla = await new GestorCharlas().obtenerCharlaPorId(idCharla);
@@ -34,13 +36,25 @@ async function prepararContacto() {
       return;
     }
 
-    titulo.textContent = "Reservá tu lugar en la charla";
-    intro.innerHTML = `Estás por consultar sobre la charla <b>${charla.titulo}.</b> Completá tus datos y te contactaremos para continuar con la inscripción.`;
+    titulo.textContent = t("contacto.reservaCharla");
+    intro.innerHTML = t("contacto.introCharla", { titulo: escaparHtml(charla.titulo) });
     grupoActividad.hidden = false;
     campoActividad.value = charla.titulo;
-    mensaje.value = `Hola, quiero reservar mi lugar en la charla "${charla.titulo}". Quedo atento/a a los próximos pasos.`;
+    ponerMensajeAuto(mensaje, t("contacto.msgCharla", { titulo: charla.titulo }));
   }
 }
+
+// Completa el mensaje sugerido, pero no pisa lo que la persona ya escribió por su cuenta
+function ponerMensajeAuto(campo, texto) {
+  if (campo.value === "" || campo.value === ultimoMensajeAuto) {
+    campo.value = texto;
+  }
+  ultimoMensajeAuto = texto;
+}
+
+document.addEventListener("idiomacambiado", function () {
+  prepararContacto().catch(function () {});
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   // Si el servidor no responde, el formulario de contacto sigue funcionando igual.
@@ -64,7 +78,7 @@ if (formContacto) {
     const boton = formContacto.querySelector('button[type="submit"]');
     const textoOriginal = boton.innerHTML;
     boton.disabled = true;
-    boton.textContent = "Enviando...";
+    boton.textContent = t("bol.enviando");
     aviso.hidden = true;
 
     try {
@@ -78,13 +92,13 @@ if (formContacto) {
         }
       });
 
-      aviso.textContent = (datos && datos.mensaje) || "¡Gracias! Recibimos tu consulta.";
+      aviso.textContent = (datos && datos.mensaje) || t("contacto.gracias");
       aviso.style.color = "#2f6b3a";
       aviso.hidden = false;
       formContacto.reset();
       prepararContacto().catch(function () {}); // vuelve a completar el mensaje si venías de una charla o taller
     } catch (error) {
-      aviso.textContent = error.message || "No pudimos enviar tu mensaje. Probá de nuevo.";
+      aviso.textContent = error.message || t("contacto.error");
       aviso.style.color = "#a2492a";
       aviso.hidden = false;
     } finally {

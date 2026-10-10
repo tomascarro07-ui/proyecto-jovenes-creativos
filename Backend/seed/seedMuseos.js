@@ -5,6 +5,7 @@ const Taller = require("../models/Taller");
 const Charla = require("../models/Charla");
 const Recorrido = require("../models/Recorrido");
 const { asignarSedes } = require("./asignarSedes");
+const TRADUCCIONES = require("./traducciones");
 
 // Los 9 espacios del Museo de Colonia. Datos tomados de museoscolonia.com.uy.
 // Si cambia un horario o una dirección, se corrige acá y se vuelve a correr `npm run museos`.
@@ -123,7 +124,8 @@ async function sembrarMuseos() {
   //    si cargaste una foto desde el admin, no se borra.
   for (const m of MUSEOS) {
     const { imagen, ...datos } = m;
-    const cambios = imagen ? { ...datos, imagen } : datos;
+    const cambios = imagen ? { ...datos, imagen } : { ...datos };
+    if (TRADUCCIONES.museos[m.nombre]) cambios.traducciones = TRADUCCIONES.museos[m.nombre];
     await Museo.findOneAndUpdate(
       { nombre: m.nombre },
       { $set: cambios },

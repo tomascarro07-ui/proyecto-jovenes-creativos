@@ -3,6 +3,7 @@ const Museo = require("../models/Museo");
 const Charla = require("../models/Charla");
 const Taller = require("../models/Taller");
 const Recorrido = require("../models/Recorrido");
+const { campoTraducido, salidaDe, lugarTaller } = require("../config/idioma");
 
 const router = express.Router();
 
@@ -18,6 +19,9 @@ router.get("/", async (req, res) => {
       Taller.find(filtro),
       Recorrido.find(filtro),
     ]);
+
+    const idioma = req.idioma;
+    const tr = (doc, campo) => campoTraducido(doc, campo, idioma);
 
     const museoPorId = new Map(museos.map((m) => [String(m._id), m]));
 
@@ -35,20 +39,20 @@ router.get("/", async (req, res) => {
 
     const puntos = [
       ...museos.map((m) => ({
-        tipo: "museo", id: m.id, museoId: m.id, titulo: m.nombre, subtitulo: m.tipo,
-        lugar: m.direccion || "Colonia del Sacramento", descripcion: m.descripcionCorta,
-        horario: m.horario, imagen: m.imagen, lat: m.lat, lng: m.lng,
+        tipo: "museo", id: m.id, museoId: m.id, titulo: tr(m, "nombre"), subtitulo: tr(m, "tipo"),
+        lugar: tr(m, "direccion") || req.t("Colonia del Sacramento"), descripcion: tr(m, "descripcionCorta"),
+        horario: tr(m, "horario"), imagen: m.imagen, lat: m.lat, lng: m.lng,
       })),
       ...charlas.flatMap((c) => conUbicacion(c, {
-        tipo: "charla", id: c.id, titulo: c.titulo, lugar: c.lugar, fecha: c.fecha, hora: c.hora,
+        tipo: "charla", id: c.id, titulo: tr(c, "titulo"), lugar: tr(c, "lugar"), fecha: c.fecha, hora: c.hora,
         cupos: c.cupos, finalizada: c.finalizada, imagen: c.imagen, virtual: c.tipo === "Virtual",
       })),
       ...talleres.flatMap((t) => conUbicacion(t, {
-        tipo: "taller", id: t.id, titulo: t.titulo, lugar: t.lugar || "Taller " + t.modalidad,
+        tipo: "taller", id: t.id, titulo: tr(t, "titulo"), lugar: tr(t, "lugar") || lugarTaller(t.modalidad, idioma),
         fecha: t.fecha, hora: t.hora, cupos: t.cupos, finalizada: t.finalizada, imagen: t.imagen, virtual: t.modalidad === "Virtual",
       })),
       ...recorridos.flatMap((r) => conUbicacion(r, {
-        tipo: "recorrido", id: r.id, titulo: r.titulo, lugar: "Salida: " + r.puntoSalida,
+        tipo: "recorrido", id: r.id, titulo: tr(r, "titulo"), lugar: salidaDe(idioma) + tr(r, "puntoSalida"),
         fecha: r.fecha, hora: r.hora, cupos: r.cupos, finalizada: r.finalizada, imagen: r.imagen,
       })),
     ];

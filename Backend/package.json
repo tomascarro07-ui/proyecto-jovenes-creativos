@@ -9,7 +9,8 @@
     "seed": "node seed/seed.js",
     "admin": "node seed/crearAdmin.js",
     "museos": "node seed/seedMuseos.js",
-    "sedes": "node seed/asignarSedes.js"
+    "sedes": "node seed/asignarSedes.js",
+    "traducir": "node seed/traducir.js"
   },
   "keywords": [],
   "author": "",

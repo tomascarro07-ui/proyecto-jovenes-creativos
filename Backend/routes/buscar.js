@@ -5,6 +5,7 @@ const Charla = require("../models/Charla");
 const Taller = require("../models/Taller");
 const Recorrido = require("../models/Recorrido");
 const Recurso = require("../models/Recurso");
+const { campoTraducido, traducirDato } = require("../config/idioma");
 
 const router = express.Router();
 
@@ -46,26 +47,32 @@ const FUENTES = {
 const TIPOS = Object.keys(FUENTES);
 const LIMITE = 60;
 
-async function cargar(tipo) {
+async function cargar(tipo, idioma) {
   const f = FUENTES[tipo];
-  const campos = new Set([...f.buscar, f.titulo, f.categoria, f.descripcion, f.lugar, "imagen", "fecha", "hora", "finalizada", "archivo"]);
+  const campos = new Set([...f.buscar, f.titulo, f.categoria, f.descripcion, f.lugar, "imagen", "fecha", "hora", "finalizada", "archivo", "traducciones"]);
   const docs = await f.Modelo.find().select([...campos].join(" ")).lean();
-  return docs.map((d) => ({
-    tipo,
-    id: String(d._id),
-    titulo: d[f.titulo] || "",
-    categoria: d[f.categoria] || "",
-    descripcion: d[f.descripcion] || "",
-    lugar: d[f.lugar] || "",
-    imagen: d.imagen || "",
-    fecha: d.fecha || "",
-    hora: d.hora || "",
-    archivo: tipo === "recurso" ? d.archivo || "" : undefined,
-    finalizada: d.finalizada === true,
-    _texto: normalizar(f.buscar.map((c) => d[c] || "").join(" ")),
-    _titulo: normalizar(d[f.titulo]),
-    _categoria: normalizar(d[f.categoria]),
-  }));
+  return docs.map((d) => {
+    const v = (campo) => campoTraducido(d, campo, idioma);
+    // Se busca en el texto original y en el traducido: sirve escribir en cualquiera de los dos idiomas
+    const texto = f.buscar.map((c) => [d[c], v(c), traducirDato(d[c], idioma)].filter(Boolean).join(" ")).join(" ");
+    const categoria = traducirDato(v(f.categoria) || "", idioma);
+    return {
+      tipo,
+      id: String(d._id),
+      titulo: v(f.titulo) || "",
+      categoria,
+      descripcion: v(f.descripcion) || "",
+      lugar: v(f.lugar) || "",
+      imagen: d.imagen || "",
+      fecha: d.fecha || "",
+      hora: d.hora || "",
+      archivo: tipo === "recurso" ? d.archivo || "" : undefined,
+      finalizada: d.finalizada === true,
+      _texto: normalizar(texto),
+      _titulo: normalizar(v(f.titulo)),
+      _categoria: normalizar(categoria),
+    };
+  });
 }
 
 function puntuar(item, tokens, frase) {
@@ -90,7 +97,8 @@ router.get("/", limitador, async (req, res) => {
     const categoria = normalizar(String(req.query.categoria || "").slice(0, 60));
     const ocultarFinalizadas = req.query.ocultarFinalizadas === "1";
 
-    const todos = (await Promise.all(TIPOS.map(cargar))).flat();
+    const idioma = req.idioma;
+    const todos = (await Promise.all(TIPOS.map((t) => cargar(t, idioma)))).flat();
 
     // 1) texto (todas las palabras tienen que aparecer) y estado
     const coinciden = [];
@@ -119,14 +127,14 @@ router.get("/", limitador, async (req, res) => {
     const finales = porTipo
       .filter((i) => !categoria || i._categoria === categoria)
       .sort((a, b) =>
-        (a.finalizada - b.finalizada) || (b.puntaje - a.puntaje) || a.titulo.localeCompare(b.titulo, "es"));
+        (a.finalizada - b.finalizada) || (b.puntaje - a.puntaje) || a.titulo.localeCompare(b.titulo, idioma));
 
     const resultados = finales.slice(0, LIMITE).map(({ _texto, _titulo, _categoria, puntaje, ...limpio }) => limpio);
     res.json({
       total: finales.length,
       resultados,
       conteos,
-      categorias: [...cats.values()].sort((a, b) => a.valor.localeCompare(b.valor, "es")),
+      categorias: [...cats.values()].sort((a, b) => a.valor.localeCompare(b.valor, idioma)),
     });
   } catch (e) {
     console.error("Error en buscar:", e.message);

@@ -81,8 +81,8 @@ function busUrlSegura(u) {
 // ── Pantalla ────────────────────────────────────────────────
 function busPintarChips() {
     const total = Object.values(busConteos).reduce((a, b) => a + b, 0);
-    let html = chip("", "Todo", "fa-border-all", total);
-    for (const [clave, t] of Object.entries(BUS_TIPOS)) html += chip(clave, t.plural, t.icono, busConteos[clave] || 0);
+    let html = chip("", t("bus.todo"), "fa-border-all", total);
+    for (const [clave, tp] of Object.entries(BUS_TIPOS)) html += chip(clave, t("tipo." + clave + ".p"), tp.icono, busConteos[clave] || 0);
     busChips.innerHTML = html;
 
     function chip(clave, texto, icono, n) {
@@ -96,8 +96,8 @@ function busPintarChips() {
 function busPintarCategorias(categorias) {
     const puedeFiltrar = !!busFiltro.tipo && categorias.length > 0;
     busCategoria.disabled = !puedeFiltrar;
-    busCategoria.title = busFiltro.tipo ? "" : "Elegí un tipo para filtrar por categoría";
-    let html = '<option value="">Todas las categorías</option>';
+    busCategoria.title = busFiltro.tipo ? "" : t("bus.elegiTipo");
+    let html = '<option value="">' + t("bus.todasCat") + '</option>';
     for (const c of categorias) {
         const sel = busNormalizar(c.valor) === busNormalizar(busFiltro.categoria) ? " selected" : "";
         html += `<option value="${escaparHtml(c.valor)}"${sel}>${escaparHtml(c.valor)} (${c.cantidad})</option>`;
@@ -107,24 +107,24 @@ function busPintarCategorias(categorias) {
 }
 
 function busTarjeta(r, tokens) {
-    const t = BUS_TIPOS[r.tipo];
+    const tp = BUS_TIPOS[r.tipo];
     const img = busUrlSegura(r.imagen);
     const media = img
         ? `<img src="${escaparHtml(img)}" alt="" loading="lazy">`
-        : `<span class="bus-card__ico"><i class="fa-solid ${t.icono}" aria-hidden="true"></i></span>`;
+        : `<span class="bus-card__ico"><i class="fa-solid ${tp.icono}" aria-hidden="true"></i></span>`;
     const meta = [];
     if (r.fecha) meta.push(`<li><i class="fa-regular fa-calendar" aria-hidden="true"></i> ${escaparHtml(busFecha(r.fecha))}${r.hora ? " · " + escaparHtml(r.hora) : ""}</li>`);
     if (r.lugar) meta.push(`<li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> ${busResaltar(busRecortar(r.lugar, 60), tokens)}</li>`);
-    const href = busUrlSegura(t.url(r)) || "#";
+    const href = busUrlSegura(tp.url(r)) || "#";
     const extra = r.tipo === "recurso" ? ' target="_blank" rel="noopener"' : "";
 
     return `<a class="bus-card tipo-${r.tipo}${r.finalizada ? " bus-card--fin" : ""}" href="${escaparHtml(href)}"${extra}>
         <div class="bus-card__media">${media}</div>
         <div class="bus-card__cuerpo">
             <div class="bus-card__etiquetas">
-                <span class="mc-badge"><i class="fa-solid ${t.icono}" aria-hidden="true"></i> ${t.nombre}</span>
+                <span class="mc-badge"><i class="fa-solid ${tp.icono}" aria-hidden="true"></i> ${t("tipo." + r.tipo)}</span>
                 ${r.categoria ? `<span class="bus-card__cat">${busResaltar(r.categoria, tokens)}</span>` : ""}
-                ${r.finalizada ? '<span class="mc-cupos mc-cupos--fin">Finalizada</span>' : ""}
+                ${r.finalizada ? '<span class="mc-cupos mc-cupos--fin">' + t("cupo.fin") + '</span>' : ""}
             </div>
             <h3>${busResaltar(r.titulo, tokens)}</h3>
             <p>${busResaltar(busRecortar(r.descripcion, 150), tokens)}</p>
@@ -142,14 +142,16 @@ function busPintar(datos) {
     if (!datos.total) {
         busEstado.textContent = "";
         busResultados.innerHTML = `<div class="insc-vacio"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-            <h2>No encontramos resultados</h2>
-            <p>${busFiltro.q ? "Revisá la ortografía, probá con otra palabra o quitá algún filtro." : "No hay contenido con esos filtros."}</p></div>`;
-        busEstado.textContent = "Sin resultados";
+            <h2>${t("bus.sinResH")}</h2>
+            <p>${busFiltro.q ? t("bus.sinResP1") : t("bus.sinResP2")}</p></div>`;
+        busEstado.textContent = t("bus.sinRes");
         return;
     }
     const mostrados = datos.resultados.length;
-    busEstado.textContent = (busFiltro.q ? `${datos.total} resultado${datos.total === 1 ? "" : "s"} para “${busFiltro.q}”` : `${datos.total} elemento${datos.total === 1 ? "" : "s"} en Nodo Cultural`)
-        + (mostrados < datos.total ? ` · mostrando los primeros ${mostrados}, afiná la búsqueda para ver el resto` : "");
+    busEstado.textContent = (busFiltro.q
+        ? t(datos.total === 1 ? "bus.resQ1" : "bus.resQn", { n: datos.total, q: busFiltro.q })
+        : t(datos.total === 1 ? "bus.elem1" : "bus.elemN", { n: datos.total }))
+        + (mostrados < datos.total ? t("bus.mostrando", { n: mostrados }) : "");
     busResultados.innerHTML = datos.resultados.map((r) => busTarjeta(r, tokens)).join("");
 }
 
@@ -172,14 +174,14 @@ async function busBuscar() {
         if (mia !== busSecuencia) return;
         busEstado.textContent = "";
         busResultados.innerHTML = `<div class="insc-vacio"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-            <h2>No pudimos buscar</h2><p>${escaparHtml(error.message)}</p></div>`;
+            <h2>${t("bus.noPudo")}</h2><p>${escaparHtml(error.message)}</p></div>`;
     } finally {
         if (mia === busSecuencia) busResultados.removeAttribute("aria-busy");
     }
 }
 
 function busProgramar() {
-    busEstado.textContent = "Buscando…";
+    busEstado.textContent = t("bus.buscando");
     clearTimeout(busTemporizador);
     busTemporizador = setTimeout(busBuscar, 250); // espera a que el usuario haga una pausa
 }
@@ -255,3 +257,8 @@ document.addEventListener("keydown", function (e) {
     busPintarChips();
     busBuscar();
 })();
+
+// Al cambiar de idioma se repite la búsqueda para redibujar los resultados
+document.addEventListener("idiomacambiado", function () {
+    busBuscar();
+});

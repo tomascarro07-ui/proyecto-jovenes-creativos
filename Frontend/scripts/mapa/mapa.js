@@ -35,31 +35,31 @@ function visibles() {
 function textoFecha(p) {
     if (!p.fecha) return "";
     const partes = p.fecha.split("-").map(Number);
-    const f = new Date(partes[0], partes[1] - 1, partes[2]).toLocaleDateString("es-UY", { day: "numeric", month: "long" });
+    const f = new Date(partes[0], partes[1] - 1, partes[2]).toLocaleDateString(t("fecha.locale"), { day: "numeric", month: "long" });
     return f + (p.hora ? " · " + p.hora : "");
 }
 
 function textoCupos(p) {
-    if (p.finalizada) return '<span class="mc-cupos mc-cupos--fin">Finalizada</span>';
-    if (p.cupos === 0) return '<span class="mc-cupos mc-cupos--agotado">Sin cupos</span>';
-    return `<span class="mc-cupos">${p.cupos} ${p.cupos === 1 ? "cupo disponible" : "cupos disponibles"}</span>`;
+    if (p.finalizada) return '<span class="mc-cupos mc-cupos--fin">' + t("cupo.fin") + '</span>';
+    if (p.cupos === 0) return '<span class="mc-cupos mc-cupos--agotado">' + t("cupo.agotado") + '</span>';
+    return `<span class="mc-cupos">${p.cupos === 1 ? t("cupo.uno", { n: p.cupos }) : t("det.cupos", { n: p.cupos })}</span>`;
 }
 
 function itemHtml(p) {
-    const t = TIPOS[p.tipo];
+    const tp = TIPOS[p.tipo];
     return `
     <article class="mc-item tipo-${p.tipo}">
         ${p.imagen
             ? `<img class="mc-item__img" src="${escaparHtml(p.imagen)}" alt="" loading="lazy">`
-            : `<div class="mc-item__img mc-item__img--vacia"><i class="fa-solid ${t.icono}"></i></div>`}
+            : `<div class="mc-item__img mc-item__img--vacia"><i class="fa-solid ${tp.icono}"></i></div>`}
         <div class="mc-item__cuerpo">
-            <span class="mc-badge"><i class="fa-solid ${t.icono}"></i> ${t.nombre}${p.virtual ? " · Virtual" : ""}${p.subtitulo ? " · " + escaparHtml(p.subtitulo) : ""}</span>
+            <span class="mc-badge"><i class="fa-solid ${tp.icono}"></i> ${t("tipo." + p.tipo)}${p.virtual ? " · " + t("dato.Virtual") : ""}${p.subtitulo ? " · " + escaparHtml(p.subtitulo) : ""}</span>
             <h3>${escaparHtml(p.titulo)}</h3>
             <p><i class="fa-solid fa-location-dot"></i> ${escaparHtml(p.lugar || "")}</p>
             ${p.fecha ? `<p><i class="fa-regular fa-calendar"></i> ${escaparHtml(textoFecha(p))}</p>` : ""}
             ${p.horario ? `<p><i class="fa-regular fa-clock"></i> ${escaparHtml(p.horario)}</p>` : ""}
             ${textoCupos(p)}
-            <a class="insc-btn insc-btn--primario" href="${t.url(p.id)}">Ver detalle <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="insc-btn insc-btn--primario" href="${tp.url(p.id)}">${t("mapa.verDetalle")} <i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </article>`;
 }
@@ -111,7 +111,7 @@ function pintarMarcadores() {
 
         const marcador = L.marker([rep.lat, rep.lng], {
             icon: crearIcono(rep.tipo, badge),
-            title: museo ? museo.titulo : (items.length > 1 ? items.length + " propuestas en este lugar" : rep.titulo),
+            title: museo ? museo.titulo : (items.length > 1 ? t("mapa.propsLugar", { n: items.length }) : rep.titulo),
             riseOnHover: true
         });
         marcador.on("click", function (e) { L.DomEvent.stopPropagation(e); abrirGrupo(items, marcador); });
@@ -130,13 +130,13 @@ function imagenMuseoHtml(m) {
 }
 
 function filaActividad(p) {
-    const t = TIPOS[p.tipo];
+    const tp = TIPOS[p.tipo];
     return `
-    <a class="mc-act tipo-${p.tipo}" href="${t.url(p.id)}">
-        <span class="mc-act__icono"><i class="fa-solid ${t.icono}"></i></span>
+    <a class="mc-act tipo-${p.tipo}" href="${tp.url(p.id)}">
+        <span class="mc-act__icono"><i class="fa-solid ${tp.icono}"></i></span>
         <span class="mc-act__info">
             <strong>${escaparHtml(p.titulo)}</strong>
-            <small>${t.nombre}${p.virtual ? " · Virtual" : ""}${p.fecha ? " · " + escaparHtml(textoFecha(p)) : ""}</small>
+            <small>${t("tipo." + p.tipo)}${p.virtual ? " · " + t("dato.Virtual") : ""}${p.fecha ? " · " + escaparHtml(textoFecha(p)) : ""}</small>
             ${textoCupos(p)}
         </span>
         <i class="fa-solid fa-chevron-right"></i>
@@ -149,20 +149,20 @@ function tarjetaMuseoHtml(m) {
     <article class="mc-museo tipo-museo">
         <div class="mc-museo__media">
             ${imagenMuseoHtml(m)}
-            <span class="mc-badge mc-badge--sobre"><i class="fa-solid fa-landmark"></i> Museo${m.subtitulo ? " · " + escaparHtml(m.subtitulo) : ""}</span>
+            <span class="mc-badge mc-badge--sobre"><i class="fa-solid fa-landmark"></i> ${t("tipo.museo")}${m.subtitulo ? " · " + escaparHtml(m.subtitulo) : ""}</span>
         </div>
         <div class="mc-item__cuerpo">
             <h3>${escaparHtml(m.titulo)}</h3>
             <p><i class="fa-solid fa-location-dot"></i> ${escaparHtml(m.lugar || "")}</p>
             ${m.horario ? `<p><i class="fa-regular fa-clock"></i> ${escaparHtml(m.horario)}</p>` : ""}
             ${m.descripcion ? `<p class="mc-museo__desc">${escaparHtml(m.descripcion)}</p>` : ""}
-            <a class="insc-btn insc-btn--primario" href="${TIPOS.museo.url(m.id)}">Ver detalle del museo <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="insc-btn insc-btn--primario" href="${TIPOS.museo.url(m.id)}">${t("mapa.verMuseo")} <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         <section class="mc-actividades">
-            <h4>Actividades en este museo <span>${actividades.length}</span></h4>
+            <h4>${t("md.actTitulo")} <span>${actividades.length}</span></h4>
             ${actividades.length
                 ? actividades.map(filaActividad).join("")
-                : '<p class="mc-act__vacio">Por ahora no hay actividades programadas en este museo.</p>'}
+                : '<p class="mc-act__vacio">' + t("mapa.sinActs") + '</p>'}
         </section>
     </article>`;
 }
@@ -180,11 +180,11 @@ function abrirGrupo(items, marcador) {
     const museo = items.find(function (i) { return i.tipo === "museo"; });
     const cuerpo = museo
         ? tarjetaMuseoHtml(museo)
-        : (items.length > 1 ? `<p class="mc-grupo"><strong>${items.length} propuestas</strong> en este lugar</p>` : "") +
+        : (items.length > 1 ? `<p class="mc-grupo"><strong>${t("mapa.nProps", { n: items.length })}</strong> ${t("mapa.enEsteLugar")}</p>` : "") +
           items.map(itemHtml).join("");
 
     tarjeta.innerHTML = `
-        <button type="button" class="mc-cerrar" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="mc-cerrar" aria-label="${t("mapa.cerrar")}"><i class="fa-solid fa-xmark"></i></button>
         ${cuerpo}`;
     tarjeta.hidden = false;
     tarjeta.scrollTop = 0;
@@ -208,7 +208,7 @@ function pintarFiltros() {
         }).length;
         const activo = estado.tipos.has(tipo);
         return `<button type="button" class="mapa-chip tipo-${tipo}${activo ? " is-on" : ""}" data-tipo="${tipo}" aria-pressed="${activo}">
-                    <i class="fa-solid ${TIPOS[tipo].icono}"></i> ${TIPOS[tipo].plural} <span>${total}</span>
+                    <i class="fa-solid ${TIPOS[tipo].icono}"></i> ${t("tipo." + tipo + ".p")} <span>${total}</span>
                 </button>`;
     }).join("");
 }
@@ -270,4 +270,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") cerrarTarjeta();
     });
+});
+
+// Al cambiar de idioma se vuelven a dibujar los pines y la tarjeta abierta
+document.addEventListener("idiomacambiado", function () {
+    if (mapa && capaMarcadores && estado.puntos.length) pintarMarcadores();
 });

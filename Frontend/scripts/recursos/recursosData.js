@@ -10,7 +10,7 @@ async function renderizarRecursos() {
   const categorias = gestorRecursos.obtenerCategorias(todos);
 
   if (categorias.length === 0) {
-    grid.innerHTML = '<p>Todavía no hay recursos cargados.</p>';
+    grid.innerHTML = '<p>' + t('recursos.sin') + '</p>';
     return;
   }
 
@@ -28,7 +28,7 @@ async function renderizarRecursos() {
 
     for (let j = 0; j < recursos.length; j++) {
       const recurso = recursos[j];
-      const textoPaginas = recurso.paginas === 1 ? "página" : "páginas";
+      const textoPaginas = t(recurso.paginas === 1 ? "rec.pagina" : "rec.paginas");
 
       html += `
           <li>
@@ -38,7 +38,7 @@ async function renderizarRecursos() {
               <span class="recurso-desc">${recurso.descripcion}</span>
               <span class="recurso-desc">${recurso.fuente} · PDF · ${recurso.paginas} ${textoPaginas}</span>
             </div>
-            <a href="${recurso.archivo}" download aria-label="Descargar ${recurso.titulo}, PDF">Descargar <i class="fa-solid fa-download"></i></a>
+            <a href="${recurso.archivo}" download aria-label="${t("rec.descargarAria", { titulo: recurso.titulo })}">${t("rec.descargar")} <i class="fa-solid fa-download"></i></a>
           </li>
       `;
     }
@@ -52,8 +52,11 @@ async function renderizarRecursos() {
   grid.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function iniciarRecursos() {
   renderizarRecursos().catch(function () {
     mostrarErrorServidor(document.getElementById("recursosGrid"));
   });
-});
+}
+
+document.addEventListener('DOMContentLoaded', iniciarRecursos);
+document.addEventListener('idiomacambiado', iniciarRecursos);

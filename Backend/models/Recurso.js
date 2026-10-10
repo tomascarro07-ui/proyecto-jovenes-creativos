@@ -9,6 +9,8 @@ const recursoSchema = new mongoose.Schema(
     fuente: { type: String, required: true },
     paginas: { type: Number, required: true, min: 1 },
     archivo: { type: String, required: true },
+    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
+    traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
   },
   { timestamps: true }
 );

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Contacto</title>
+  <title data-i18n="contacto.titulo">Nodo Cultural - Contacto</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,42 +19,42 @@
 
     <section class="nc-hero" aria-labelledby="contactoTitulo">
       <div class="nc-hero__texto">
-        <h1 id="contactoTitulo">Contactanos</h1>
-        <p id="contactoIntro">¿Tenés dudas, querés reservar un recorrido o sumar tu museo a Nodo Cultural? Escribinos.</p>
+        <h1 id="contactoTitulo" data-i18n="contacto.h1">Contactanos</h1>
+        <p id="contactoIntro" data-i18n="contacto.intro">¿Tenés dudas, querés reservar un recorrido o sumar tu museo a Nodo Cultural? Escribinos.</p>
       </div>
     </section>
 
     <section class="admin-panel" aria-labelledby="contactoAsuntoTitulo">
       <div class="nc-seccion__cabecera">
-        <h2 id="contactoAsuntoTitulo">Envianos tu consulta</h2>
+        <h2 id="contactoAsuntoTitulo" data-i18n="contacto.h2">Envianos tu consulta</h2>
       </div>
 
       <form id="form-contacto" class="auth-form">
 
         <div class="auth-fila">
           <div class="auth-campo">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" maxlength="60" placeholder="Tu nombre" required>
+            <label for="nombre" data-i18n="contacto.nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" maxlength="60" placeholder="Tu nombre" data-i18n-attr="placeholder:contacto.nombrePh" required>
           </div>
 
           <div class="auth-campo">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Tu correo" required>
+            <label for="email" data-i18n="det.email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Tu correo" data-i18n-attr="placeholder:auth.correoPlaceholder" required>
           </div>
         </div>
 
         <div class="auth-campo" id="grupoActividad" hidden>
-          <label for="actividad">Consulta sobre</label>
+          <label for="actividad" data-i18n="contacto.consultaSobre">Consulta sobre</label>
           <input type="text" id="actividad" name="actividad" readonly>
         </div>
 
         <div class="auth-campo">
-          <label for="mensaje">Mensaje</label>
+          <label for="mensaje" data-i18n="contacto.mensaje">Mensaje</label>
           <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
         </div>
 
         <button type="submit" class="nc-btn">
-          <i class="fa-solid fa-paper-plane"></i> Enviar
+          <i class="fa-solid fa-paper-plane"></i> <span data-i18n="contacto.enviar">Enviar</span>
         </button>
 
       </form>

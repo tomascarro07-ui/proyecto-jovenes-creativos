@@ -8,6 +8,7 @@ const VerificacionCorreo = require("../models/VerificacionCorreo");
 const { iniciarSesion, cerrarSesion } = require("../config/sesion");
 const { verificarToken } = require("../middleware/auth");
 const { enviarCorreo, escaparHTML } = require("../config/correo");
+const { correoVerificacion, correoRestablecer } = require("../config/correosTextos");
 
 const router = express.Router();
 
@@ -61,7 +62,7 @@ router.post("/registro", limitador, async (req, res) => {
 
     // El registro no abre sesión: se pide iniciar sesión. Si el correo falla, la cuenta igual queda creada
     // y se puede pedir otro enlace desde el aviso del sitio.
-    await enviarVerificacion(usuario).catch((e) => console.error("No se pudo enviar la verificación:", e.message));
+    await enviarVerificacion(usuario, req.idioma).catch((e) => console.error("No se pudo enviar la verificación:", e.message));
 
     res.status(201).json({
       usuario: datosPublicos(usuario),
@@ -193,20 +194,10 @@ router.post("/olvide-contrasenia", limitadorRecuperacion, async (req, res) => {
       });
 
       const enlace = `${urlFrontend()}/restablecer-contrasenia.html?token=${token}`;
-      const texto =
-        `Hola ${usuario.nombre},\n\n` +
-        `Recibimos un pedido para restablecer la contraseña de tu cuenta de Nodo Cultural.\n` +
-        `Usá este enlace (vale ${MINUTOS_VALIDEZ} minutos y se puede usar una sola vez):\n\n${enlace}\n\n` +
-        `Si no lo pediste vos, ignorá este correo: tu contraseña no cambia.\n`;
-      const html =
-        `<p>Hola ${escaparHTML(usuario.nombre)},</p>` +
-        `<p>Recibimos un pedido para restablecer la contraseña de tu cuenta de Nodo Cultural.</p>` +
-        `<p><a href="${enlace}" style="display:inline-block;background:#09343a;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none">Elegir una nueva contraseña</a></p>` +
-        `<p style="color:#666;font-size:13px">El enlace vale ${MINUTOS_VALIDEZ} minutos y se puede usar una sola vez.<br>` +
-        `Si no lo pediste vos, ignorá este correo: tu contraseña no cambia.</p>`;
+      const correo = correoRestablecer({ nombre: usuario.nombre, enlace, minutos: MINUTOS_VALIDEZ, idioma: req.idioma });
 
       // En Vercel hay que esperar el envío antes de responder.
-      await enviarCorreo({ para: usuario.correo, asunto: "Restablecer tu contraseña - Nodo Cultural", texto, html });
+      await enviarCorreo({ para: usuario.correo, ...correo });
     }
     res.json(respuesta);
   } catch (e) {
@@ -269,7 +260,7 @@ const limitadorVerificacion = rateLimit({
 });
 
 // Genera un enlace nuevo (invalida los anteriores) y lo manda por correo.
-async function enviarVerificacion(usuario) {
+async function enviarVerificacion(usuario, idioma) {
   await VerificacionCorreo.deleteMany({ usuario: usuario._id });
 
   const token = crypto.randomBytes(32).toString("hex");
@@ -280,17 +271,8 @@ async function enviarVerificacion(usuario) {
   });
 
   const enlace = `${urlFrontend()}/verificar-correo.html?token=${token}`;
-  const texto =
-    `Hola ${usuario.nombre},\n\n` +
-    `Gracias por registrarte en Nodo Cultural. Confirmá tu correo con este enlace (vale ${HORAS_VERIFICACION} horas):\n\n${enlace}\n\n` +
-    `Si no creaste esta cuenta, ignorá este mensaje.\n`;
-  const html =
-    `<p>Hola ${escaparHTML(usuario.nombre)},</p>` +
-    `<p>Gracias por registrarte en Nodo Cultural. Confirmá tu correo para poder inscribirte a las actividades.</p>` +
-    `<p><a href="${enlace}" style="display:inline-block;background:#09343a;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none">Confirmar mi correo</a></p>` +
-    `<p style="color:#666;font-size:13px">El enlace vale ${HORAS_VERIFICACION} horas. Si no creaste esta cuenta, ignorá este mensaje.</p>`;
-
-  await enviarCorreo({ para: usuario.correo, asunto: "Confirmá tu correo - Nodo Cultural", texto, html });
+  const correo = correoVerificacion({ nombre: usuario.nombre, enlace, horas: HORAS_VERIFICACION, idioma });
+  await enviarCorreo({ para: usuario.correo, ...correo });
 }
 
 // POST /api/auth/verificar-correo  { token }
@@ -321,7 +303,7 @@ router.post("/reenviar-verificacion", limitadorVerificacion, verificarToken, asy
     if (req.usuario.pendienteVerificacion !== true) {
       return res.json({ mensaje: "Tu correo ya está confirmado.", correoVerificado: true });
     }
-    await enviarVerificacion(req.usuario);
+    await enviarVerificacion(req.usuario, req.idioma);
     res.json({ mensaje: "Te enviamos un correo nuevo. Revisá también la carpeta de spam." });
   } catch (e) {
     console.error("Error al reenviar verificación:", e.message);

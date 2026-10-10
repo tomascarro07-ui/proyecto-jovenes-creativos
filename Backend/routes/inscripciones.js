@@ -5,6 +5,7 @@ const Taller = require("../models/Taller");
 const Charla = require("../models/Charla");
 const Recorrido = require("../models/Recorrido");
 const { verificarToken, soloAdmin, exigirCorreoVerificado } = require("../middleware/auth");
+const { campoTraducido } = require("../config/idioma");
 
 const router = express.Router();
 const MODELOS = { taller: Taller, charla: Charla, recorrido: Recorrido };
@@ -77,13 +78,19 @@ router.get("/mias", verificarToken, async (req, res) => {
     const estado = {};
     for (const tipo of Object.keys(MODELOS)) {
       const ids = lista.filter((i) => i.tipo === tipo).map((i) => i.actividad);
-      const docs = ids.length ? await MODELOS[tipo].find({ _id: { $in: ids } }).select("_id finalizada") : [];
-      estado[tipo] = new Map(docs.map((d) => [String(d._id), d.finalizada]));
+      const docs = ids.length ? await MODELOS[tipo].find({ _id: { $in: ids } }).select("_id finalizada titulo traducciones") : [];
+      estado[tipo] = new Map(docs.map((d) => [String(d._id), { finalizada: d.finalizada, titulo: campoTraducido(d, "titulo", req.idioma) }]));
     }
 
     res.json(lista.map((i) => {
-      const fin = estado[i.tipo].get(String(i.actividad));
-      return { ...i.toJSON(), disponible: fin !== undefined, finalizada: fin === true };
+      const actividad = estado[i.tipo].get(String(i.actividad));
+      return {
+        ...i.toJSON(),
+        // El título se muestra en el idioma de la persona (la inscripción guarda el original en español)
+        tituloActividad: actividad ? actividad.titulo : i.tituloActividad,
+        disponible: actividad !== undefined,
+        finalizada: actividad !== undefined && actividad.finalizada === true,
+      };
     }));
   } catch (e) {
     res.status(500).json({ error: "No se pudieron obtener tus inscripciones" });

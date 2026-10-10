@@ -8,18 +8,18 @@ async function renderizarRecurso() {
   const id = gestorRecursos.obtenerIdDesdeUrl();
 
   if (!id) {
-    contenedorRecurso.innerHTML = '<p class="admin-vacio">No se encontró el recurso.</p>';
+    contenedorRecurso.innerHTML = '<p class="admin-vacio">' + t("rec.noEnc") + '</p>';
     return;
   }
 
   const recurso = await gestorRecursos.obtenerRecursoPorId(id);
 
   if (recurso === null) {
-    contenedorRecurso.innerHTML = '<p class="admin-vacio">No se encontró el recurso.</p>';
+    contenedorRecurso.innerHTML = '<p class="admin-vacio">' + t("rec.noEnc") + '</p>';
     return;
   }
 
-  const textoPaginas = recurso.paginas === 1 ? "página" : "páginas";
+  const textoPaginas = t(recurso.paginas === 1 ? "rec.pagina" : "rec.paginas");
 
   contenedorRecurso.innerHTML = `
     <div class="charla-detalle">
@@ -30,25 +30,25 @@ async function renderizarRecurso() {
 
         <dl class="charla-detalle__datos">
           <div>
-            <dt><i class="fa-solid fa-tag"></i> Categoría</dt>
+            <dt><i class="fa-solid fa-tag"></i> ${t("rec.categoria")}</dt>
             <dd>${recurso.categoria}</dd>
           </div>
           <div>
-            <dt><i class="fa-solid fa-book-open"></i> Fuente</dt>
+            <dt><i class="fa-solid fa-book-open"></i> ${t("rec.fuente")}</dt>
             <dd>${recurso.fuente}</dd>
           </div>
           <div>
-            <dt><i class="fa-regular fa-file-lines"></i> Páginas</dt>
+            <dt><i class="fa-regular fa-file-lines"></i> ${t("rec.paginasLabel")}</dt>
             <dd>${recurso.paginas} ${textoPaginas}</dd>
           </div>
         </dl>
 
         <div class="charla-detalle__footer">
           <span class="charla-detalle__cupos">
-            <i class="fa-solid fa-file-pdf"></i> Formato PDF
+            <i class="fa-solid fa-file-pdf"></i> ${t("rec.formato")}
           </span>
-          <a href="${recurso.archivo}" download class="nc-btn" aria-label="Descargar ${recurso.titulo}, PDF">
-            <i class="fa-solid fa-download"></i> Descargar
+          <a href="${recurso.archivo}" download class="nc-btn" aria-label="${t("rec.descargarAria", { titulo: recurso.titulo })}">
+            <i class="fa-solid fa-download"></i> ${t("rec.descargar")}
           </a>
         </div>
 
@@ -57,8 +57,11 @@ async function renderizarRecurso() {
   `;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function iniciarRecurso() {
   renderizarRecurso().catch(function () {
     mostrarErrorServidor(contenedorRecurso);
   });
-});
+}
+
+document.addEventListener('DOMContentLoaded', iniciarRecurso);
+document.addEventListener('idiomacambiado', iniciarRecurso);

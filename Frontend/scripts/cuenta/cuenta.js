@@ -13,7 +13,7 @@ function pintarCuenta(u) {
     $("cuentaNombre").textContent = (u.nombre + " " + (u.apellido || "")).trim();
     $("cuentaCorreo").textContent = u.correo;
     $("cuentaAvatar").innerHTML = u.foto
-        ? `<img src="${escaparHtml(u.foto)}" alt="Foto de perfil">`
+        ? `<img src="${escaparHtml(u.foto)}" alt="${t("cuenta.fotoAlt")}">`
         : `<span>${escaparHtml(iniciales(u))}</span>`;
     $("btnQuitarFoto").hidden = !u.foto;
 
@@ -34,7 +34,7 @@ async function guardarPerfil(cambios) {
 
 function redimensionarFoto(archivo, lado) {
     return new Promise(function (ok, fallo) {
-        if (!archivo.type.startsWith("image/")) return fallo(new Error("Elegí un archivo de imagen"));
+        if (!archivo.type.startsWith("image/")) return fallo(new Error(t("cuenta.errImagen")));
         const img = new Image();
         const url = URL.createObjectURL(archivo);
         img.onload = function () {
@@ -45,7 +45,7 @@ function redimensionarFoto(archivo, lado) {
             URL.revokeObjectURL(url);
             ok(canvas.toDataURL("image/jpeg", 0.82));
         };
-        img.onerror = function () { fallo(new Error("No se pudo leer la imagen")); };
+        img.onerror = function () { fallo(new Error(t("cuenta.errLeer"))); };
         img.src = url;
     });
 }
@@ -55,8 +55,8 @@ async function cargarEstadisticas() {
         const lista = await gestorInscripcionesCuenta();
         const realizados = lista.filter(function (i) { return i.tipo === "recorrido" && i.finalizada; }).length;
         $("cuentaStats").innerHTML = `
-            <div class="insc-stat"><strong>${lista.length}</strong><span>inscripciones</span></div>
-            <div class="insc-stat"><strong>${realizados}</strong><span>recorridos realizados</span></div>`;
+            <div class="insc-stat"><strong>${lista.length}</strong><span>${t("cuenta.statInsc")}</span></div>
+            <div class="insc-stat"><strong>${realizados}</strong><span>${t("cuenta.statRecorridos")}</span></div>`;
     } catch (e) { /* las estadísticas son opcionales */ }
 }
 
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 fechaNacimiento: $("cuenta-nacimiento").value,
                 bio: $("cuenta-bio").value
             });
-            aviso("Datos guardados");
+            aviso(t("cuenta.okDatos"));
         } catch (error) { aviso(error.message, false); }
     });
 
@@ -100,20 +100,20 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!archivo) return;
         try {
             await guardarPerfil({ foto: await redimensionarFoto(archivo, 240) });
-            aviso("Foto actualizada");
+            aviso(t("cuenta.okFoto"));
         } catch (error) { aviso(error.message, false); }
         e.target.value = "";
     });
 
     $("btnQuitarFoto").addEventListener("click", async function () {
-        try { await guardarPerfil({ foto: "" }); aviso("Foto eliminada"); }
+        try { await guardarPerfil({ foto: "" }); aviso(t("cuenta.okFotoQuitada")); }
         catch (error) { aviso(error.message, false); }
     });
 
     $("formPass").addEventListener("submit", async function (e) {
         e.preventDefault();
         if ($("pass-nueva").value !== $("pass-repetir").value) {
-            return aviso("Las contraseñas nuevas no coinciden", false);
+            return aviso(t("cuenta.noCoinciden"), false);
         }
         try {
             await pedirApi("/auth/contrasenia", {
@@ -121,7 +121,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 body: { actual: $("pass-actual").value, nueva: $("pass-nueva").value }
             });
             $("formPass").reset();
-            aviso("Contraseña actualizada");
+            aviso(t("cuenta.okPass"));
         } catch (error) { aviso(error.message, false); }
     });
+});
+
+// Al cambiar de idioma se actualizan solo los textos sueltos: no se tocan los datos que se estén editando
+document.addEventListener("idiomacambiado", function () {
+    const img = document.querySelector("#cuentaAvatar img");
+    if (img) img.alt = t("cuenta.fotoAlt");
+    if ($("cuentaStats").innerHTML) cargarEstadisticas();
 });

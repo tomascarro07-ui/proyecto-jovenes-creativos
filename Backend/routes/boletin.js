@@ -2,7 +2,8 @@ const express = require("express");
 const crypto = require("crypto");
 const rateLimit = require("express-rate-limit");
 const Suscriptor = require("../models/Suscriptor");
-const { enviarCorreo, escaparHTML } = require("../config/correo");
+const { enviarCorreo } = require("../config/correo");
+const { correoBienvenida } = require("../config/correosTextos");
 
 const router = express.Router();
 
@@ -29,29 +30,6 @@ const CATEGORIAS_VALIDAS = [
 
 const SITIO_URL = () => process.env.SITIO_URL || "https://nodo-cultural.vercel.app";
 
-function armarCorreoBienvenida(suscriptor, urlBaja) {
-  const sitio = SITIO_URL();
-  const categorias = suscriptor.categorias.length
-    ? `<p>Tus intereses: <b>${suscriptor.categorias.map(escaparHTML).join(", ")}</b>.</p>`
-    : "";
-
-  const html =
-    `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#333">` +
-    `<h2>¡Muchas gracias por suscribirte a Nodo Cultural!</h2>` +
-    `<p>Ya sos parte de nuestro Boletín Cultural. Desde ahora vas a poder ver las novedades y las nuevas charlas, talleres y recorridos que vayamos subiendo sobre el patrimonio y la cultura de Colonia del Sacramento.</p>` +
-    categorias +
-    `<p><a href="${sitio}" style="background:#a2492a;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Ver las novedades</a></p>` +
-    `<hr><p style="color:#777;font-size:12px">Si no fuiste vos, o ya no querés recibir estos correos, podés <a href="${urlBaja}">darte de baja acá</a>.</p>` +
-    `</div>`;
-
-  const texto =
-    `¡Muchas gracias por suscribirte a Nodo Cultural!\n\n` +
-    `Desde ahora vas a poder ver las novedades y las nuevas charlas, talleres y recorridos que vayamos subiendo.\n` +
-    `Mirá las novedades en: ${sitio}\n\n` +
-    `Para darte de baja: ${urlBaja}\n`;
-
-  return { html, texto };
-}
 
 router.post("/", limitador, async (req, res) => {
   const email = String(req.body.email || "").trim().toLowerCase().slice(0, 120);
@@ -91,14 +69,14 @@ router.post("/", limitador, async (req, res) => {
 
     const base = `${req.protocol}://${req.get("host")}`;
     const urlBaja = `${base}/api/boletin/baja?token=${suscriptor.tokenBaja}`;
-    const { html, texto } = armarCorreoBienvenida(suscriptor, urlBaja);
+    const correo = correoBienvenida({ categorias: suscriptor.categorias, sitio: SITIO_URL(), urlBaja, idioma: req.idioma });
 
     try {
       await enviarCorreo({
         para: email,
-        asunto: "¡Gracias por suscribirte a Nodo Cultural!",
-        texto,
-        html,
+        asunto: correo.asunto,
+        texto: correo.texto,
+        html: correo.html,
       });
     } catch (error) {
       // La suscripción queda guardada aunque el correo falle.

@@ -16,6 +16,8 @@ const recorridoSchema = new mongoose.Schema(
     finalizada: { type: Boolean, default: false },
     fecha: { type: String, default: "", match: /^(\d{4}-\d{2}-\d{2})?$/ },
     hora: { type: String, default: "" },
+    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
+    traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
   },
   { timestamps: true }
 );

@@ -16,6 +16,8 @@ const charlaSchema = new mongoose.Schema(
     cupos: { type: Number, required: true, min: 0 },
     ...camposUbicacion,
     finalizada: { type: Boolean, default: false },
+    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
+    traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
   },
   { timestamps: true }
 );
