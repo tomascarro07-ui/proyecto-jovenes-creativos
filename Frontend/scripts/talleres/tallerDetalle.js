@@ -5,14 +5,14 @@ async function renderizarTaller() {
     let id = gestorTalleres.obtenerIdDesdeUrl();
 
     if (!id) {
-        contenedor.innerHTML = '<p class="admin-vacio">No se encontró el taller.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">' + t("det.noTaller") + '</p>';
         return;
     }
 
     const taller = await gestorTalleres.obtenerTallerPorId(id);
 
     if (!taller) {
-        contenedor.innerHTML = '<p class="admin-vacio">No se encontró el taller.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">' + t("det.noTaller") + '</p>';
         return;
     }
 
@@ -22,7 +22,7 @@ async function renderizarTaller() {
 
             <div class="charla-detalle__media">
                 <img src="${taller.imagen}" alt="${taller.titulo}">
-                <span class="charla-detalle__tag">${taller.modalidad}</span>
+                <span class="charla-detalle__tag">${tDato(taller.modalidad)}</span>
             </div>
 
             <div class="charla-detalle__body">
@@ -33,26 +33,24 @@ async function renderizarTaller() {
                 <dl class="charla-detalle__datos">
 
                     <div>
-                        <dt><i class="fa-solid fa-layer-group"></i> Nivel</dt>
-                        <dd>${taller.nivel}</dd>
+                        <dt><i class="fa-solid fa-layer-group"></i> ${t("det.nivel")}</dt>
+                        <dd>${tDato(taller.nivel)}</dd>
                     </div>
 
                     <div>
-                        <dt><i class="fa-solid fa-laptop"></i> Modalidad</dt>
-                        <dd>${taller.modalidad}</dd>
+                        <dt><i class="fa-solid fa-laptop"></i> ${t("det.modalidad")}</dt>
+                        <dd>${tDato(taller.modalidad)}</dd>
                     </div>
 
                     <div>
-                        <dt><i class="fa-regular fa-calendar"></i> Clases</dt>
+                        <dt><i class="fa-regular fa-calendar"></i> ${t("det.clases")}</dt>
                         <dd>${taller.cantClases}</dd>
                     </div>
 
                 </dl>
 
                 <div class="charla-detalle__footer">
-                    <button type="button" id="btnMostrarForm" class="nc-btn">
-                        Inscribirme
-                    </button>
+                    <button type="button" id="btnMostrarForm" class="nc-btn">${t("act.inscribirme")}</button>
                 </div>
 
             </div>
@@ -63,30 +61,30 @@ async function renderizarTaller() {
 
                     <form id="formConfirmacion" class="form-contacto" style="display: none;">
 
-                        <h3>Confirmá tu asistencia</h3>
+                        <h3>${t("det.confirmaTitulo")}</h3>
 
                         <div class="auth-campo">
-                            <label for="nombre">Nombre y apellido</label>
-                            <input type="text" id="nombre" required placeholder="Tu nombre completo">
+                            <label for="nombre">${t("det.nombre")}</label>
+                            <input type="text" id="nombre" required placeholder="${t('det.nombrePh')}">
                         </div>
 
                         <div class="auth-campo">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" required placeholder="tuemail@ejemplo.com">
+                            <label for="email">${t("det.email")}</label>
+                            <input type="email" id="email" required placeholder="${t('det.emailPh')}">
                         </div>
 
                         <div class="auth-campo">
-                            <label for="telefono">Teléfono</label>
+                            <label for="telefono">${t("det.telefono")}</label>
                             <input type="tel" id="telefono" required placeholder="09X XXX XXX">
                         </div>
 
                         <div class="auth-campo">
-                            <label for="cantidadPersonas">Cantidad de personas</label>
+                            <label for="cantidadPersonas">${t("det.cantPersonas")}</label>
                             <input type="number" id="cantidadPersonas" required min="1" max="${taller.cupos}" value="1">
                         </div>
 
                         <button type="submit" class="nc-btn nc-btn--pill">
-                            <i class="fa-solid fa-paper-plane"></i> Enviar confirmación
+                            <i class="fa-solid fa-paper-plane"></i> ${t("det.enviar")}
                         </button>
 
                     </form>
@@ -123,8 +121,11 @@ async function renderizarTaller() {
     enlazarInscripcion("taller", taller.id);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function iniciar_renderizarTaller() {
   renderizarTaller().catch(function () {
     mostrarErrorServidor(contenedor);
   });
-});
+}
+
+document.addEventListener("DOMContentLoaded", iniciar_renderizarTaller);
+document.addEventListener("idiomacambiado", iniciar_renderizarTaller);

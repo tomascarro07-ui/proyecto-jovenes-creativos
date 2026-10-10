@@ -22,7 +22,7 @@ function formatearDuracion(recorrido) {
     return recorrido.duracion;
   }
 
-  return "Duración no disponible";
+  return t("dur.noDisp");
 }
 
 
@@ -37,7 +37,7 @@ async function renderizarRecorridos() {
   const recorridos = await gestorRecorridos.obtenerRecorridos();
 
   if (recorridos.length === 0) {
-    grid.innerHTML = '<p>Todavía no hay recorridos cargados.</p>';
+    grid.innerHTML = '<p>' + t('list.sinRecorridos') + '</p>';
     return;
   }
 
@@ -80,7 +80,7 @@ async function renderizarRecorridos() {
           <a
             href="recorrido-detalle.html?idRecorrido=${recorrido.id}"
             class="nc-btn nc-btn--outline nc-btn--mini">
-            Reservar
+            ${t("act.reservar")}
           </a>
 
         </div>
@@ -93,8 +93,11 @@ async function renderizarRecorridos() {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
+function iniciarListadoRecorridos() {
   renderizarRecorridos().catch(function () {
     mostrarErrorServidor(document.getElementById("recorridosGrid"));
   });
-});
+}
+
+document.addEventListener("DOMContentLoaded", iniciarListadoRecorridos);
+document.addEventListener("idiomacambiado", iniciarListadoRecorridos);

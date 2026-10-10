@@ -24,7 +24,7 @@ function avatarValoracion(autor) {
 function bloqueFormulario(elegib, esLogueado, esAdmin) {
     if (esAdmin) return "";
     if (!esLogueado) {
-        return `<div class="val-aviso"><i class="fa-solid fa-lock"></i> <a href="login.html">Iniciá sesión</a> para valorar este recorrido si participaste.</div>`;
+        return `<div class="val-aviso"><i class="fa-solid fa-lock"></i> ${t("val.login")}</div>`;
     }
     if (!elegib.puede) {
         return `<div class="val-aviso"><i class="fa-solid fa-circle-info"></i> ${escaparHtml(elegib.motivo)}</div>`;
@@ -32,14 +32,14 @@ function bloqueFormulario(elegib, esLogueado, esAdmin) {
     const mia = elegib.mia;
     return `
     <form class="val-form" id="formValoracion">
-        <h3>${mia ? "Tu valoración" : "¿Cómo estuvo el recorrido?"}</h3>
-        <div class="val-input" role="radiogroup" aria-label="Puntuación">
+        <h3>${mia ? t("val.tuValoracion") : t("val.comoEstuvo")}</h3>
+        <div class="val-input" role="radiogroup" aria-label="${t("val.puntuacion")}">
             ${[1, 2, 3, 4, 5].map((n) =>
-                `<button type="button" class="val-estrella" data-valor="${n}" aria-label="${n} ${n === 1 ? "estrella" : "estrellas"}"><i class="fa-regular fa-star"></i></button>`
+                `<button type="button" class="val-estrella" data-valor="${n}" aria-label="${t(n === 1 ? "val.estrella" : "val.estrellas", { n: n })}"><i class="fa-regular fa-star"></i></button>`
             ).join("")}
         </div>
-        <textarea id="valComentario" rows="3" maxlength="300" placeholder="Contá tu experiencia (opcional)">${escaparHtml(mia ? mia.comentario : "")}</textarea>
-        <button type="submit" class="insc-btn insc-btn--primario">${mia ? "Actualizar valoración" : "Publicar valoración"}</button>
+        <textarea id="valComentario" rows="3" maxlength="300" placeholder="${t("val.placeholder")}">${escaparHtml(mia ? mia.comentario : "")}</textarea>
+        <button type="submit" class="insc-btn insc-btn--primario">${mia ? t("val.actualizar") : t("val.publicar")}</button>
     </form>`;
 }
 
@@ -47,13 +47,13 @@ function pintarValoraciones(seccion, idRecorrido, datos, elegib, usuario) {
     const maximo = Math.max(1, ...datos.distribucion.map((d) => d.cantidad));
 
     seccion.innerHTML = `
-    <h2>Opiniones de quienes lo hicieron</h2>
+    <h2>${t("val.titulo")}</h2>
     <div class="val-card">
         <div class="val-resumen">
             <div class="val-promedio">
                 <strong>${datos.total ? datos.promedio.toFixed(1) : "–"}</strong>
                 <div class="val-estrellas">${estrellasHtml(datos.promedio)}</div>
-                <span>${datos.total} ${datos.total === 1 ? "valoración" : "valoraciones"}</span>
+                <span>${t(datos.total === 1 ? "val.una" : "val.varias", { n: datos.total })}</span>
             </div>
             <div class="val-barras">
                 ${datos.distribucion.map((d) => `
@@ -67,14 +67,14 @@ function pintarValoraciones(seccion, idRecorrido, datos, elegib, usuario) {
         ${bloqueFormulario(elegib || {}, !!usuario, usuario && usuario.esAdministrador)}
     </div>
     <div class="val-lista">
-        ${datos.valoraciones.length === 0 ? '<p class="val-vacio">Todavía no hay opiniones.</p>' : datos.valoraciones.map((v) => `
+        ${datos.valoraciones.length === 0 ? '<p class="val-vacio">${t("val.vacio")}</p>' : datos.valoraciones.map((v) => `
             <article class="val-item">
                 ${avatarValoracion(v.autor)}
                 <div>
                     <div class="val-item__top"><strong>${escaparHtml(v.autor.nombre)}</strong>
                         <span class="val-estrellas">${estrellasHtml(v.estrellas)}</span></div>
                     ${v.comentario ? `<p>${escaparHtml(v.comentario)}</p>` : ""}
-                    <small>${new Date(v.creadaEn).toLocaleDateString("es-UY", { day: "numeric", month: "long", year: "numeric" })}</small>
+                    <small>${new Date(v.creadaEn).toLocaleDateString(t("fecha.locale"), { day: "numeric", month: "long", year: "numeric" })}</small>
                 </div>
             </article>`).join("")}
     </div>`;
@@ -101,7 +101,7 @@ function pintarValoraciones(seccion, idRecorrido, datos, elegib, usuario) {
 
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
-        if (!seleccion) return alert("Elegí una puntuación de 1 a 5 estrellas.");
+        if (!seleccion) return alert(t("val.elegi"));
         try {
             await gestorValoraciones.enviar(idRecorrido, seleccion, document.getElementById("valComentario").value);
             await cargarValoraciones(idRecorrido);

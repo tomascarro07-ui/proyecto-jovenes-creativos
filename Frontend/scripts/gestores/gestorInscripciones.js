@@ -44,11 +44,11 @@ function enlazarInscripcion(tipo, idActividad) {
                 nombre: document.getElementById("nombre").value.trim(),
                 telefono: document.getElementById("telefono").value.trim()
             });
-            alert("¡Inscripción confirmada! Podés verla en \"Mis inscripciones\".");
+            alert(t("insc.ok"));
             window.location.reload();
         } catch (error) {
             if (error.status === 401) {
-                alert("Tu sesión venció. Iniciá sesión de nuevo.");
+                alert(t("insc.vencio"));
                 window.location.href = "login.html";
                 return;
             }

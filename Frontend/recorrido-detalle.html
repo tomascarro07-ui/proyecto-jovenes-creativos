@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo Cultural - Detalle Recorrido</title>
+  <title data-i18n="recorrido.titulo">Nodo Cultural - Detalle recorrido</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,7 +17,7 @@
 
   <main class="detalle-main">
     <div class="volver">
-      <a href="recorridos.html" class="nc-btn nc-btn--pill"><i class="fa-solid fa-left-long"></i> Volver a recorridos</a>
+      <a href="recorridos.html" class="nc-btn nc-btn--pill"><i class="fa-solid fa-left-long"></i> <span data-i18n="recorrido.volver">Volver a recorridos</span></a>
     </div>
     <div id="detalleContenido" class="detalle-wrapper"></div>
 
@@ -29,33 +29,32 @@
 
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="bi bi-lock-fill me-2"></i>
-                    Necesitás una cuenta
+                    <i class="bi bi-lock-fill me-2"></i> <span data-i18n="modal.titulo">Necesitás una cuenta</span>
                 </h5>
 
                 <button type="button" class="btn-close btn-close-white"
                     data-bs-dismiss="modal"
-                    aria-label="Cerrar">
+                    aria-label="Cerrar" data-i18n-attr="aria-label:modal.cerrar">
                 </button>
             </div>
 
             <div class="modal-body">
-                <p>
+                <p data-i18n="modal.p1.recorrido">
                     Para inscribirte a este recorrido necesitás tener una cuenta.
                 </p>
 
-                <p>
+                <p data-i18n="modal.p2">
                     Podés iniciar sesión si ya tenés una cuenta o registrarte
                     para crear una nueva.
                 </p>
             </div>
 
             <div class="modal-footer">
-                <a href="login.html" class="btn btn-outline-secondary">
+                <a href="login.html" class="btn btn-outline-secondary" data-i18n="hd.iniciarSesion">
                     Iniciar sesión
                 </a>
 
-                <a href="registro.html" class="btn btn-cuenta">
+                <a href="registro.html" class="btn btn-cuenta" data-i18n="hd.registrarme">
                     Registrarme
                 </a>
             </div>
@@ -83,7 +82,7 @@
         <h3 data-i18n="ft.enlaces">Enlaces rápidos</h3>
         <ul>
           <li><a href="index.html" data-i18n="ft.inicio">Inicio</a></li>
-          <li><a href="charlas.html">Charlas</a></li>
+          <li><a href="charlas.html" data-i18n="ft.charlas">Charlas</a></li>
           <li><a href="museos_colonia.html" data-i18n="ft.museos">Museos</a></li>
           <li><a href="#cursos" data-i18n="ft.cursos">Cursos y Talleres</a></li>
         </ul>

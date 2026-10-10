@@ -18,7 +18,7 @@ async function renderizarTalleres() {
           <h3>${taller.titulo}</h3>
           <p class="curso-mini__meta">
             <span><i class="fa-regular fa-clock"></i>${taller.cantClases}</span>
-            <span><i class="fa-solid fa-location-dot"></i>${taller.modalidad}</span>
+            <span><i class="fa-solid fa-location-dot"></i>${tDato(taller.modalidad)}</span>
           </p>
           <a href="taller-detalle.html?idTaller=${taller.id}" class="nc-btn nc-btn--outline nc-btn--mini">${t("act.inscribirme")}</a>
         </div>

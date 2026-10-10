@@ -42,6 +42,14 @@ function t(clave, vars) {
     return valor;
 }
 
+// Traduce valores que vienen de la base de datos y son categorías fijas (Presencial, Virtual, Iniciación...).
+// Si el valor no está en el diccionario se muestra tal cual.
+function tDato(valor) {
+    if (valor === undefined || valor === null) return valor;
+    const v = I18N_DICT[I18N_ACTUAL]["dato." + valor];
+    return v !== undefined ? v : valor;
+}
+
 // Guarda el contenido original (español) de cada elemento antes de tocarlo
 const I18N_ORIGINAL = new WeakMap();
 

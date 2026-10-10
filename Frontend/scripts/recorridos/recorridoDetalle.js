@@ -22,7 +22,7 @@ function formatearDuracion(recorrido) {
         return recorrido.duracion;
     }
 
-    return "Duración no disponible";
+    return t("dur.noDisp");
 }
 
 
@@ -31,14 +31,14 @@ async function renderizarRecorrido() {
     let id = gestorRecorridos.obtenerIdDesdeUrl();
 
     if (!id) {
-        contenedor.innerHTML = '<p class="admin-vacio">No se encontró el recorrido.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">' + t("det.noRecorrido") + '</p>';
         return;
     }
 
     const recorrido = await gestorRecorridos.obtenerRecorridoPorId(id);
 
     if (!recorrido) {
-        contenedor.innerHTML = '<p class="admin-vacio">No se encontró el recorrido.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">' + t("det.noRecorrido") + '</p>';
         return;
     }
 
@@ -49,7 +49,7 @@ async function renderizarRecorrido() {
 
             <div class="charla-detalle__media">
                 <img src="${recorrido.imagen}" alt="${recorrido.titulo}">
-                <span class="charla-detalle__tag">${recorrido.tipo}</span>
+                <span class="charla-detalle__tag">${tDato(recorrido.tipo)}</span>
             </div>
 
             <div class="charla-detalle__body">
@@ -64,9 +64,7 @@ async function renderizarRecorrido() {
 
                     <div>
                         <dt>
-                            <i class="fa-solid fa-location-dot"></i>
-                            Punto de salida
-                        </dt>
+                            <i class="fa-solid fa-location-dot"></i> ${t("det.puntoSalida")}</dt>
 
                         <dd>
                             ${recorrido.puntoSalida}
@@ -75,9 +73,7 @@ async function renderizarRecorrido() {
 
                     <div>
                         <dt>
-                            <i class="fa-regular fa-clock"></i>
-                            Duración
-                        </dt>
+                            <i class="fa-regular fa-clock"></i> ${t("det.duracion")}</dt>
 
                         <dd>
                             ${duracionTexto}
@@ -90,15 +86,13 @@ async function renderizarRecorrido() {
 
                     <span class="charla-detalle__cupos">
                         <i class="fa-solid fa-users"></i>
-                        ${recorrido.cupos} cupos disponibles
+                        ${t("det.cupos", { n: recorrido.cupos })}
                     </span>
 
                     <button
                         type="button"
                         id="btnMostrarForm"
-                        class="nc-btn">
-                        Inscribirme
-                    </button>
+                        class="nc-btn">${t("act.inscribirme")}</button>
 
                 </div>
 
@@ -113,36 +107,30 @@ async function renderizarRecorrido() {
                         class="form-contacto"
                         style="display: none;">
 
-                        <h3>Confirmá tu asistencia</h3>
+                        <h3>${t("det.confirmaTitulo")}</h3>
 
                         <div class="auth-campo">
-                            <label for="nombre">
-                                Nombre y apellido
-                            </label>
+                            <label for="nombre">${t("det.nombre")}</label>
 
                             <input
                                 type="text"
                                 id="nombre"
                                 required
-                                placeholder="Tu nombre completo">
+                                placeholder="${t('det.nombrePh')}">
                         </div>
 
                         <div class="auth-campo">
-                            <label for="email">
-                                Email
-                            </label>
+                            <label for="email">${t("det.email")}</label>
 
                             <input
                                 type="email"
                                 id="email"
                                 required
-                                placeholder="tuemail@ejemplo.com">
+                                placeholder="${t('det.emailPh')}">
                         </div>
 
                         <div class="auth-campo">
-                            <label for="telefono">
-                                Teléfono
-                            </label>
+                            <label for="telefono">${t("det.telefono")}</label>
 
                             <input
                                 type="tel"
@@ -155,8 +143,7 @@ async function renderizarRecorrido() {
                             type="submit"
                             class="nc-btn nc-btn--pill">
 
-                            <i class="fa-solid fa-paper-plane"></i>
-                            Enviar confirmación
+                            <i class="fa-solid fa-paper-plane"></i> ${t("det.enviar")}
 
                         </button>
 
@@ -199,8 +186,11 @@ async function renderizarRecorrido() {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
+function iniciar_renderizarRecorrido() {
   renderizarRecorrido().catch(function () {
     mostrarErrorServidor(contenedor);
   });
-});
+}
+
+document.addEventListener("DOMContentLoaded", iniciar_renderizarRecorrido);
+document.addEventListener("idiomacambiado", iniciar_renderizarRecorrido);

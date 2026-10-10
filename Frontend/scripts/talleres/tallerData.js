@@ -9,7 +9,7 @@ async function renderizarTalleres() {
   const talleres = await gestorTalleres.obtenerTalleres();
 
   if (talleres.length === 0) {
-    grid.innerHTML = '<p>Todavía no hay talleres cargadas.</p>';
+    grid.innerHTML = '<p>' + t('list.sinTalleres') + '</p>';
     return;
   }
 
@@ -27,10 +27,10 @@ async function renderizarTalleres() {
           <h3>${taller.titulo}</h3>
           <p class="curso-mini__meta">
             <span><i class="fa-regular fa-clock"></i>${taller.cantClases}</span>
-            <span><i class="fa-solid fa-location-dot"></i>${taller.modalidad}</span>
+            <span><i class="fa-solid fa-location-dot"></i>${tDato(taller.modalidad)}</span>
           </p>
           <p>${taller.descripcionCorta}</p>
-          <a href="taller-detalle.html?idTaller=${taller.id}" class="nc-btn nc-btn--outline nc-btn--mini">Ver más</a>
+          <a href="taller-detalle.html?idTaller=${taller.id}" class="nc-btn nc-btn--outline nc-btn--mini">${t("act.verMas")}</a>
         </div>
       </article>
   `;
@@ -39,8 +39,11 @@ async function renderizarTalleres() {
   grid.innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function iniciarListadoTalleres() {
   renderizarTalleres().catch(function () {
     mostrarErrorServidor(document.getElementById("talleresGrid"));
   });
-});
+}
+
+document.addEventListener('DOMContentLoaded', iniciarListadoTalleres);
+document.addEventListener('idiomacambiado', iniciarListadoTalleres);

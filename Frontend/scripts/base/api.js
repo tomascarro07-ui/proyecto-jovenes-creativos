@@ -4,6 +4,9 @@ async function pedirApi(ruta, opciones) {
   const op = opciones || {};
   const config = { method: op.method || "GET", headers: {} };
 
+  // Le avisa al servidor en qué idioma está el sitio (para que pueda responder traducido)
+  if (typeof idiomaActual === "function") config.headers["Accept-Language"] = idiomaActual();
+
   const sesion = leerDeStorage(SESION_KEY, null);
   if (sesion && sesion.token) {
     config.headers["Authorization"] = "Bearer " + sesion.token;
@@ -23,7 +26,7 @@ async function pedirApi(ruta, opciones) {
   try {
     respuesta = await fetch(API_URL + ruta, config);
   } catch (e) {
-    throw new Error("No se pudo conectar con el servidor");
+    throw new Error(t("api.sinConexion"));
   }
 
   let datos = null;
@@ -51,5 +54,5 @@ function mostrarErrorServidor(elemento) {
   if (!elemento) {
     return;
   }
-  elemento.innerHTML = '<p class="admin-vacio">No se pudo conectar con el servidor. Intentá de nuevo en unos minutos.</p>';
+  elemento.innerHTML = '<p class="admin-vacio">' + t("api.errorServidor") + '</p>';
 }

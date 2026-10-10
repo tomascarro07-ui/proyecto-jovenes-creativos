@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Arte y talleres en Nodo Cultural: cursos, talleres y actividades artísticas de Colonia del Sacramento.">
-  <title>Nodo Cultural - Curos y talleres</title>
+  <title data-i18n="cursos.titulo">Nodo Cultural - Cursos y talleres</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -20,20 +20,20 @@
 
     <section class="nc-hero nc-hero--imagen" style="background-image: url('img/talleres.webp');" aria-labelledby="arteTitulo">
       <div class="nc-hero__texto">
-        <h1 id="arteTitulo">Cursos y talleres</h1>
-        <p>Aprendé, creá y compartí. Talleres y cursos para todas las edades en el corazón cultural de Colonia del Sacramento.</p>
+        <h1 id="arteTitulo" data-i18n="cursos.h1">Cursos y talleres</h1>
+        <p data-i18n="cursos.hero1">Aprendé, creá y compartí. Talleres y cursos para todas las edades en el corazón cultural de Colonia del Sacramento.</p>
         <div class="nc-hero__acciones">
-          <a href="#talleres" class="nc-btn">Ver talleres</a>
+          <a href="#talleres" class="nc-btn" data-i18n="cursos.btn">Ver talleres</a>
         </div>
       </div>
       <div class="nc-hero__texto">
-        <p>Los talleres de Nodo Cultural están a cargo de artistas, guías y referentes locales. No hace falta experiencia previa: hay propuestas de iniciación y opciones para quienes ya tienen recorrido.</p>
+        <p data-i18n="cursos.hero2">Los talleres de Nodo Cultural están a cargo de artistas, guías y referentes locales. No hace falta experiencia previa: hay propuestas de iniciación y opciones para quienes ya tienen recorrido.</p>
       </div>
     </section>
 
     <section id="talleres" class="arte-bloque arte-bloque--panel" aria-labelledby="talleresTitulo">
       <div class="nc-seccion__cabecera">
-        <h2 id="talleresTitulo">Cursos y talleres</h2>
+        <h2 id="talleresTitulo" data-i18n="cursos.h1">Cursos y talleres</h2>
       </div>
 
       <div>
@@ -43,59 +43,59 @@
 
     <section class="arte-bloque" aria-labelledby="participarTitulo">
       <div class="nc-seccion__cabecera">
-        <h2 id="participarTitulo">¿Cómo participar?</h2>
+        <h2 id="participarTitulo" data-i18n="common.comoParticipar">¿Cómo participar?</h2>
       </div>
       <div class="pasos-grid">
         <article class="paso">
           <div class="paso__numero">1</div>
-          <h3>Elegí un taller</h3>
-          <p>Mirá las propuestas y quedate con la que más te guste.</p>
+          <h3 data-i18n="cursos.paso1t">Elegí un taller</h3>
+          <p data-i18n="common.paso1">Mirá las propuestas y quedate con la que más te guste.</p>
         </article>
         <article class="paso">
           <div class="paso__numero">2</div>
-          <h3>Escribinos</h3>
-          <p>Contanos cuál te interesa y te confirmamos cupos y horarios.</p>
+          <h3 data-i18n="common.escribinos">Escribinos</h3>
+          <p data-i18n="common.paso2">Contanos cuál te interesa y te confirmamos cupos y horarios.</p>
         </article>
         <article class="paso">
           <div class="paso__numero">3</div>
-          <h3>Sumate</h3>
-          <p>Presentate el primer día y empezá a crear.</p>
+          <h3 data-i18n="common.sumate">Sumate</h3>
+          <p data-i18n="common.paso3">Presentate el primer día y empezá a crear.</p>
         </article>
       </div>
     </section>
 
     <section id="recursos" class="arte-bloque arte-bloque--panel" aria-labelledby="materialTitulo">
       <div class="nc-seccion__cabecera">
-        <h2 id="materialTitulo">Material descargable</h2>
+        <h2 id="materialTitulo" data-i18n="common.material">Material descargable</h2>
       </div>
-      <p class="arte-sub">Programas y cronogramas de los talleres</p>
+      <p class="arte-sub" data-i18n="cursos.matSub">Programas y cronogramas de los talleres</p>
 
       <ul class="recurso-lista">
         <li>
           <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
           <div>
-            <strong>Cronograma de talleres 2026</strong>
-            <span class="recurso-desc">Fechas, horarios y lugares de todas las propuestas.</span>
+            <strong data-i18n="cursos.cronoTit">Cronograma de talleres 2026</strong>
+            <span class="recurso-desc" data-i18n="common.cronoDesc">Fechas, horarios y lugares de todas las propuestas.</span>
           </div>
-          <a href="recursos/cronograma-talleres-2026.pdf" download>Descargar <i class="fa-solid fa-download"></i></a>
+          <a href="recursos/cronograma-talleres-2026.pdf" download><span data-i18n="common.descargar">Descargar</span> <i class="fa-solid fa-download"></i></a>
         </li>
         <li>
           <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
           <div>
-            <strong>Programa de cursos</strong>
-            <span class="recurso-desc">Contenidos y requisitos de cada curso.</span>
+            <strong data-i18n="common.programaCursos">Programa de cursos</strong>
+            <span class="recurso-desc" data-i18n="common.programaDesc">Contenidos y requisitos de cada curso.</span>
           </div>
-          <a href="recursos/programa-cursos.pdf" download>Descargar <i class="fa-solid fa-download"></i></a>
+          <a href="recursos/programa-cursos.pdf" download><span data-i18n="common.descargar">Descargar</span> <i class="fa-solid fa-download"></i></a>
         </li>
       </ul>
     </section>
 
     <section class="arte-cta" aria-labelledby="darTallerTitulo">
       <div>
-        <h2 id="darTallerTitulo">¿Querés dar un taller?</h2>
-        <p>Si sos artista, docente o referente local y querés sumar tu propuesta a Nodo Cultural, escribinos.</p>
+        <h2 id="darTallerTitulo" data-i18n="cursos.ctaTit">¿Querés dar un taller?</h2>
+        <p data-i18n="common.ctaTexto">Si sos artista, docente o referente local y querés sumar tu propuesta a Nodo Cultural, escribinos.</p>
       </div>
-      <a href="contacto.html" class="nc-btn nc-btn--claro">Ir a contacto</a>
+      <a href="contacto.html" class="nc-btn nc-btn--claro" data-i18n="common.irContacto">Ir a contacto</a>
     </section>
 
   </main>

@@ -5,14 +5,14 @@ async function renderizarCharla() {
     let id = gestorCharlas.obtenerIdDesdeUrl();
 
     if (!id) {
-        contenedor.innerHTML = '<p class="admin-vacio">No se encontró la charla.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">' + t("det.noCharla") + '</p>';
         return;
     }
 
     const charla = await gestorCharlas.obtenerCharlaPorId(id);
 
     if (!charla) {
-        contenedor.innerHTML = '<p class="admin-vacio">No se encontró la charla.</p>';
+        contenedor.innerHTML = '<p class="admin-vacio">' + t("det.noCharla") + '</p>';
         return;
     }
 
@@ -22,7 +22,7 @@ async function renderizarCharla() {
 
             <div class="charla-detalle__media">
                 <img src="${charla.imagen}" alt="${charla.titulo}">
-                <span class="charla-detalle__tag">${charla.tipo}</span>
+                <span class="charla-detalle__tag">${tDato(charla.tipo)}</span>
             </div>
 
             <div class="charla-detalle__body">
@@ -36,22 +36,22 @@ async function renderizarCharla() {
                 <dl class="charla-detalle__datos">
 
                     <div>
-                        <dt><i class="fa-regular fa-calendar"></i> Fecha</dt>
+                        <dt><i class="fa-regular fa-calendar"></i> ${t("det.fecha")}</dt>
                         <dd>${charla.fecha}</dd>
                     </div>
 
                     <div>
-                        <dt><i class="fa-regular fa-clock"></i> Hora</dt>
+                        <dt><i class="fa-regular fa-clock"></i> ${t("det.hora")}</dt>
                         <dd>${charla.hora}</dd>
                     </div>
 
                     <div>
-                        <dt><i class="fa-solid fa-location-dot"></i> Lugar</dt>
-                        <dd>${charla.lugar}</dd>
+                        <dt><i class="fa-solid fa-location-dot"></i> ${t("det.lugar")}</dt>
+                        <dd>${tDato(charla.lugar)}</dd>
                     </div>
 
                     <div>
-                        <dt><i class="fa-solid fa-user"></i> Expositor</dt>
+                        <dt><i class="fa-solid fa-user"></i> ${t("det.expositor")}</dt>
                         <dd>${charla.expositor}</dd>
                     </div>
 
@@ -61,12 +61,10 @@ async function renderizarCharla() {
 
                     <span class="charla-detalle__cupos">
                         <i class="fa-solid fa-users"></i>
-                        ${charla.cupos} cupos disponibles
+                        ${t("det.cupos", { n: charla.cupos })}
                     </span>
 
-                    <button type="button" id="btnMostrarForm" class="nc-btn">
-                        Inscribirme
-                    </button>
+                    <button type="button" id="btnMostrarForm" class="nc-btn">${t("act.inscribirme")}</button>
 
                 </div>
 
@@ -76,26 +74,25 @@ async function renderizarCharla() {
 
                         <form id="formConfirmacion" class="form-contacto" style="display: none;">
 
-                            <h3>Confirmá tu asistencia</h3>
+                            <h3>${t("det.confirmaTitulo")}</h3>
 
                             <div class="auth-campo">
-                                <label for="nombre">Nombre y apellido</label>
-                                <input type="text" id="nombre" required placeholder="Tu nombre completo">
+                                <label for="nombre">${t("det.nombre")}</label>
+                                <input type="text" id="nombre" required placeholder="${t('det.nombrePh')}">
                             </div>
 
                             <div class="auth-campo">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" required placeholder="tuemail@ejemplo.com">
+                                <label for="email">${t("det.email")}</label>
+                                <input type="email" id="email" required placeholder="${t('det.emailPh')}">
                             </div>
 
                             <div class="auth-campo">
-                                <label for="telefono">Teléfono</label>
+                                <label for="telefono">${t("det.telefono")}</label>
                                 <input type="tel" id="telefono" required placeholder="09X XXX XXX">
                             </div>
 
                             <button type="submit" class="nc-btn nc-btn--pill">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                Enviar confirmación
+                                <i class="fa-solid fa-paper-plane"></i> ${t("det.enviar")}
                             </button>
 
                         </form>
@@ -134,8 +131,11 @@ async function renderizarCharla() {
     enlazarInscripcion("charla", charla.id);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function iniciar_renderizarCharla() {
   renderizarCharla().catch(function () {
     mostrarErrorServidor(contenedor);
   });
-});
+}
+
+document.addEventListener("DOMContentLoaded", iniciar_renderizarCharla);
+document.addEventListener("idiomacambiado", iniciar_renderizarCharla);

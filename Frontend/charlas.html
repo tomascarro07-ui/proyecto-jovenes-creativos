@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Arte y talleres en Nodo Cultural: cursos, talleres y actividades artísticas de Colonia del Sacramento.">
-  <title>Nodo Cultural - Charlas</title>
+  <title data-i18n="charlas.titulo">Nodo Cultural - Charlas</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -20,17 +20,17 @@
 
     <section class="nc-hero nc-hero--imagen" style="background-image: url('img/charlas.webp');" aria-labelledby="arteTitulo">
       <div class="nc-hero__texto">
-        <h1 id="arteTitulo">Charlas</h1>
-        <p>Aprendé, descubrí y compartí. Charlas para todas las edades en el corazón cultural de Colonia del Sacramento.</p>
+        <h1 id="arteTitulo" data-i18n="charlas.h1">Charlas</h1>
+        <p data-i18n="charlas.hero1">Aprendé, descubrí y compartí. Charlas para todas las edades en el corazón cultural de Colonia del Sacramento.</p>
       </div>
       <div class="nc-hero__texto">
-        <p>Las charlas de Nodo Cultural están pensadas para acercarte a la cultura local de una forma dinámica y accesible. Encontrá propuestas para disfrutar, aprender y conocer más sobre Colonia del Sacramento.</p>
+        <p data-i18n="charlas.hero2">Las charlas de Nodo Cultural están pensadas para acercarte a la cultura local de una forma dinámica y accesible. Encontrá propuestas para disfrutar, aprender y conocer más sobre Colonia del Sacramento.</p>
       </div>
     </section>
 
     <section id="talleres" class="arte-bloque arte-bloque--panel" aria-labelledby="talleresTitulo">
       <div class="nc-seccion__cabecera">
-        <h2 id="talleres">Charlas recreativas</h2>
+        <h2 id="talleres" data-i18n="charlas.h2">Charlas recreativas</h2>
       </div>
 
       <div class="museos-grid" id="actividadesGrid"></div>
@@ -38,59 +38,59 @@
 
     <section class="arte-bloque" aria-labelledby="participarTitulo">
   <div class="nc-seccion__cabecera">
-    <h2 id="participarTitulo">¿Cómo participar?</h2>
+    <h2 id="participarTitulo" data-i18n="common.comoParticipar">¿Cómo participar?</h2>
   </div>
   <div class="pasos-grid">
     <article class="paso animar">
       <div class="paso__numero">1</div>
-      <h3>Elegí una charla</h3>
-      <p>Mirá las propuestas y quedate con la que más te guste.</p>
+      <h3 data-i18n="charlas.paso1t">Elegí una charla</h3>
+      <p data-i18n="common.paso1">Mirá las propuestas y quedate con la que más te guste.</p>
     </article>
     <article class="paso animar">
       <div class="paso__numero">2</div>
-      <h3>Escribinos</h3>
-      <p>Contanos cuál te interesa y te confirmamos cupos y horarios.</p>
+      <h3 data-i18n="common.escribinos">Escribinos</h3>
+      <p data-i18n="common.paso2">Contanos cuál te interesa y te confirmamos cupos y horarios.</p>
     </article>
     <article class="paso animar">
       <div class="paso__numero">3</div>
-      <h3>Sumate</h3>
-      <p>Presentate el primer día y empezá a crear.</p>
+      <h3 data-i18n="common.sumate">Sumate</h3>
+      <p data-i18n="common.paso3">Presentate el primer día y empezá a crear.</p>
     </article>
   </div>
 </section>
 
     <section id="recursos" class="arte-bloque arte-bloque--panel" aria-labelledby="materialTitulo">
       <div class="nc-seccion__cabecera">
-        <h2 id="materialTitulo">Material descargable</h2>
+        <h2 id="materialTitulo" data-i18n="common.material">Material descargable</h2>
       </div>
-      <p class="arte-sub">Programas y cronogramas de las charlas</p>
+      <p class="arte-sub" data-i18n="charlas.matSub">Programas y cronogramas de las charlas</p>
 
       <ul class="recurso-lista">
         <li>
           <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
           <div>
-            <strong>Cronograma de charlas 2026</strong>
-            <span class="recurso-desc">Fechas, horarios y lugares de todas las propuestas.</span>
+            <strong data-i18n="charlas.cronoTit">Cronograma de charlas 2026</strong>
+            <span class="recurso-desc" data-i18n="common.cronoDesc">Fechas, horarios y lugares de todas las propuestas.</span>
           </div>
-          <a href="recursos/cronograma-talleres-2026.pdf" download>Descargar <i class="fa-solid fa-download"></i></a>
+          <a href="recursos/cronograma-talleres-2026.pdf" download><span data-i18n="common.descargar">Descargar</span> <i class="fa-solid fa-download"></i></a>
         </li>
         <li>
           <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
           <div>
-            <strong>Programa de cursos</strong>
-            <span class="recurso-desc">Contenidos y requisitos de cada curso.</span>
+            <strong data-i18n="common.programaCursos">Programa de cursos</strong>
+            <span class="recurso-desc" data-i18n="common.programaDesc">Contenidos y requisitos de cada curso.</span>
           </div>
-          <a href="recursos/programa-cursos.pdf" download>Descargar <i class="fa-solid fa-download"></i></a>
+          <a href="recursos/programa-cursos.pdf" download><span data-i18n="common.descargar">Descargar</span> <i class="fa-solid fa-download"></i></a>
         </li>
       </ul>
     </section>
 
     <section class="arte-cta" aria-labelledby="darTallerTitulo">
       <div>
-        <h2 id="darTallerTitulo">¿Querés dar una charla?</h2>
-        <p>Si sos artista, docente o referente local y querés sumar tu propuesta a Nodo Cultural, escribinos.</p>
+        <h2 id="darTallerTitulo" data-i18n="charlas.ctaTit">¿Querés dar una charla?</h2>
+        <p data-i18n="common.ctaTexto">Si sos artista, docente o referente local y querés sumar tu propuesta a Nodo Cultural, escribinos.</p>
       </div>
-      <a href="contacto.html" class="nc-btn nc-btn--claro">Ir a contacto</a>
+      <a href="contacto.html" class="nc-btn nc-btn--claro" data-i18n="common.irContacto">Ir a contacto</a>
     </section>
 
   </main>
@@ -114,7 +114,7 @@
         <h3 data-i18n="ft.enlaces">Enlaces rápidos</h3>
         <ul>
           <li><a href="index.html" data-i18n="ft.inicio">Inicio</a></li>
-          <li><a href="charlas.html">Charlas</a></li>
+          <li><a href="charlas.html" data-i18n="ft.charlas">Charlas</a></li>
           <li><a href="museos_colonia.html" data-i18n="ft.museos">Museos</a></li>
           <li><a href="#cursos" data-i18n="ft.cursos">Cursos y Talleres</a></li>
         </ul>
