@@ -111,20 +111,17 @@ if (formContacto) {
 const formSudamtex = document.getElementById("form-sudamtex-contacto");
 
 if(formSudamtex) {
-  const aviso = document.createElement("p");
-  aviso.setAttribute("role", "status");
-  aviso.hidden = true;
-  aviso.style.marginTop = "1rem";
-  formContacto.appendChild(aviso);
+  const estado = document.getElementById("sxEstado");
+  const boton = document.getElementById("sxEnviar");
+  const contador = document.getElementById("contador");
 
-  formContacto.addEventListener("submit", async function (e) {
+  formSudamtex.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const boton = formContacto.querySelector('button[type="submit"]');
     const textoOriginal = boton.innerHTML;
     boton.disabled = true;
     boton.textContent = t("bol.enviando");
-    aviso.hidden = true;
+    estado.hidden = true;
 
     try {
       const datos = await pedirApi("/contacto", {
@@ -137,15 +134,14 @@ if(formSudamtex) {
         }
       });
 
-      aviso.textContent = (datos && datos.mensaje) || t("contacto.gracias");
-      aviso.style.color = "#2f6b3a";
-      aviso.hidden = false;
-      formContacto.reset();
-      prepararContacto().catch(function () {}); // vuelve a completar el mensaje si venías de una charla o taller
+      estado.textContent = (datos && datos.mensaje) || t("contacto.gracias");
+      estado.style.color = "#2f6b3a";
+      estado.hidden = false;
+      formSudamtex.reset();
     } catch (error) {
-      aviso.textContent = error.message || t("contacto.error");
-      aviso.style.color = "#a2492a";
-      aviso.hidden = false;
+      estado.textContent = error.message || t("contacto.error");
+      estado.style.color = "#a2492a";
+      estado.hidden = false;
     } finally {
       boton.disabled = false;
       boton.innerHTML = textoOriginal;
