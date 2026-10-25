@@ -104,7 +104,7 @@ router.post("/sudamtex", limitador, async(req, res) => {
       res.json({ mensaje: "¡Gracias! Recibimos tu mensaje y te vamos a responder pronto."})
     } catch (error) {
       console.error("Error enviando contacto Nodo Cultural:", error.message);
-      res.status(500).json({ errir: "No pudimos enviar tu mensaje. Probá de nuevo en unos minutos"});
+      res.status(500).json({ error: "No pudimos enviar tu mensaje. Probá de nuevo en unos minutos"});
     }
 
 })
