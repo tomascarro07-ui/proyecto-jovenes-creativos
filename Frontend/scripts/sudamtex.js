@@ -91,3 +91,42 @@
     iniciarSeccionActiva();
     iniciarAparicion();
 })();
+
+// ===== La historia: aparición, capítulo activo, año y progreso =====
+(function () {
+  const caps = Array.from(document.querySelectorAll(".sx-cap"));
+  const lista = document.querySelector(".sx-hist__lista");
+  const anio = document.getElementById("histAnio");
+  const progreso = document.getElementById("histProgreso");
+  if (!caps.length || !lista || !anio) return;
+
+  // Aparece cada capítulo al entrar en pantalla
+  const ioVer = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("sx-cap--visto"); ioVer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  caps.forEach(function (c) { ioVer.observe(c); });
+
+  // Capítulo activo = el que cruza la franja central de la pantalla
+  const ioActivo = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      caps.forEach(function (c) { c.classList.toggle("sx-cap--activo", c === e.target); });
+      anio.textContent = e.target.dataset.anio;
+    });
+  }, { rootMargin: "-45% 0px -45% 0px" });
+  caps.forEach(function (c) { ioActivo.observe(c); });
+
+  // Progreso del hilo y de la regla
+  function actualizar() {
+    const r = lista.getBoundingClientRect();
+    const mitad = window.innerHeight * 0.5;
+    const p = Math.min(1, Math.max(0, (mitad - r.top) / r.height));
+    lista.style.setProperty("--prog", p);
+    if (progreso) progreso.style.width = (p * 100) + "%";
+  }
+  window.addEventListener("scroll", actualizar, { passive: true });
+  window.addEventListener("resize", actualizar);
+  actualizar();
+})();
