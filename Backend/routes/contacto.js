@@ -1,5 +1,5 @@
 const express = require("express");
-const nodemailer = requrie("nodemailer");
+const nodemailer = require("nodemailer");
 const rateLimit = require("express-rate-limit");
 const Consulta = require("../models/Consulta");
 const { enviarCorreo, escaparHTML } = require("../config/correo");
