@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://proyecto-jovenes-creativos.vercel.app/api/:path*"
+    }
+  ]
+}

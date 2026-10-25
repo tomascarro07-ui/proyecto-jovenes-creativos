@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="index.titulo">Nodo Cultural - Inicio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="nc-home">
+
+  <header class="site-header" id="siteHeader"></header>
+
+  <main class="nc-layout">
+
+    <div class="nc-main">
+
+      <section class="nc-hero" aria-labelledby="heroTitulo">
+        <div class="nc-hero__texto">
+          <h1 id="heroTitulo" data-i18n="index.heroTitulo">Conectando cultura, educación y comunidad</h1>
+          <p data-i18n="index.heroTexto">Nodo Cultural es la plataforma que conecta museos, instituciones educativas y personas a través del patrimonio y la cultura.</p>
+          <div class="nc-hero__acciones">
+            <a href="#actividades" class="nc-btn" data-i18n="index.btnExplorar">Explorar actividades</a>
+            <a href="#boletin" class="nc-btn nc-btn--outline" data-i18n="index.btnBoletin">Suscribirme al boletín</a>
+          </div>
+        </div>
+
+        <div id="carouselDestacados" class="carousel slide nc-carousel" data-bs-ride="carousel" data-bs-interval="6000" aria-label="Eventos destacados" data-i18n-attr="aria-label:index.carruselAria">
+          <div class="carousel-indicators" id="carouselIndicadores">
+          </div>
+          <div class="carousel-inner" id="carouselInner">
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden" data-i18n="common.anterior">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden" data-i18n="common.siguiente">Siguiente</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="nc-row">
+
+        <section id="propuesta" aria-label="Nuestra propuesta" data-i18n-attr="aria-label:index.propuestaAria">
+          <img src="img/nodo-cultural.png" alt="Propuesta de Nodo Cultural" data-i18n-attr="alt:index.propuestaAlt" class="propuesta-img"
+              data-bs-toggle="modal" data-bs-target="#modalImagen">
+        </section>
+
+        <div class="modal fade" id="modalImagen" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-body p-0">
+                <img src="img/nodo-cultural.png" alt="Propuesta de Nodo Cultural" data-i18n-attr="alt:index.propuestaAlt" style="width:100%; height:auto; display:block;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section id="actividades" class="nc-actividades" aria-labelledby="actTitulo">
+          <div class="nc-seccion__cabecera">
+            <h2 id="actTitulo" data-i18n="index.actTitulo">Próximas actividades</h2>
+            <a href="charlas.html" class="nc-vertodas" data-i18n="common.verTodas">Ver todas</a>
+          </div>
+            <div class="act-grid" id="charlasGrid">
+          </div>
+        </section>
+
+      </div>
+
+      <div class="nc-panel">
+
+        <section id="cursos" aria-labelledby="cursosTitulo">
+          <div class="nc-seccion__cabecera">
+            <h2 id="cursosTitulo" data-i18n="index.cursosTitulo">Cursos y Talleres</h2>
+            <a href="arte_talleres.html" class="nc-vertodas" data-i18n="common.verTodos">Ver todos</a>
+          </div>
+
+          <div class="curso-grid">
+            <div class="act-grid" id="talleresGrid">
+          </div>
+        </section>
+
+        <section id="recursos" aria-labelledby="recursosTitulo">
+          <div class="nc-seccion__cabecera">
+            <h2 id="recursosTitulo" data-i18n="index.recursosTitulo">Recursos destacados</h2>
+            <a href="recursos.html" class="nc-vertodas" data-i18n="common.verTodos">Ver todos</a>
+          </div>
+
+          <ul class="recurso-lista">
+            <li>
+              <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
+              <div>
+                <strong data-i18n="index.recGuia">Guía del Barrio Histórico</strong>
+                <span>PDF</span>
+              </div>
+              <a href="recursos/Guia_Historica_de_Colonia_del_Sacramento.pdf" download><span data-i18n="common.descargar">Descargar</span> <i class="fa-solid fa-download"></i></a>
+            </li>
+            <li>
+              <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
+              <div>
+                <strong data-i18n="index.recCatalogo">Catálogo de museos 2026</strong>
+                <span>PDF</span>
+              </div>
+              <a href="recursos/catalogo-museos-2026.pdf" download><span data-i18n="common.descargar">Descargar</span> <i class="fa-solid fa-download"></i></a>
+            </li>
+            <li>
+              <i class="fa-solid fa-file-pdf recurso-pdf" aria-hidden="true"></i>
+              <div>
+                <strong data-i18n="index.recHistoria">Historia de Colonia del Sacramento</strong>
+                <span>PDF</span>
+              </div>
+              <a href="recursos/Historia_de_Colonia_del_Sacramento.pdf" download><span data-i18n="common.descargar">Descargar</span> <i class="fa-solid fa-download"></i></a>
+            </li>
+          </ul>
+
+          <div class="recurso-todos">
+            <a href="recursos.html" class="nc-btn nc-btn--outline nc-btn--mini" data-i18n="index.recTodos">Ir a todos los recursos</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <aside class="nc-side">
+
+      <section class="asistente" aria-labelledby="asistenteTitulo">
+        <h2 id="asistenteTitulo"><span data-i18n="index.asistenteTitulo">Asistente Cultural</span> <span class="asistente-ia" data-i18n="index.ia">IA</span></h2>
+        <p class="asistente-saludo" data-i18n-html="index.saludo">Hola, soy tu asistente cultural.<br>¿En qué puedo ayudarte hoy?</p>
+
+        <div class="asistente-mensajes" id="asistenteMensajes" aria-live="polite">
+        </div>
+
+        <div class="asistente-sugerencias" id="asistenteSugerencias">
+          <p data-i18n="index.preguntas">Preguntas para empezar:</p>
+          <ul>
+            <li>
+              <a href="#" class="sug-pregunta" data-pregunta="¿Qué charlas hay disponibles?" data-i18n-attr="data-pregunta:index.sugCharlasPreg">
+                <span class="sug-thumb"><i class="fa-solid fa-comments"></i></span>
+                <span class="sug-texto">
+                  <strong data-i18n="index.sugCharlas">Charlas disponibles</strong>
+                  <small data-i18n="index.sugCharlasSub">Fechas, lugares y cupos</small>
+                </span>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sug-pregunta" data-pregunta="Contame sobre los talleres que tienen" data-i18n-attr="data-pregunta:index.sugTalleresPreg">
+                <span class="sug-thumb"><i class="fa-solid fa-palette"></i></span>
+                <span class="sug-texto">
+                  <strong data-i18n="index.sugTalleres">Talleres y cursos</strong>
+                  <small data-i18n="index.sugTalleresSub">Modalidad y cupos</small>
+                </span>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sug-pregunta" data-pregunta="¿Qué recorridos puedo hacer por Colonia?" data-i18n-attr="data-pregunta:index.sugRecorridosPreg">
+                <span class="sug-thumb"><i class="fa-solid fa-map-location-dot"></i></span>
+                <span class="sug-texto">
+                  <strong data-i18n="index.sugRecorridos">Recorridos</strong>
+                  <small data-i18n="index.sugRecorridosSub">Duración y punto de salida</small>
+                </span>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <form class="asistente-form" id="formAsistente">
+          <label for="asistenteInput" class="visually-hidden" data-i18n="index.asistenteLabel">Escribí tu consulta</label>
+          <input type="text" id="asistenteInput" placeholder="Escribí tu consulta..." data-i18n-attr="placeholder:index.asistentePlaceholder" autocomplete="off">
+          <button type="submit" class="nc-btn nc-btn--pill" aria-label="Enviar consulta" data-i18n-attr="aria-label:index.asistenteEnviar"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </section>
+
+      <section id="boletin" class="boletin" aria-labelledby="boletinTitulo">
+        <div class="boletin-cabecera">
+          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          <div>
+            <h2 id="boletinTitulo" data-i18n="index.boletinTitulo">Boletín Cultural</h2>
+            <p data-i18n="index.boletinTexto">Recibí novedades, actividades y recursos según tus intereses.</p>
+          </div>
+        </div>
+
+        <form id="formBoletin">
+          <div class="boletin-email">
+            <label for="boletinEmail" class="visually-hidden" data-i18n="index.boletinEmail">Tu correo electrónico</label>
+            <input type="email" id="boletinEmail" placeholder="Tu correo electrónico" data-i18n-attr="placeholder:index.boletinEmail" required>
+            <button type="submit" class="nc-btn nc-btn--mini" data-i18n="index.boletinBtn">Suscribirme</button>
+          </div>
+
+          <fieldset class="boletin-cats">
+            <legend data-i18n="index.boletinCats">Elegí tus categorías de interés:</legend>
+            <label><input type="checkbox" name="cat" value="Museos"> <span data-i18n="index.cat.museos">Museos</span></label>
+            <label><input type="checkbox" name="cat" value="Historia"> <span data-i18n="index.cat.historia">Historia</span></label>
+            <label><input type="checkbox" name="cat" value="Patrimonio Industrial"> <span data-i18n="index.cat.industrial">Patrimonio Industrial</span></label>
+            <label><input type="checkbox" name="cat" value="Educación"> <span data-i18n="index.cat.educacion">Educación</span></label>
+            <label><input type="checkbox" name="cat" value="Arte y Exposiciones"> <span data-i18n="index.cat.arte">Arte y Exposiciones</span></label>
+            <label><input type="checkbox" name="cat" value="Medio Ambiente"> <span data-i18n="index.cat.ambiente">Medio Ambiente</span></label>
+            <label><input type="checkbox" name="cat" value="Arqueología"> <span data-i18n="index.cat.arqueologia">Arqueología</span></label>
+            <label><input type="checkbox" name="cat" value="Eventos por Departamento"> <span data-i18n="index.cat.departamento">Eventos por Departamento</span></label>
+            <label><input type="checkbox" name="cat" value="Actividades Familiares"> <span data-i18n="index.cat.familiares">Actividades Familiares</span></label>
+          </fieldset>
+
+          <p class="boletin-msg" id="boletinMsg" role="status" hidden></p>
+        </form>
+      </section>
+
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+
+      <div class="footer-marca">
+        <a class="brand brand--footer" href="index.html" aria-label="Nodo Cultural, ir al inicio" data-i18n-attr="aria-label:hd.irInicio">
+          <img src="img/logo-blanco.png" alt="" width="190"></img>
+        </a>
+        <p data-i18n="ft.lema">Una red que conecta patrimonio, educación y comunidad.</p>
+        <div class="footer-redes">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Enlaces rápidos" data-i18n-attr="aria-label:ft.enlaces">
+        <h3 data-i18n="ft.enlaces">Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html" data-i18n="ft.inicio">Inicio</a></li>
+          <li><a href="#actividades" data-i18n="ft.actividades">Actividades</a></li>
+          <li><a href="museos_colonia.html" data-i18n="ft.museos">Museos</a></li>
+          <li><a href="#cursos" data-i18n="ft.cursos">Cursos y Talleres</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Recursos" data-i18n-attr="aria-label:ft.recursos">
+        <h3 data-i18n="ft.recursos">Recursos</h3>
+        <ul>
+          <li><a href="#recursos" data-i18n="ft.recursosEdu">Recursos educativos</a></li>
+          <li><a href="recorridos.html" data-i18n="ft.recorridos">Recorridos</a></li>
+          <li><a href="#recursos" data-i18n="ft.material">Material descargable</a></li>
+          <li><a href="#boletin" data-i18n="ft.boletin">Boletín cultural</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Sobre Nodo Cultural" data-i18n-attr="aria-label:ft.sobre">
+        <h3 data-i18n="ft.sobre">Sobre Nodo Cultural</h3>
+        <ul>
+          <li><a href="nosotros.html" data-i18n="ft.quienes">Quiénes somos</a></li>
+          <li><a href="servicios.html" data-i18n="ft.servicios">Servicios</a></li>
+          <li><a href="contacto.html" data-i18n="ft.contacto">Contacto</a></li>
+          <li><a href="admin.html" data-i18n="ft.admin">Administración</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3 data-i18n="ft.contacto">Contacto</h3>
+        <ul class="footer-contacto">
+          <li><i class="fa-regular fa-envelope"></i> contacto@nodocultural.uy</li>
+          <li><i class="fa-solid fa-phone"></i> +598 99 123 456</li>
+          <li><i class="fa-solid fa-location-dot"></i> <span data-i18n="ft.ubicacion">Colonia del Sacramento, Uruguay</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="scripts/base/storage.js"></script>
+  <script src="scripts/base/key.js"></script>
+  <script src="scripts/auth/autenticacion.js"></script>
+  <script src="scripts/base/commonFunctions.js"></script>
+  <script src="scripts/i18n/i18n.js"></script>
+  <script src="scripts/i18n/es.js"></script>
+  <script src="scripts/i18n/en.js"></script>
+  <script src="scripts/i18n/pt.js"></script>
+  <script src="scripts/base/headerSesion.js"></script>
+  <script src="scripts/base/config.js"></script>
+  <script src="scripts/base/api.js"></script>
+  <script src="scripts/boletin.js"></script>
+  <script src="scripts/gestores/gestorCharlas.js"></script>
+  <script src="scripts/charlas/charlaDetalleIndex.js"></script>
+  <script src="scripts/gestores/gestorTalleres.js"></script>
+  <script src="scripts/talleres/tallerDetalleIndex.js"></script>
+  <script src="scripts/gestores/gestorRecorridos.js"></script>
+  <script src="scripts/index.js"></script>
+  <script src="scripts/chatAsistente.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+
+</html>
