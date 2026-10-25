@@ -108,7 +108,7 @@ if (formContacto) {
   });
 }
 
-const formSudamtex = document.querySelector('#sxForm');
+const formSudamtex = document.getElementById("form-sudamtex-contacto");
 
 if(formSudamtex) {
   const aviso = document.createElement("p");
