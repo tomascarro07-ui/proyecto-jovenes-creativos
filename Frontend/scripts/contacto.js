@@ -120,11 +120,11 @@ if(formSudamtex) {
 
     const textoOriginal = boton.innerHTML;
     boton.disabled = true;
-    boton.textContent = t("bol.enviando");
+    boton.textContent = "Enviando...";
     estado.hidden = true;
 
     try {
-      const datos = await pedirApi("/contacto", {
+      const datos = await pedirApi("/contacto/sudamtex", {
         method: "POST",
         body: {
           nombre: document.getElementById("nombre").value,
@@ -134,12 +134,15 @@ if(formSudamtex) {
         }
       });
 
-      estado.textContent = (datos && datos.mensaje) || t("contacto.gracias");
+      estado.textContent = (datos && datos.mensaje) || "¡Mensaje enviado! Te respondemos por correo.";
       estado.style.color = "#2f6b3a";
       estado.hidden = false;
       formSudamtex.reset();
+      if(contador) {
+        contador.textContent = "0 / 2000";
+      }
     } catch (error) {
-      estado.textContent = error.message || t("contacto.error");
+      estado.textContent = error.message || "No se pudo enviar. Probá de nuevo.";
       estado.style.color = "#a2492a";
       estado.hidden = false;
     } finally {
