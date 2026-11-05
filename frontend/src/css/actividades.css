@@ -1,0 +1,122 @@
+/* Listados de charlas, talleres y recorridos: actividad destacada + tarjetas, pasos y material descargable.
+   Usa los mismos colores del sitio (variables de styles.css). */
+
+.ac-listado { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* ── Etiquetas ── */
+.ac-chip {
+  display: inline-flex; align-items: center; padding: .25rem .75rem; border-radius: 999px;
+  background: var(--color-burbuja); color: #fff; font-size: .68rem; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.ac-chip--claro { background: var(--nc-menta); color: var(--color-burbuja); align-self: flex-start; }
+.ac-pildora {
+  display: inline-flex; align-items: center; padding: .25rem .75rem; border-radius: 999px;
+  background: #E3EFE6; color: #1F5B33; font-size: .75rem; font-weight: 600; white-space: nowrap;
+}
+.ac-pildora--poco { background: #FBE6DA; color: #8A3A17; }
+.ac-pildora--gris { background: var(--nc-panel); color: #4a4a4a; }
+
+.ac-meta { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .35rem 1rem; font-size: .78rem; color: var(--color-texto-claro); }
+.ac-meta i { margin-right: .3rem; color: var(--color-boton); }
+.ac-meta--claro { color: var(--nc-menta); font-size: .85rem; }
+.ac-meta--claro i { color: var(--nc-menta); }
+
+/* ── Actividad destacada ── */
+.ac-destacada {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  background: var(--color-burbuja); border-radius: 14px; overflow: hidden; min-height: 340px;
+}
+.ac-destacada__media { position: relative; min-height: 240px; }
+.ac-destacada__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ac-destacada__sello {
+  position: absolute; left: 1rem; top: 1rem; display: inline-flex; align-items: center; gap: .4rem;
+  padding: .4rem .9rem; border-radius: 999px; background: #B8512A; color: #fff;
+  font-size: .75rem; font-weight: 600; letter-spacing: .03em;
+}
+.ac-destacada__cuerpo { padding: 2rem 2.2rem; display: flex; flex-direction: column; justify-content: center; gap: .9rem; color: var(--nc-bg); }
+.ac-destacada__cuerpo h3 { margin: 0; font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 600; line-height: 1.2; color: #fff; }
+.ac-destacada__cuerpo p { margin: 0; font-size: .95rem; line-height: 1.7; color: var(--nc-linea); }
+.ac-destacada__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: .4rem; }
+.ac-boton-claro {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: 0 1.4rem; border-radius: 8px;
+  background: var(--nc-bg); color: var(--color-burbuja); font-size: .9rem; font-weight: 600; text-decoration: none;
+  border: 1.5px solid var(--nc-bg); transition: background-color .2s, color .2s;
+}
+.ac-boton-claro:hover { background: transparent; color: var(--nc-bg); }
+.ac-boton-claro:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+/* ── Tarjetas ── */
+.ac-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.ac-tarjeta {
+  display: flex; flex-direction: column; overflow: hidden; background: #fff; border: 1px solid var(--nc-linea);
+  border-radius: 14px; box-shadow: 0 1px 2px rgb(9 52 58 / .06); transition: transform .2s, box-shadow .2s;
+}
+.ac-tarjeta:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgb(9 52 58 / .12); }
+.ac-tarjeta__media { position: relative; height: 200px; background: var(--color-burbuja); }
+.ac-tarjeta__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ac-tarjeta__media .ac-chip { position: absolute; left: .9rem; bottom: .9rem; }
+.ac-fecha {
+  position: absolute; left: .9rem; top: .9rem; display: flex; flex-direction: column; align-items: center; min-width: 50px;
+  padding: .35rem .6rem; background: var(--nc-card); border-radius: 10px; color: var(--color-burbuja);
+  font-size: .68rem; font-weight: 600; letter-spacing: .06em; line-height: 1.1;
+}
+.ac-fecha strong { font-size: 1.35rem; font-weight: 700; letter-spacing: 0; }
+.ac-tarjeta__cuerpo { padding: 1.1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: .75rem; flex: 1; }
+.ac-tarjeta__cuerpo h3 { margin: 0; font-size: 1.1rem; font-weight: 600; line-height: 1.3; color: var(--color-primario); }
+.ac-tarjeta__cuerpo p {
+  margin: 0; font-size: .85rem; line-height: 1.6; color: var(--color-texto-claro);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.ac-tarjeta__pie {
+  display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap;
+  margin-top: auto; padding-top: .9rem; border-top: 1px solid var(--nc-linea);
+}
+.ac-tarjeta__pie .nc-btn { display: inline-flex; align-items: center; gap: .4rem; }
+
+/* ── Cómo participar ── */
+.ac-pasos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.ac-paso { background: #fff; border: 1px solid var(--nc-linea); border-radius: 14px; padding: 1.5rem 1.6rem 1.7rem; display: flex; flex-direction: column; gap: .6rem; }
+.ac-paso__cabecera { display: flex; align-items: center; justify-content: space-between; }
+.ac-paso__icono { display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 12px; background: var(--nc-menta); color: var(--color-burbuja); font-size: 1.1rem; }
+.ac-paso__numero { font-size: 3.4rem; font-weight: 700; line-height: 1; color: var(--nc-linea); }
+.ac-paso h3 { margin: .4rem 0 0; font-size: 1.05rem; font-weight: 600; color: var(--color-primario); }
+.ac-paso p { margin: 0; font-size: .85rem; line-height: 1.7; color: var(--color-texto-claro); }
+.ac-notas { list-style: none; margin: 1.25rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; font-size: .8rem; color: var(--color-texto-claro); }
+.ac-notas i { color: var(--color-boton); margin-right: .35rem; }
+
+/* ── Material descargable ── */
+.ac-material { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.ac-pdf { display: grid; grid-template-columns: 96px minmax(0, 1fr); background: #fff; border: 1px solid var(--nc-linea); border-radius: 14px; overflow: hidden; }
+.ac-pdf__icono { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; background: var(--color-burbuja); color: var(--nc-bg); font-size: 1.7rem; }
+.ac-pdf__icono span { font-size: .72rem; font-weight: 700; letter-spacing: .12em; color: var(--nc-menta); }
+.ac-pdf__cuerpo { padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.ac-pdf__cuerpo h3 { margin: 0; font-size: 1rem; font-weight: 600; line-height: 1.3; color: var(--color-primario); }
+.ac-pdf__cuerpo p { margin: 0; font-size: .8rem; line-height: 1.6; color: var(--color-texto-claro); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.ac-pdf__pie { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-top: auto; padding-top: .4rem; font-size: .75rem; color: var(--color-texto-claro); }
+.ac-pdf__pie .nc-btn { display: inline-flex; align-items: center; gap: .4rem; }
+
+/* ── Panel de administración: estrella "destacada" ── */
+.admin-panel--lista .admin-btn-destacar {
+  width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px; border: 1px solid var(--nc-linea); background: #fff; color: #8a8a8a; font-size: .85rem;
+  cursor: pointer; transition: background-color .2s, border-color .2s, color .2s;
+}
+.admin-panel--lista .admin-btn-destacar:hover { border-color: #B8512A; color: #B8512A; }
+.admin-panel--lista .admin-btn-destacar.activo { background: #B8512A; border-color: #B8512A; color: #fff; }
+.admin-panel--lista .admin-btn-destacar:focus-visible { outline: 3px solid rgb(9 52 58 / .45); outline-offset: 2px; }
+
+@media (max-width: 1000px) {
+  .ac-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ac-destacada { grid-template-columns: minmax(0, 1fr); }
+  .ac-destacada__media { min-height: 220px; }
+  .ac-pasos { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .ac-grid, .ac-material { grid-template-columns: minmax(0, 1fr); }
+  .ac-destacada__cuerpo { padding: 1.4rem 1.3rem 1.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ac-tarjeta { transition: none; }
+  .ac-tarjeta:hover { transform: none; }
+}

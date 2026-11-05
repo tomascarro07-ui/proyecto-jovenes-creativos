@@ -1,0 +1,30 @@
+const mongoose = require("mongoose");
+const opcionesJSON = require("./opcionesJSON");
+const { rutaSegura } = require("../config/validadores");
+const camposUbicacion = require("./Ubicacion");
+
+const charlaSchema = new mongoose.Schema(
+  {
+    titulo: { type: String, required: true, trim: true },
+    fecha: { type: String, required: true },
+    hora: { type: String, required: true },
+    lugar: { type: String, required: true },
+    tipo: { type: String, required: true },
+    imagen: { type: String, default: "", validate: rutaSegura },
+    expositor: { type: String, required: true },
+    descripcionCorta: { type: String, required: true },
+    descripcionCompleta: { type: String, required: true },
+    cupos: { type: Number, required: true, min: 0 },
+    ...camposUbicacion,
+    finalizada: { type: Boolean, default: false },
+    // Solo una actividad por sección puede estar destacada (se muestra en grande al principio de la página)
+    destacada: { type: Boolean, default: false },
+    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
+    traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
+  },
+  { timestamps: true }
+);
+
+charlaSchema.set("toJSON", opcionesJSON);
+
+module.exports = mongoose.model("Charla", charlaSchema);

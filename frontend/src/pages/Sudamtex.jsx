@@ -1,0 +1,544 @@
+import '../css/sudamtex.css'
+import { useCallback, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useEfectosSudamtex } from '../hooks/useEfectosSudamtex'
+
+function Sudamtex() {
+  const raizRef = useRef(null)
+  const [menuAbierto, setMenuAbierto] = useState(false) // menú del encabezado en celulares
+  const cerrarMenu = useCallback(() => setMenuAbierto(false), [])
+  useEfectosSudamtex(raizRef, cerrarMenu)
+
+  return (
+    <div className="sx" ref={raizRef}>
+      <a href="#contenido" className="sx-saltar">Saltar al contenido</a>
+      {/* ============ Header propio de Sudamtex ============ */}
+      <header className="sx-header">
+        <div className="sx-header__interno">
+          <Link to="/sudamtex" className="sx-marca" aria-label="Sudamtex, ir al inicio">
+            <svg className="sx-marca__carretel" viewBox="0 0 32 32" aria-hidden="true">
+              <rect x="5" y="3" width="22" height="4" rx="1.5" fill="currentColor" />
+              {' '}
+              <rect x="5" y="25" width="22" height="4" rx="1.5" fill="currentColor" />
+              {' '}
+              <rect x="9" y="7" width="14" height="18" fill="#f2b705" />
+              {' '}
+              <path d="M9 11h14M9 15h14M9 19h14" stroke="#0d1b3e" strokeWidth="1.4" />
+            </svg>
+            {' '}
+            <span className="sx-marca__texto">SUDAMTEX</span>
+          </Link>
+          {' '}
+          <button
+            className="sx-toggle"
+            type="button"
+            aria-expanded={menuAbierto}
+            aria-controls="sxNav"
+            aria-label={menuAbierto ? 'Cerrar menú' : 'Abrir menú'}
+            onClick={() => setMenuAbierto(!menuAbierto)}
+          >
+            <i className={menuAbierto ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'} aria-hidden="true"></i>
+          </button>
+          <nav
+            className={`sx-nav${menuAbierto ? ' sx-nav--abierto' : ''}`}
+            id="sxNav"
+            aria-label="Secciones de Sudamtex"
+            onClick={(e) => { if (e.target.closest('a')) cerrarMenu() }}
+          >
+            <ul>
+              <li>
+                <a href="#resultados">Resultados esperados</a>
+              </li>
+              <li>
+                <a href="#impacto">Impacto esperado</a>
+              </li>
+              <li>
+                <a href="#participa">Participá</a>
+              </li>
+              <li>
+                <a href="#historia">Historia</a>
+              </li>
+            </ul>
+            <Link to="/" className="sx-volver">
+              <i className="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              {' '}
+              Nodo Cultural
+            </Link>
+          </nav>
+        </div>
+      </header>
+      <main id="contenido">
+        {/* ============ Portada ============ */}
+        <section className="sx-hero" aria-labelledby="sxTitulo">
+          <div className="sx-hero__interno">
+            <div className="sx-hero__texto">
+              <p className="sx-mono sx-hero__eyebrow">Un apartado de Nodo Cultural</p>
+              <h1 id="sxTitulo">Sudamtex</h1>
+              <p className="sx-hero__lead">
+                Un proyecto para preservar la memoria de la fábrica textil de Colonia del Sacramento.
+              </p>
+              <div className="sx-hero__botones">
+                <a href="#resultados" className="sx-btn sx-btn--hilo">Resultados esperados</a>
+                {' '}
+                <a href="#impacto" className="sx-btn sx-btn--borde">Impacto esperado</a>
+              </div>
+            </div>
+            <aside className="sx-etiqueta" aria-label="Datos del proyecto">
+              <span className="sx-etiqueta__ojal" aria-hidden="true"></span>
+              <p className="sx-mono sx-etiqueta__sup">Proyecto de memoria</p>
+              <p className="sx-etiqueta__titulo">Fábrica textil</p>
+              <p className="sx-etiqueta__lugar">
+                <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
+                {' '}
+                Colonia del Sacramento, Uruguay
+              </p>
+              <dl className="sx-datos">
+                <div>
+                  <dt>Resultados esperados</dt>
+                  <dd data-cuenta="resultados">9</dd>
+                </div>
+                <div>
+                  <dt>Líneas de impacto</dt>
+                  <dd data-cuenta="impacto">6</dd>
+                </div>
+              </dl>
+            </aside>
+          </div>
+        </section>
+        <div className="sx-cinta" aria-hidden="true"></div>
+        {/* ============ La historia (línea de tiempo) ============ */}
+        <section className="sx-seccion sx-historia" id="historia" aria-labelledby="historiaTitulo">
+          <div className="sx-contenedor">
+            <header className="sx-cab sx-reveal">
+              <span className="sx-cab__num" aria-hidden="true">56</span>
+              <div>
+                <h2 id="historiaTitulo">La historia de Sudamtex</h2>
+                <p className="sx-lead">Cincuenta y seis años de trabajo, de 1945 a 2001.</p>
+              </div>
+            </header>
+            <div className="sx-hist">
+              <aside className="sx-hist__lateral" aria-hidden="true">
+                <p className="sx-mono sx-hist__rotulo">Línea de tiempo</p>
+                <p className="sx-hist__anio" id="histAnio">1936</p>
+                <div className="sx-hist__regla">
+                  <span id="histProgreso"></span>
+                </div>
+              </aside>
+              <ol className="sx-hist__lista">
+                {/* 1936 */}
+                <li className="sx-cap" data-anio="1936">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">1936</p>
+                  <h3>Un nombre que viene de Buenos Aires</h3>
+                  <p>
+                    El grupo estadounidense United Merchants and Manufacturing se expande por Sudamérica. En 1936 levanta una fábrica textil en la Chacarita, en Buenos Aires, y de ahí sale el nombre:
+                    {' '}
+                    <strong>Sudamtex</strong>
+                    , "Sudamericana Textil".
+                  </p>
+                  <figure className="sx-foto">
+                    <div className="sx-foto__marco">
+                      <img src="/img/foto-grupo-estadounidense.webp" alt="Descripción de la foto" loading="lazy" />
+                      <div className="sx-foto__vacio">
+                        <i className="fa-regular fa-image" aria-hidden="true"></i>
+                        <span>Foto: la planta de Chacarita</span>
+                      </div>
+                    </div>
+                    <figcaption>Archivo · completar fuente y año</figcaption>
+                  </figure>
+                </li>
+                {/* 1945 */}
+                <li className="sx-cap" data-anio="1945">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">7 de diciembre de 1945</p>
+                  <h3>Colonia es la elegida</h3>
+                  <p>
+                    Los inversores recorren el territorio y se quedan con Colonia del Sacramento: la costa aseguraba el agua que la producción necesitaba, y el puerto permitía recibir el combustible por cañerías conectadas directamente a los barcos. Ese día nace oficialmente la fábrica.
+                  </p>
+                  <figure className="sx-foto">
+                    <div className="sx-foto__marco">
+                      <img src="/img/imagen-grupal-sudamtex.webp" alt="Descripción de la foto" loading="lazy" />
+                      <div className="sx-foto__vacio">
+                        <i className="fa-regular fa-image" aria-hidden="true"></i>
+                        <span>Foto: inauguración o terreno</span>
+                      </div>
+                    </div>
+                    <figcaption>Archivo · completar fuente y año</figcaption>
+                  </figure>
+                </li>
+                {/* 1947 */}
+                <li className="sx-cap" data-anio="1947">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">15 de noviembre de 1947</p>
+                  <h3>El primer metro de tela</h3>
+                  <p>
+                    La constructora Christiani & Nielsen tardó dos años en levantar el edificio. Cuando por fin salió el primer metro de tela, la ciudad lo celebró. Con sucesivas ampliaciones, la planta llegó a ocupar
+                    {' '}
+                    <strong>45.000 m²</strong>
+                    .
+                  </p>
+                  <div className="sx-fotos">
+                    <figure className="sx-foto">
+                      <div className="sx-foto__marco">
+                        <img src="/img/metro-tela.webp" alt="Descripción de la foto" loading="lazy" />
+                        <div className="sx-foto__vacio">
+                          <i className="fa-regular fa-image" aria-hidden="true"></i>
+                          <span>Foto: la construcción</span>
+                        </div>
+                      </div>
+                      <figcaption>Archivo · completar</figcaption>
+                    </figure>
+                    <figure className="sx-foto">
+                      <div className="sx-foto__marco">
+                        <img src="/img/foto-frente-sudamtex.webp" alt="Descripción de la foto" loading="lazy" />
+                        <div className="sx-foto__vacio">
+                          <i className="fa-regular fa-image" aria-hidden="true"></i>
+                          <span>Foto: el primer metro</span>
+                        </div>
+                      </div>
+                      <figcaption>Archivo · completar</figcaption>
+                    </figure>
+                  </div>
+                </li>
+                {/* Apogeo */}
+                <li className="sx-cap" data-anio="Apogeo">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">Los años del apogeo</p>
+                  <h3>Una ciudad que cambia de ritmo</h3>
+                  <p>
+                    La Colonia aldeana, con pocas ofertas de trabajo más allá de oficinas públicas, comercios, la Policía y el cuartel, se transforma. La textil trae operarios de todo el departamento, salarios que antes no existían y técnicos europeos y norteamericanos. Bares, clubes y comercios venden más que nunca.
+                  </p>
+                  <p>
+                    La fábrica también tenía su propia voz: todos los meses editaba la revista
+                    {' '}
+                    <strong>La Lanzadera</strong>
+                    . Con el tiempo se habló de una "cultura de la fábrica" que se extendía mucho más allá de sus portones.
+                  </p>
+                  <figure className="sx-foto">
+                    <div className="sx-foto__marco">
+                      <img src="/img/la-lanzadera.webp" alt="Descripción de la foto" loading="lazy" />
+                      <div className="sx-foto__vacio">
+                        <i className="fa-regular fa-image" aria-hidden="true"></i>
+                        <span>Foto: telares, obreros o la revista La Lanzadera</span>
+                      </div>
+                    </div>
+                    <figcaption>Archivo · completar fuente y año</figcaption>
+                  </figure>
+                </li>
+                {/* 1972 */}
+                <li className="sx-cap" data-anio="1972">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">3 de enero de 1972</p>
+                  <h3>Casas y escuelas para la comunidad</h3>
+                  <p>
+                    Junto al Banco Hipotecario, Sudamtex impulsa cuatro complejos de viviendas. Las obras empiezan ese día y las hacen los propios operarios, que después iban a habitar esas casas. También se construyen las escuelas N.º 90 y N.º 82 (barrio El General), que siguen funcionando.
+                  </p>
+                  <figure className="sx-foto">
+                    <div className="sx-foto__marco">
+                      <img src="/img/viviendas-covito.webp" alt="Descripción de la foto" loading="lazy" />
+                      <div className="sx-foto__vacio">
+                        <i className="fa-regular fa-image" aria-hidden="true"></i>
+                        <span>Foto: complejos de viviendas o escuela</span>
+                      </div>
+                    </div>
+                    <figcaption>Archivo · completar fuente y año</figcaption>
+                  </figure>
+                </li>
+                {/* 1986 */}
+                <li className="sx-cap" data-anio="1986">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">1986</p>
+                  <h3>La fábrica cambia de manos</h3>
+                  <p>
+                    United Merchants, el grupo fundador, vende su operación en Venezuela a un grupo de ese país, que luego adquiere también Sudamtex Uruguay. Empieza una etapa de deudas y proyectos de reconversión, entre ellos "Sudamtex 2000", con compromisos por unos 21 millones de dólares.
+                  </p>
+                  <figure className="sx-foto">
+                    <div className="sx-foto__marco">
+                      <img src="/img/image-aerea.webp" alt="Descripción de la foto" loading="lazy" />
+                      <div className="sx-foto__vacio">
+                        <i className="fa-regular fa-image" aria-hidden="true"></i>
+                        <span>Foto: la planta en los años 80-90</span>
+                      </div>
+                    </div>
+                    <figcaption>Archivo · completar fuente y año</figcaption>
+                  </figure>
+                </li>
+                {/* 2001 */}
+                <li className="sx-cap" data-anio="2001">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">Mayo de 2001</p>
+                  <h3>"Se acabó la fábrica"</h3>
+                  <p>
+                    El directorio se presenta a quiebra y decide liquidar la empresa. La planta apenas mantenía a poco más de 40 trabajadores en tareas mínimas; otros 460 estaban en el seguro de paro. La noticia llegó a las radios locales entre llamadas de obreros y jubilados que no podían creerlo.
+                  </p>
+                  <p>
+                    Vinieron las asambleas, las marchas y el despertar del gremio, ya sin la tutela de la empresa.
+                  </p>
+                  <div className="sx-fotos">
+                    <figure className="sx-foto">
+                      <div className="sx-foto__marco">
+                        {/* <img src="img/sudamtex/2001-asamblea.webp" alt="Descripción de la foto" loading="lazy"> */}
+                        <div className="sx-foto__vacio">
+                          <i className="fa-regular fa-image" aria-hidden="true"></i>
+                          <span>Foto: asambleas y marchas</span>
+                        </div>
+                      </div>
+                      <figcaption>Archivo · completar</figcaption>
+                    </figure>
+                    <figure className="sx-foto">
+                      <div className="sx-foto__marco">
+                        {/* <img src="img/sudamtex/2001-portones.webp" alt="Descripción de la foto" loading="lazy"> */}
+                        <div className="sx-foto__vacio">
+                          <i className="fa-regular fa-image" aria-hidden="true"></i>
+                          <span>Foto: los portones cerrados</span>
+                        </div>
+                      </div>
+                      <figcaption>Archivo · completar</figcaption>
+                    </figure>
+                  </div>
+                </li>
+                {/* Hoy */}
+                <li className="sx-cap sx-cap--final" data-anio="Hoy">
+                  <span className="sx-cap__punto" aria-hidden="true"></span>
+                  <p className="sx-cap__fecha sx-mono">Hoy</p>
+                  <h3>Lo que quedó, y lo que falta contar</h3>
+                  <p>
+                    La fábrica fue la principal fuente de empleo privado de la ciudad y marcó el desarrollo de Colonia en la segunda mitad del siglo XX. Sus viejos trabajadores todavía la recuerdan como un lugar de sueldos dignos y de vida compartida. Esa memoria sigue en fotos, documentos, objetos y, sobre todo, en las personas.
+                  </p>
+                  <a href="#participa" className="sx-btn sx-btn--tinta">
+                    <i className="fa-solid fa-envelope" aria-hidden="true"></i>
+                    {' '}
+                    Sumá tu historia
+                  </a>
+                  <figure className="sx-foto">
+                    <div className="sx-foto__marco">
+                      <img src="/img/sudamtex-hoy.webp" alt="Descripción de la foto" loading="lazy" />
+                      <div className="sx-foto__vacio">
+                        <i className="fa-regular fa-image" aria-hidden="true"></i>
+                        <span>Foto: el edificio hoy</span>
+                      </div>
+                    </div>
+                    <figcaption>Archivo · completar fuente y año</figcaption>
+                  </figure>
+                </li>
+              </ol>
+            </div>
+            <p className="sx-hist__fuentes">
+              Fuentes: Wikipedia (Sudamtex), La República (LARED21, 2001), la diaria (2022), Artigas al Detalle y material educativo de Historia sobre Sudamtex. Las fechas pueden variar entre fuentes.
+            </p>
+          </div>
+        </section>
+        <div className="sx-cinta" aria-hidden="true"></div>
+        {/* ============ 10. Resultados esperados ============ */}
+        <section className="sx-seccion sx-resultados" id="resultados" aria-labelledby="resultadosTitulo">
+          <div className="sx-contenedor">
+            <header className="sx-cab sx-reveal">
+              <span className="sx-cab__num" aria-hidden="true">9</span>
+              <div>
+                <h2 id="resultadosTitulo">Resultados esperados</h2>
+                <p className="sx-lead">Al finalizar el proyecto se espera contar con:</p>
+              </div>
+            </header>
+            <ul className="sx-fichas">
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="01" style={{ "--i": "0" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-1-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm7.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383z" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-box-archive" aria-hidden="true"></i>
+                <h3>Un archivo digital abierto</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="02" style={{ "--i": "1" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-2-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm4.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-folder-open" aria-hidden="true"></i>
+                <h3>Una colección organizada de documentos históricos</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="03" style={{ "--i": "2" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-3-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm5.918 8.414h-.879V7.342h.838c.78 0 1.348-.522 1.342-1.237 0-.709-.563-1.195-1.348-1.195-.79 0-1.312.498-1.348 1.055H5.275c.036-1.137.95-2.115 2.625-2.121 1.594-.012 2.608.885 2.637 2.062.023 1.137-.885 1.776-1.482 1.875v.07c.703.07 1.71.64 1.734 1.917.024 1.459-1.277 2.396-2.93 2.396-1.705 0-2.707-.967-2.754-2.144H6.33c.059.597.68 1.06 1.541 1.066.973.006 1.6-.563 1.588-1.354-.006-.779-.621-1.318-1.541-1.318" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-microphone-lines" aria-hidden="true"></i>
+                <h3>Un banco audiovisual de testimonios</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="04" style={{ "--i": "0" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-3-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm5.918 8.414h-.879V7.342h.838c.78 0 1.348-.522 1.342-1.237 0-.709-.563-1.195-1.348-1.195-.79 0-1.312.498-1.348 1.055H5.275c.036-1.137.95-2.115 2.625-2.121 1.594-.012 2.608.885 2.637 2.062.023 1.137-.885 1.776-1.482 1.875v.07c.703.07 1.71.64 1.734 1.917.024 1.459-1.277 2.396-2.93 2.396-1.705 0-2.707-.967-2.754-2.144H6.33c.059.597.68 1.06 1.541 1.066.973.006 1.6-.563 1.588-1.354-.006-.779-.621-1.318-1.541-1.318" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-film" aria-hidden="true"></i>
+                <h3>Un documental sobre Sudamtex</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="05" style={{ "--i": "1" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-5-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm5.994 12.158c-1.57 0-2.654-.902-2.719-2.115h1.237c.14.72.832 1.031 1.529 1.031.791 0 1.57-.597 1.57-1.681 0-.967-.732-1.57-1.582-1.57-.767 0-1.242.45-1.435.808H5.445L5.791 4h4.705v1.103H6.875l-.193 2.343h.064c.17-.258.715-.68 1.611-.68 1.383 0 2.561.944 2.561 2.585 0 1.687-1.184 2.806-2.924 2.806Z" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-book-open" aria-hidden="true"></i>
+                <h3>Una publicación ilustrada</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="06" style={{ "--i": "2" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-6-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M8.111 7.863c-.92 0-1.564.65-1.564 1.576 0 1.032.703 1.635 1.558 1.635.868 0 1.553-.533 1.553-1.629 0-1.06-.744-1.582-1.547-1.582" />
+                  {' '}
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.21 3.855c1.612 0 2.515.99 2.573 1.899H9.494c-.1-.358-.51-.815-1.312-.815-1.078 0-1.817 1.09-1.805 3.036h.082c.229-.545.855-1.155 1.98-1.155 1.254 0 2.508.88 2.508 2.555 0 1.77-1.218 2.783-2.847 2.783-.932 0-1.84-.328-2.409-1.254-.369-.603-.597-1.459-.597-2.642 0-3.012 1.248-4.407 3.117-4.407Z" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-truck" aria-hidden="true"></i>
+                <h3>Una exposición itinerante</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="07" style={{ "--i": "0" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-7-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm3.37 5.11V4.001h5.308V5.15L7.42 12H6.025l3.317-6.82v-.07H5.369Z" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                <h3>Material educativo para centros de enseñanza</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="08" style={{ "--i": "1" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-8-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M6.623 6.094c0 .738.586 1.254 1.383 1.254s1.377-.516 1.377-1.254c0-.733-.58-1.23-1.377-1.23s-1.383.497-1.383 1.23m-.281 3.644c0 .838.72 1.412 1.664 1.412.943 0 1.658-.574 1.658-1.412 0-.843-.715-1.424-1.658-1.424-.944 0-1.664.58-1.664 1.424" />
+                  {' '}
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm8.97 9.803c0 1.394-1.218 2.355-2.988 2.355-1.763 0-2.953-.955-2.953-2.344 0-1.271.95-1.851 1.647-2.003v-.065c-.621-.193-1.33-.738-1.33-1.781 0-1.225 1.09-2.121 2.66-2.121s2.654.896 2.654 2.12c0 1.061-.738 1.595-1.336 1.782v.065c.703.152 1.647.744 1.647 1.992Z" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-laptop" aria-hidden="true"></i>
+                <h3>Una plataforma digital interactiva</h3>
+              </li>
+              <li className="sx-ficha sx-reveal" data-resultado="" data-n="09" style={{ "--i": "2" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-9-square-fill sx-azul" viewBox="0 0 16 16">
+                  <path d="M7.895 8.174c.808 0 1.535-.528 1.535-1.594s-.668-1.676-1.56-1.676c-.838 0-1.517.616-1.517 1.659 0 1.072.708 1.61 1.54 1.61Z" />
+                  {' '}
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm5.777 12.146c-1.593 0-2.425-.89-2.52-1.798h1.296c.1.357.539.72 1.248.72 1.36 0 1.88-1.353 1.834-3.023h-.076c-.235.627-.873 1.184-1.934 1.184-1.395 0-2.566-.961-2.566-2.666 0-1.711 1.242-2.731 2.87-2.731 1.512 0 2.971.867 2.971 4.014 0 2.836-1.02 4.3-3.123 4.3" />
+                </svg>
+                {' '}
+                <i className="sx-ficha__ico fa-solid fa-landmark" aria-hidden="true"></i>
+                <h3>La propuesta conceptual para un museo o espacio de memoria</h3>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <div className="sx-cinta sx-cinta--invertida" aria-hidden="true"></div>
+        {/* ============ 11. Impacto esperado ============ */}
+        <section className="sx-seccion sx-impacto" id="impacto" aria-labelledby="impactoTitulo">
+          <div className="sx-contenedor sx-impacto__grid">
+            <header className="sx-cab sx-cab--vertical sx-reveal">
+              <span className="sx-cab__num" aria-hidden="true">6</span>
+              <div>
+                <h2 id="impactoTitulo">Impacto esperado</h2>
+                <p className="sx-lead">El proyecto contribuirá a:</p>
+              </div>
+            </header>
+            <ol className="sx-hilo">
+              <li className="sx-hilo__item sx-reveal" data-impacto="">
+                <span className="sx-hilo__nudo">
+                  <i className="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+                </span>
+                {' '}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-1-circle-fill sx-amarillo" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z" />
+                </svg>
+                <p>Preservar la memoria colectiva de la comunidad</p>
+              </li>
+              <li className="sx-hilo__item sx-reveal" data-impacto="">
+                <span className="sx-hilo__nudo">
+                  <i className="fa-solid fa-fingerprint" aria-hidden="true"></i>
+                </span>
+                {' '}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-2-circle-fill sx-amarillo" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.646 6.24c0-.691.493-1.306 1.336-1.306.756 0 1.313.492 1.313 1.236 0 .697-.469 1.23-.902 1.705l-2.971 3.293V12h5.344v-1.107H7.268v-.077l1.974-2.22.096-.107c.688-.763 1.287-1.428 1.287-2.43 0-1.266-1.031-2.215-2.613-2.215-1.758 0-2.637 1.19-2.637 2.402v.065h1.271v-.07Z" />
+                </svg>
+                <p>Fortalecer la identidad cultural de Colonia del Sacramento</p>
+              </li>
+              <li className="sx-hilo__item sx-reveal" data-impacto="">
+                <span className="sx-hilo__nudo">
+                  <i className="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+                </span>
+                {' '}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-3-circle-fill sx-amarillo" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-8.082.414c.92 0 1.535.54 1.541 1.318.012.791-.615 1.36-1.588 1.354-.861-.006-1.482-.469-1.54-1.066H5.104c.047 1.177 1.05 2.144 2.754 2.144 1.653 0 2.954-.937 2.93-2.396-.023-1.278-1.031-1.846-1.734-1.916v-.07c.597-.1 1.505-.739 1.482-1.876-.03-1.177-1.043-2.074-2.637-2.062-1.675.006-2.59.984-2.625 2.12h1.248c.036-.556.557-1.054 1.348-1.054.785 0 1.348.486 1.348 1.195.006.715-.563 1.237-1.342 1.237h-.838v1.072h.879Z" />
+                </svg>
+                <p>Ampliar la oferta patrimonial más allá del casco histórico</p>
+              </li>
+              <li className="sx-hilo__item sx-reveal" data-impacto="">
+                <span className="sx-hilo__nudo">
+                  <i className="fa-solid fa-lightbulb" aria-hidden="true"></i>
+                </span>
+                {' '}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-4-circle-fill sx-amarillo" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M7.519 5.057c-.886 1.418-1.772 2.838-2.542 4.265v1.12H8.85V12h1.26v-1.559h1.007V9.334H10.11V4.002H8.176zM6.225 9.281v.053H8.85V5.063h-.065c-.867 1.33-1.787 2.806-2.56 4.218" />
+                </svg>
+                <p>Generar nuevos recursos educativos</p>
+              </li>
+              <li className="sx-hilo__item sx-reveal" data-impacto="">
+                <span className="sx-hilo__nudo">
+                  <i className="fa-solid fa-industry" aria-hidden="true"></i>
+                </span>
+                {' '}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-5-circle-fill sx-amarillo" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-8.006 4.158c1.74 0 2.924-1.119 2.924-2.806 0-1.641-1.178-2.584-2.56-2.584-.897 0-1.442.421-1.612.68h-.064l.193-2.344h3.621V4.002H5.791L5.445 8.63h1.149c.193-.358.668-.809 1.435-.809.85 0 1.582.604 1.582 1.57 0 1.085-.779 1.682-1.57 1.682-.697 0-1.389-.31-1.53-1.031H5.276c.065 1.213 1.149 2.115 2.72 2.115Z" />
+                </svg>
+                <p>Impulsar el turismo cultural e industrial</p>
+              </li>
+              <li className="sx-hilo__item sx-reveal" data-impacto="">
+                <span className="sx-hilo__nudo">
+                  <i className="fa-solid fa-people-group" aria-hidden="true"></i>
+                </span>
+                {' '}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-6-circle-fill sx-amarillo" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.21 3.855c-1.868 0-3.116 1.395-3.116 4.407 0 1.183.228 2.039.597 2.642.569.926 1.477 1.254 2.409 1.254 1.629 0 2.847-1.013 2.847-2.783 0-1.676-1.254-2.555-2.508-2.555-1.125 0-1.752.61-1.98 1.155h-.082c-.012-1.946.727-3.036 1.805-3.036.802 0 1.213.457 1.312.815h1.29c-.06-.908-.962-1.899-2.573-1.899Zm-.099 4.008c-.92 0-1.564.65-1.564 1.576 0 1.032.703 1.635 1.558 1.635.868 0 1.553-.533 1.553-1.629 0-1.06-.744-1.582-1.547-1.582" />
+                </svg>
+                <p>Promover la participación ciudadana en la construcción del patrimonio</p>
+              </li>
+            </ol>
+          </div>
+        </section>
+        <div className="sx-cinta" aria-hidden="true"></div>
+        {/* ============ Participá ============ */}
+        <section className="sx-seccion sx-participa" id="participa" aria-labelledby="participaTitulo">
+          <div className="sx-contenedor">
+            <div className="sx-participa__caja sx-reveal">
+              <div>
+                <p className="sx-mono sx-participa__eyebrow">Construyamos el archivo</p>
+                <h2 id="participaTitulo">¿Tenés una historia de Sudamtex?</h2>
+                <p>
+                  Si trabajaste en la fábrica o guardás fotos, documentos u objetos relacionados, tu aporte puede ser parte de la memoria colectiva.
+                </p>
+              </div>
+              <Link to="/contacto-sudamtex" className="sx-btn sx-btn--tinta">
+                <i className="fa-solid fa-envelope" aria-hidden="true"></i>
+                {' '}
+                Escribinos
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+      {/* ============ Footer propio ============ */}
+      <footer className="sx-footer">
+        <div className="sx-footer__interno">
+          <div>
+            <p className="sx-footer__marca">SUDAMTEX</p>
+            <p className="sx-footer__sub">Un apartado de Nodo Cultural</p>
+          </div>
+          <ul className="sx-footer__links">
+            <li>
+              <Link to="/">Nodo Cultural</Link>
+            </li>
+            <li>
+              <Link to="/museos">Museos</Link>
+            </li>
+            <li>
+              <Link to="/contacto">Contacto</Link>
+            </li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+export default Sudamtex
