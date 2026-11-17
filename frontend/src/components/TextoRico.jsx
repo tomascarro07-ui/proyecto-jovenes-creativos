@@ -2,10 +2,6 @@ import { Link } from 'react-router-dom'
 import { useIdioma } from '../hooks/useIdioma'
 import { traducir } from '../i18n/motor'
 
-// Algunos textos del diccionario traen un poco de HTML (<b>, <strong>, <a href="...">).
-// Este componente los dibuja como elementos de React, sin usar innerHTML (así nada se interpreta como código).
-// Uso: <TextoRico clave="val.login" vars={{ correo }} />
-// Las direcciones "algo.html" del sitio original se convierten en rutas ("/algo").
 const RUTAS = { 'guia_uso.html': '/contacto' }
 
 function aRuta(href) {
@@ -16,16 +12,16 @@ function aRuta(href) {
 function TextoRico({ clave, vars }) {
   const { idioma } = useIdioma()
   const plantilla = traducir(idioma, clave)
-  const poner = (texto) => texto.replace(/\{(\w+)\}/g, (m, k) => (vars && vars[k] !== undefined ? vars[k] : m))
+  const poner = (texto) => texto.replace(/\{(\w+)\}/g, (marcador, nombreDeVariable) => (vars && vars[nombreDeVariable] !== undefined ? vars[nombreDeVariable] : marcador))
   const partes = []
   const patron = /<(b|strong)>(.*?)<\/\1>|<a href="([^"]+)">(.*?)<\/a>/g
   let cursor = 0
-  let m
-  while ((m = patron.exec(plantilla)) !== null) {
-    if (m.index > cursor) partes.push(poner(plantilla.slice(cursor, m.index)))
-    if (m[1]) partes.push(<strong key={m.index}>{poner(m[2])}</strong>)
-    else partes.push(<Link key={m.index} to={aRuta(m[3])}>{poner(m[4])}</Link>)
-    cursor = m.index + m[0].length
+  let coincidencia
+  while ((coincidencia = patron.exec(plantilla)) !== null) {
+    if (coincidencia.index > cursor) partes.push(poner(plantilla.slice(cursor, coincidencia.index)))
+    if (coincidencia[1]) partes.push(<strong key={coincidencia.index}>{poner(coincidencia[2])}</strong>)
+    else partes.push(<Link key={coincidencia.index} to={aRuta(coincidencia[3])}>{poner(coincidencia[4])}</Link>)
+    cursor = coincidencia.index + coincidencia[0].length
   }
   if (cursor < plantilla.length) partes.push(poner(plantilla.slice(cursor)))
   return <>{partes}</>

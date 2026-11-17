@@ -11,6 +11,7 @@
     "museos": "node seed/seedMuseos.js",
     "sedes": "node seed/asignarSedes.js",
     "traducir": "node seed/traducir.js",
+    "traducir:faltantes": "node seed/traducirFaltantes.js",
     "test": "node --test test/*.test.js"
   },
   "keywords": [],

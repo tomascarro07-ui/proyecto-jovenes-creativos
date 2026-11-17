@@ -3,6 +3,7 @@ const rateLimit = require("express-rate-limit");
 const Charla = require("../models/Charla");
 const Taller = require("../models/Taller");
 const Recorrido = require("../models/Recorrido");
+const Museo = require("../models/Museo");
 const PROMPT_BASE = require("../config/promptAsistente");
 const { campoTraducido, traducirDato } = require("../config/idioma");
 
@@ -17,8 +18,6 @@ const limitador = rateLimit({
   message: { error: "Hiciste muchas consultas seguidas. Probá de nuevo en unos minutos." },
 });
 
-// Lo que se le agrega al final de las instrucciones cuando el sitio no está en español.
-// Va al final para que pese más que el "Respondé SIEMPRE en español" del texto base.
 const INSTRUCCION_IDIOMA = {
   en: "\n\nIMPORTANT: the person is using the website in English. Ignore the instruction to answer in Spanish: answer ALWAYS in English, in 2-3 lines at most. If they ask something completely unrelated to these topics, answer only: I can only help you with information about Nodo Cultural, its activities and cultural topics of Colonia del Sacramento. Write the page links (/charlas, /cursos, /museos, /recorridos, /nosotros, /contacto) exactly as they are, with the leading slash.",
   pt: "\n\nIMPORTANTE: a pessoa está usando o site em português. Ignore a instrução de responder em espanhol: responda SEMPRE em português do Brasil, em no máximo 2-3 linhas. Se perguntarem algo totalmente alheio a esses temas, responda apenas: Só posso ajudar com informações sobre o Nodo Cultural, suas atividades e temas culturais de Colônia do Sacramento. Escreva os links das páginas (/charlas, /cursos, /museos, /recorridos, /nosotros, /contacto) exatamente como estão, com a barra inicial.",
@@ -30,7 +29,6 @@ const CONTINUAR = {
   pt: "Continue exatamente de onde parou, sem repetir nada do que já disse e sem cumprimentar de novo.",
 };
 
-// Contexto con las actividades actuales, uno por idioma (se guarda 60 segundos para no consultar la base en cada mensaje)
 const contextoCache = {};
 
 async function construirContexto(idioma) {
@@ -39,10 +37,11 @@ async function construirContexto(idioma) {
 
   const tr = (doc, campo) => campoTraducido(doc, campo, idioma);
 
-  const [charlas, talleres, recorridos] = await Promise.all([
+  const [charlas, talleres, recorridos, museos] = await Promise.all([
     Charla.find().lean(),
     Taller.find().lean(),
     Recorrido.find().lean(),
+    Museo.find().select("nombre tipo direccion horario gancho traducciones").lean(),
   ]);
 
   let texto = PROMPT_BASE + "\n\nCharlas disponibles actualmente:\n";
@@ -60,19 +59,23 @@ async function construirContexto(idioma) {
     texto += `- ${tr(r, "titulo")}, duración ${r.duracionHoras}h ${r.duracionMinutos}min, punto de salida: ${tr(r, "puntoSalida")}. ${tr(r, "descripcionCorta")}\n`;
   }
 
+  texto += "\nMuseos y espacios del Museo de Colonia:\n";
+  for (const m of museos) {
+    texto += `- ${m.nombre} (${tr(m, "tipo")}), ${m.direccion}. Horario: ${tr(m, "horario")}. ${tr(m, "gancho") || ""}\n`;
+  }
+
   texto += INSTRUCCION_IDIOMA[idioma] || "";
 
   contextoCache[idioma] = { texto, hasta: Date.now() + 60 * 1000 };
   return texto;
 }
 
-// Solo aceptamos mensajes de usuario/asistente: el cliente nunca puede mandar el "system".
 function limpiarHistorial(mensajes) {
   if (!Array.isArray(mensajes)) return [];
   return mensajes
-    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
-    .map((m) => ({ role: m.role, content: m.content.trim().slice(0, 500) }))
-    .filter((m) => m.content)
+    .filter((mensaje) => mensaje && (mensaje.role === "user" || mensaje.role === "assistant") && typeof mensaje.content === "string")
+    .map((mensaje) => ({ role: mensaje.role, content: mensaje.content.trim().slice(0, 500) }))
+    .filter((mensaje) => mensaje.content)
     .slice(-8);
 }
 
@@ -102,10 +105,14 @@ async function pedirCompletado(mensajes) {
       throw new Error((datos && datos.error && datos.error.message) || `Groq respondió ${respuesta.status}`);
     }
 
-    return {
-      texto: datos.choices?.[0]?.message?.content || "",
-      cortada: datos.choices?.[0]?.finish_reason === "length",
-    };
+    const primeraOpcion = datos.choices && datos.choices[0];
+    let texto = "";
+    let cortada = false;
+    if (primeraOpcion) {
+      if (primeraOpcion.message && primeraOpcion.message.content) texto = primeraOpcion.message.content;
+      cortada = primeraOpcion.finish_reason === "length";
+    }
+    return { texto, cortada };
   } finally {
     clearTimeout(corte);
   }

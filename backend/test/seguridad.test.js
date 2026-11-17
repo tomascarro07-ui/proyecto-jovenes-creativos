@@ -1,5 +1,3 @@
-// Pruebas de seguridad que no necesitan MongoDB: se ejecutan con  npm test
-// (usan el ejecutor de pruebas que trae Node, no hay que instalar nada).
 process.env.JWT_SECRET = "clave-solo-para-pruebas-0123456789-abcdef";
 process.env.NODE_ENV = "test";
 
@@ -7,7 +5,6 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const jwt = require("jsonwebtoken");
 
-// La conexión a la base de datos se reemplaza por una que responde enseguida
 const rutaDB = require.resolve("../config/db");
 require.cache[rutaDB] = { id: rutaDB, filename: rutaDB, loaded: true, exports: { conectarDB: async () => {} } };
 
@@ -18,11 +15,10 @@ const { verificarToken, soloAdmin } = require("../middleware/auth");
 
 const firmar = (id, extra = {}) => jwt.sign({ id, ...extra }, process.env.JWT_SECRET, { algorithm: "HS256", expiresIn: "1h" });
 
-// Respuesta falsa mínima para probar middlewares
 function resFalsa() {
   const r = { codigo: 200, cuerpo: null };
-  r.status = (c) => { r.codigo = c; return r; };
-  r.json = (b) => { r.cuerpo = b; return r; };
+  r.status = (codigo) => { r.codigo = codigo; return r; };
+  r.json = (cuerpo) => { r.cuerpo = cuerpo; return r; };
   return r;
 }
 async function correr(middleware, req) {
@@ -103,7 +99,6 @@ test("soloAdmin: bloquea a quien no es administrador", async () => {
   assert.equal((await correr(soloAdmin, { usuario: { esAdministrador: true } })).siguio, true);
 });
 
-// ───── Pruebas sobre el servidor completo ─────
 test("servidor: rutas protegidas, errores limpios y límites", async (t) => {
   const app = require("../server");
   const servidor = app.listen(0);
@@ -112,32 +107,29 @@ test("servidor: rutas protegidas, errores limpios y límites", async (t) => {
   const pedir = (ruta, opc = {}) => fetch(base + ruta, opc);
   const json = { "Content-Type": "application/json" };
 
-  // No se anuncia con qué está hecho el servidor
   const salud = await pedir("/api/salud");
   assert.equal(salud.status, 200);
   assert.equal(salud.headers.get("x-powered-by"), null);
   assert.equal(salud.headers.get("x-content-type-options"), "nosniff");
 
-  // Dirección inexistente: 404 en JSON
   const noExiste = await pedir("/api/no-existe");
   assert.equal(noExiste.status, 404);
   assert.ok((await noExiste.json()).error);
 
-  // JSON roto: 400 en JSON, sin detalles internos
   const roto = await pedir("/api/auth/login", { method: "POST", headers: json, body: "{esto no es json" });
   assert.equal(roto.status, 400);
   const cuerpoRoto = await roto.text();
   assert.ok(!/at .*node_modules|SyntaxError/.test(cuerpoRoto));
 
-  // Cuerpo gigante: se corta
   const grande = await pedir("/api/auth/login", { method: "POST", headers: json, body: JSON.stringify({ correo: "x".repeat(300000) }) });
   assert.equal(grande.status, 413);
 
-  // Todo lo que modifica datos del sitio exige administrador
   const protegidas = [
     ["POST", "/api/charlas"], ["POST", "/api/talleres"], ["POST", "/api/recorridos"], ["POST", "/api/recursos"],
     ["DELETE", "/api/charlas/507f1f77bcf86cd799439011"], ["DELETE", "/api/recursos/507f1f77bcf86cd799439011"],
     ["PATCH", "/api/charlas/507f1f77bcf86cd799439011/finalizada"],
+    ["PUT", "/api/charlas/507f1f77bcf86cd799439011"], ["PUT", "/api/museos/507f1f77bcf86cd799439011"],
+    ["PUT", "/api/recursos/507f1f77bcf86cd799439011"], ["POST", "/api/imagenes"], ["GET", "/api/admin/resumen"],
     ["PATCH", "/api/museos/507f1f77bcf86cd799439011/ubicacion"],
     ["GET", "/api/inscripciones/actividad/charla/507f1f77bcf86cd799439011"],
     ["GET", "/api/inscripciones/mias"], ["POST", "/api/inscripciones"], ["POST", "/api/valoraciones"],
@@ -148,12 +140,11 @@ test("servidor: rutas protegidas, errores limpios y límites", async (t) => {
     assert.equal(r.status, 401, `${metodo} ${ruta} debería pedir sesión`);
   }
 
-  // Un usuario común no puede crear contenido ni ver inscriptos
   const original = Usuario.findById;
   Usuario.findById = async (id) => ({ _id: id, esAdministrador: false, contraseniaCambiadaEn: null, pendienteVerificacion: false });
   try {
     const cabecera = { ...json, Authorization: "Bearer " + firmar("507f1f77bcf86cd799439011") };
-    for (const [metodo, ruta] of [["POST", "/api/charlas"], ["POST", "/api/recursos"], ["DELETE", "/api/talleres/507f1f77bcf86cd799439011"], ["GET", "/api/inscripciones/actividad/charla/507f1f77bcf86cd799439011"]]) {
+    for (const [metodo, ruta] of [["POST", "/api/charlas"], ["POST", "/api/recursos"], ["PUT", "/api/talleres/507f1f77bcf86cd799439011"], ["POST", "/api/imagenes"], ["GET", "/api/admin/resumen"], ["DELETE", "/api/talleres/507f1f77bcf86cd799439011"], ["GET", "/api/inscripciones/actividad/charla/507f1f77bcf86cd799439011"]]) {
       const r = await pedir(ruta, { method: metodo, headers: cabecera, body: metodo === "GET" ? undefined : "{}" });
       assert.equal(r.status, 403, `${metodo} ${ruta} debería negarse a un usuario común`);
     }
@@ -161,14 +152,12 @@ test("servidor: rutas protegidas, errores limpios y límites", async (t) => {
     Usuario.findById = original;
   }
 
-  // Contraseña demasiado larga al registrarse
   const larga = await pedir("/api/auth/registro", {
     method: "POST", headers: json,
     body: JSON.stringify({ correo: "a@b.com", nombre: "Ana", contrasenia: "a".repeat(100) }),
   });
   assert.equal(larga.status, 400);
 
-  // Límite por cuenta: tras 10 intentos fallidos con el mismo correo, se bloquea
   const buscar = Usuario.findOne;
   Usuario.findOne = () => ({ select: async () => null });
   try {
@@ -183,7 +172,6 @@ test("servidor: rutas protegidas, errores limpios y límites", async (t) => {
     Usuario.findOne = buscar;
   }
 });
-
 
 test("destacada: al marcar una actividad se desmarcan las demás y solo el admin puede hacerlo", async () => {
   const express = require("express");
@@ -216,4 +204,65 @@ test("destacada: al marcar una actividad se desmarcan las demás y solo el admin
     Usuario.findById = original;
     servidor.close();
   }
+});
+
+test("editar: solo cambia los campos permitidos, quita traducciones viejas y respeta los permisos", async () => {
+  const express = require("express");
+  const crearRutas = require("../routes/crearRutas");
+  const Museo = require("../models/Museo");
+  const Inscripcion = require("../models/Inscripcion");
+  const original = { id: "a1", _id: "a1", titulo: "Viejo", descripcionCorta: "Igual", cupos: 5, finalizada: false, destacada: false };
+  const registro = {};
+  const FalsoModelo = {
+    findById: async (id) => (id === "507f1f77bcf86cd799439011" ? original : null),
+    findByIdAndUpdate: async (id, operacion, opciones) => { registro.operacion = operacion; registro.opciones = opciones; return { ...original, ...operacion.$set }; },
+  };
+  const usuarioOriginal = Usuario.findById;
+  const museoOriginal = Museo.exists;
+  const inscripcionOriginal = Inscripcion.updateMany;
+  Usuario.findById = async (id) => ({ _id: id, esAdministrador: true, contraseniaCambiadaEn: null, pendienteVerificacion: false });
+  Museo.exists = async () => null;
+  Inscripcion.updateMany = async (filtro, cambios) => { registro.inscripciones = { filtro, cambios }; };
+  const app = express();
+  app.use(express.json());
+  app.use("/x", crearRutas(FalsoModelo, {
+    nombre: "charlas", campos: ["titulo", "descripcionCorta", "cupos", "museo"], camposEditables: ["titulo", "descripcionCorta", "cupos", "museo"],
+    traducibles: ["titulo", "descripcionCorta"], destacable: true,
+  }));
+  const servidor = app.listen(0);
+  const base = `http://127.0.0.1:${servidor.address().port}/x`;
+  const id = "507f1f77bcf86cd799439011";
+  const cab = { "Content-Type": "application/json", Authorization: "Bearer " + firmar("u1") };
+  try {
+    assert.equal((await fetch(`${base}/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: "{}" })).status, 401);
+
+    const ok = await fetch(`${base}/${id}`, { method: "PUT", headers: cab, body: JSON.stringify({ titulo: "Nuevo", descripcionCorta: "Igual", cupos: 9, finalizada: true, destacada: true, rol: "admin" }) });
+    assert.equal(ok.status, 200);
+    assert.deepEqual(registro.operacion.$set, { titulo: "Nuevo", descripcionCorta: "Igual", cupos: 9 });
+    assert.equal(registro.opciones.runValidators, true);
+    assert.deepEqual(registro.operacion.$unset, { "traducciones.en.titulo": "", "traducciones.pt.titulo": "" });
+    assert.equal(registro.inscripciones.cambios.tituloActividad, "Nuevo");
+
+    assert.equal((await fetch(`${base}/507f1f77bcf86cd799439012`, { method: "PUT", headers: cab, body: "{}" })).status, 404);
+    assert.equal((await fetch(`${base}/no-es-un-id`, { method: "PUT", headers: cab, body: "{}" })).status, 400);
+    assert.equal((await fetch(`${base}/${id}`, { method: "PUT", headers: cab, body: JSON.stringify({ museo: "507f1f77bcf86cd799439013" }) })).status, 400);
+  } finally {
+    Usuario.findById = usuarioOriginal;
+    Museo.exists = museoOriginal;
+    Inscripcion.updateMany = inscripcionOriginal;
+    servidor.close();
+  }
+});
+
+test("imágenes: se reconoce el tipo por el contenido y se rechaza todo lo demás", () => {
+  const { detectarTipo } = require("../routes/imagenes");
+  const relleno = Buffer.alloc(20);
+  assert.equal(detectarTipo(Buffer.concat([Buffer.from([0xff, 0xd8, 0xff, 0xe0]), relleno])), "image/jpeg");
+  assert.equal(detectarTipo(Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), relleno])), "image/png");
+  assert.equal(detectarTipo(Buffer.concat([Buffer.from("GIF89a"), relleno])), "image/gif");
+  assert.equal(detectarTipo(Buffer.concat([Buffer.from("RIFF"), Buffer.alloc(4), Buffer.from("WEBPVP8 "), relleno])), "image/webp");
+  assert.equal(detectarTipo(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" onload="alert(1)"></svg>')), null);
+  assert.equal(detectarTipo(Buffer.from("<html><script>alert(1)</script></html>")), null);
+  assert.equal(detectarTipo(Buffer.from("%PDF-1.4 ......................")), null);
+  assert.equal(detectarTipo(Buffer.from("corto")), null);
 });

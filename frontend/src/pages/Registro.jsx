@@ -11,13 +11,12 @@ function Registro() {
   const [enviando, setEnviando] = useState(false)
   const [error, setError] = useState('')
 
-  // Un solo manejador para todos los campos: usa el "name" del campo para saber cuál actualizar
-  function alCambiar(e) {
-    setDatos({ ...datos, [e.target.name]: e.target.value })
+  function alCambiar(evento) {
+    setDatos({ ...datos, [evento.target.name]: evento.target.value })
   }
 
-  async function alEnviar(e) {
-    e.preventDefault()
+  async function alEnviar(evento) {
+    evento.preventDefault()
     setEnviando(true)
     setError('')
     try {
@@ -29,7 +28,6 @@ function Registro() {
         contrasenia: datos.contrasenia,
         fechaNacimiento: datos.nacimiento,
       })
-      // Se registra y se pide iniciar sesión (el aviso de "revisá tu correo" se muestra en el login)
       guardarSesion(null)
       navegar('/login?registrado=1&correo=' + encodeURIComponent(correo))
     } catch (err) {

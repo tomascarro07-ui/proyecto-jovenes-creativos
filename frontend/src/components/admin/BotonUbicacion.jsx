@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import DialogoUbicacion from './DialogoUbicacion'
 
-// Botón "Marcar ubicación" + estado ("Sin ubicación" / "Ubicación marcada (lat, lng)").
-// "valor" es { lat, lng } (o lat null si no hay) y "alCambiar" recibe { lat, lng }.
 function BotonUbicacion({ lat, lng, alCambiar, texto }) {
   const [abierto, setAbierto] = useState(false)
   const marcada = lat !== null && lat !== undefined
@@ -21,7 +19,7 @@ function BotonUbicacion({ lat, lng, alCambiar, texto }) {
       {abierto && (
         <DialogoUbicacion
           inicial={marcada ? { lat: Number(lat), lng: Number(lng) } : null}
-          alConfirmar={(r) => { alCambiar(r); setAbierto(false) }}
+          alConfirmar={(ubicacion) => { alCambiar(ubicacion); setAbierto(false) }}
           alCancelar={() => setAbierto(false)}
         />
       )}

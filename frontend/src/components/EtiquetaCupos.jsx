@@ -1,5 +1,4 @@
 import { useIdioma } from '../hooks/useIdioma'
-// Etiqueta con los cupos de una actividad: "Finalizada", "Sin cupos" o "N cupos disponibles"
 function EtiquetaCupos({ actividad }) {
   const { t } = useIdioma()
   if (actividad.finalizada) return <span className="mc-cupos mc-cupos--fin">{t('cupo.fin')}</span>

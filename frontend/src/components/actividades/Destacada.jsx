@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom'
 import PildoraCupos from './PildoraCupos'
 import { etiquetaFechaCercana } from '../../utils/fechas'
 
-// Actividad destacada: ocupa todo el ancho, con la foto grande. La elige el administrador con la estrella del panel.
-// Recibe una actividad ya "normalizada" (ver ListadoActividades).
 function Destacada({ item, etiqueta }) {
   const fecha = etiquetaFechaCercana(item.fecha)
   return (
@@ -19,8 +17,8 @@ function Destacada({ item, etiqueta }) {
         <h3>{item.titulo}</h3>
         <p>{item.descripcion}</p>
         <ul className="ac-meta ac-meta--claro">
-          {item.meta.map((m) => (
-            <li key={m.icono}><i className={m.icono} aria-hidden="true"></i> {m.texto}</li>
+          {item.meta.map((dato) => (
+            <li key={dato.icono}><i className={dato.icono} aria-hidden="true"></i> {dato.texto}</li>
           ))}
         </ul>
         <div className="ac-destacada__acciones">

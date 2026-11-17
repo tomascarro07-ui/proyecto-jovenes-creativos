@@ -1,6 +1,5 @@
 import { useIdioma } from '../../hooks/useIdioma'
 
-// Etiqueta de cupos con color: verde (hay lugar), naranja (quedan pocos), gris (sin cupos o finalizada).
 function PildoraCupos({ actividad }) {
   const { t } = useIdioma()
   if (actividad.finalizada) return <span className="ac-pildora ac-pildora--gris">{t('cupo.fin')}</span>

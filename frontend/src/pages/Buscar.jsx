@@ -6,25 +6,23 @@ import { fechaCorta, normalizar, recortar, trozosResaltados, urlSegura } from '.
 import { useIdioma } from '../hooks/useIdioma'
 import { tt } from '../i18n/motor'
 
-// Tipos de contenido que se pueden buscar. "url" arma la dirección de cada resultado.
 const TIPOS = {
-  museo: { get plural() { return tt('tipo.museo.p') }, get nombre() { return tt('tipo.museo') }, icono: 'fa-landmark', url: (r) => '/museos/' + encodeURIComponent(r.id) },
-  charla: { get plural() { return tt('tipo.charla.p') }, get nombre() { return tt('tipo.charla') }, icono: 'fa-microphone-lines', url: (r) => '/charlas/' + encodeURIComponent(r.id) },
-  taller: { get plural() { return tt('tipo.taller.p') }, get nombre() { return tt('tipo.taller') }, icono: 'fa-palette', url: (r) => '/cursos/' + encodeURIComponent(r.id) },
-  recorrido: { get plural() { return tt('tipo.recorrido.p') }, get nombre() { return tt('tipo.recorrido') }, icono: 'fa-person-walking', url: (r) => '/recorridos/' + encodeURIComponent(r.id) },
-  recurso: { get plural() { return tt('tipo.recurso.p') }, get nombre() { return tt('tipo.recurso') }, icono: 'fa-file-pdf', url: (r) => r.archivo || '/recursos' },
+  museo: { get plural() { return tt('tipo.museo.p') }, get nombre() { return tt('tipo.museo') }, icono: 'fa-landmark', url: (resultado) => '/museos/' + encodeURIComponent(resultado.id) },
+  charla: { get plural() { return tt('tipo.charla.p') }, get nombre() { return tt('tipo.charla') }, icono: 'fa-microphone-lines', url: (resultado) => '/charlas/' + encodeURIComponent(resultado.id) },
+  taller: { get plural() { return tt('tipo.taller.p') }, get nombre() { return tt('tipo.taller') }, icono: 'fa-palette', url: (resultado) => '/cursos/' + encodeURIComponent(resultado.id) },
+  recorrido: { get plural() { return tt('tipo.recorrido.p') }, get nombre() { return tt('tipo.recorrido') }, icono: 'fa-person-walking', url: (resultado) => '/recorridos/' + encodeURIComponent(resultado.id) },
+  recurso: { get plural() { return tt('tipo.recurso.p') }, get nombre() { return tt('tipo.recurso') }, icono: 'fa-file-pdf', url: (resultado) => resultado.archivo || '/recursos' },
 }
 
-// Texto con las palabras buscadas resaltadas
 function Resaltado({ texto, tokens }) {
-  return trozosResaltados(texto, tokens).map((t, i) => (t.marcado ? <mark key={i}>{t.texto}</mark> : t.texto))
+  return trozosResaltados(texto, tokens).map((trozo, posicion) => (trozo.marcado ? <mark key={posicion}>{trozo.texto}</mark> : trozo.texto))
 }
 
-function TarjetaResultado({ r, tokens }) {
+function TarjetaResultado({ resultado, tokens }) {
   const { t } = useIdioma()
-  const tp = TIPOS[r.tipo]
-  const imagen = urlSegura(r.imagen)
-  const href = urlSegura(tp.url(r)) || '/recursos'
+  const tp = TIPOS[resultado.tipo]
+  const imagen = urlSegura(resultado.imagen)
+  const href = urlSegura(tp.url(resultado)) || '/recursos'
   const contenido = (
     <>
       <div className="bus-card__media">
@@ -35,78 +33,72 @@ function TarjetaResultado({ r, tokens }) {
       <div className="bus-card__cuerpo">
         <div className="bus-card__etiquetas">
           <span className="mc-badge"><i className={`fa-solid ${tp.icono}`} aria-hidden="true"></i> {tp.nombre}</span>
-          {r.categoria && <span className="bus-card__cat"><Resaltado texto={r.categoria} tokens={tokens} /></span>}
-          {r.finalizada && <span className="mc-cupos mc-cupos--fin">{t('cupo.fin')}</span>}
+          {resultado.categoria && <span className="bus-card__cat"><Resaltado texto={resultado.categoria} tokens={tokens} /></span>}
+          {resultado.finalizada && <span className="mc-cupos mc-cupos--fin">{t('cupo.fin')}</span>}
         </div>
-        <h3><Resaltado texto={r.titulo} tokens={tokens} /></h3>
-        <p><Resaltado texto={recortar(r.descripcion, 150)} tokens={tokens} /></p>
-        {(r.fecha || r.lugar) && (
+        <h3><Resaltado texto={resultado.titulo} tokens={tokens} /></h3>
+        <p><Resaltado texto={recortar(resultado.descripcion, 150)} tokens={tokens} /></p>
+        {(resultado.fecha || resultado.lugar) && (
           <ul className="bus-card__meta">
-            {r.fecha && <li><i className="fa-regular fa-calendar" aria-hidden="true"></i> {fechaCorta(r.fecha)}{r.hora ? ' · ' + r.hora : ''}</li>}
-            {r.lugar && <li><i className="fa-solid fa-location-dot" aria-hidden="true"></i> <Resaltado texto={recortar(r.lugar, 60)} tokens={tokens} /></li>}
+            {resultado.fecha && <li><i className="fa-regular fa-calendar" aria-hidden="true"></i> {fechaCorta(resultado.fecha)}{resultado.hora ? ' · ' + resultado.hora : ''}</li>}
+            {resultado.lugar && <li><i className="fa-solid fa-location-dot" aria-hidden="true"></i> <Resaltado texto={recortar(resultado.lugar, 60)} tokens={tokens} /></li>}
           </ul>
         )}
       </div>
     </>
   )
-  const clase = `bus-card tipo-${r.tipo}${r.finalizada ? ' bus-card--fin' : ''}`
-  // Los recursos son archivos PDF: se abren en otra pestaña
-  return r.tipo === 'recurso'
+  const clase = `bus-card tipo-${resultado.tipo}${resultado.finalizada ? ' bus-card--fin' : ''}`
+  return resultado.tipo === 'recurso'
     ? <a className={clase} href={href} target="_blank" rel="noopener noreferrer">{contenido}</a>
     : <Link className={clase} to={href}>{contenido}</Link>
 }
 
 function Buscar() {
   const { t } = useIdioma()
-  // La búsqueda puede llegar desde el encabezado: /buscar?q=historia (y se guarda en la dirección para compartirla)
   const [parametros, setParametros] = useSearchParams()
   const [consulta, setConsulta] = useState((parametros.get('q') || '').slice(0, 80))
-  const [consultaPedida, setConsultaPedida] = useState(consulta) // la que se manda al servidor (espera una pausa al escribir)
+  const [consultaPedida, setConsultaPedida] = useState(consulta)
   const [tipo, setTipo] = useState(TIPOS[parametros.get('tipo')] ? parametros.get('tipo') : '')
   const [categoria, setCategoria] = useState((parametros.get('categoria') || '').slice(0, 60))
   const [ocultarFinalizadas, setOcultarFinalizadas] = useState(parametros.get('ocultar') === '1')
   const entradaRef = useRef(null)
 
-  // Busca mientras se escribe, pero espera a que la persona haga una pausa
   useEffect(() => {
     const espera = setTimeout(() => setConsultaPedida(consulta), 250)
     return () => clearTimeout(espera)
   }, [consulta])
 
   const { datos, error, cargando } = useCarga(() => {
-    const p = new URLSearchParams()
-    if (consultaPedida) p.set('q', consultaPedida)
-    if (tipo) p.set('tipo', tipo)
-    if (categoria) p.set('categoria', categoria)
-    if (ocultarFinalizadas) p.set('ocultarFinalizadas', '1')
-    return api.buscar(p.toString())
+    const parametrosDeBusqueda = new URLSearchParams()
+    if (consultaPedida) parametrosDeBusqueda.set('q', consultaPedida)
+    if (tipo) parametrosDeBusqueda.set('tipo', tipo)
+    if (categoria) parametrosDeBusqueda.set('categoria', categoria)
+    if (ocultarFinalizadas) parametrosDeBusqueda.set('ocultarFinalizadas', '1')
+    return api.buscar(parametrosDeBusqueda.toString())
   }, [consultaPedida, tipo, categoria, ocultarFinalizadas])
 
-  // Mientras llega una respuesta nueva se siguen mostrando los resultados anteriores
   const [anteriores, setAnteriores] = useState(null)
   if (datos && datos !== anteriores) setAnteriores(datos)
   const mostrar = datos || anteriores
 
-  // Guarda la búsqueda en la dirección para poder compartirla o volver con "atrás"
   useEffect(() => {
-    const p = new URLSearchParams()
-    if (consultaPedida) p.set('q', consultaPedida)
-    if (tipo) p.set('tipo', tipo)
-    if (categoria) p.set('categoria', categoria)
-    if (ocultarFinalizadas) p.set('ocultar', '1')
-    setParametros(p, { replace: true })
+    const parametrosDeBusqueda = new URLSearchParams()
+    if (consultaPedida) parametrosDeBusqueda.set('q', consultaPedida)
+    if (tipo) parametrosDeBusqueda.set('tipo', tipo)
+    if (categoria) parametrosDeBusqueda.set('categoria', categoria)
+    if (ocultarFinalizadas) parametrosDeBusqueda.set('ocultar', '1')
+    setParametros(parametrosDeBusqueda, { replace: true })
   }, [consultaPedida, tipo, categoria, ocultarFinalizadas, setParametros])
 
-  // Atajos: Escape borra lo escrito y "/" lleva el cursor al buscador
   useEffect(() => {
-    const alTeclear = (e) => {
+    const alTeclear = (evento) => {
       const entrada = entradaRef.current
-      if (e.key === 'Escape' && document.activeElement === entrada && entrada.value) {
+      if (evento.key === 'Escape' && document.activeElement === entrada && entrada.value) {
         setConsulta('')
         setConsultaPedida('')
       }
-      if (e.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
-        e.preventDefault()
+      if (evento.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
+        evento.preventDefault()
         entrada.focus()
       }
     }
@@ -116,13 +108,14 @@ function Buscar() {
 
   const tokens = useMemo(() => normalizar(consultaPedida).split(/\s+/).filter(Boolean), [consultaPedida])
   const conteos = mostrar ? mostrar.conteos : {}
-  const totalConteos = Object.values(conteos).reduce((a, b) => a + b, 0)
+  let totalConteos = 0
+  for (const cantidad of Object.values(conteos)) totalConteos += cantidad
   const categorias = mostrar ? mostrar.categorias : []
-  const puedeFiltrar = !!tipo && categorias.length > 0
+  const puedeFiltrar = Boolean(tipo) && categorias.length > 0
 
   function elegirTipo(nuevo) {
     setTipo(nuevo)
-    setCategoria('') // las categorías dependen del tipo
+    setCategoria('')
   }
 
   function limpiar() {
@@ -140,10 +133,16 @@ function Buscar() {
     if (!mostrar.total) {
       estado = t('bus.sinRes')
     } else {
-      const base = consultaPedida
-        ? t(mostrar.total === 1 ? 'bus.resQ1' : 'bus.resQn', { n: mostrar.total, q: consultaPedida })
-        : t(mostrar.total === 1 ? 'bus.elem1' : 'bus.elemN', { n: mostrar.total })
-      estado = base + (mostrar.resultados.length < mostrar.total ? t('bus.mostrando', { n: mostrar.resultados.length }) : '')
+      const esUnico = mostrar.total === 1
+      let base
+      if (consultaPedida) {
+        base = t(esUnico ? 'bus.resQ1' : 'bus.resQn', { n: mostrar.total, q: consultaPedida })
+      } else {
+        base = t(esUnico ? 'bus.elem1' : 'bus.elemN', { n: mostrar.total })
+      }
+      let aclaracion = ''
+      if (mostrar.resultados.length < mostrar.total) aclaracion = t('bus.mostrando', { n: mostrar.resultados.length })
+      estado = base + aclaracion
     }
   }
 
@@ -155,12 +154,12 @@ function Buscar() {
         <p className="bus-sub">
           {t('buscar.sub')}
         </p>
-        <form className="bus-form" role="search" id="busForm" autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+        <form className="bus-form" role="search" id="busForm" autoComplete="off" onSubmit={(evento) => evento.preventDefault()}>
           <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
           {' '}
           <label htmlFor="busInput" className="visually-hidden">{t('hd.buscarPlaceholder')}</label>
           {' '}
-          <input type="search" id="busInput" maxLength="80" placeholder={t('buscar.ph')} autoFocus value={consulta} onChange={(e) => setConsulta(e.target.value.replace(/\s+/g, ' ').trimStart())} ref={entradaRef} />
+          <input type="search" id="busInput" maxLength="80" placeholder={t('buscar.ph')} autoFocus value={consulta} onChange={(evento) => setConsulta(evento.target.value.replace(/\s+/g, ' ').trimStart())} ref={entradaRef} />
           {' '}
           <button type="button" id="busLimpiar" className="bus-limpiar" aria-label={t('buscar.borrar')} hidden={consulta === ''} onClick={limpiar}>
             <i className="fa-solid fa-xmark"></i>
@@ -168,9 +167,9 @@ function Buscar() {
         </form>
         <div className="bus-filtros">
           <div className="bus-chips" id="busChips" role="group" aria-label={t('buscar.filtrarTipo')}>
-            {[['', t('bus.todo'), 'fa-border-all', totalConteos], ...Object.entries(TIPOS).map(([clave, tp]) => [clave, tp.plural, tp.icono, conteos[clave] || 0])].map(([clave, texto, icono, n]) => (
+            {[['', t('bus.todo'), 'fa-border-all', totalConteos], ...Object.entries(TIPOS).map(([clave, tp]) => [clave, tp.plural, tp.icono, conteos[clave] || 0])].map(([clave, texto, icono, cantidad]) => (
               <button type="button" key={clave} className={`mapa-chip${clave ? ' tipo-' + clave : ''}${tipo === clave ? ' is-on' : ''}`} aria-pressed={tipo === clave} onClick={() => elegirTipo(clave)}>
-                <i className={`fa-solid ${icono}`} aria-hidden="true"></i> {texto} <span>{n}</span>
+                <i className={`fa-solid ${icono}`} aria-hidden="true"></i> {texto} <span>{cantidad}</span>
               </button>
             ))}
           </div>
@@ -178,16 +177,16 @@ function Buscar() {
             <label className="bus-select">
               <span className="visually-hidden">{t('buscar.categoria')}</span>
               {' '}
-              <select id="busCategoria" disabled={!puedeFiltrar} title={tipo ? '' : t('bus.elegiTipo')} value={categoria} onChange={(e) => setCategoria(e.target.value)}>
+              <select id="busCategoria" disabled={!puedeFiltrar} title={tipo ? '' : t('bus.elegiTipo')} value={categoria} onChange={(evento) => setCategoria(evento.target.value)}>
                 <option value="">{t('bus.todasCat')}</option>
-                {categorias.map((c) => (
-                  <option key={c.valor} value={c.valor}>{c.valor} ({c.cantidad})</option>
+                {categorias.map((opcion) => (
+                  <option key={opcion.valor} value={opcion.valor}>{opcion.valor} ({opcion.cantidad})</option>
                 ))}
               </select>
             </label>
             {' '}
             <label className="mapa-switch">
-              <input type="checkbox" id="busOcultar" checked={ocultarFinalizadas} onChange={(e) => setOcultarFinalizadas(e.target.checked)} />
+              <input type="checkbox" id="busOcultar" checked={ocultarFinalizadas} onChange={(evento) => setOcultarFinalizadas(evento.target.checked)} />
               {' '}
               <span>{t('buscar.ocultar')}</span>
             </label>
@@ -211,7 +210,7 @@ function Buscar() {
               <p>{consultaPedida ? t('bus.sinResP1') : t('bus.sinResP2')}</p>
             </div>
           )}
-          {!error && mostrar && mostrar.resultados.map((r) => <TarjetaResultado key={r.tipo + r.id} r={r} tokens={tokens} />)}
+          {!error && mostrar && mostrar.resultados.map((resultado) => <TarjetaResultado key={resultado.tipo + resultado.id} resultado={resultado} tokens={tokens} />)}
         </div>
       </section>
     </main>

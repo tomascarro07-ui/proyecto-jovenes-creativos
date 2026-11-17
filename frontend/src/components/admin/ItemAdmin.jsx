@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom'
 
-// Una fila de las listas del panel (charlas, talleres, recorridos y museos) con sus botones de acción.
-// Props: fila (los datos para mostrar), enlace (página de detalle), finalizada,
-// alEliminar, alFinalizar (opcional: los museos no se finalizan), alVerInscriptos y alUbicar (opcionales)
-// y alDestacar (opcional: charlas, talleres y recorridos; destacada indica si ya lo está)
-function ItemAdmin({ imagen, titulo, etiqueta, texto, enlace, finalizada, tituloFinalizar, destacada, alDestacar, alEliminar, alFinalizar, alVerInscriptos, alUbicar, tituloUbicar = 'Ubicar en el mapa' }) {
+function ItemAdmin({ imagen, titulo, etiqueta, texto, enlace, finalizada, tituloFinalizar, destacada, alDestacar, alEditar, alEliminar, alFinalizar, alVerInscriptos, alUbicar, tituloUbicar = 'Ubicar en el mapa' }) {
   return (
     <article className={finalizada ? 'admin-item admin-item--finalizada' : 'admin-item'}>
       {imagen && <img src={imagen} alt={titulo} className="admin-item-img" />}
@@ -22,6 +18,11 @@ function ItemAdmin({ imagen, titulo, etiqueta, texto, enlace, finalizada, titulo
             <i className="fa-solid fa-location-crosshairs"></i>
           </button>
         )}
+        {alEditar && (
+          <button type="button" className="admin-btn-ver" onClick={alEditar} title="Editar">
+            <i className="fa-solid fa-pen"></i>
+          </button>
+        )}
         <button type="button" className="admin-btn-eliminar" onClick={alEliminar} title="Eliminar">
           <i className="fa-solid fa-trash"></i>
         </button>
@@ -35,7 +36,7 @@ function ItemAdmin({ imagen, titulo, etiqueta, texto, enlace, finalizada, titulo
             type="button"
             className={destacada ? 'admin-btn-destacar activo' : 'admin-btn-destacar'}
             onClick={alDestacar}
-            aria-pressed={!!destacada}
+            aria-pressed={Boolean(destacada)}
             title={destacada ? 'Quitar de destacada' : 'Marcar como destacada (se muestra en grande al principio)'}
           >
             <i className="fa-solid fa-star"></i>

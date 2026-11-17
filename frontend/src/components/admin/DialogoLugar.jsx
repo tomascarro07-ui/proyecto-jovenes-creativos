@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
-// Ventana para asignar un lugar a algo ya cargado: un museo u "otro lugar" (antes: elegirLugar en selectorLugar.js).
-// alElegir recibe { museo: id } o { otro: true }; alCancelar no recibe nada.
 function DialogoLugar({ museos, actual, alElegir, alCancelar }) {
   const dialogoRef = useRef(null)
-  const inicial = actual && actual.museo ? actual.museo : (actual && actual.lat != null ? 'otro' : '')
+  let inicial = ''
+  if (actual && actual.museo) inicial = actual.museo
+  else if (actual && actual.lat != null) inicial = 'otro'
   const [seleccion, setSeleccion] = useState(inicial)
 
   useEffect(() => {
@@ -22,13 +22,13 @@ function DialogoLugar({ museos, actual, alElegir, alCancelar }) {
   }
 
   return (
-    <dialog ref={dialogoRef} className="ubic-dialogo ubic-dialogo--lugar" onCancel={(e) => { e.preventDefault(); alCancelar() }}>
+    <dialog ref={dialogoRef} className="ubic-dialogo ubic-dialogo--lugar" onCancel={(evento) => { evento.preventDefault(); alCancelar() }}>
       <h3>¿Dónde se realiza?</h3>
       <p>Elegí un museo o marcá otra ubicación en el mapa.</p>
-      <select className="ubic-select" value={seleccion} onChange={(e) => setSeleccion(e.target.value)}>
+      <select className="ubic-select" value={seleccion} onChange={(evento) => setSeleccion(evento.target.value)}>
         <option value="">Elegí un lugar...</option>
         <optgroup label="Museos de Colonia">
-          {museos.map((m) => <option key={m.id} value={m.id}>{m.nombre}</option>)}
+          {museos.map((museo) => <option key={museo.id} value={museo.id}>{museo.nombre}</option>)}
         </optgroup>
         <option value="otro">Otro lugar (marcar en el mapa)</option>
       </select>

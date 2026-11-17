@@ -2,15 +2,12 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useIdioma } from '../hooks/useIdioma'
 
-// Aviso "Necesitás una cuenta" (antes: modal de Bootstrap #mensajeLogin).
-// Se muestra o se oculta con la propiedad "abierto"; "alCerrar" lo cierra.
-// "quien" indica la actividad: "charla", "taller" o "recorrido" (elige la frase del diccionario de idiomas).
 function ModalLogin({ abierto, alCerrar, quien }) {
   const { t } = useIdioma()
   useEffect(() => {
     if (!abierto) return
-    const alTeclear = (e) => {
-      if (e.key === 'Escape') alCerrar()
+    const alTeclear = (evento) => {
+      if (evento.key === 'Escape') alCerrar()
     }
     document.addEventListener('keydown', alTeclear)
     return () => document.removeEventListener('keydown', alTeclear)
@@ -20,7 +17,7 @@ function ModalLogin({ abierto, alCerrar, quien }) {
 
   return (
     <>
-      <div className="modal fade show" tabIndex="-1" id="mensajeLogin" style={{ display: 'block' }} role="dialog" aria-modal="true" onClick={(e) => e.target === e.currentTarget && alCerrar()}>
+      <div className="modal fade show" tabIndex="-1" id="mensajeLogin" style={{ display: 'block' }} role="dialog" aria-modal="true" onClick={(evento) => evento.target === evento.currentTarget && alCerrar()}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content modal-cuenta">
             <div className="modal-header">

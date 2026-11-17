@@ -5,23 +5,22 @@ const mongoose = require("mongoose");
 const Museo = require("../models/Museo");
 const Inscripcion = require("../models/Inscripcion");
 const { localizar } = require("../config/idioma");
+const { traduccionesObsoletas } = require("../config/edicion");
+const { traducirDocumento, CAMPOS_AUTO } = require("../config/autotraduccion");
 const TIPO_INSCRIPCION = { talleres: "taller", charlas: "charla", recorridos: "recorrido" };
 
-// traducibles: campos de texto que pueden venir traducidos (en / pt) desde la propiedad "traducciones" del documento
-function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = false, destacable = false }) {
+function crearRutas(Modelo, { nombre, campos, camposEditables = campos, traducibles = [], finalizable = false, destacable = false }) {
   const router = express.Router();
 
-  // GET / → lista completa
   router.get("/", async (req, res) => {
     try {
       const items = await Modelo.find().sort({ _id: 1 });
-      res.json(items.map((i) => localizar(i, req.idioma, traducibles)));
+      res.json(items.map((item) => localizar(item, req.idioma, traducibles)));
     } catch (error) {
       res.status(500).json({ error: `No se pudieron obtener: ${nombre}` });
     }
   });
 
-  // GET /:id → uno solo
   router.get("/:id", async (req, res) => {
     try {
       const item = await Modelo.findById(req.params.id);
@@ -34,7 +33,6 @@ function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = fa
     }
   });
 
-  // POST / → crear (solo se guardan los campos permitidos)
   router.post("/", verificarToken, soloAdmin, async (req, res) => {
     try {
       const datos = {};
@@ -42,6 +40,7 @@ function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = fa
         datos[campo] = req.body[campo];
       }
       const nuevo = await Modelo.create(datos);
+      await traducirDocumento(Modelo, nuevo._id, CAMPOS_AUTO[nombre] || []);
       res.status(201).json(nuevo);
     } catch (error) {
       if (error.name === "ValidationError") {
@@ -51,7 +50,41 @@ function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = fa
     }
   });
 
-  // PATCH /:id/finalizada → alternar finalizada (solo si corresponde)
+  router.put("/:id", verificarToken, soloAdmin, async (req, res) => {
+    try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        return res.status(400).json({ error: "ID inválido" });
+      }
+      const item = await Modelo.findById(req.params.id);
+      if (!item) {
+        return res.status(404).json({ error: "No encontrado" });
+      }
+      const cuerpo = req.body || {};
+      const cambios = {};
+      for (const campo of camposEditables) {
+        if (campo in cuerpo) cambios[campo] = cuerpo[campo];
+      }
+      if (cambios.museo && (!mongoose.isValidObjectId(cambios.museo) || !(await Museo.exists({ _id: cambios.museo })))) {
+        return res.status(400).json({ error: "Museo inválido" });
+      }
+      const operacion = { $set: cambios };
+      const quitar = traduccionesObsoletas(item, cambios, traducibles);
+      if (Object.keys(quitar).length > 0) operacion.$unset = quitar;
+
+      const actualizado = await Modelo.findByIdAndUpdate(item._id, operacion, { new: true, runValidators: true });
+      await traducirDocumento(Modelo, item._id, CAMPOS_AUTO[nombre] || []);
+      if (TIPO_INSCRIPCION[nombre] && cambios.titulo && cambios.titulo !== item.titulo) {
+        await Inscripcion.updateMany({ tipo: TIPO_INSCRIPCION[nombre], actividad: item._id }, { tituloActividad: cambios.titulo });
+      }
+      res.json(actualizado);
+    } catch (error) {
+      if (error.name === "ValidationError" || error.name === "CastError") {
+        return res.status(400).json({ error: error.message });
+      }
+      res.status(500).json({ error: `No se pudo guardar en: ${nombre}` });
+    }
+  });
+
   if (finalizable) {
     router.patch("/:id/finalizada", verificarToken, soloAdmin, async (req, res) => {
       try {
@@ -68,8 +101,6 @@ function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = fa
     });
   }
 
-  // PATCH /:id/destacada → marcar o quitar la marca de "destacada" (solo si corresponde).
-  // Solo puede haber una destacada por sección: al marcar una, las demás se desmarcan.
   if (destacable) {
     router.patch("/:id/destacada", verificarToken, soloAdmin, async (req, res) => {
       try {
@@ -89,14 +120,12 @@ function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = fa
     });
   }
 
-  // DELETE /:id → eliminar
   router.delete("/:id", verificarToken, soloAdmin, async (req, res) => {
     try {
       const item = await Modelo.findByIdAndDelete(req.params.id);
       if (!item) {
         return res.status(404).json({ error: "No encontrado" });
       }
-      // Borrado en cascada: se eliminan las inscripciones de esa actividad
       if (TIPO_INSCRIPCION[nombre]) {
         await Inscripcion.deleteMany({ tipo: TIPO_INSCRIPCION[nombre], actividad: item._id });
       }
@@ -111,7 +140,6 @@ function crearRutas(Modelo, { nombre, campos, traducibles = [], finalizable = fa
     }
   });
 
-    // PATCH /:id/ubicacion → fijar coordenadas (solo admin)
     router.patch("/:id/ubicacion", verificarToken, soloAdmin, async (req, res) => {
     try {
       const { lat, lng, museo } = req.body;

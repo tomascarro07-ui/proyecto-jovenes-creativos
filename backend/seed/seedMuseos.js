@@ -7,11 +7,6 @@ const Recorrido = require("../models/Recorrido");
 const { asignarSedes } = require("./asignarSedes");
 const TRADUCCIONES = require("./traducciones");
 
-// Los 9 espacios del Museo de Colonia. Datos tomados de museoscolonia.com.uy.
-// Si cambia un horario o una dirección, se corrige acá y se vuelve a correr `npm run museos`.
-//
-// OJO con lat/lng: están contrastadas con varias fuentes, pero las marcadas "aprox."
-// conviene afinarlas desde el panel de administración (el selector de ubicación del mapa).
 const MUSEOS = [
   {
     nombre: "Espacio Dr. Bautista Rebuffo",
@@ -22,6 +17,13 @@ const MUSEOS = [
     lat: -34.47224,
     lng: -57.85247,
     imagen: "img/museo-rebuffo.webp",
+    gancho: "El primero en abrir sus puertas, en 1951",
+    datoCurioso: "Fue el primer espacio del Museo de Colonia en abrir sus puertas, en 1951, y lleva el nombre de su fundador.",
+    destacados: [
+      { titulo: "Desde la prehistoria hasta hoy", texto: "La exhibición recorre el entorno a lo largo del tiempo." },
+      { titulo: "Objetos de la comunidad", texto: "Piezas heredadas, halladas o usadas por antepasados de la propia comunidad." },
+      { titulo: "Un edificio con historia", texto: "Construcción portuguesa de la primera mitad del siglo XVIII, modificada en el período español." },
+    ],
   },
   {
     nombre: "Vivienda Portuguesa",
@@ -29,9 +31,11 @@ const MUSEOS = [
     direccion: "Calle del Comercio 67",
     horario: "Miércoles a lunes · 11:30 a 16:30",
     descripcionCorta: "Casa que aparece por primera vez en planos de 1732, con techo de tejas a dos aguas y paredes de piedra y parte del piso originales. Sus ambientes muestran la vida cotidiana de una familia portuguesa del siglo XVIII y los usos folclóricos de Trás-os-Montes, Minho y Alentejo. Antes se la conocía como Museo Casa de Nacarello.",
-    lat: -34.47228, // aprox.: pegada al Rebuffo, sobre la misma calle
+    lat: -34.47228,
     lng: -57.85268,
     imagen: "img/vivienda-portuguesa.webp",
+    gancho: "Una casa que figura en planos desde 1732",
+    datoCurioso: "La casa aparece por primera vez en planos de 1732 y conserva parte de las paredes de piedra y del piso originales.",
   },
   {
     nombre: "Espacio Portugués",
@@ -42,6 +46,7 @@ const MUSEOS = [
     lat: -34.47257,
     lng: -57.85133,
     imagen: "img/museo-portugues.webp",
+    gancho: "Colonia bajo la corona de Portugal, 1680–1777",
   },
   {
     nombre: "Espacio Español",
@@ -52,6 +57,7 @@ const MUSEOS = [
     lat: -34.46992,
     lng: -57.85155,
     imagen: "img/museo-espanol.webp",
+    gancho: "De colonia militar a vida cotidiana en paz",
   },
   {
     nombre: "Archivo Histórico Regional",
@@ -62,6 +68,8 @@ const MUSEOS = [
     lat: -34.47182,
     lng: -57.85219,
     imagen: "img/archivo-historico.webp",
+    gancho: "La memoria documental de la ciudad, desde 1972",
+    datoCurioso: "Se creó en 1972 para reunir los fondos de las distintas naciones y archivos que guardan la historia fragmentada de la ciudad.",
   },
   {
     nombre: "Espacio del Azulejo",
@@ -72,6 +80,7 @@ const MUSEOS = [
     lat: -34.47082,
     lng: -57.85262,
     imagen: "img/espacio-azulejo.webp",
+    gancho: "El azulejo francés llegó en el siglo XIX",
   },
   {
     nombre: "Espacio del Telégrafo",
@@ -79,9 +88,11 @@ const MUSEOS = [
     direccion: "Calle del Colegio 53",
     horario: "Lunes, martes, jueves, viernes y sábado · 11:30 a 16:30",
     descripcionCorta: "Cuenta la historia de la telegrafía en el Río de la Plata a partir de piezas reunidas por Gustavo Coll, y el papel de Colonia en ella: desde la instalación de la River Plate Company en 1866, y su compra por la Western Telegraph en 1874, hasta el cable submarino que comunicó de forma inmediata a Uruguay y Argentina.",
-    lat: -34.47196, // aprox.: sobre Del Colegio, cerca del Espacio Indígena
+    lat: -34.47196,
     lng: -57.85337,
     imagen: "img/espacio-telegrafo.webp",
+    gancho: "Del primer telégrafo al cable submarino",
+    datoCurioso: "Gran parte de las piezas fueron reunidas por Gustavo Coll.",
   },
   {
     nombre: "Espacio Indígena",
@@ -89,9 +100,10 @@ const MUSEOS = [
     direccion: "Av. General Flores 52",
     horario: "Martes a jueves, sábado y domingo · 11:30 a 16:30",
     descripcionCorta: "Sumerge al visitante en la cultura indígena presente en todo el paisaje costero del departamento de Colonia. Los primeros vestigios de ocupación humana corresponden a sociedades cazadoras, recolectoras y pescadoras, pobladoras originarias de la región. La muestra invita a valorar esa cultura y a pensar la compleja convivencia entre las comunidades indígenas y la cultura europea.",
-    lat: -34.47223, // aprox.: esquina de Del Colegio y Av. General Flores
+    lat: -34.47223,
     lng: -57.85337,
     imagen: "img/museo-indigena.webp",
+    gancho: "Los primeros pobladores de la costa",
   },
   {
     nombre: "Espacio Paleontológico",
@@ -99,9 +111,10 @@ const MUSEOS = [
     direccion: "José Roger Ballet 181 (Real de San Carlos)",
     horario: "Viernes a domingo",
     descripcionCorta: "Situado fuera del sitio Patrimonio Mundial, en el Real de San Carlos y cerca de la Plaza de Toros. Su colección reúne sobre todo fósiles de la megafauna pampeana hallados en el departamento de Colonia, además de colecciones de historia natural.",
-    lat: -34.43915, // aprox.
+    lat: -34.43915,
     lng: -57.86029,
     imagen: "img/espacio-paleontologico.webp",
+    gancho: "Fósiles de la megafauna pampeana",
   },
 ];
 
@@ -113,42 +126,37 @@ const RENOMBRADOS = {
 };
 
 async function sembrarMuseos() {
-  // 1) Renombrar los que ya existían con el nombre viejo
   for (const [viejo, nuevo] of Object.entries(RENOMBRADOS)) {
     if (!(await Museo.exists({ nombre: nuevo }))) {
       await Museo.updateOne({ nombre: viejo }, { $set: { nombre: nuevo } });
     }
   }
 
-  // 2) Crear o actualizar los 9. La imagen solo se pisa si la seed trae una:
-  //    si cargaste una foto desde el admin, no se borra.
-  for (const m of MUSEOS) {
-    const { imagen, ...datos } = m;
-    const cambios = imagen ? { ...datos, imagen } : { ...datos };
-    if (TRADUCCIONES.museos[m.nombre]) cambios.traducciones = TRADUCCIONES.museos[m.nombre];
+  for (const museo of MUSEOS) {
+    const { imagen, ...datos } = museo;
+    const cambios = { ...datos };
+    if (imagen) cambios.imagen = imagen;
+    if (TRADUCCIONES.museos[museo.nombre]) cambios.traducciones = TRADUCCIONES.museos[museo.nombre];
     await Museo.findOneAndUpdate(
-      { nombre: m.nombre },
+      { nombre: museo.nombre },
       { $set: cambios },
       { upsert: true, runValidators: true, setDefaultsOnInsert: true }
     );
   }
 
-  // 3) Sacar los que ya no son parte de la lista (por ejemplo, la Casa del Virrey)
-  const nombres = MUSEOS.map((m) => m.nombre);
+  const nombres = MUSEOS.map((museo) => museo.nombre);
   const sobrantes = await Museo.find({ nombre: { $nin: nombres } }).select("_id nombre");
-  const ids = sobrantes.map((s) => s._id);
+  const ids = sobrantes.map((museo) => museo._id);
   if (ids.length) {
-    // Las actividades que estaban en esos museos quedan sin sede y se reasignan en el paso 4
     for (const Modelo of [Taller, Charla, Recorrido]) {
       await Modelo.updateMany({ museo: { $in: ids } }, { $set: { museo: null } });
     }
     await Museo.deleteMany({ _id: { $in: ids } });
   }
 
-  // 4) Asignar sede a las actividades de ejemplo (según seed/sedes.js)
   const ubicadas = await asignarSedes({ forzar: true });
 
-  return { museos: MUSEOS.length, eliminados: sobrantes.map((s) => s.nombre), ubicadas };
+  return { museos: MUSEOS.length, eliminados: sobrantes.map((museo) => museo.nombre), ubicadas };
 }
 
 module.exports = { sembrarMuseos, MUSEOS };
@@ -161,8 +169,8 @@ if (require.main === module) {
     if (r.eliminados.length) console.log(`Eliminados: ${r.eliminados.join(", ")}`);
     for (const [etiqueta, n] of Object.entries(r.ubicadas)) console.log(`${etiqueta}: ${n} con sede asignada`);
     await mongoose.disconnect();
-  })().catch((e) => {
-    console.error(e);
+  })().catch((error) => {
+    console.error(error);
     process.exit(1);
   });
 }

@@ -1,112 +1,90 @@
 const express = require("express");
-const nodemailer = require("nodemailer");
-const rateLimit = require("express-rate-limit");
-const Consulta = require("../models/Consulta");
+const { limitar } = require("../config/limitador");
+const { EMAIL_VALIDO, limpiar } = require("../config/texto");
 const { enviarCorreo, escaparHTML } = require("../config/correo");
 
 const router = express.Router();
 
-const limitador = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: { error: "Enviaste muchos mensajes. Probá de nuevo en 15 minutos." },
-});
+const limitador = limitar({ max: 5, mensaje: "Enviaste muchos mensajes. Probá de nuevo en 15 minutos." });
 
-const Motivos = {
+const MOTIVOS = {
   aporte: "Quiere aportar documentos, fotos u objetos",
   testimonio: "Tiene un testimonio para compartir",
   educacion: "Consulta sobre material educativo",
-  otro: "Otra consulta"
+  otro: "Otra consulta",
 };
 
-const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const limpiar = (t, max) => String(t || "").trim().slice(0, max);
+function manejarContacto({ validarExtra, armar, mensajeGracias }) {
+  return async (req, res) => {
+    const nombre = limpiar(req.body.nombre, 60);
+    const email = limpiar(req.body.email, 120).toLowerCase();
+    const mensaje = String(req.body.mensaje || "").trim().slice(0, 2000);
 
-router.post("/", limitador, async (req, res) => {
-  const nombre = limpiar(req.body.nombre, 60);
-  const email = limpiar(req.body.email, 120).toLowerCase();
-  const mensaje = limpiar(req.body.mensaje, 2000);
-  const actividad = limpiar(req.body.actividad, 150);
+    if (!nombre || !mensaje) return res.status(400).json({ error: "Completá tu nombre y el mensaje." });
+    if (!EMAIL_VALIDO.test(email)) return res.status(400).json({ error: "El correo no es válido." });
+    const errorExtra = validarExtra && validarExtra(req.body);
+    if (errorExtra) return res.status(400).json({ error: errorExtra });
 
-  if (!nombre || !mensaje) {
-    return res.status(400).json({ error: "Completá tu nombre y el mensaje." });
-  }
-  if (!EMAIL_VALIDO.test(email)) {
-    return res.status(400).json({ error: "El correo no es válido." });
-  }
-
-  const destino = process.env.EMAIL_DESTINO || process.env.EMAIL_USER;
-  const asunto = actividad
-    ? `Consulta web: ${actividad} (${nombre})`
-    : `Consulta web de ${nombre}`;
-
-  const texto =
-    `Nombre: ${nombre}\n` +
-    `Correo: ${email}\n` +
-    (actividad ? `Consulta sobre: ${actividad}\n` : "") +
-    `\nMensaje:\n${mensaje}\n`;
-
-  const html =
-    `<h2>Nueva consulta desde Nodo Cultural</h2>` +
-    `<p><b>Nombre:</b> ${escaparHTML(nombre)}<br>` +
-    `<b>Correo:</b> ${escaparHTML(email)}<br>` +
-    (actividad ? `<b>Consulta sobre:</b> ${escaparHTML(actividad)}<br>` : "") +
-    `</p><p style="white-space:pre-wrap">${escaparHTML(mensaje)}</p>` +
-    `<hr><p style="color:#666;font-size:12px">Podés responder este correo y le llega directo a ${escaparHTML(email)}.</p>`;
-
-  try {
-    await enviarCorreo({ para: destino, asunto, texto, html, responderA: email });
-    res.json({ mensaje: "¡Gracias! Recibimos tu consulta y te vamos a responder pronto." });
-  } catch (error) {
-    console.error("Error enviando contacto:", error.message);
-    res.status(500).json({ error: "No pudimos enviar tu mensaje. Probá de nuevo en unos minutos." });
-  }
-});
-
-router.post("/sudamtex", limitador, async(req, res) => {
-  const nombre = limpiar(req.body.nombre, 60);
-  const email = limpiar(req.body.email, 120).toLowerCase();
-  const mensaje = limpiar(req.body.mensaje, 2000);
-  const motivo = limpiar(req.body.motivo, 60);
-
-  if(!nombre || !mensaje) {
-    return res.status(400).json({ error: "Completa tu nombre y el mensaje." });
-  }
-
-  if(!EMAIL_VALIDO.test(email)) {
-    return res.status(400).json({ error: "El correo no es válido." })
-  }
-
-  if(!Motivos[motivo]) {
-    return res.status(400).json({ error: "Elige un motivo de la lista." })
-  }
-
-  const destino = process.env.EMAIL_DESTINO || process.env.EMAIL_USER;
-  const motivoTexto = Motivos[motivo];
-  const asunto = `Sudamtex: ${motivoTexto} (${nombre})`;
-
-  const texto =
-    `Nombre: ${nombre}\n` +
-    `Correo: ${email}\n` +
-    `Motivo: ${motivoTexto}\n` +
-    `\nMensaje:\n${mensaje}\n`;
-
-  const html =
-    `<h2>Nueva consulta desde Sudamtex</h2>` +
-    `<p><b>Nombre:</b> ${escaparHTML(nombre)}<br>` +
-    `<b>Correo:</b> ${escaparHTML(email)}<br>` +
-    `<b>Motivo:</b> ${escaparHTML(motivoTexto)}<br>` +
-    `</p><p style="white-space:pre-wrap">${escaparHTML(mensaje)}</p>` +
-    `<hr><p style="color:#666;font-size:12px">Podés responder este correo y le llega directo a ${escaparHTML(email)}.</p>`;
+    const { asunto, titulo, extra } = armar({ nombre, req: req.body });
+    const texto =
+      `Nombre: ${nombre}\nCorreo: ${email}\n` +
+      extra.map(([etiqueta, valor]) => `${etiqueta}: ${valor}\n`).join("") +
+      `\nMensaje:\n${mensaje}\n`;
+    const html =
+      `<h2>${escaparHTML(titulo)}</h2>` +
+      `<p><b>Nombre:</b> ${escaparHTML(nombre)}<br><b>Correo:</b> ${escaparHTML(email)}<br>` +
+      extra.map(([etiqueta, valor]) => `<b>${escaparHTML(etiqueta)}:</b> ${escaparHTML(valor)}<br>`).join("") +
+      `</p><p style="white-space:pre-wrap">${escaparHTML(mensaje)}</p>` +
+      `<hr><p style="color:#666;font-size:12px">Podés responder este correo y le llega directo a ${escaparHTML(email)}.</p>`;
 
     try {
-      await enviarCorreo({ para: destino, asunto, texto, html, responderA: email });
-      res.json({ mensaje: "¡Gracias! Recibimos tu mensaje y te vamos a responder pronto."})
+      await enviarCorreo({
+        para: process.env.EMAIL_DESTINO || process.env.EMAIL_USER,
+        asunto,
+        texto,
+        html,
+        responderA: email,
+      });
+      res.json({ mensaje: mensajeGracias });
     } catch (error) {
-      console.error("Error enviando contacto Nodo Cultural:", error.message);
-      res.status(500).json({ error: "No pudimos enviar tu mensaje. Probá de nuevo en unos minutos"});
+      console.error("Error enviando contacto:", error.message);
+      res.status(500).json({ error: "No pudimos enviar tu mensaje. Probá de nuevo en unos minutos." });
     }
+  };
+}
 
-})
+router.post(
+  "/",
+  limitador,
+  manejarContacto({
+    mensajeGracias: "¡Gracias! Recibimos tu consulta y te vamos a responder pronto.",
+    armar: ({ nombre, req }) => {
+      const actividad = limpiar(req.actividad, 150);
+      let asunto = `Consulta web de ${nombre}`;
+      let extra = [];
+      if (actividad) {
+        asunto = `Consulta web: ${actividad} (${nombre})`;
+        extra = [["Consulta sobre", actividad]];
+      }
+      return { asunto, titulo: "Nueva consulta desde Nodo Cultural", extra };
+    },
+  })
+);
+
+router.post(
+  "/sudamtex",
+  limitador,
+  manejarContacto({
+    mensajeGracias: "¡Gracias! Recibimos tu consulta y te vamos a responder pronto.",
+    validarExtra: (cuerpo) => {
+      if (MOTIVOS[limpiar(cuerpo.motivo, 60)]) return "";
+      return "Elegí un motivo de la lista.";
+    },
+    armar: ({ nombre, req }) => {
+      const motivo = MOTIVOS[limpiar(req.motivo, 60)];
+      return { asunto: `Sudamtex: ${motivo} (${nombre})`, titulo: "Nueva consulta desde Sudamtex", extra: [["Motivo", motivo]] };
+    },
+  })
+);
 
 module.exports = router;

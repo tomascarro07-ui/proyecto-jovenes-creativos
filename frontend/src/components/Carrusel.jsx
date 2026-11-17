@@ -3,13 +3,10 @@ import { Link } from 'react-router-dom'
 import { formatearFechaLarga } from '../utils/fechas'
 import { useIdioma } from '../hooks/useIdioma'
 
-// Carrusel de eventos destacados de la portada (Bootstrap). Recibe la lista de charlas.
 function Carrusel({ charlas }) {
   const { t } = useIdioma()
   const carruselRef = useRef(null)
 
-  // Bootstrap solo arranca solo los carruseles que ya existen al cargar la página.
-  // Como React dibuja este carrusel después, lo iniciamos acá para que avance automáticamente.
   useEffect(() => {
     const bootstrap = window.bootstrap
     if (!bootstrap || !carruselRef.current) return
@@ -20,15 +17,15 @@ function Carrusel({ charlas }) {
   return (
     <div ref={carruselRef} id="carouselDestacados" className="carousel slide nc-carousel" data-bs-ride="carousel" data-bs-interval="6000" aria-label={t('index.carruselAria')}>
       <div className="carousel-indicators">
-        {charlas.map((charla, i) => (
+        {charlas.map((charla, posicion) => (
           <button
             key={charla.id}
             type="button"
             data-bs-target="#carouselDestacados"
-            data-bs-slide-to={i}
-            className={i === 0 ? 'active' : ''}
-            aria-current={i === 0 ? 'true' : undefined}
-            aria-label={`Evento ${i + 1}`}
+            data-bs-slide-to={posicion}
+            className={posicion === 0 ? 'active' : ''}
+            aria-current={posicion === 0 ? 'true' : undefined}
+            aria-label={`Evento ${posicion + 1}`}
           ></button>
         ))}
       </div>
@@ -41,8 +38,8 @@ function Carrusel({ charlas }) {
             </div>
           </div>
         )}
-        {charlas.map((charla, i) => (
-          <div key={charla.id} className={`carousel-item ${i === 0 ? 'active' : ''}`}>
+        {charlas.map((charla, posicion) => (
+          <div key={charla.id} className={`carousel-item ${posicion === 0 ? 'active' : ''}`}>
             <img src={charla.imagen} alt={charla.titulo} />
             <div className="nc-slide__caption">
               <span className="nc-slide__etiqueta">{t('evt.destacado')}</span>

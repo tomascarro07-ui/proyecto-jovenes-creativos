@@ -9,23 +9,21 @@ const { campoTraducido, traducirDato } = require("../config/idioma");
 
 const router = express.Router();
 
-// La página busca mientras se escribe, así que el límite es más generoso que en el resto.
 const limitador = rateLimit({
   windowMs: 60 * 1000,
   max: 90,
   message: { error: "Demasiadas búsquedas seguidas. Esperá un momento." },
 });
 
-// Minúsculas y sin tildes: "tecnica" encuentra "Técnica".
-const normalizar = (t) =>
-  String(t == null ? "" : t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const normalizar = (texto) => {
+  const comoTexto = texto === null || texto === undefined ? "" : String(texto);
+  return comoTexto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+};
 
-// Cómo se lee cada colección para armar un resultado común.
-// "buscar" = campos donde se busca el texto; "titulo" y "categoria" pesan más en el orden.
 const FUENTES = {
   museo: {
     Modelo: Museo, titulo: "nombre", categoria: "tipo", descripcion: "descripcionCorta", lugar: "direccion",
-    buscar: ["nombre", "tipo", "descripcionCorta", "direccion", "horario"],
+    buscar: ["nombre", "tipo", "gancho", "descripcionCorta", "historia", "direccion", "horario"],
   },
   charla: {
     Modelo: Charla, titulo: "titulo", categoria: "tipo", descripcion: "descripcionCorta", lugar: "lugar",
@@ -48,28 +46,31 @@ const TIPOS = Object.keys(FUENTES);
 const LIMITE = 60;
 
 async function cargar(tipo, idioma) {
-  const f = FUENTES[tipo];
-  const campos = new Set([...f.buscar, f.titulo, f.categoria, f.descripcion, f.lugar, "imagen", "fecha", "hora", "finalizada", "archivo", "traducciones"]);
-  const docs = await f.Modelo.find().select([...campos].join(" ")).lean();
-  return docs.map((d) => {
-    const v = (campo) => campoTraducido(d, campo, idioma);
-    // Se busca en el texto original y en el traducido: sirve escribir en cualquiera de los dos idiomas
-    const texto = f.buscar.map((c) => [d[c], v(c), traducirDato(d[c], idioma)].filter(Boolean).join(" ")).join(" ");
-    const categoria = traducirDato(v(f.categoria) || "", idioma);
+  const fuente = FUENTES[tipo];
+  const campos = new Set([...fuente.buscar, fuente.titulo, fuente.categoria, fuente.descripcion, fuente.lugar, "imagen", "fecha", "hora", "finalizada", "archivo", "traducciones"]);
+  const documentos = await fuente.Modelo.find().select([...campos].join(" ")).lean();
+  return documentos.map((documento) => {
+    const valorTraducido = (campo) => campoTraducido(documento, campo, idioma);
+    const texto = fuente.buscar
+      .map((campo) => [documento[campo], valorTraducido(campo), traducirDato(documento[campo], idioma)].filter(Boolean).join(" "))
+      .join(" ");
+    const categoria = traducirDato(valorTraducido(fuente.categoria) || "", idioma);
+    let archivo = undefined;
+    if (tipo === "recurso") archivo = documento.archivo || "";
     return {
       tipo,
-      id: String(d._id),
-      titulo: v(f.titulo) || "",
+      id: String(documento._id),
+      titulo: valorTraducido(fuente.titulo) || "",
       categoria,
-      descripcion: v(f.descripcion) || "",
-      lugar: v(f.lugar) || "",
-      imagen: d.imagen || "",
-      fecha: d.fecha || "",
-      hora: d.hora || "",
-      archivo: tipo === "recurso" ? d.archivo || "" : undefined,
-      finalizada: d.finalizada === true,
+      descripcion: valorTraducido(fuente.descripcion) || "",
+      lugar: valorTraducido(fuente.lugar) || "",
+      imagen: documento.imagen || "",
+      fecha: documento.fecha || "",
+      hora: documento.hora || "",
+      archivo,
+      finalizada: documento.finalizada === true,
       _texto: normalizar(texto),
-      _titulo: normalizar(v(f.titulo)),
+      _titulo: normalizar(valorTraducido(fuente.titulo)),
       _categoria: normalizar(categoria),
     };
   });
@@ -77,67 +78,68 @@ async function cargar(tipo, idioma) {
 
 function puntuar(item, tokens, frase) {
   if (!tokens.length) return 0;
-  let p = item._titulo.includes(frase) ? 6 : 0;
-  for (const t of tokens) {
-    if (item._titulo.startsWith(t) || item._titulo.includes(" " + t)) p += 5;
-    else if (item._titulo.includes(t)) p += 3;
-    if (item._categoria.includes(t)) p += 2;
-    p += 1;
+  let puntaje = 0;
+  if (item._titulo.includes(frase)) puntaje = 6;
+  for (const palabra of tokens) {
+    if (item._titulo.startsWith(palabra) || item._titulo.includes(" " + palabra)) puntaje += 5;
+    else if (item._titulo.includes(palabra)) puntaje += 3;
+    if (item._categoria.includes(palabra)) puntaje += 2;
+    puntaje += 1;
   }
-  return p;
+  return puntaje;
 }
 
-// GET /api/buscar?q=texto&tipo=charla&categoria=Taller&ocultarFinalizadas=1
 router.get("/", limitador, async (req, res) => {
   try {
     const frase = normalizar(String(req.query.q || "").slice(0, 80)).replace(/\s+/g, " ").trim();
-    const tokens = frase ? frase.split(" ") : [];
-    const tiposPedidos = String(req.query.tipo || "").split(",").filter((t) => TIPOS.includes(t));
-    const tipos = tiposPedidos.length ? tiposPedidos : TIPOS;
+    let tokens = [];
+    if (frase) tokens = frase.split(" ");
+    const tiposPedidos = String(req.query.tipo || "").split(",").filter((tipo) => TIPOS.includes(tipo));
+    let tipos = TIPOS;
+    if (tiposPedidos.length > 0) tipos = tiposPedidos;
     const categoria = normalizar(String(req.query.categoria || "").slice(0, 60));
     const ocultarFinalizadas = req.query.ocultarFinalizadas === "1";
 
     const idioma = req.idioma;
-    const todos = (await Promise.all(TIPOS.map((t) => cargar(t, idioma)))).flat();
+    const todos = (await Promise.all(TIPOS.map((tipo) => cargar(tipo, idioma)))).flat();
 
-    // 1) texto (todas las palabras tienen que aparecer) y estado
     const coinciden = [];
     for (const item of todos) {
       if (ocultarFinalizadas && item.finalizada) continue;
-      if (!tokens.every((t) => item._texto.includes(t))) continue;
+      if (!tokens.every((palabra) => item._texto.includes(palabra))) continue;
       item.puntaje = puntuar(item, tokens, frase);
       coinciden.push(item);
     }
 
-    // 2) conteos por tipo (antes de filtrar por tipo, para que los botones muestren cuántos hay)
-    const conteos = Object.fromEntries(TIPOS.map((t) => [t, 0]));
-    for (const i of coinciden) conteos[i.tipo]++;
+    const conteos = {};
+    for (const tipo of TIPOS) conteos[tipo] = 0;
+    for (const item of coinciden) conteos[item.tipo]++;
 
-    // 3) filtro por tipo y categorías disponibles dentro de ese tipo
-    const porTipo = coinciden.filter((i) => tipos.includes(i.tipo));
-    const cats = new Map();
-    for (const i of porTipo) {
-      if (!i._categoria) continue;
-      const c = cats.get(i._categoria) || { valor: i.categoria, cantidad: 0 };
-      c.cantidad++;
-      cats.set(i._categoria, c);
+    const porTipo = coinciden.filter((item) => tipos.includes(item.tipo));
+    const categoriasDisponibles = new Map();
+    for (const item of porTipo) {
+      if (!item._categoria) continue;
+      const entrada = categoriasDisponibles.get(item._categoria) || { valor: item.categoria, cantidad: 0 };
+      entrada.cantidad++;
+      categoriasDisponibles.set(item._categoria, entrada);
     }
 
-    // 4) filtro por categoría y orden
-    const finales = porTipo
-      .filter((i) => !categoria || i._categoria === categoria)
-      .sort((a, b) =>
-        (a.finalizada - b.finalizada) || (b.puntaje - a.puntaje) || a.titulo.localeCompare(b.titulo, idioma));
+    const finales = porTipo.filter((item) => !categoria || item._categoria === categoria);
+    finales.sort((primero, segundo) => {
+      if (primero.finalizada !== segundo.finalizada) return primero.finalizada ? 1 : -1;
+      if (primero.puntaje !== segundo.puntaje) return segundo.puntaje - primero.puntaje;
+      return primero.titulo.localeCompare(segundo.titulo, idioma);
+    });
 
     const resultados = finales.slice(0, LIMITE).map(({ _texto, _titulo, _categoria, puntaje, ...limpio }) => limpio);
     res.json({
       total: finales.length,
       resultados,
       conteos,
-      categorias: [...cats.values()].sort((a, b) => a.valor.localeCompare(b.valor, idioma)),
+      categorias: [...categoriasDisponibles.values()].sort((primera, segunda) => primera.valor.localeCompare(segunda.valor, idioma)),
     });
-  } catch (e) {
-    console.error("Error en buscar:", e.message);
+  } catch (error) {
+    console.error("Error en buscar:", error.message);
     res.status(500).json({ error: "No se pudo realizar la búsqueda" });
   }
 });

@@ -7,11 +7,11 @@ import { useIdioma } from '../hooks/useIdioma'
 function VerificarCorreo() {
   const { t } = useIdioma()
   const [parametros] = useSearchParams()
-  const [token] = useState(() => parametros.get('token') || '') // se guarda al entrar
+  const [token] = useState(() => parametros.get('token') || '')
   const { usuario, actualizarUsuario } = useSesion()
   const navegar = useNavigate()
   const { pathname } = useLocation()
-  const lanzado = useRef(false) // evita confirmar dos veces el mismo enlace
+  const lanzado = useRef(false)
   const [estado, setEstado] = useState(
     token
       ? { titulo: t('ver.verificando'), mensaje: t('ver.confirmando'), esError: false, listo: false }
@@ -20,19 +20,16 @@ function VerificarCorreo() {
   const [reenviando, setReenviando] = useState(false)
 
   useEffect(() => {
-    // El token viaja en la URL del correo; lo sacamos de la barra de direcciones enseguida.
     navegar(pathname, { replace: true })
     if (!token || lanzado.current) return
     lanzado.current = true
     api.verificarCorreo(token)
-      .then(async (r) => {
-        setEstado({ titulo: t('ver.ok'), mensaje: r.mensaje + t('ver.okExtra'), esError: false, listo: true })
-        // Si hay sesión abierta, se actualiza para que desaparezca el aviso del header
+      .then(async (respuesta) => {
+        setEstado({ titulo: t('ver.ok'), mensaje: respuesta.mensaje + t('ver.okExtra'), esError: false, listo: true })
         try {
           const yo = await api.yo()
           actualizarUsuario(yo.usuario)
         } catch {
-          /* sin sesión: no hay nada que actualizar */
         }
       })
       .catch((error) => {
@@ -43,8 +40,8 @@ function VerificarCorreo() {
   async function pedirNuevo() {
     setReenviando(true)
     try {
-      const r = await api.reenviarVerificacion()
-      setEstado({ titulo: t('ver.revisa'), mensaje: r.mensaje, esError: false, listo: false })
+      const respuesta = await api.reenviarVerificacion()
+      setEstado({ titulo: t('ver.revisa'), mensaje: respuesta.mensaje, esError: false, listo: false })
     } catch (err) {
       setEstado({ titulo: t('ver.fallo'), mensaje: err.message, esError: true, listo: false })
       setReenviando(false)

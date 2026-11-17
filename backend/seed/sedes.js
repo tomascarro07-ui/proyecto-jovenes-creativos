@@ -1,5 +1,3 @@
-
-// Título de la actividad → nombre exacto del museo (debe coincidir con seedMuseos.js)
 module.exports = {
   talleres: {
     "Taller de teatro comunitario": "Espacio Dr. Bautista Rebuffo",

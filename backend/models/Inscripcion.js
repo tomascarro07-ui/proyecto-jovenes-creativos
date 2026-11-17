@@ -15,7 +15,6 @@ const inscripcionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Una persona no puede anotarse dos veces a la misma actividad
 inscripcionSchema.index({ usuario: 1, tipo: 1, actividad: 1 }, { unique: true });
 
 inscripcionSchema.set("toJSON", opcionesJSON);

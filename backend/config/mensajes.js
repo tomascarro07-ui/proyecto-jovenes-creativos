@@ -1,6 +1,3 @@
-// Mensajes que el servidor le devuelve a la persona, traducidos.
-// La clave es el texto en español tal como está escrito en el código; el valor es [inglés, portugués].
-// Si se agrega un mensaje nuevo en una ruta, se agrega acá también (si falta, se muestra en español).
 module.exports = {
   "ID inválido": ["Invalid ID", "ID inválido"],
   "No se pudieron obtener las valoraciones": ["Could not load the reviews", "Não foi possível carregar as avaliações"],
@@ -27,6 +24,9 @@ module.exports = {
   "No se pudo guardar la ubicación": ["Could not save the location", "Não foi possível salvar a localização"],
   "Enviaste muchos mensajes. Probá de nuevo en 15 minutos.": ["You've sent too many messages. Please try again in 15 minutes.", "Você enviou muitas mensagens. Tente novamente em 15 minutos."],
   "Completá tu nombre y el mensaje.": ["Please fill in your name and the message.", "Preencha o seu nome e a mensagem."],
+  "Elegí un motivo de la lista.": ["Please choose a reason from the list.", "Escolha um motivo da lista."],
+  "Revisá los datos ingresados": ["Please check the information you entered", "Confira os dados informados"],
+  "El correo es demasiado largo": ["The email address is too long", "O e-mail é muito longo"],
   "El correo no es válido.": ["The email address is not valid.", "O e-mail não é válido."],
   "¡Gracias! Recibimos tu consulta y te vamos a responder pronto.": ["Thank you! We received your message and will reply soon.", "Obrigado! Recebemos a sua mensagem e responderemos em breve."],
   "No pudimos enviar tu mensaje. Probá de nuevo en unos minutos.": ["We couldn't send your message. Please try again in a few minutes.", "Não conseguimos enviar a sua mensagem. Tente novamente em alguns minutos."],

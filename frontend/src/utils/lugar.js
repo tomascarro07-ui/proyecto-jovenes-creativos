@@ -1,9 +1,5 @@
-// Ayudas para el "Lugar" de las actividades en el panel de administración (antes: scripts/mapa/selectorLugar.js)
+const LUGAR_VACIO = { sel: '', texto: '', lat: null, lng: null }
 
-// Estado inicial del selector: nada elegido
-export const LUGAR_VACIO = { sel: '', texto: '', lat: null, lng: null }
-
-// Devuelve { museo, lugar, lat, lng } o null si falta algo (y avisa qué falta)
 export function lugarValido(lugar, museos) {
   if (!lugar.sel) {
     alert('Elegí el lugar de la actividad.')
@@ -21,11 +17,18 @@ export function lugarValido(lugar, museos) {
     }
     return { museo: null, lugar: nombre, lat: lugar.lat, lng: lugar.lng }
   }
-  const museo = museos.find((m) => m.id === lugar.sel)
+  const museo = museos.find((candidato) => candidato.id === lugar.sel)
   return { museo: lugar.sel, lugar: museo ? museo.nombre : '', lat: null, lng: null }
 }
 
-// Lee un campo de un formulario por su id (los formularios del panel son "no controlados")
 export function leer(form, id) {
   return form.elements[id].value
+}
+
+export function lugarInicial(item) {
+  if (!item) return LUGAR_VACIO
+  const nombre = item.lugar || item.puntoSalida || ''
+  if (item.museo) return { sel: String(item.museo), texto: '', lat: null, lng: null }
+  if (item.lat != null && item.lng != null) return { sel: 'otro', texto: nombre, lat: item.lat, lng: item.lng }
+  return { ...LUGAR_VACIO, texto: nombre }
 }

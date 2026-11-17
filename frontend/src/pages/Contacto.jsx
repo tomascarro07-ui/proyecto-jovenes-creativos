@@ -7,51 +7,56 @@ import TextoRico from '../components/TextoRico'
 
 function Contacto() {
   const { t } = useIdioma()
-  // Si llegás desde una charla o un taller (/contacto?idCharla=... o ?idTaller=...), el formulario se completa solo
   const [parametros] = useSearchParams()
   const idTaller = parametros.get('idTaller')
   const idCharla = parametros.get('idCharla')
   const { datos: actividad } = useCarga(() => {
-    if (idTaller) return api.taller(idTaller).then((t) => ({ tipo: 'taller', titulo: t.titulo }))
-    if (idCharla) return api.charla(idCharla).then((c) => ({ tipo: 'charla', titulo: c.titulo }))
+    if (idTaller) return api.taller(idTaller).then((taller) => ({ tipo: 'taller', titulo: taller.titulo }))
+    if (idCharla) return api.charla(idCharla).then((charla) => ({ tipo: 'charla', titulo: charla.titulo }))
     return Promise.resolve(null)
   }, [idTaller, idCharla])
 
   const [datos, setDatos] = useState({ nombre: '', email: '' })
-  const [mensajeEscrito, setMensajeEscrito] = useState(null) // null = todavía no escribió nada: se usa el sugerido
+  const [mensajeEscrito, setMensajeEscrito] = useState(null)
   const [enviando, setEnviando] = useState(false)
-  const [aviso, setAviso] = useState(null) // { texto, esError }
+  const [aviso, setAviso] = useState(null)
 
   const esTaller = actividad && actividad.tipo === 'taller'
-  const mensajeSugerido = actividad
-    ? t(esTaller ? 'contacto.msgTaller' : 'contacto.msgCharla', { titulo: actividad.titulo })
-    : ''
-  const mensaje = mensajeEscrito === null ? mensajeSugerido : mensajeEscrito
+  let mensajeSugerido = ''
+  if (actividad) {
+    const claveDelMensaje = esTaller ? 'contacto.msgTaller' : 'contacto.msgCharla'
+    mensajeSugerido = t(claveDelMensaje, { titulo: actividad.titulo })
+  }
+  let mensaje = mensajeEscrito
+  if (mensajeEscrito === null) mensaje = mensajeSugerido
 
-  function alCambiar(e) {
-    setDatos({ ...datos, [e.target.name]: e.target.value })
+  function alCambiar(evento) {
+    setDatos({ ...datos, [evento.target.name]: evento.target.value })
   }
 
-  async function alEnviar(e) {
-    e.preventDefault()
+  async function alEnviar(evento) {
+    evento.preventDefault()
     setEnviando(true)
     setAviso(null)
     try {
-      const r = await api.contacto({
+      const respuesta = await api.contacto({
         nombre: datos.nombre,
         email: datos.email,
         actividad: actividad ? actividad.titulo : '',
         mensaje,
       })
-      setAviso({ texto: (r && r.mensaje) || t('contacto.gracias'), esError: false })
+      setAviso({ texto: (respuesta && respuesta.mensaje) || t('contacto.gracias'), esError: false })
       setDatos({ nombre: '', email: '' })
-      setMensajeEscrito(null) // vuelve a completarse el mensaje si venías de una charla o taller
+      setMensajeEscrito(null)
     } catch (err) {
       setAviso({ texto: err.message || t('contacto.error'), esError: true })
     } finally {
       setEnviando(false)
     }
   }
+
+  let subtituloDelFormulario = t('contacto.h2')
+  if (actividad) subtituloDelFormulario = esTaller ? t('contacto.reservaTaller') : t('contacto.reservaCharla')
 
   return (
     <main id="contenido" className="admin-cabecera">
@@ -70,7 +75,7 @@ function Contacto() {
       <section className="admin-panel" aria-labelledby="contactoAsuntoTitulo">
         <div className="nc-seccion__cabecera">
           <h2 id="contactoAsuntoTitulo">
-            {actividad ? (esTaller ? t('contacto.reservaTaller') : t('contacto.reservaCharla')) : t('contacto.h2')}
+            {subtituloDelFormulario}
           </h2>
         </div>
         <form id="form-contacto" className="auth-form" onSubmit={alEnviar}>
@@ -94,7 +99,7 @@ function Contacto() {
           <div className="auth-campo">
             <label htmlFor="mensaje">{t('contacto.mensaje')}</label>
             {' '}
-            <textarea id="mensaje" name="mensaje" rows="5" required value={mensaje} onChange={(e) => setMensajeEscrito(e.target.value)}></textarea>
+            <textarea id="mensaje" name="mensaje" rows="5" required value={mensaje} onChange={(evento) => setMensajeEscrito(evento.target.value)}></textarea>
           </div>
           <button type="submit" className="nc-btn" disabled={enviando}>
             <i className="fa-solid fa-paper-plane"></i>

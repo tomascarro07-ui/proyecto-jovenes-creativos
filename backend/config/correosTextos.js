@@ -1,5 +1,3 @@
-// Textos de los correos que se le mandan a la persona, en el idioma que eligió en el sitio.
-// El español es el texto original; en inglés y portugués (de Brasil) se usan las mismas piezas.
 const { escaparHTML } = require("./correo");
 
 const BOTON_VERDE = "display:inline-block;background:#09343a;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none";
@@ -9,7 +7,7 @@ const TEXTOS = {
   es: {
     verificacion: {
       asunto: "Confirmá tu correo - Nodo Cultural",
-      hola: (n) => `Hola ${n},`,
+      hola: (nombre) => `Hola ${nombre},`,
       intro: "Gracias por registrarte en Nodo Cultural. Confirmá tu correo para poder inscribirte a las actividades.",
       boton: "Confirmar mi correo",
       texto: (n, enlace, horas) =>
@@ -19,7 +17,7 @@ const TEXTOS = {
     },
     restablecer: {
       asunto: "Restablecer tu contraseña - Nodo Cultural",
-      hola: (n) => `Hola ${n},`,
+      hola: (nombre) => `Hola ${nombre},`,
       intro: "Recibimos un pedido para restablecer la contraseña de tu cuenta de Nodo Cultural.",
       boton: "Elegir una nueva contraseña",
       texto: (n, enlace, min) =>
@@ -44,7 +42,7 @@ const TEXTOS = {
   en: {
     verificacion: {
       asunto: "Confirm your email - Nodo Cultural",
-      hola: (n) => `Hi ${n},`,
+      hola: (nombre) => `Hi ${nombre},`,
       intro: "Thanks for signing up for Nodo Cultural. Confirm your email so you can register for activities.",
       boton: "Confirm my email",
       texto: (n, enlace, horas) =>
@@ -54,7 +52,7 @@ const TEXTOS = {
     },
     restablecer: {
       asunto: "Reset your password - Nodo Cultural",
-      hola: (n) => `Hi ${n},`,
+      hola: (nombre) => `Hi ${nombre},`,
       intro: "We received a request to reset the password for your Nodo Cultural account.",
       boton: "Choose a new password",
       texto: (n, enlace, min) =>
@@ -79,7 +77,7 @@ const TEXTOS = {
   pt: {
     verificacion: {
       asunto: "Confirme o seu e-mail - Nodo Cultural",
-      hola: (n) => `Olá ${n},`,
+      hola: (nombre) => `Olá ${nombre},`,
       intro: "Obrigado por se cadastrar no Nodo Cultural. Confirme o seu e-mail para poder se inscrever nas atividades.",
       boton: "Confirmar o meu e-mail",
       texto: (n, enlace, horas) =>
@@ -89,7 +87,7 @@ const TEXTOS = {
     },
     restablecer: {
       asunto: "Redefinir a sua senha - Nodo Cultural",
-      hola: (n) => `Olá ${n},`,
+      hola: (nombre) => `Olá ${nombre},`,
       intro: "Recebemos um pedido para redefinir a senha da sua conta do Nodo Cultural.",
       boton: "Escolher uma nova senha",
       texto: (n, enlace, min) =>
@@ -113,7 +111,6 @@ const TEXTOS = {
   },
 };
 
-// Las categorías del boletín se guardan en español; en el correo se muestran en el idioma de la persona
 const CATEGORIAS = {
   en: {
     "Museos": "Museums", "Historia": "History", "Patrimonio Industrial": "Industrial Heritage", "Educación": "Education",
@@ -130,42 +127,41 @@ const CATEGORIAS = {
 const textosDe = (idioma) => TEXTOS[idioma] || TEXTOS.es;
 
 function correoVerificacion({ nombre, enlace, horas, idioma }) {
-  const x = textosDe(idioma).verificacion;
+  const textos = textosDe(idioma).verificacion;
   const html =
-    `<p>${x.hola(escaparHTML(nombre))}</p>` +
-    `<p>${x.intro}</p>` +
-    `<p><a href="${enlace}" style="${BOTON_VERDE}">${x.boton}</a></p>` +
-    `<p style="${PIE}">${x.pie(horas)}</p>`;
-  return { asunto: x.asunto, texto: x.texto(nombre, enlace, horas), html };
+    `<p>${textos.hola(escaparHTML(nombre))}</p>` +
+    `<p>${textos.intro}</p>` +
+    `<p><a href="${enlace}" style="${BOTON_VERDE}">${textos.boton}</a></p>` +
+    `<p style="${PIE}">${textos.pie(horas)}</p>`;
+  return { asunto: textos.asunto, texto: textos.texto(nombre, enlace, horas), html };
 }
 
 function correoRestablecer({ nombre, enlace, minutos, idioma }) {
-  const x = textosDe(idioma).restablecer;
+  const textos = textosDe(idioma).restablecer;
   const html =
-    `<p>${x.hola(escaparHTML(nombre))}</p>` +
-    `<p>${x.intro}</p>` +
-    `<p><a href="${enlace}" style="${BOTON_VERDE}">${x.boton}</a></p>` +
-    `<p style="${PIE}">${x.pie(minutos)}</p>`;
-  return { asunto: x.asunto, texto: x.texto(nombre, enlace, minutos), html };
+    `<p>${textos.hola(escaparHTML(nombre))}</p>` +
+    `<p>${textos.intro}</p>` +
+    `<p><a href="${enlace}" style="${BOTON_VERDE}">${textos.boton}</a></p>` +
+    `<p style="${PIE}">${textos.pie(minutos)}</p>`;
+  return { asunto: textos.asunto, texto: textos.texto(nombre, enlace, minutos), html };
 }
 
 function correoBienvenida({ categorias, sitio, urlBaja, idioma }) {
-  const x = textosDe(idioma).bienvenida;
-  const nombres = (categorias || []).map((c) => (CATEGORIAS[idioma] && CATEGORIAS[idioma][c]) || c);
-  const intereses = nombres.length
-    ? `<p>${x.intereses} <b>${nombres.map(escaparHTML).join(", ")}</b>.</p>`
-    : "";
+  const textos = textosDe(idioma).bienvenida;
+  const nombres = (categorias || []).map((categoria) => (CATEGORIAS[idioma] && CATEGORIAS[idioma][categoria]) || categoria);
+  let intereses = "";
+  if (nombres.length > 0) intereses = `<p>${textos.intereses} <b>${nombres.map(escaparHTML).join(", ")}</b>.</p>`;
 
   const html =
     `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#333">` +
-    `<h2>${x.titulo}</h2>` +
-    `<p>${x.cuerpo}</p>` +
+    `<h2>${textos.titulo}</h2>` +
+    `<p>${textos.cuerpo}</p>` +
     intereses +
-    `<p><a href="${sitio}" style="background:#a2492a;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">${x.boton}</a></p>` +
-    `<hr><p style="color:#777;font-size:12px">${x.baja(urlBaja)}</p>` +
+    `<p><a href="${sitio}" style="background:#a2492a;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">${textos.boton}</a></p>` +
+    `<hr><p style="color:#777;font-size:12px">${textos.baja(urlBaja)}</p>` +
     `</div>`;
 
-  return { asunto: x.asunto, texto: x.texto(sitio, urlBaja), html };
+  return { asunto: textos.asunto, texto: textos.texto(sitio, urlBaja), html };
 }
 
 module.exports = { correoVerificacion, correoRestablecer, correoBienvenida };

@@ -1,5 +1,4 @@
 import { useIdioma } from '../../hooks/useIdioma'
-// Una categoría de recursos con su lista de PDF descargables.
 function GrupoRecursos({ categoria, recursos }) {
   const { t, tDato } = useIdioma()
   return (

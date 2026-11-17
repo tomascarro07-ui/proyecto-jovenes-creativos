@@ -6,14 +6,13 @@ import { useSesion } from '../hooks/useSesion'
 import { useIdioma } from '../hooks/useIdioma'
 import { tt } from '../i18n/motor'
 
-// Recorta la imagen en un cuadrado centrado y la reduce a "lado" píxeles (devuelve un texto data:image/jpeg)
 function redimensionarFoto(archivo, lado) {
   return new Promise((ok, fallo) => {
     if (!archivo.type.startsWith('image/')) return fallo(new Error(tt('cuenta.errImagen')))
     const img = new Image()
     const url = URL.createObjectURL(archivo)
     img.onload = () => {
-      const min = Math.min(img.width, img.height) // recorte cuadrado centrado
+      const min = Math.min(img.width, img.height)
       const canvas = document.createElement('canvas')
       canvas.width = canvas.height = lado
       canvas.getContext('2d').drawImage(img, (img.width - min) / 2, (img.height - min) / 2, min, min, 0, 0, lado, lado)
@@ -25,15 +24,13 @@ function redimensionarFoto(archivo, lado) {
   })
 }
 
-function iniciales(u) {
-  return ((u.nombre || '?').charAt(0) + (u.apellido || '').charAt(0)).toUpperCase()
+function iniciales(usuario) {
+  return ((usuario.nombre || '?').charAt(0) + (usuario.apellido || '').charAt(0)).toUpperCase()
 }
 
-// Contenido de la página, una vez que ya sabemos quién es la persona
 function ContenidoCuenta({ usuario, inscripciones }) {
   const { t } = useIdioma()
   const { actualizarUsuario } = useSesion()
-  // Datos del formulario "Mis datos" y del formulario "Seguridad"
   const [datos, setDatos] = useState({
     nombre: usuario.nombre || '',
     apellido: usuario.apellido || '',
@@ -43,7 +40,7 @@ function ContenidoCuenta({ usuario, inscripciones }) {
     bio: usuario.bio || '',
   })
   const [pass, setPass] = useState({ actual: '', nueva: '', repetir: '' })
-  const [aviso, setAviso] = useState(null) // { texto, ok } y se oculta solo a los 3,5 segundos
+  const [aviso, setAviso] = useState(null)
   const temporizador = useRef(null)
 
   useEffect(() => () => clearTimeout(temporizador.current), [])
@@ -54,23 +51,22 @@ function ContenidoCuenta({ usuario, inscripciones }) {
     temporizador.current = setTimeout(() => setAviso(null), 3500)
   }
 
-  function cambiarDatos(e) {
-    setDatos({ ...datos, [e.target.name]: e.target.value })
+  function cambiarDatos(evento) {
+    setDatos({ ...datos, [evento.target.name]: evento.target.value })
   }
 
-  function cambiarPass(e) {
-    setPass({ ...pass, [e.target.name]: e.target.value })
+  function cambiarPass(evento) {
+    setPass({ ...pass, [evento.target.name]: evento.target.value })
   }
 
-  // Guarda cambios en el perfil y actualiza la sesión (así el encabezado también se actualiza)
   async function guardarPerfil(cambios) {
-    const r = await api.actualizarPerfil(cambios)
-    actualizarUsuario(r.usuario)
-    return r.usuario
+    const respuesta = await api.actualizarPerfil(cambios)
+    actualizarUsuario(respuesta.usuario)
+    return respuesta.usuario
   }
 
-  async function guardarDatos(e) {
-    e.preventDefault()
+  async function guardarDatos(evento) {
+    evento.preventDefault()
     try {
       const nuevo = await guardarPerfil({
         nombre: datos.nombre,
@@ -86,9 +82,9 @@ function ContenidoCuenta({ usuario, inscripciones }) {
     }
   }
 
-  async function cambiarFoto(e) {
-    const archivo = e.target.files[0]
-    const input = e.target
+  async function cambiarFoto(evento) {
+    const archivo = evento.target.files[0]
+    const input = evento.target
     if (!archivo) return
     try {
       await guardarPerfil({ foto: await redimensionarFoto(archivo, 240) })
@@ -108,14 +104,13 @@ function ContenidoCuenta({ usuario, inscripciones }) {
     }
   }
 
-  async function guardarPass(e) {
-    e.preventDefault()
+  async function guardarPass(evento) {
+    evento.preventDefault()
     if (pass.nueva !== pass.repetir) return mostrarAviso(t('cuenta.noCoinciden'), false)
     try {
-      const r = await api.cambiarContrasenia({ actual: pass.actual, nueva: pass.nueva })
-      // El servidor cierra las demás sesiones al cambiar la contraseña y entrega un token nuevo para esta
+      const respuesta = await api.cambiarContrasenia({ actual: pass.actual, nueva: pass.nueva })
       const sesionActual = leerSesion()
-      if (r.token && sesionActual) guardarSesion({ ...sesionActual, token: r.token })
+      if (respuesta.token && sesionActual) guardarSesion({ ...sesionActual, token: respuesta.token })
       setPass({ actual: '', nueva: '', repetir: '' })
       mostrarAviso(t('cuenta.okPass'))
     } catch (error) {
@@ -151,7 +146,7 @@ function ContenidoCuenta({ usuario, inscripciones }) {
           {inscripciones && (
             <>
               <div className="insc-stat"><strong>{inscripciones.length}</strong><span>{t('cuenta.statInsc')}</span></div>
-              <div className="insc-stat"><strong>{inscripciones.filter((i) => i.tipo === 'recorrido' && i.finalizada).length}</strong><span>{t('cuenta.statRecorridos')}</span></div>
+              <div className="insc-stat"><strong>{inscripciones.filter((inscripcion) => inscripcion.tipo === 'recorrido' && inscripcion.finalizada).length}</strong><span>{t('cuenta.statRecorridos')}</span></div>
             </>
           )}
         </div>
@@ -231,13 +226,11 @@ function ContenidoCuenta({ usuario, inscripciones }) {
 function Cuenta() {
   const { t } = useIdioma()
   const { usuario, actualizarUsuario } = useSesion()
-  // Se confirma con el servidor quién es la persona (y se actualiza la sesión guardada)
   const { cargando, error } = useCarga(
-    () => (usuario ? api.yo().then((r) => actualizarUsuario(r.usuario)) : Promise.resolve(null)),
-    [!!usuario],
+    () => (usuario ? api.yo().then((respuesta) => actualizarUsuario(respuesta.usuario)) : Promise.resolve(null)),
+    [Boolean(usuario)],
   )
-  // Las estadísticas son opcionales: si fallan, simplemente no se muestran
-  const { datos: inscripciones } = useCarga(() => (usuario ? api.misInscripciones().catch(() => null) : Promise.resolve(null)), [!!usuario])
+  const { datos: inscripciones } = useCarga(() => (usuario ? api.misInscripciones().catch(() => null) : Promise.resolve(null)), [Boolean(usuario)])
 
   if (!usuario || (error && error.status === 401)) return <Navigate to="/login" replace />
   if (error) {

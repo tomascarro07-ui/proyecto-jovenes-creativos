@@ -1,21 +1,15 @@
 const express = require("express");
 const crypto = require("crypto");
-const rateLimit = require("express-rate-limit");
+const { limitar } = require("../config/limitador");
+const { EMAIL_VALIDO } = require("../config/texto");
 const Suscriptor = require("../models/Suscriptor");
 const { enviarCorreo } = require("../config/correo");
 const { correoBienvenida } = require("../config/correosTextos");
 
 const router = express.Router();
 
-const limitador = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: { error: "Demasiados intentos. Probá de nuevo en 15 minutos." },
-});
+const limitador = limitar({ max: 5, mensaje: "Demasiados intentos. Probá de nuevo en 15 minutos." });
 
-const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// Mismas categorías que el formulario del index.html
 const CATEGORIAS_VALIDAS = [
   "Museos",
   "Historia",
@@ -30,11 +24,11 @@ const CATEGORIAS_VALIDAS = [
 
 const SITIO_URL = () => process.env.SITIO_URL || "https://nodo-cultural.vercel.app";
 
-
 router.post("/", limitador, async (req, res) => {
   const email = String(req.body.email || "").trim().toLowerCase().slice(0, 120);
-  const categorias = (Array.isArray(req.body.categorias) ? req.body.categorias : [])
-    .filter((c) => CATEGORIAS_VALIDAS.includes(c));
+  let categoriasEnviadas = [];
+  if (Array.isArray(req.body.categorias)) categoriasEnviadas = req.body.categorias;
+  const categorias = categoriasEnviadas.filter((categoria) => CATEGORIAS_VALIDAS.includes(categoria));
 
   if (!EMAIL_VALIDO.test(email)) {
     return res.status(400).json({ error: "Ingresá un correo válido." });
@@ -48,7 +42,6 @@ router.post("/", limitador, async (req, res) => {
     }
 
     if (suscriptor) {
-      // Se había dado de baja y vuelve a suscribirse
       suscriptor.activo = true;
       suscriptor.categorias = categorias;
       await suscriptor.save();
@@ -67,7 +60,6 @@ router.post("/", limitador, async (req, res) => {
       }
     }
 
-    // Si existe BACKEND_URL se usa esa dirección fija; el encabezado Host lo puede escribir cualquiera.
     const base = (process.env.BACKEND_URL || `${req.protocol}://${req.get("host")}`).replace(/\/+$/, "");
     const urlBaja = `${base}/api/boletin/baja?token=${suscriptor.tokenBaja}`;
     const correo = correoBienvenida({ categorias: suscriptor.categorias, sitio: SITIO_URL(), urlBaja, idioma: req.idioma });
@@ -80,7 +72,6 @@ router.post("/", limitador, async (req, res) => {
         html: correo.html,
       });
     } catch (error) {
-      // La suscripción queda guardada aunque el correo falle.
       console.error("No se pudo enviar el correo de bienvenida:", error.message);
     }
 
@@ -91,7 +82,6 @@ router.post("/", limitador, async (req, res) => {
   }
 });
 
-// Link de baja que va en el correo
 router.get("/baja", async (req, res) => {
   const token = String(req.query.token || "");
   let titulo = "El enlace no es válido";

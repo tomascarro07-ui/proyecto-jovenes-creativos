@@ -11,73 +11,72 @@ import { tt } from '../i18n/motor'
 
 const TIPOS = Object.keys(ACTIVIDADES)
 
-function textoFecha(p) {
-  const d = fechaLocal(p.fecha)
-  if (!d) return ''
-  return d.toLocaleDateString(tt('fecha.locale'), { day: 'numeric', month: 'long' }) + (p.hora ? ' · ' + p.hora : '')
+function textoFecha(punto) {
+  const fecha = fechaLocal(punto.fecha)
+  if (!fecha) return ''
+  return fecha.toLocaleDateString(tt('fecha.locale'), { day: 'numeric', month: 'long' }) + (punto.hora ? ' · ' + punto.hora : '')
 }
 
-// Las propuestas de un mismo museo (o del mismo punto) comparten un único pin
 function agrupar(puntos) {
   const grupos = new Map()
-  puntos.forEach((p) => {
-    const clave = p.museoId ? 'm:' + p.museoId : p.lat.toFixed(4) + ',' + p.lng.toFixed(4)
+  puntos.forEach((punto) => {
+    const clave = punto.museoId ? 'm:' + punto.museoId : punto.lat.toFixed(4) + ',' + punto.lng.toFixed(4)
     if (!grupos.has(clave)) grupos.set(clave, [])
-    grupos.get(clave).push(p)
+    grupos.get(clave).push(punto)
   })
   return Array.from(grupos.entries()).map(([clave, items]) => ({ clave, items }))
 }
 
-function ItemPunto({ punto: p }) {
+function ItemPunto({ punto }) {
   const { t } = useIdioma()
-  const tp = ACTIVIDADES[p.tipo]
+  const tp = ACTIVIDADES[punto.tipo]
   return (
-    <article className={`mc-item tipo-${p.tipo}`}>
-      {p.imagen
-        ? <img className="mc-item__img" src={p.imagen} alt="" loading="lazy" />
+    <article className={`mc-item tipo-${punto.tipo}`}>
+      {punto.imagen
+        ? <img className="mc-item__img" src={punto.imagen} alt="" loading="lazy" />
         : <div className="mc-item__img mc-item__img--vacia"><i className={`fa-solid ${tp.icono}`}></i></div>}
       <div className="mc-item__cuerpo">
-        <span className="mc-badge"><i className={`fa-solid ${tp.icono}`}></i> {tp.nombre}{p.virtual ? ' · ' + tt('dato.Virtual') : ''}{p.subtitulo ? ' · ' + p.subtitulo : ''}</span>
-        <h3>{p.titulo}</h3>
-        <p><i className="fa-solid fa-location-dot"></i> {p.lugar || ''}</p>
-        {p.fecha && <p><i className="fa-regular fa-calendar"></i> {textoFecha(p)}</p>}
-        {p.horario && <p><i className="fa-regular fa-clock"></i> {p.horario}</p>}
-        <EtiquetaCupos actividad={p} />
-        <Link className="insc-btn insc-btn--primario" to={tp.url(p.id)}>{t('mapa.verDetalle')} <i className="fa-solid fa-arrow-right"></i></Link>
+        <span className="mc-badge"><i className={`fa-solid ${tp.icono}`}></i> {tp.nombre}{punto.virtual ? ' · ' + tt('dato.Virtual') : ''}{punto.subtitulo ? ' · ' + punto.subtitulo : ''}</span>
+        <h3>{punto.titulo}</h3>
+        <p><i className="fa-solid fa-location-dot"></i> {punto.lugar || ''}</p>
+        {punto.fecha && <p><i className="fa-regular fa-calendar"></i> {textoFecha(punto)}</p>}
+        {punto.horario && <p><i className="fa-regular fa-clock"></i> {punto.horario}</p>}
+        <EtiquetaCupos actividad={punto} />
+        <Link className="insc-btn insc-btn--primario" to={tp.url(punto.id)}>{t('mapa.verDetalle')} <i className="fa-solid fa-arrow-right"></i></Link>
       </div>
     </article>
   )
 }
 
-function TarjetaMuseo({ museo: m, actividades }) {
+function TarjetaMuseo({ museo, actividades }) {
   const { t } = useIdioma()
   return (
     <article className="mc-museo tipo-museo">
       <div className="mc-museo__media">
-        {tieneImagen(m)
-          ? <img className="mc-museo__img" src={m.imagen} alt={m.titulo} />
+        {tieneImagen(museo)
+          ? <img className="mc-museo__img" src={museo.imagen} alt={museo.titulo} />
           : <div className="mc-museo__img mc-museo__img--vacia"><i className="fa-solid fa-landmark"></i></div>}
-        <span className="mc-badge mc-badge--sobre"><i className="fa-solid fa-landmark"></i> Museo{m.subtitulo ? ' · ' + m.subtitulo : ''}</span>
+        <span className="mc-badge mc-badge--sobre"><i className="fa-solid fa-landmark"></i> Museo{museo.subtitulo ? ' · ' + museo.subtitulo : ''}</span>
       </div>
       <div className="mc-item__cuerpo">
-        <h3>{m.titulo}</h3>
-        <p><i className="fa-solid fa-location-dot"></i> {m.lugar || ''}</p>
-        {m.horario && <p><i className="fa-regular fa-clock"></i> {m.horario}</p>}
-        {m.descripcion && <p className="mc-museo__desc">{m.descripcion}</p>}
-        <Link className="insc-btn insc-btn--primario" to={ACTIVIDADES.museo.url(m.id)}>{t('mapa.verMuseo')} <i className="fa-solid fa-arrow-right"></i></Link>
+        <h3>{museo.titulo}</h3>
+        <p><i className="fa-solid fa-location-dot"></i> {museo.lugar || ''}</p>
+        {museo.horario && <p><i className="fa-regular fa-clock"></i> {museo.horario}</p>}
+        {museo.descripcion && <p className="mc-museo__desc">{museo.descripcion}</p>}
+        <Link className="insc-btn insc-btn--primario" to={ACTIVIDADES.museo.url(museo.id)}>{t('mapa.verMuseo')} <i className="fa-solid fa-arrow-right"></i></Link>
       </div>
       <section className="mc-actividades">
         <h4>{t('md.actTitulo')} <span>{actividades.length}</span></h4>
         {actividades.length
-          ? actividades.map((p) => {
-            const tp = ACTIVIDADES[p.tipo]
+          ? actividades.map((punto) => {
+            const tp = ACTIVIDADES[punto.tipo]
             return (
-              <Link className={`mc-act tipo-${p.tipo}`} to={tp.url(p.id)} key={p.tipo + p.id}>
+              <Link className={`mc-act tipo-${punto.tipo}`} to={tp.url(punto.id)} key={punto.tipo + punto.id}>
                 <span className="mc-act__icono"><i className={`fa-solid ${tp.icono}`}></i></span>
                 <span className="mc-act__info">
-                  <strong>{p.titulo}</strong>
-                  <small>{tp.nombre}{p.virtual ? ' · ' + tt('dato.Virtual') : ''}{p.fecha ? ' · ' + textoFecha(p) : ''}</small>
-                  <EtiquetaCupos actividad={p} />
+                  <strong>{punto.titulo}</strong>
+                  <small>{tp.nombre}{punto.virtual ? ' · ' + tt('dato.Virtual') : ''}{punto.fecha ? ' · ' + textoFecha(punto) : ''}</small>
+                  <EtiquetaCupos actividad={punto} />
                 </span>
                 <i className="fa-solid fa-chevron-right"></i>
               </Link>
@@ -93,50 +92,49 @@ function Mapa() {
   const { t } = useIdioma()
   const { datos: puntos, cargando, error } = useCarga(() => api.mapa(), [])
   const [parametros] = useSearchParams()
-  const foco = parametros.get('foco') // por ejemplo "museo:123": abre ese punto al entrar
+  const foco = parametros.get('foco')
 
   const [tiposActivos, setTiposActivos] = useState(() => new Set(TIPOS))
-  const [finalizadasManual, setFinalizadasManual] = useState(null) // null = automático (según el punto enfocado)
+  const [finalizadasManual, setFinalizadasManual] = useState(null)
   const [nombresDeCalles, setNombresDeCalles] = useState(false)
-  const [claveManual, setClaveManual] = useState(undefined) // undefined = todavía no tocó nada
+  const [claveManual, setClaveManual] = useState(undefined)
 
   const contenedorRef = useRef(null)
   const mapaRef = useRef(null)
   const capasRef = useRef({ marcadores: null, calles: null })
-  const marcadoresRef = useRef(new Map()) // clave de grupo -> marcador de Leaflet
+  const marcadoresRef = useRef(new Map())
   const encuadrado = useRef(false)
 
   const lista = useMemo(() => puntos || [], [puntos])
   const puntoFoco = useMemo(() => {
     if (!foco) return null
     const [tipo, id] = foco.split(':')
-    return lista.find((p) => p.tipo === tipo && p.id === id) || null
+    return lista.find((punto) => punto.tipo === tipo && punto.id === id) || null
   }, [foco, lista])
 
-  // Si el punto enfocado ya terminó, se muestran las finalizadas para poder verlo
-  const finalizadas = finalizadasManual ?? !!(puntoFoco && puntoFoco.finalizada)
+  let finalizadas = Boolean(puntoFoco && puntoFoco.finalizada)
+  if (finalizadasManual !== null && finalizadasManual !== undefined) finalizadas = finalizadasManual
 
   const visibles = useMemo(
-    () => lista.filter((p) => tiposActivos.has(p.tipo) && (finalizadas || !p.finalizada)),
+    () => lista.filter((punto) => tiposActivos.has(punto.tipo) && (finalizadas || !punto.finalizada)),
     [lista, tiposActivos, finalizadas],
   )
   const grupos = useMemo(() => agrupar(visibles), [visibles])
 
   const claveFoco = useMemo(() => {
     if (!puntoFoco) return null
-    const g = grupos.find((x) => x.items.includes(puntoFoco))
-    return g ? g.clave : null
+    const grupoDelFoco = grupos.find((grupo) => grupo.items.includes(puntoFoco))
+    return grupoDelFoco ? grupoDelFoco.clave : null
   }, [puntoFoco, grupos])
   const claveAbierta = claveManual === undefined ? claveFoco : claveManual
-  const grupoAbierto = grupos.find((g) => g.clave === claveAbierta) || null
+  const grupoAbierto = grupos.find((grupo) => grupo.clave === claveAbierta) || null
 
   function actividadesDelMuseo(idMuseo) {
     return lista
-      .filter((p) => p.museoId === idMuseo && p.tipo !== 'museo' && (finalizadas || !p.finalizada))
+      .filter((punto) => punto.museoId === idMuseo && punto.tipo !== 'museo' && (finalizadas || !punto.finalizada))
       .sort(porFecha)
   }
 
-  // 1) Crear el mapa una sola vez
   useEffect(() => {
     const L = window.L
     const mapa = L.map(contenedorRef.current, {
@@ -153,7 +151,6 @@ function Mapa() {
     }
   }, [])
 
-  // 2) Interruptor "Calles"
   useEffect(() => {
     const mapa = mapaRef.current
     const { calles } = capasRef.current
@@ -162,7 +159,6 @@ function Mapa() {
     else mapa.removeLayer(calles)
   }, [nombresDeCalles])
 
-  // 3) Dibujar los pines cada vez que cambian los grupos visibles
   useEffect(() => {
     const L = window.L
     const { marcadores } = capasRef.current
@@ -170,9 +166,18 @@ function Mapa() {
     marcadores.clearLayers()
     marcadoresRef.current = new Map()
     grupos.forEach(({ clave, items }) => {
-      const museo = items.find((i) => i.tipo === 'museo')
+      const museo = items.find((punto) => punto.tipo === 'museo')
       const rep = museo || items[0]
-      const insignia = museo ? lista.filter((p) => p.museoId === museo.id && p.tipo !== 'museo' && (finalizadas || !p.finalizada)).length : (items.length > 1 ? items.length : 0)
+      let insignia = 0
+      if (museo) {
+        const actividadesDelMuseo = lista.filter((punto) => punto.museoId === museo.id && punto.tipo !== 'museo' && (finalizadas || !punto.finalizada))
+        insignia = actividadesDelMuseo.length
+      } else if (items.length > 1) {
+        insignia = items.length
+      }
+      let tituloDelPin = rep.titulo
+      if (museo) tituloDelPin = museo.titulo
+      else if (items.length > 1) tituloDelPin = t('mapa.propsLugar', { n: items.length })
       const marcador = L.marker([rep.lat, rep.lng], {
         icon: L.divIcon({
           className: 'nc-pin-wrap',
@@ -180,11 +185,11 @@ function Mapa() {
           iconSize: [36, 44],
           iconAnchor: [18, 44],
         }),
-        title: museo ? museo.titulo : (items.length > 1 ? t('mapa.propsLugar', { n: items.length }) : rep.titulo),
+        title: tituloDelPin,
         riseOnHover: true,
       })
-      marcador.on('click', (e) => {
-        L.DomEvent.stopPropagation(e)
+      marcador.on('click', (evento) => {
+        L.DomEvent.stopPropagation(evento)
         setClaveManual(clave)
         mapaRef.current.panTo(marcador.getLatLng(), { animate: true, duration: 0.5 })
       })
@@ -193,7 +198,6 @@ function Mapa() {
     })
   }, [grupos, lista, finalizadas, t])
 
-  // 4) Resaltar el pin abierto
   useEffect(() => {
     document.querySelectorAll('.nc-pin--sel').forEach((el) => el.classList.remove('nc-pin--sel'))
     const marcador = marcadoresRef.current.get(claveAbierta)
@@ -201,7 +205,6 @@ function Mapa() {
     if (el) el.querySelector('.nc-pin').classList.add('nc-pin--sel')
   }, [claveAbierta, grupos])
 
-  // 5) Encuadre inicial: el punto enfocado, o todos los puntos
   useEffect(() => {
     const mapa = mapaRef.current
     if (!mapa || encuadrado.current || !lista.length) return
@@ -209,15 +212,14 @@ function Mapa() {
     if (puntoFoco) {
       mapa.setView([puntoFoco.lat, puntoFoco.lng], 17)
     } else {
-      const coords = visibles.map((p) => [p.lat, p.lng])
+      const coords = visibles.map((punto) => [punto.lat, punto.lng])
       if (coords.length) mapa.fitBounds(coords, { padding: [70, 70], maxZoom: 16 })
     }
   }, [lista, puntoFoco, visibles])
 
-  // Con Escape se cierra la tarjeta
   useEffect(() => {
-    const alTeclear = (e) => {
-      if (e.key === 'Escape') setClaveManual(null)
+    const alTeclear = (evento) => {
+      if (evento.key === 'Escape') setClaveManual(null)
     }
     document.addEventListener('keydown', alTeclear)
     return () => document.removeEventListener('keydown', alTeclear)
@@ -235,7 +237,7 @@ function Mapa() {
 
   let tarjeta = null
   if (grupoAbierto) {
-    const museo = grupoAbierto.items.find((i) => i.tipo === 'museo')
+    const museo = grupoAbierto.items.find((punto) => punto.tipo === 'museo')
     tarjeta = museo
       ? <TarjetaMuseo museo={museo} actividades={actividadesDelMuseo(museo.id)} />
       : (
@@ -243,7 +245,7 @@ function Mapa() {
           {grupoAbierto.items.length > 1 && (
             <p className="mc-grupo"><strong>{t('mapa.nProps', { n: grupoAbierto.items.length })}</strong> {t('mapa.enEsteLugar')}</p>
           )}
-          {grupoAbierto.items.map((p) => <ItemPunto key={p.tipo + p.id} punto={p} />)}
+          {grupoAbierto.items.map((punto) => <ItemPunto key={punto.tipo + punto.id} punto={punto} />)}
         </>
       )
   }
@@ -260,7 +262,7 @@ function Mapa() {
       <div className="mapa-barra">
         <div className="mapa-chips" id="mapaFiltros">
           {TIPOS.map((tipo) => {
-            const total = lista.filter((p) => p.tipo === tipo && (finalizadas || !p.finalizada)).length
+            const total = lista.filter((punto) => punto.tipo === tipo && (finalizadas || !punto.finalizada)).length
             const activo = tiposActivos.has(tipo)
             return (
               <button type="button" key={tipo} className={`mapa-chip tipo-${tipo}${activo ? ' is-on' : ''}`} aria-pressed={activo} onClick={() => alternarTipo(tipo)}>
@@ -271,12 +273,12 @@ function Mapa() {
         </div>
         <div className="mapa-opciones">
           <label className="mapa-switch">
-            <input type="checkbox" id="optFinalizadas" checked={finalizadas} onChange={(e) => { setClaveManual(null); setFinalizadasManual(e.target.checked) }} />
+            <input type="checkbox" id="optFinalizadas" checked={finalizadas} onChange={(evento) => { setClaveManual(null); setFinalizadasManual(evento.target.checked) }} />
             <span>{t('mapa.finalizadas')}</span>
           </label>
           {' '}
           <label className="mapa-switch">
-            <input type="checkbox" id="optCalles" checked={nombresDeCalles} onChange={(e) => setNombresDeCalles(e.target.checked)} />
+            <input type="checkbox" id="optCalles" checked={nombresDeCalles} onChange={(evento) => setNombresDeCalles(evento.target.checked)} />
             <span>{t('mapa.calles')}</span>
           </label>
         </div>
@@ -292,7 +294,7 @@ function Mapa() {
             </>
           )}
         </aside>
-        <div className="mapa-vacio" id="mapaVacio" hidden={cargando || !!error || visibles.length > 0}>
+        <div className="mapa-vacio" id="mapaVacio" hidden={cargando || Boolean(error) || visibles.length > 0}>
           <i className="fa-regular fa-map"></i>
           <p>{t('mapa.vacio')}</p>
         </div>

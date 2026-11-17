@@ -1,8 +1,5 @@
-// Funciones de apoyo para mostrar fechas y duraciones (antes estaban en commonFunctions.js y recorridoData.js).
-// Los nombres de los meses salen del diccionario del idioma elegido (es / en / pt).
 import { tt } from '../i18n/motor'
 
-// "2026-11-04" -> { dia: 4, mes: "NOV" }
 export function separarFecha(fecha) {
   if (!fecha) return { dia: '', mes: '' }
   const partes = fecha.split('-')
@@ -12,13 +9,11 @@ export function separarFecha(fecha) {
   return { dia, mes: tt('fecha.mesesCortos')[numeroMes - 1] }
 }
 
-// "2026-11-04" -> "4 de noviembre" (en inglés: "November 4")
 export function formatearFechaLarga(fecha) {
   const partes = fecha.split('-')
   return tt('fecha.larga', { dia: Number(partes[2]), mes: tt('fecha.meses')[Number(partes[1]) - 1] })
 }
 
-// "2026-11-06" -> "Mañana · 6 de noviembre" (si es hoy o mañana); en otro caso, solo "6 de noviembre"
 export function etiquetaFechaCercana(fecha) {
   if (!fecha) return ''
   const [anio, mes, dia] = fecha.split('-').map(Number)
@@ -32,7 +27,6 @@ export function etiquetaFechaCercana(fecha) {
   return larga
 }
 
-// Recorrido con duracionHoras y duracionMinutos -> "1h 30min"
 export function formatearDuracion(recorrido) {
   const horas = Number(recorrido.duracionHoras)
   const minutos = Number(recorrido.duracionMinutos)

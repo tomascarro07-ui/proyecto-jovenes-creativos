@@ -7,10 +7,8 @@ const { campoTraducido, salidaDe, lugarTaller } = require("../config/idioma");
 
 const router = express.Router();
 
-// Entra a la lista todo lo que tenga museo asignado o coordenadas propias
 const filtro = { $or: [{ museo: { $ne: null } }, { lat: { $ne: null }, lng: { $ne: null } }] };
 
-// GET /api/mapa → todo lo cultural que tiene ubicación
 router.get("/", async (req, res) => {
   try {
     const [museos, charlas, talleres, recorridos] = await Promise.all([
@@ -21,44 +19,45 @@ router.get("/", async (req, res) => {
     ]);
 
     const idioma = req.idioma;
-    const tr = (doc, campo) => campoTraducido(doc, campo, idioma);
+    const traducido = (documento, campo) => campoTraducido(documento, campo, idioma);
 
-    const museoPorId = new Map(museos.map((m) => [String(m._id), m]));
+    const museoPorId = new Map(museos.map((museo) => [String(museo._id), museo]));
 
-    // Si la actividad está en un museo, manda la ubicación del museo
-    function ubicar(doc) {
-      const m = doc.museo ? museoPorId.get(String(doc.museo)) : null;
-      if (m) return { lat: m.lat, lng: m.lng, museoId: m.id };
-      if (doc.lat != null && doc.lng != null) return { lat: doc.lat, lng: doc.lng, museoId: null };
+    function ubicar(actividad) {
+      let museo = null;
+      if (actividad.museo) museo = museoPorId.get(String(actividad.museo));
+      if (museo) return { lat: museo.lat, lng: museo.lng, museoId: museo.id };
+      if (actividad.lat != null && actividad.lng != null) return { lat: actividad.lat, lng: actividad.lng, museoId: null };
       return null;
     }
-    const conUbicacion = (doc, datos) => {
-      const u = ubicar(doc);
-      return u ? [{ ...datos, ...u }] : [];
+    const conUbicacion = (actividad, datos) => {
+      const ubicacion = ubicar(actividad);
+      if (!ubicacion) return [];
+      return [{ ...datos, ...ubicacion }];
     };
 
     const puntos = [
-      ...museos.map((m) => ({
-        tipo: "museo", id: m.id, museoId: m.id, titulo: tr(m, "nombre"), subtitulo: tr(m, "tipo"),
-        lugar: tr(m, "direccion") || req.t("Colonia del Sacramento"), descripcion: tr(m, "descripcionCorta"),
-        horario: tr(m, "horario"), imagen: m.imagen, lat: m.lat, lng: m.lng,
+      ...museos.map((museo) => ({
+        tipo: "museo", id: museo.id, museoId: museo.id, titulo: traducido(museo, "nombre"), subtitulo: traducido(museo, "tipo"),
+        lugar: traducido(museo, "direccion") || req.t("Colonia del Sacramento"), descripcion: traducido(museo, "descripcionCorta"),
+        horario: traducido(museo, "horario"), imagen: museo.imagen, lat: museo.lat, lng: museo.lng,
       })),
-      ...charlas.flatMap((c) => conUbicacion(c, {
-        tipo: "charla", id: c.id, titulo: tr(c, "titulo"), lugar: tr(c, "lugar"), fecha: c.fecha, hora: c.hora,
-        cupos: c.cupos, finalizada: c.finalizada, imagen: c.imagen, virtual: c.tipo === "Virtual",
+      ...charlas.flatMap((charla) => conUbicacion(charla, {
+        tipo: "charla", id: charla.id, titulo: traducido(charla, "titulo"), lugar: traducido(charla, "lugar"), fecha: charla.fecha, hora: charla.hora,
+        cupos: charla.cupos, finalizada: charla.finalizada, imagen: charla.imagen, virtual: charla.tipo === "Virtual",
       })),
-      ...talleres.flatMap((t) => conUbicacion(t, {
-        tipo: "taller", id: t.id, titulo: tr(t, "titulo"), lugar: tr(t, "lugar") || lugarTaller(t.modalidad, idioma),
-        fecha: t.fecha, hora: t.hora, cupos: t.cupos, finalizada: t.finalizada, imagen: t.imagen, virtual: t.modalidad === "Virtual",
+      ...talleres.flatMap((taller) => conUbicacion(taller, {
+        tipo: "taller", id: taller.id, titulo: traducido(taller, "titulo"), lugar: traducido(taller, "lugar") || lugarTaller(taller.modalidad, idioma),
+        fecha: taller.fecha, hora: taller.hora, cupos: taller.cupos, finalizada: taller.finalizada, imagen: taller.imagen, virtual: taller.modalidad === "Virtual",
       })),
-      ...recorridos.flatMap((r) => conUbicacion(r, {
-        tipo: "recorrido", id: r.id, titulo: tr(r, "titulo"), lugar: salidaDe(idioma) + tr(r, "puntoSalida"),
-        fecha: r.fecha, hora: r.hora, cupos: r.cupos, finalizada: r.finalizada, imagen: r.imagen,
+      ...recorridos.flatMap((recorrido) => conUbicacion(recorrido, {
+        tipo: "recorrido", id: recorrido.id, titulo: traducido(recorrido, "titulo"), lugar: salidaDe(idioma) + traducido(recorrido, "puntoSalida"),
+        fecha: recorrido.fecha, hora: recorrido.hora, cupos: recorrido.cupos, finalizada: recorrido.finalizada, imagen: recorrido.imagen,
       })),
     ];
 
     res.json(puntos);
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({ error: "No se pudo cargar el mapa cultural" });
   }
 });

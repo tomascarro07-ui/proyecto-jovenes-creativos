@@ -10,23 +10,22 @@ function Cursos() {
   const { t, tDato } = useIdioma()
   const { datos: talleres, cargando, error } = useCarga(() => api.talleres(), [])
 
-  // Cada taller se adapta al formato común de los listados de actividades
-  const items = talleres && talleres.map((k) => ({
-    id: k.id,
-    enlace: `/cursos/${k.id}`,
-    imagen: k.imagen,
-    titulo: k.titulo,
-    descripcion: k.descripcionCorta,
-    fecha: k.fecha,
-    chip: `${t('act.taller')} · ${tDato(k.nivel)}`,
+  const items = talleres && talleres.map((taller) => ({
+    id: taller.id,
+    enlace: `/cursos/${taller.id}`,
+    imagen: taller.imagen,
+    titulo: taller.titulo,
+    descripcion: taller.descripcionCorta,
+    fecha: taller.fecha,
+    chip: `${t('act.taller')} · ${tDato(taller.nivel)}`,
     meta: [
-      { icono: 'fa-solid fa-layer-group', texto: `${k.cantClases} ${t('det.clases').toLowerCase()}` },
-      { icono: 'fa-solid fa-laptop', texto: tDato(k.modalidad) },
-      ...(k.lugar ? [{ icono: 'fa-solid fa-location-dot', texto: k.lugar }] : []),
+      { icono: 'fa-solid fa-layer-group', texto: `${taller.cantClases} ${t('det.clases').toLowerCase()}` },
+      { icono: 'fa-solid fa-laptop', texto: tDato(taller.modalidad) },
+      ...(taller.lugar ? [{ icono: 'fa-solid fa-location-dot', texto: taller.lugar }] : []),
     ],
-    cupos: k.cupos,
-    finalizada: k.finalizada,
-    destacada: k.destacada,
+    cupos: taller.cupos,
+    finalizada: taller.finalizada,
+    destacada: taller.destacada,
     boton: t('act.inscribirme'),
   }))
 

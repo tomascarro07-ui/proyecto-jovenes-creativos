@@ -11,9 +11,7 @@ const usuarioSchema = new mongoose.Schema(
     telefono: { type: String, trim: true, maxlength: 20, default: "" },
     bio: { type: String, trim: true, maxlength: 200, default: "" },
     foto: { type: String, default: "" },
-    // Los JWT emitidos antes de esta fecha dejan de valer (se usa al restablecer la contraseña)
     contraseniaCambiadaEn: { type: Date, default: null },
-    // true solo en cuentas nuevas hasta que confirman el correo (las anteriores quedan como verificadas)
     pendienteVerificacion: { type: Boolean, default: false }
   },
   { timestamps: true }

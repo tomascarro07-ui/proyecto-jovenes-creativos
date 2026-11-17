@@ -3,18 +3,14 @@ import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { useIdioma } from '../hooks/useIdioma'
 
-// Preguntas para empezar (antes eran los enlaces .sug-pregunta del HTML). Son claves del diccionario de idiomas.
 const SUGERENCIAS = [
   { n: 1, icono: 'fa-comments' },
   { n: 2, icono: 'fa-palette' },
   { n: 3, icono: 'fa-map-location-dot' },
 ]
 
-// Cuántos mensajes anteriores se mandan al servidor en cada pregunta
 const LIMITE_HISTORIAL = 8
 
-// Páginas del sitio a las que la IA puede enviar. El asistente escribe la ruta (por ejemplo "/charlas")
-// y aquí se convierte en un enlace con un texto en el idioma elegido.
 const PAGINAS = {
   '/charlas': 'chat.ver.charlas',
   '/cursos': 'chat.ver.cursos',
@@ -24,26 +20,22 @@ const PAGINAS = {
   '/nosotros': 'chat.ver.nosotros',
 }
 
-// Convierte el texto de la IA en elementos de React: las rutas conocidas pasan a ser enlaces.
-// Como no se usa innerHTML, lo que escriba la IA nunca se interpreta como código.
-// También se aceptan las formas viejas ("charlas.html").
 function respuestaConEnlaces(texto, t) {
-  return texto.split(/((?<![\w/])\/?(?:charlas|cursos|museos|recorridos|contacto|nosotros)(?:\.html)?(?![\w/]))/).map((parte, i) => {
+  return texto.split(/((?<![\w/])\/?(?:charlas|cursos|museos|recorridos|contacto|nosotros)(?:\.html)?(?![\w/]))/).map((parte, posicion) => {
     const ruta = '/' + parte.replace(/^\//, '').replace(/\.html$/, '')
     const clave = PAGINAS[ruta]
     const esEnlace = clave && (parte.startsWith('/') || parte.endsWith('.html'))
-    return esEnlace ? <Link key={i} to={ruta} className="asistente-link">{t(clave)}</Link> : parte
+    return esEnlace ? <Link key={posicion} to={ruta} className="asistente-link">{t(clave)}</Link> : parte
   })
 }
 
 function ChatAsistente() {
   const { t, idioma } = useIdioma()
-  const [mensajes, setMensajes] = useState([]) // { id, quien: 'usuario' | 'ia', texto }
+  const [mensajes, setMensajes] = useState([])
   const [entrada, setEntrada] = useState('')
   const [escribiendo, setEscribiendo] = useState(false)
   const contenedorRef = useRef(null)
 
-  // Siempre mostrar el último mensaje
   useEffect(() => {
     const el = contenedorRef.current
     if (el) el.scrollTop = el.scrollHeight
@@ -53,10 +45,9 @@ function ChatAsistente() {
     const nuevo = { id: crypto.randomUUID(), quien: 'usuario', texto }
     setMensajes((actuales) => [...actuales, nuevo])
     setEscribiendo(true)
-    // Historial que se manda al servidor: los últimos 8 mensajes de la conversación
     const historial = [...mensajes, nuevo]
       .slice(-LIMITE_HISTORIAL)
-      .map((m) => ({ role: m.quien === 'ia' ? 'assistant' : 'user', content: m.texto }))
+      .map((mensaje) => ({ role: mensaje.quien === 'ia' ? 'assistant' : 'user', content: mensaje.texto }))
     try {
       const datos = await api.chat(historial, idioma)
       const respuesta = ((datos && datos.respuesta) || '').trim() || t('chat.sinRespuesta')
@@ -68,8 +59,8 @@ function ChatAsistente() {
     }
   }
 
-  function alEnviar(e) {
-    e.preventDefault()
+  function alEnviar(evento) {
+    evento.preventDefault()
     const texto = entrada.trim()
     if (texto === '') return
     setEntrada('')
@@ -89,9 +80,9 @@ function ChatAsistente() {
         {t('chat.ayudar')}
       </p>
       <div className="asistente-mensajes" id="asistenteMensajes" aria-live="polite" ref={contenedorRef}>
-        {mensajes.map((m) => (
-          <p key={m.id} className={m.quien === 'ia' ? 'asistente-burbuja asistente-burbuja--ia' : 'asistente-burbuja'}>
-            {m.quien === 'ia' ? respuestaConEnlaces(m.texto, t) : m.texto}
+        {mensajes.map((mensaje) => (
+          <p key={mensaje.id} className={mensaje.quien === 'ia' ? 'asistente-burbuja asistente-burbuja--ia' : 'asistente-burbuja'}>
+            {mensaje.quien === 'ia' ? respuestaConEnlaces(mensaje.texto, t) : mensaje.texto}
           </p>
         ))}
         {escribiendo && <p className="asistente-aviso">{t('chat.escribiendoCorto')}</p>}
@@ -105,8 +96,8 @@ function ChatAsistente() {
                 <a
                   href="#"
                   className="sug-pregunta"
-                  onClick={(e) => {
-                    e.preventDefault()
+                  onClick={(evento) => {
+                    evento.preventDefault()
                     enviarMensaje(t(`chat.sug${sug.n}.pregunta`))
                   }}
                 >
@@ -134,7 +125,7 @@ function ChatAsistente() {
           placeholder={t('index.asistentePlaceholder')}
           autoComplete="off"
           value={entrada}
-          onChange={(e) => setEntrada(e.target.value)}
+          onChange={(evento) => setEntrada(evento.target.value)}
         />
         {' '}
         <button type="submit" className="nc-btn nc-btn--pill" aria-label={t('index.asistenteEnviar')}>

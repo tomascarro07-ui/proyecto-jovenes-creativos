@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useIdioma } from '../hooks/useIdioma'
 
-// Página 404: se muestra cuando la dirección no coincide con ninguna ruta del sitio.
 function NoEncontrada() {
   const { t } = useIdioma()
   return (

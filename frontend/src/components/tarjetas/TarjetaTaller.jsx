@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useIdioma } from '../../hooks/useIdioma'
 
-// Tarjeta de taller. Con conDescripcion=true es la del listado de Cursos; sin ella, la de la portada.
 function TarjetaTaller({ taller, conDescripcion = false }) {
   const { t, tDato } = useIdioma()
   return (

@@ -5,13 +5,11 @@ import { useIdioma } from '../hooks/useIdioma'
 
 function RestablecerContrasenia() {
   const { t } = useIdioma()
-  // El token viaja en la URL del correo (?token=...)
   const [parametros] = useSearchParams()
-  const [token] = useState(() => parametros.get('token') || '') // se guarda al entrar
+  const [token] = useState(() => parametros.get('token') || '')
   const navegar = useNavigate()
   const { pathname } = useLocation()
 
-  // El token viaja en la URL del correo; lo sacamos de la barra de direcciones enseguida.
   useEffect(() => {
     navegar(pathname, { replace: true })
   }, [navegar, pathname])
@@ -22,17 +20,17 @@ function RestablecerContrasenia() {
     token ? null : { texto: t('rest.invalido'), esError: true },
   )
   const [enviando, setEnviando] = useState(false)
-  const [terminado, setTerminado] = useState(false) // el formulario se oculta al guardar
+  const [terminado, setTerminado] = useState(false)
 
-  async function alEnviar(e) {
-    e.preventDefault()
+  async function alEnviar(evento) {
+    evento.preventDefault()
     if (nueva.length < 8) return setMensaje({ texto: t('rest.corta'), esError: true })
     if (nueva !== repetir) return setMensaje({ texto: t('rest.noCoinciden'), esError: true })
     setEnviando(true)
     try {
-      const r = await api.restablecerContrasenia(token, nueva)
-      guardarSesion(null) // por si quedaba una sesión vieja en este navegador
-      setMensaje({ texto: r.mensaje + t('rest.login'), esError: false })
+      const respuesta = await api.restablecerContrasenia(token, nueva)
+      guardarSesion(null)
+      setMensaje({ texto: respuesta.mensaje + t('rest.login'), esError: false })
       setTerminado(true)
       setTimeout(() => navegar('/login'), 2500)
     } catch (err) {
@@ -57,12 +55,12 @@ function RestablecerContrasenia() {
             <div className="auth-campo">
               <label htmlFor="nueva">{t('rest.h2')}</label>
               {' '}
-              <input type="password" id="nueva" minLength="8" placeholder={t('rest.nuevaPh')} autoComplete="new-password" required value={nueva} onChange={(e) => setNueva(e.target.value)} />
+              <input type="password" id="nueva" minLength="8" placeholder={t('rest.nuevaPh')} autoComplete="new-password" required value={nueva} onChange={(evento) => setNueva(evento.target.value)} />
             </div>
             <div className="auth-campo">
               <label htmlFor="repetir">{t('rest.repetir')}</label>
               {' '}
-              <input type="password" id="repetir" minLength="8" placeholder={t('rest.repetir')} autoComplete="new-password" required value={repetir} onChange={(e) => setRepetir(e.target.value)} />
+              <input type="password" id="repetir" minLength="8" placeholder={t('rest.repetir')} autoComplete="new-password" required value={repetir} onChange={(evento) => setRepetir(evento.target.value)} />
             </div>
             <button type="submit" className="nc-btn" id="btnGuardar" disabled={enviando || !token}>
               <i className="fa-solid fa-key"></i>

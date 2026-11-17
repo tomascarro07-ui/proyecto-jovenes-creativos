@@ -1,74 +1,10 @@
-import '../css/sudamtex.css'
-import { useCallback, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useEfectosSudamtex } from '../hooks/useEfectosSudamtex'
+import LayoutSudamtex from '../components/sudamtex/LayoutSudamtex'
 
 function Sudamtex() {
-  const raizRef = useRef(null)
-  const [menuAbierto, setMenuAbierto] = useState(false) // menú del encabezado en celulares
-  const cerrarMenu = useCallback(() => setMenuAbierto(false), [])
-  useEfectosSudamtex(raizRef, cerrarMenu)
-
   return (
-    <div className="sx" ref={raizRef}>
-      <a href="#contenido" className="sx-saltar">Saltar al contenido</a>
-      {/* ============ Header propio de Sudamtex ============ */}
-      <header className="sx-header">
-        <div className="sx-header__interno">
-          <Link to="/sudamtex" className="sx-marca" aria-label="Sudamtex, ir al inicio">
-            <svg className="sx-marca__carretel" viewBox="0 0 32 32" aria-hidden="true">
-              <rect x="5" y="3" width="22" height="4" rx="1.5" fill="currentColor" />
-              {' '}
-              <rect x="5" y="25" width="22" height="4" rx="1.5" fill="currentColor" />
-              {' '}
-              <rect x="9" y="7" width="14" height="18" fill="#f2b705" />
-              {' '}
-              <path d="M9 11h14M9 15h14M9 19h14" stroke="#0d1b3e" strokeWidth="1.4" />
-            </svg>
-            {' '}
-            <span className="sx-marca__texto">SUDAMTEX</span>
-          </Link>
-          {' '}
-          <button
-            className="sx-toggle"
-            type="button"
-            aria-expanded={menuAbierto}
-            aria-controls="sxNav"
-            aria-label={menuAbierto ? 'Cerrar menú' : 'Abrir menú'}
-            onClick={() => setMenuAbierto(!menuAbierto)}
-          >
-            <i className={menuAbierto ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'} aria-hidden="true"></i>
-          </button>
-          <nav
-            className={`sx-nav${menuAbierto ? ' sx-nav--abierto' : ''}`}
-            id="sxNav"
-            aria-label="Secciones de Sudamtex"
-            onClick={(e) => { if (e.target.closest('a')) cerrarMenu() }}
-          >
-            <ul>
-              <li>
-                <a href="#resultados">Resultados esperados</a>
-              </li>
-              <li>
-                <a href="#impacto">Impacto esperado</a>
-              </li>
-              <li>
-                <a href="#participa">Participá</a>
-              </li>
-              <li>
-                <a href="#historia">Historia</a>
-              </li>
-            </ul>
-            <Link to="/" className="sx-volver">
-              <i className="fa-solid fa-arrow-left" aria-hidden="true"></i>
-              {' '}
-              Nodo Cultural
-            </Link>
-          </nav>
-        </div>
-      </header>
+    <LayoutSudamtex activa="inicio">
       <main id="contenido">
-        {/* ============ Portada ============ */}
         <section className="sx-hero" aria-labelledby="sxTitulo">
           <div className="sx-hero__interno">
             <div className="sx-hero__texto">
@@ -106,7 +42,6 @@ function Sudamtex() {
           </div>
         </section>
         <div className="sx-cinta" aria-hidden="true"></div>
-        {/* ============ La historia (línea de tiempo) ============ */}
         <section className="sx-seccion sx-historia" id="historia" aria-labelledby="historiaTitulo">
           <div className="sx-contenedor">
             <header className="sx-cab sx-reveal">
@@ -125,7 +60,6 @@ function Sudamtex() {
                 </div>
               </aside>
               <ol className="sx-hist__lista">
-                {/* 1936 */}
                 <li className="sx-cap" data-anio="1936">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">1936</p>
@@ -147,7 +81,6 @@ function Sudamtex() {
                     <figcaption>Archivo · completar fuente y año</figcaption>
                   </figure>
                 </li>
-                {/* 1945 */}
                 <li className="sx-cap" data-anio="1945">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">7 de diciembre de 1945</p>
@@ -166,7 +99,6 @@ function Sudamtex() {
                     <figcaption>Archivo · completar fuente y año</figcaption>
                   </figure>
                 </li>
-                {/* 1947 */}
                 <li className="sx-cap" data-anio="1947">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">15 de noviembre de 1947</p>
@@ -200,7 +132,6 @@ function Sudamtex() {
                     </figure>
                   </div>
                 </li>
-                {/* Apogeo */}
                 <li className="sx-cap" data-anio="Apogeo">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">Los años del apogeo</p>
@@ -225,7 +156,6 @@ function Sudamtex() {
                     <figcaption>Archivo · completar fuente y año</figcaption>
                   </figure>
                 </li>
-                {/* 1972 */}
                 <li className="sx-cap" data-anio="1972">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">3 de enero de 1972</p>
@@ -244,7 +174,6 @@ function Sudamtex() {
                     <figcaption>Archivo · completar fuente y año</figcaption>
                   </figure>
                 </li>
-                {/* 1986 */}
                 <li className="sx-cap" data-anio="1986">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">1986</p>
@@ -263,7 +192,6 @@ function Sudamtex() {
                     <figcaption>Archivo · completar fuente y año</figcaption>
                   </figure>
                 </li>
-                {/* 2001 */}
                 <li className="sx-cap" data-anio="2001">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">Mayo de 2001</p>
@@ -277,7 +205,6 @@ function Sudamtex() {
                   <div className="sx-fotos">
                     <figure className="sx-foto">
                       <div className="sx-foto__marco">
-                        {/* <img src="img/sudamtex/2001-asamblea.webp" alt="Descripción de la foto" loading="lazy"> */}
                         <div className="sx-foto__vacio">
                           <i className="fa-regular fa-image" aria-hidden="true"></i>
                           <span>Foto: asambleas y marchas</span>
@@ -287,7 +214,6 @@ function Sudamtex() {
                     </figure>
                     <figure className="sx-foto">
                       <div className="sx-foto__marco">
-                        {/* <img src="img/sudamtex/2001-portones.webp" alt="Descripción de la foto" loading="lazy"> */}
                         <div className="sx-foto__vacio">
                           <i className="fa-regular fa-image" aria-hidden="true"></i>
                           <span>Foto: los portones cerrados</span>
@@ -297,7 +223,6 @@ function Sudamtex() {
                     </figure>
                   </div>
                 </li>
-                {/* Hoy */}
                 <li className="sx-cap sx-cap--final" data-anio="Hoy">
                   <span className="sx-cap__punto" aria-hidden="true"></span>
                   <p className="sx-cap__fecha sx-mono">Hoy</p>
@@ -329,7 +254,6 @@ function Sudamtex() {
           </div>
         </section>
         <div className="sx-cinta" aria-hidden="true"></div>
-        {/* ============ 10. Resultados esperados ============ */}
         <section className="sx-seccion sx-resultados" id="resultados" aria-labelledby="resultadosTitulo">
           <div className="sx-contenedor">
             <header className="sx-cab sx-reveal">
@@ -422,7 +346,6 @@ function Sudamtex() {
           </div>
         </section>
         <div className="sx-cinta sx-cinta--invertida" aria-hidden="true"></div>
-        {/* ============ 11. Impacto esperado ============ */}
         <section className="sx-seccion sx-impacto" id="impacto" aria-labelledby="impactoTitulo">
           <div className="sx-contenedor sx-impacto__grid">
             <header className="sx-cab sx-cab--vertical sx-reveal">
@@ -497,7 +420,6 @@ function Sudamtex() {
           </div>
         </section>
         <div className="sx-cinta" aria-hidden="true"></div>
-        {/* ============ Participá ============ */}
         <section className="sx-seccion sx-participa" id="participa" aria-labelledby="participaTitulo">
           <div className="sx-contenedor">
             <div className="sx-participa__caja sx-reveal">
@@ -517,27 +439,7 @@ function Sudamtex() {
           </div>
         </section>
       </main>
-      {/* ============ Footer propio ============ */}
-      <footer className="sx-footer">
-        <div className="sx-footer__interno">
-          <div>
-            <p className="sx-footer__marca">SUDAMTEX</p>
-            <p className="sx-footer__sub">Un apartado de Nodo Cultural</p>
-          </div>
-          <ul className="sx-footer__links">
-            <li>
-              <Link to="/">Nodo Cultural</Link>
-            </li>
-            <li>
-              <Link to="/museos">Museos</Link>
-            </li>
-            <li>
-              <Link to="/contacto">Contacto</Link>
-            </li>
-          </ul>
-        </div>
-      </footer>
-    </div>
+    </LayoutSudamtex>
   )
 }
 

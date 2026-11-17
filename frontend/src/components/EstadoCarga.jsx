@@ -1,6 +1,4 @@
 import { useIdioma } from '../hooks/useIdioma'
-// Mensajes comunes mientras se cargan datos del servidor o si algo falla.
-// Uso: <EstadoCarga cargando={cargando} error={error}>{contenido}</EstadoCarga>
 function EstadoCarga({ cargando, error, vacio, mensajeVacio, children }) {
   const { t } = useIdioma()
   if (cargando) {

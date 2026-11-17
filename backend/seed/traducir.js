@@ -7,8 +7,6 @@ const Recurso = require("../models/Recurso");
 const Museo = require("../models/Museo");
 const TRADUCCIONES = require("./traducciones");
 
-// Agrega las traducciones (inglés y portugués) a lo que ya está cargado en la base,
-// sin tocar ningún otro dato ni borrar nada. Se puede correr las veces que haga falta: `npm run traducir`.
 const COLECCIONES = [
   { etiqueta: "Talleres", Modelo: Taller, clave: "titulo", datos: TRADUCCIONES.talleres },
   { etiqueta: "Charlas", Modelo: Charla, clave: "titulo", datos: TRADUCCIONES.charlas },
@@ -23,11 +21,13 @@ async function traducir() {
     let hechos = 0;
     const sinTraducir = [];
     for (const [titulo, traducciones] of Object.entries(datos)) {
-      const r = await Modelo.updateMany({ [clave]: titulo }, { $set: { traducciones } });
-      if (r.matchedCount > 0) hechos += r.matchedCount;
+      const resultado = await Modelo.updateMany({ [clave]: titulo }, { $set: { traducciones } });
+      if (resultado.matchedCount > 0) hechos += resultado.matchedCount;
       else sinTraducir.push(titulo);
     }
-    console.log(`${etiqueta}: ${hechos} con traducciones` + (sinTraducir.length ? ` (no están en la base: ${sinTraducir.join(", ")})` : ""));
+    let aviso = "";
+    if (sinTraducir.length > 0) aviso = ` (no están en la base: ${sinTraducir.join(", ")})`;
+    console.log(`${etiqueta}: ${hechos} con traducciones${aviso}`);
   }
   await mongoose.disconnect();
 }

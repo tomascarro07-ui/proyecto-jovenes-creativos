@@ -1,8 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useSesion } from './useSesion'
 
-// Lógica común de "Inscribirme" en charlas, talleres y recorridos:
-// si no hay sesión se abre el aviso (modal); si hay, se muestra el formulario.
 export function useInscripcion() {
   const { usuario } = useSesion()
   const [formAbierto, setFormAbierto] = useState(false)

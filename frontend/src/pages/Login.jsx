@@ -14,8 +14,8 @@ function Login() {
   const [enviando, setEnviando] = useState(false)
   const [error, setError] = useState('')
 
-  async function alEnviar(e) {
-    e.preventDefault()
+  async function alEnviar(evento) {
+    evento.preventDefault()
     setEnviando(true)
     setError('')
     try {
@@ -48,12 +48,12 @@ function Login() {
             <div className="auth-campo">
               <label htmlFor="correo">{t('auth.correo')}</label>
               {' '}
-              <input type="email" id="correo" maxLength="60" placeholder={t('auth.correoPlaceholder')} required value={correo} onChange={(e) => setCorreo(e.target.value)} />
+              <input type="email" id="correo" maxLength="60" placeholder={t('auth.correoPlaceholder')} required value={correo} onChange={(evento) => setCorreo(evento.target.value)} />
             </div>
             <div className="auth-campo">
               <label htmlFor="contrasenia">{t('auth.contrasenia')}</label>
               {' '}
-              <input type="password" id="contrasenia" placeholder={t('auth.contraseniaPlaceholder')} required value={contrasenia} onChange={(e) => setContrasenia(e.target.value)} />
+              <input type="password" id="contrasenia" placeholder={t('auth.contraseniaPlaceholder')} required value={contrasenia} onChange={(evento) => setContrasenia(evento.target.value)} />
             </div>
             <Link to="/olvide-contrasenia" className="auth-olvide">{t('login.olvidaste')}</Link>
             {error && <p className="auth-mensaje auth-mensaje--error" role="alert">{error}</p>}

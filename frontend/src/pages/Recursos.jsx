@@ -4,7 +4,6 @@ import { api } from '../api'
 import { useCarga } from '../hooks/useCarga'
 import { useIdioma } from '../hooks/useIdioma'
 
-// Agrupa los recursos por categoría, en el orden en que aparecen
 function agruparPorCategoria(recursos) {
   const grupos = new Map()
   recursos.forEach((recurso) => {

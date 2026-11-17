@@ -6,12 +6,9 @@ const Charla = require("../models/Charla");
 const Recorrido = require("../models/Recorrido");
 const SEDES = require("./sedes");
 
-// Asigna museo a las actividades según seed/sedes.js.
-// Sin `forzar`, solo toca las que todavía no tienen ubicación.
-// Con `forzar`, pisa el museo de las actividades de ejemplo (siempre que no tengan coordenadas propias).
 async function asignarSedes({ forzar = false } = {}) {
   const museos = await Museo.find();
-  const idPorNombre = new Map(museos.map((m) => [m.nombre, m._id]));
+  const idPorNombre = new Map(museos.map((museo) => [museo.nombre, museo._id]));
 
   const grupos = [
     [Taller, SEDES.talleres, "Talleres"],
@@ -28,9 +25,10 @@ async function asignarSedes({ forzar = false } = {}) {
         console.warn(`No existe el museo "${museoNombre}" (¿corriste npm run museos?)`);
         continue;
       }
-      const filtro = forzar ? { titulo, lat: null } : { titulo, museo: null, lat: null };
-      const r = await Modelo.updateMany(filtro, { $set: { museo: id } });
-      ubicadas += r.modifiedCount;
+      let filtro = { titulo, museo: null, lat: null };
+      if (forzar) filtro = { titulo, lat: null };
+      const resultado = await Modelo.updateMany(filtro, { $set: { museo: id } });
+      ubicadas += resultado.modifiedCount;
     }
     resumen[etiqueta] = ubicadas;
   }
@@ -43,7 +41,7 @@ if (require.main === module) {
   (async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     const resumen = await asignarSedes();
-    for (const [etiqueta, n] of Object.entries(resumen)) console.log(`${etiqueta}: ${n} ubicadas`);
+    for (const [etiqueta, cantidad] of Object.entries(resumen)) console.log(`${etiqueta}: ${cantidad} ubicadas`);
     await mongoose.disconnect();
-  })().catch((e) => { console.error(e); process.exit(1); });
+  })().catch((error) => { console.error(error); process.exit(1); });
 }

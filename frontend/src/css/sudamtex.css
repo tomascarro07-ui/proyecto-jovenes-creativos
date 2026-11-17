@@ -1,9 +1,3 @@
-/* ==========================================================================
-   SUDAMTEX · apartado propio (no comparte estilos con el resto de Nodo Cultural)
-   Identidad: tinte índigo, hilo amarillo, papel de archivo. Motivos: trama de tejido,
-   costura punteada, cinta métrica.
-   ========================================================================== */
-
 :root {
   --sx-tinta: #0d1b3e;
   --sx-tinta-2: #142652;
@@ -58,7 +52,6 @@ body.sx {
 
 .sx-contenedor { width: 100%; max-width: var(--sx-ancho); margin: 0 auto; padding: 0 2rem; }
 
-/* ---------- Header ---------- */
 .sx-header {
   position: sticky; top: 0; z-index: 100;
   background: var(--sx-tinta);
@@ -103,7 +96,6 @@ body.sx {
   background: transparent; color: #fff; font-size: 1.1rem; cursor: pointer;
 }
 
-/* ---------- Portada ---------- */
 .sx-hero {
   position: relative; overflow: hidden; color: #fff;
   background-color: var(--sx-tinta);
@@ -112,7 +104,6 @@ body.sx {
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 7px),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 7px);
 }
-/* Para sumar una foto de archivo: --sx-hero-img: url("img/sudamtex/portada.webp") en .sx-hero */
 .sx-hero::before {
   content: ""; position: absolute; inset: 0; z-index: 0;
   background: var(--sx-hero-img, none) center / cover no-repeat; opacity: 0.28; mix-blend-mode: luminosity;
@@ -126,9 +117,7 @@ body.sx {
 .sx-hero__texto { container-type: inline-size; }
 .sx-hero h1 {
   font-family: var(--sx-titulos); font-weight: 700; text-transform: uppercase;
-  font-size: clamp(3rem, 11vw, 6.5rem); /* respaldo para navegadores sin unidades de contenedor */
-  font-size: min(10rem, 16cqw);          /* proporcional al ancho de su columna: no se corta con ninguna fuente */
-  line-height: 0.95; letter-spacing: 0.03em; white-space: nowrap;
+  font-size: clamp(3rem, 11vw, 6.5rem);  font-size: min(10rem, 16cqw);  line-height: 0.95; letter-spacing: 0.03em; white-space: nowrap;
 }
 .sx-hero__lead { max-width: 34rem; margin-top: 1.6rem; font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.5; color: #dbe1f3; }
 .sx-hero__botones { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2.2rem; }
@@ -147,7 +136,6 @@ body.sx {
 .sx-btn--tinta { background: var(--sx-tinta); color: #fff; }
 .sx-btn--tinta:hover { background: var(--sx-tinta-2); }
 
-/* Etiqueta de tela con ojal */
 .sx-etiqueta {
   position: relative; justify-self: center; width: 100%; max-width: 340px;
   padding: 2.6rem 1.8rem 1.8rem; border-radius: 6px;
@@ -169,7 +157,6 @@ body.sx {
 .sx-datos dd { font-family: var(--sx-titulos); font-weight: 700; font-size: 2.8rem; line-height: 1; color: var(--sx-tinta); }
 .sx-datos dt { margin-top: 0.3rem; font-size: 0.78rem; line-height: 1.3; color: var(--sx-suave); }
 
-/* ---------- Cinta métrica ---------- */
 .sx-cinta {
   height: 34px; background-color: var(--sx-hilo);
   background-image:
@@ -181,7 +168,6 @@ body.sx {
 }
 .sx-cinta--invertida { background-image: repeating-linear-gradient(90deg, var(--sx-tinta) 0 2px, transparent 2px 40px), repeating-linear-gradient(90deg, rgba(13, 27, 62, 0.75) 0 1px, transparent 1px 8px); background-position: 0 100%, 0 100%; }
 
-/* ---------- Secciones ---------- */
 .sx-seccion { padding: 5.5rem 0; }
 
 .sx-cab { display: flex; align-items: flex-end; gap: 1.6rem; margin-bottom: 3rem; }
@@ -192,7 +178,6 @@ body.sx {
 .sx-cab h2 { font-family: var(--sx-titulos); font-weight: 700; text-transform: uppercase; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.05; letter-spacing: 0.02em; }
 .sx-lead { margin-top: 0.7rem; font-size: 1.15rem; color: var(--sx-suave); }
 
-/* ---------- 10. Resultados ---------- */
 .sx-resultados { background: var(--sx-papel); }
 .sx-fichas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; }
 .sx-ficha {
@@ -213,7 +198,6 @@ body.sx {
 .sx-ficha__ico { position: absolute !important; top: 1.3rem; right: 1.5rem; font-size: 1.5rem; color: var(--sx-tinta); }
 .sx-ficha h3 { margin-top: auto; padding-right: 1rem; font-family: var(--sx-titulos); font-weight: 600; font-size: clamp(1.3rem, 2vw, 1.6rem); line-height: 1.2; overflow-wrap: anywhere; }
 
-/* ---------- 11. Impacto ---------- */
 .sx-impacto {
   position: relative; color: #eef0f7; background-color: var(--sx-tinta);
   background-image:
@@ -236,7 +220,6 @@ body.sx {
 .sx-hilo__cod { display: block; margin-bottom: 0.35rem; font-size: 0.78rem; font-weight: 600; color: var(--sx-hilo); }
 .sx-hilo__item p { font-family: var(--sx-titulos); font-weight: 500; font-size: clamp(1.35rem, 2.6vw, 1.85rem); line-height: 1.25; overflow-wrap: anywhere; }
 
-/* ---------- Participá ---------- */
 .sx-participa { background: var(--sx-papel-2); padding: 4.5rem 0; }
 .sx-participa__caja {
   position: relative; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
@@ -249,7 +232,6 @@ body.sx {
 .sx-participa h2 { font-family: var(--sx-titulos); font-weight: 700; text-transform: uppercase; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.1; letter-spacing: 0.02em; }
 .sx-participa p:last-child { margin-top: 0.8rem; color: var(--sx-suave); }
 
-/* ---------- Footer ---------- */
 .sx-footer { background: var(--sx-tinta-3); color: #c4cce6; border-top: 3px solid var(--sx-hilo); }
 .sx-footer__interno { max-width: var(--sx-ancho); margin: 0 auto; padding: 2.6rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
 .sx-footer__marca { font-family: var(--sx-titulos); font-weight: 700; font-size: 1.6rem; letter-spacing: 0.14em; color: #fff; }
@@ -258,12 +240,10 @@ body.sx {
 .sx-footer__links a { font-family: var(--sx-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #c4cce6; text-decoration: none; }
 .sx-footer__links a:hover { color: var(--sx-hilo); }
 
-/* ---------- Aparición al hacer scroll (solo si hay JavaScript) ---------- */
 .sx-js .sx-reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; transition-delay: calc(var(--i, 0) * 70ms); }
 .sx-js .sx-reveal.sx-visto { opacity: 1; transform: none; }
 .sx-js .sx-ficha.sx-reveal.sx-visto:hover { transform: translateY(-4px); transition-delay: 0s; }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .sx-fichas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sx-impacto__grid { grid-template-columns: minmax(0, 1fr); gap: 3rem; }
@@ -312,15 +292,9 @@ body.sx {
   .sx-btn:hover, .sx-ficha:hover { transform: none; }
 }
 
-/* ==========================================================================
-   Página de contacto
-   ========================================================================== */
-
-/* Enlace activo en el menú cuando es una página (no una sección) */
 .sx-nav li a[aria-current="page"] { color: #fff; }
 .sx-nav li a[aria-current="page"]::after { transform: scaleX(1); }
 
-/* Portada compacta */
 .sx-hero--compacto .sx-hero__interno { grid-template-columns: minmax(0, 1fr); padding: 3.6rem 2rem 4rem; }
 .sx-hero--compacto .sx-hero__texto { container-type: normal; }
 .sx-hero--compacto h1 { font-size: clamp(2.8rem, 7vw, 5rem); }
@@ -332,7 +306,6 @@ body.sx {
 .sx-migas i { font-size: 0.6rem; opacity: 0.6; }
 .sx-migas span { color: var(--sx-hilo); }
 
-/* Cuerpo */
 .sx-contacto { background: var(--sx-papel); }
 .sx-contacto__grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
 
@@ -345,7 +318,6 @@ body.sx {
 .sx-form-caja__eyebrow { margin-bottom: 0.4rem; font-size: 0.75rem; font-weight: 600; color: var(--sx-azul); }
 .sx-form-caja h2 { margin-bottom: 1.8rem; font-family: var(--sx-titulos); font-weight: 700; text-transform: uppercase; font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.1; letter-spacing: 0.02em; }
 
-/* Campos */
 .sx-form { display: grid; gap: 1.3rem; }
 .sx-form[hidden], .sx-exito[hidden] { display: none; }
 .sx-fila { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.3rem; }
@@ -370,7 +342,6 @@ body.sx {
 .sx-campo select option { color: var(--sx-texto); }
 .sx-contador { justify-self: end; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--sx-suave); }
 
-/* Mensajes */
 .sx-estado { padding: 0.85rem 1rem; border-left: 4px solid var(--sx-azul); border-radius: 0 4px 4px 0; background: #e6ecfb; color: var(--sx-tinta); font-size: 0.92rem; line-height: 1.5; }
 .sx-estado[hidden] { display: none; }
 .sx-estado--error { border-left-color: #b3361f; background: #fbe7e2; color: #7d2412; }
@@ -379,7 +350,6 @@ body.sx {
 .sx-btn--contorno { border-color: var(--sx-tinta); color: var(--sx-tinta); }
 .sx-btn--contorno:hover { background: var(--sx-tinta); color: #fff; }
 
-/* Confirmación de envío */
 .sx-exito { display: grid; justify-items: start; gap: 0.9rem; padding: 0.4rem 0 0.2rem; }
 .sx-exito:focus { outline: none; }
 .sx-exito__sello { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--sx-hilo); color: var(--sx-tinta); font-size: 1.6rem; box-shadow: 0 0 0 6px var(--sx-ficha), 0 0 0 8px var(--sx-hilo); margin-bottom: 0.6rem; }
@@ -387,7 +357,6 @@ body.sx {
 .sx-exito p { max-width: 34rem; color: var(--sx-suave); font-size: 1.05rem; }
 .sx-exito__botones { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.6rem; }
 
-/* Formas de participar */
 .sx-vias { position: sticky; top: calc(var(--sx-alto-header) + 1.5rem); padding: 2rem 1.8rem; border-radius: 8px; background: var(--sx-tinta); color: #eef0f7;
   background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 7px), repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 7px); }
 .sx-vias h2 { margin-bottom: 1.2rem; font-family: var(--sx-titulos); font-weight: 700; text-transform: uppercase; font-size: 1.5rem; letter-spacing: 0.04em; color: var(--sx-hilo); }
@@ -420,20 +389,15 @@ body.sx {
 @media (max-width: 620px) {
   .sx-fila { grid-template-columns: minmax(0, 1fr); }
   .sx-form .sx-btn, .sx-exito__botones .sx-btn { width: 100%; justify-self: stretch; }
-  .sx-campo :is(input, select, textarea) { font-size: 16px; } /* evita el zoom automático en iPhone */
-}
+  .sx-campo :is(input, select, textarea) { font-size: 16px; }}
 @media (prefers-reduced-motion: reduce) {
   .sx-via, .sx-campo :is(input, select, textarea) { transition: none; }
   .sx-via:hover { transform: none; }
 }
 
-/* ==========================================================================
-   LA HISTORIA · línea de tiempo
-   ========================================================================== */
 .sx-historia { background: var(--sx-papel-2); }
 .sx-hist { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 3rem; align-items: start; }
 
-/* Año grande que acompaña el scroll */
 .sx-hist__lateral { position: sticky; top: calc(var(--sx-alto-header) + 2rem); }
 .sx-hist__rotulo { font-size: 0.72rem; font-weight: 600; color: var(--sx-azul); }
 .sx-hist__anio {
@@ -445,13 +409,11 @@ body.sx {
   background: repeating-linear-gradient(90deg, var(--sx-tinta) 0 2px, transparent 2px 12px); background-size: 100% 40%; background-repeat: repeat-x; background-position: 0 100%; }
 .sx-hist__regla span { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--sx-hilo); opacity: 0.85; }
 
-/* Hilo de la línea de tiempo */
 .sx-hist__lista { position: relative; padding-left: 3.4rem; display: grid; gap: 2.6rem; --prog: 0; }
 .sx-hist__lista::before, .sx-hist__lista::after { content: ""; position: absolute; left: 14px; top: 6px; width: 0; }
 .sx-hist__lista::before { bottom: 6px; border-left: 3px dashed var(--sx-linea); }
 .sx-hist__lista::after { height: calc((100% - 12px) * var(--prog)); border-left: 3px solid var(--sx-hilo-osc); }
 
-/* Capítulo */
 .sx-cap {
   position: relative; padding: 1.8rem 1.8rem 1.9rem; border: 1px solid var(--sx-linea); border-radius: 8px; background: var(--sx-ficha);
   transition: border-color 0.25s, box-shadow 0.25s;
@@ -470,12 +432,10 @@ body.sx {
 .sx-cap strong { color: var(--sx-texto); }
 .sx-cap .sx-btn { margin-top: 1.2rem; }
 
-/* Capítulo activo (el que está en el centro de la pantalla) */
 .sx-cap--activo { border-color: var(--sx-hilo-osc); box-shadow: 0 22px 36px -28px rgba(13, 27, 62, 0.7); }
 .sx-cap--activo::before { border-color: var(--sx-hilo-osc); }
 .sx-cap--activo .sx-cap__punto { background: var(--sx-hilo); border-color: var(--sx-tinta); transform: scale(1.15); }
 
-/* Fotos */
 .sx-fotos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.4rem; }
 .sx-foto { margin: 1.4rem 0 0; }
 .sx-fotos .sx-foto { margin-top: 0; }
@@ -493,13 +453,11 @@ body.sx {
 
 .sx-hist__fuentes { max-width: 52rem; margin-top: 2.6rem; font-size: 0.82rem; line-height: 1.5; color: var(--sx-suave); }
 
-/* Aparición al hacer scroll (solo con JavaScript) */
 .sx-js .sx-cap { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.25s, box-shadow 0.25s; }
 .sx-js .sx-cap.sx-cap--visto { opacity: 1; transform: none; }
 
 @media (max-width: 860px) {
   .sx-hist { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
-  /* el año queda fijo arriba, debajo del header */
   .sx-hist__lateral {
     top: var(--sx-alto-header); z-index: 5; display: flex; align-items: center; gap: 1rem;
     margin: 0 -1.2rem; padding: 0.7rem 1.2rem; background: var(--sx-papel-2); border-bottom: 1px solid var(--sx-linea);

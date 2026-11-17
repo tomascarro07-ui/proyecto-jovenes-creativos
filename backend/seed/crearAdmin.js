@@ -16,8 +16,8 @@ const Usuario = require("../models/Usuario");
       { upsert: true, setDefaultsOnInsert: true }
     );
     console.log("Administrador listo:", correo);
-  } catch (e) {
-    console.error(e.message);
+  } catch (error) {
+    console.error(error.message);
   }
   process.exit();
 })();

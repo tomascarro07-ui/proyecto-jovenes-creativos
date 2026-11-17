@@ -1,8 +1,3 @@
-// Textos en inglés y portugués de los datos de ejemplo.
-// La clave de cada uno es su título (o nombre, en los museos) en español, tal como está en seed/datos.js y seed/seedMuseos.js.
-// Los nombres de los museos no se traducen: son nombres propios y así figuran en los carteles.
-// Para sumar una traducción nueva alcanza con agregar acá el título y los campos que se quieran traducir.
-// Lo que falte se muestra en español.
 module.exports = {
   "talleres": {
     "Taller de teatro comunitario": {
@@ -251,108 +246,162 @@ module.exports = {
       "en": {
         "tipo": "Historical",
         "horario": "Tuesday to Sunday · 11:30 to 16:30",
-        "descripcionCorta": "Central space of the Museo de Colonia and the first to open its doors, in 1951. It bears the name of its founder. It operates in a Portuguese building from the first half of the 18th century, modified during the Spanish period. Its exhibition covers the surroundings from prehistoric times to today, with objects inherited, found or used by ancestors of the community itself."
+        "descripcionCorta": "Central space of the Museo de Colonia and the first to open its doors, in 1951. It bears the name of its founder. It operates in a Portuguese building from the first half of the 18th century, modified during the Spanish period. Its exhibition covers the surroundings from prehistoric times to today, with objects inherited, found or used by ancestors of the community itself.",
+        "gancho": "The first to open its doors, in 1951",
+        "datoCurioso": "It was the first space of the Museo de Colonia to open its doors, in 1951, and it bears the name of its founder.",
+        "destacados": [
+          {
+            "titulo": "From prehistory to today",
+            "texto": "The exhibition traces the surroundings through time."
+          },
+          {
+            "titulo": "Objects from the community",
+            "texto": "Pieces inherited, found or used by ancestors of the community itself."
+          },
+          {
+            "titulo": "A building with history",
+            "texto": "A Portuguese building from the first half of the 18th century, modified in the Spanish period."
+          }
+        ]
       },
       "pt": {
         "tipo": "Histórico",
         "horario": "Terça a domingo · 11:30 às 16:30",
-        "descripcionCorta": "Espaço central do Museu de Colônia e o primeiro a abrir suas portas, em 1951. Leva o nome de seu fundador. Funciona em uma construção portuguesa da primeira metade do século XVIII, modificada no período espanhol. Sua exposição percorre o entorno desde tempos pré-históricos até hoje, com objetos herdados, encontrados ou usados por antepassados da própria comunidade."
+        "descripcionCorta": "Espaço central do Museu de Colônia e o primeiro a abrir suas portas, em 1951. Leva o nome de seu fundador. Funciona em uma construção portuguesa da primeira metade do século XVIII, modificada no período espanhol. Sua exposição percorre o entorno desde tempos pré-históricos até hoje, com objetos herdados, encontrados ou usados por antepassados da própria comunidade.",
+        "gancho": "O primeiro a abrir suas portas, em 1951",
+        "datoCurioso": "Foi o primeiro espaço do Museu de Colônia a abrir suas portas, em 1951, e leva o nome de seu fundador.",
+        "destacados": [
+          {
+            "titulo": "Da pré-história até hoje",
+            "texto": "A exposição percorre o entorno ao longo do tempo."
+          },
+          {
+            "titulo": "Objetos da comunidade",
+            "texto": "Peças herdadas, encontradas ou usadas por antepassados da própria comunidade."
+          },
+          {
+            "titulo": "Um edifício com história",
+            "texto": "Construção portuguesa da primeira metade do século XVIII, modificada no período espanhol."
+          }
+        ]
       }
     },
     "Vivienda Portuguesa": {
       "en": {
         "tipo": "Colonial dwelling",
         "horario": "Wednesday to Monday · 11:30 to 16:30",
-        "descripcionCorta": "A house that first appears on maps from 1732, with a gabled tiled roof and stone walls and part of the original floor. Its rooms show the daily life of an 18th-century Portuguese family and the folk customs of Trás-os-Montes, Minho and Alentejo. It was previously known as the Casa de Nacarello Museum."
+        "descripcionCorta": "A house that first appears on maps from 1732, with a gabled tiled roof and stone walls and part of the original floor. Its rooms show the daily life of an 18th-century Portuguese family and the folk customs of Trás-os-Montes, Minho and Alentejo. It was previously known as the Casa de Nacarello Museum.",
+        "gancho": "A house that appears on plans since 1732",
+        "datoCurioso": "The house first appears on plans from 1732 and keeps part of its original stone walls and floor."
       },
       "pt": {
         "tipo": "Moradia colonial",
         "horario": "Quarta a segunda · 11:30 às 16:30",
-        "descripcionCorta": "Casa que aparece pela primeira vez em plantas de 1732, com telhado de telhas de duas águas, paredes de pedra e parte do piso originais. Seus ambientes mostram a vida cotidiana de uma família portuguesa do século XVIII e os costumes folclóricos de Trás-os-Montes, Minho e Alentejo. Antes era conhecida como Museu Casa de Nacarello."
+        "descripcionCorta": "Casa que aparece pela primeira vez em plantas de 1732, com telhado de telhas de duas águas, paredes de pedra e parte do piso originais. Seus ambientes mostram a vida cotidiana de uma família portuguesa do século XVIII e os costumes folclóricos de Trás-os-Montes, Minho e Alentejo. Antes era conhecida como Museu Casa de Nacarello.",
+        "gancho": "Uma casa que aparece em plantas desde 1732",
+        "datoCurioso": "A casa aparece pela primeira vez em plantas de 1732 e conserva parte das paredes de pedra e do piso originais."
       }
     },
     "Espacio Portugués": {
       "en": {
         "tipo": "Historical",
         "horario": "11:30 to 16:30 · check the opening days",
-        "descripcionCorta": "Set in an 18th-century Portuguese house next to the Plaza Mayor, it reviews the periods when Colonia was under the Portuguese crown, between 1680 and 1777. It gathers furniture, cartography and objects of the era, and tells of the disputes between the Portuguese and Spanish crowns for control of the city."
+        "descripcionCorta": "Set in an 18th-century Portuguese house next to the Plaza Mayor, it reviews the periods when Colonia was under the Portuguese crown, between 1680 and 1777. It gathers furniture, cartography and objects of the era, and tells of the disputes between the Portuguese and Spanish crowns for control of the city.",
+        "gancho": "Colonia under the Portuguese crown, 1680–1777"
       },
       "pt": {
         "tipo": "Histórico",
         "horario": "11:30 às 16:30 · consulte os dias de funcionamento",
-        "descripcionCorta": "Instalado em uma casa portuguesa do século XVIII ao lado da Plaza Mayor, percorre os períodos em que Colônia esteve sob a coroa de Portugal, entre 1680 e 1777. Reúne mobiliário, cartografia e objetos da época, e conta as disputas entre as coroas portuguesa e espanhola pelo controle da cidade."
+        "descripcionCorta": "Instalado em uma casa portuguesa do século XVIII ao lado da Plaza Mayor, percorre os períodos em que Colônia esteve sob a coroa de Portugal, entre 1680 e 1777. Reúne mobiliário, cartografia e objetos da época, e conta as disputas entre as coroas portuguesa e espanhola pelo controle da cidade.",
+        "gancho": "Colônia sob a coroa de Portugal, 1680–1777"
       }
     },
     "Espacio Español": {
       "en": {
         "tipo": "Historical",
         "horario": "Thursday to Sunday · 11:30 to 16:30",
-        "descripcionCorta": "It covers the Spanish period, from the end of the Portuguese occupation to the beginnings of the Eastern Revolution and the young 19th century, when the city left behind the military colony and lived an everyday life of peace. The tour spans two 18th-century Portuguese houses and shows the way of life, origins and trades of the first Spanish settlers."
+        "descripcionCorta": "It covers the Spanish period, from the end of the Portuguese occupation to the beginnings of the Eastern Revolution and the young 19th century, when the city left behind the military colony and lived an everyday life of peace. The tour spans two 18th-century Portuguese houses and shows the way of life, origins and trades of the first Spanish settlers.",
+        "gancho": "From military colony to everyday life in peace"
       },
       "pt": {
         "tipo": "Histórico",
         "horario": "Quinta a domingo · 11:30 às 16:30",
-        "descripcionCorta": "Desenvolve o período espanhol, do fim da ocupação portuguesa até o início da Revolução Oriental e do jovem século XIX, quando a cidade deixou para trás a colônia militar e viveu um cotidiano de paz. O percurso abrange duas casas portuguesas do século XVIII e mostra o modo de vida, as origens e os ofícios dos primeiros povoadores espanhóis."
+        "descripcionCorta": "Desenvolve o período espanhol, do fim da ocupação portuguesa até o início da Revolução Oriental e do jovem século XIX, quando a cidade deixou para trás a colônia militar e viveu um cotidiano de paz. O percurso abrange duas casas portuguesas do século XVIII e mostra o modo de vida, as origens e os ofícios dos primeiros povoadores espanhóis.",
+        "gancho": "De colônia militar à vida cotidiana em paz"
       }
     },
     "Archivo Histórico Regional": {
       "en": {
         "tipo": "Archive",
         "horario": "Monday to Friday · 11:30 to 16:30",
-        "descripcionCorta": "A document repository created in 1972 to gather the holdings of the different nations and archives that keep the city's fragmented history. It houses the Memory and Site Space, on the processes of change in Colonia until the Historic Quarter was declared a UNESCO World Heritage Site, with the voice of the population of the Barrio Sur."
+        "descripcionCorta": "A document repository created in 1972 to gather the holdings of the different nations and archives that keep the city's fragmented history. It houses the Memory and Site Space, on the processes of change in Colonia until the Historic Quarter was declared a UNESCO World Heritage Site, with the voice of the population of the Barrio Sur.",
+        "gancho": "The documentary memory of the city, since 1972",
+        "datoCurioso": "It was created in 1972 to bring together the collections of the different nations and archives that hold the fragmented history of the city."
       },
       "pt": {
         "tipo": "Arquivo",
         "horario": "Segunda a sexta · 11:30 às 16:30",
-        "descripcionCorta": "Acervo documental criado em 1972 para reunir os fundos das diferentes nações e arquivos que guardam a história fragmentada da cidade. Abriga o Espaço Memória e Sítio, sobre os processos de mudança de Colônia até que o Bairro Histórico fosse declarado Patrimônio Mundial pela Unesco, com a voz da população do Barrio Sur."
+        "descripcionCorta": "Acervo documental criado em 1972 para reunir os fundos das diferentes nações e arquivos que guardam a história fragmentada da cidade. Abriga o Espaço Memória e Sítio, sobre os processos de mudança de Colônia até que o Bairro Histórico fosse declarado Patrimônio Mundial pela Unesco, com a voz da população do Barrio Sur.",
+        "gancho": "A memória documental da cidade, desde 1972",
+        "datoCurioso": "Foi criado em 1972 para reunir os acervos das diferentes nações e arquivos que guardam a história fragmentada da cidade."
       }
     },
     "Espacio del Azulejo": {
       "en": {
         "tipo": "Art and architecture",
         "horario": "Temporarily closed",
-        "descripcionCorta": "It brings together characteristic elements of local architecture, their uses and techniques, with the azulejo (tile) as a typical ornament. The azulejo, above all French, reached River Plate architecture in the 19th century, after the Portuguese colony. The almost completely rebuilt building keeps Portuguese features such as the gabled tiled roof, the stone walls and the central beam."
+        "descripcionCorta": "It brings together characteristic elements of local architecture, their uses and techniques, with the azulejo (tile) as a typical ornament. The azulejo, above all French, reached River Plate architecture in the 19th century, after the Portuguese colony. The almost completely rebuilt building keeps Portuguese features such as the gabled tiled roof, the stone walls and the central beam.",
+        "gancho": "French tiles arrived in the 19th century"
       },
       "pt": {
         "tipo": "Arte e arquitetura",
         "horario": "Fechado temporariamente",
-        "descripcionCorta": "Reúne elementos característicos da arquitetura local, seus usos e suas técnicas, com o azulejo como adorno típico. O azulejo, sobretudo francês, chegou à arquitetura rio-platense no século XIX, já depois da colônia portuguesa. O edifício, quase totalmente reconstruído, conserva traços portugueses como o telhado de duas águas com telhas, as paredes de pedra e o tirante central."
+        "descripcionCorta": "Reúne elementos característicos da arquitetura local, seus usos e suas técnicas, com o azulejo como adorno típico. O azulejo, sobretudo francês, chegou à arquitetura rio-platense no século XIX, já depois da colônia portuguesa. O edifício, quase totalmente reconstruído, conserva traços portugueses como o telhado de duas águas com telhas, as paredes de pedra e o tirante central.",
+        "gancho": "O azulejo francês chegou no século XIX"
       }
     },
     "Espacio del Telégrafo": {
       "en": {
         "tipo": "Science and technology",
         "horario": "Monday, Tuesday, Thursday, Friday and Saturday · 11:30 to 16:30",
-        "descripcionCorta": "It tells the history of telegraphy in the River Plate from pieces gathered by Gustavo Coll, and Colonia's role in it: from the installation of the River Plate Company in 1866, and its purchase by Western Telegraph in 1874, to the submarine cable that connected Uruguay and Argentina instantly."
+        "descripcionCorta": "It tells the history of telegraphy in the River Plate from pieces gathered by Gustavo Coll, and Colonia's role in it: from the installation of the River Plate Company in 1866, and its purchase by Western Telegraph in 1874, to the submarine cable that connected Uruguay and Argentina instantly.",
+        "gancho": "From the first telegraph to the submarine cable",
+        "datoCurioso": "Many of the pieces were gathered by Gustavo Coll."
       },
       "pt": {
         "tipo": "Ciência e tecnologia",
         "horario": "Segunda, terça, quinta, sexta e sábado · 11:30 às 16:30",
-        "descripcionCorta": "Conta a história da telegrafia no Rio da Prata a partir de peças reunidas por Gustavo Coll, e o papel de Colônia nela: desde a instalação da River Plate Company em 1866, e sua compra pela Western Telegraph em 1874, até o cabo submarino que comunicou de forma imediata o Uruguai e a Argentina."
+        "descripcionCorta": "Conta a história da telegrafia no Rio da Prata a partir de peças reunidas por Gustavo Coll, e o papel de Colônia nela: desde a instalação da River Plate Company em 1866, e sua compra pela Western Telegraph em 1874, até o cabo submarino que comunicou de forma imediata o Uruguai e a Argentina.",
+        "gancho": "Do primeiro telégrafo ao cabo submarino",
+        "datoCurioso": "Muitas das peças foram reunidas por Gustavo Coll."
       }
     },
     "Espacio Indígena": {
       "en": {
         "tipo": "Archaeological",
         "horario": "Tuesday to Thursday, Saturday and Sunday · 11:30 to 16:30",
-        "descripcionCorta": "It immerses visitors in the indigenous culture present across the coastal landscape of the department of Colonia. The first traces of human occupation belong to hunter, gatherer and fisher societies, the region's original inhabitants. The exhibition invites visitors to value that culture and to reflect on the complex coexistence between indigenous communities and European culture."
+        "descripcionCorta": "It immerses visitors in the indigenous culture present across the coastal landscape of the department of Colonia. The first traces of human occupation belong to hunter, gatherer and fisher societies, the region's original inhabitants. The exhibition invites visitors to value that culture and to reflect on the complex coexistence between indigenous communities and European culture.",
+        "gancho": "The first inhabitants of the coast"
       },
       "pt": {
         "tipo": "Arqueológico",
         "horario": "Terça a quinta, sábado e domingo · 11:30 às 16:30",
-        "descripcionCorta": "Mergulha o visitante na cultura indígena presente em toda a paisagem costeira do departamento de Colônia. Os primeiros vestígios de ocupação humana correspondem a sociedades caçadoras, coletoras e pescadoras, povoadoras originárias da região. A mostra convida a valorizar essa cultura e a refletir sobre a complexa convivência entre as comunidades indígenas e a cultura europeia."
+        "descripcionCorta": "Mergulha o visitante na cultura indígena presente em toda a paisagem costeira do departamento de Colônia. Os primeiros vestígios de ocupação humana correspondem a sociedades caçadoras, coletoras e pescadoras, povoadoras originárias da região. A mostra convida a valorizar essa cultura e a refletir sobre a complexa convivência entre as comunidades indígenas e a cultura europeia.",
+        "gancho": "Os primeiros habitantes da costa"
       }
     },
     "Espacio Paleontológico": {
       "en": {
         "tipo": "Paleontological",
         "horario": "Friday to Sunday",
-        "descripcionCorta": "Located outside the World Heritage site, in Real de San Carlos and near the Plaza de Toros. Its collection mainly gathers fossils of the pampean megafauna found in the department of Colonia, as well as natural history collections."
+        "descripcionCorta": "Located outside the World Heritage site, in Real de San Carlos and near the Plaza de Toros. Its collection mainly gathers fossils of the pampean megafauna found in the department of Colonia, as well as natural history collections.",
+        "gancho": "Fossils of the Pampean megafauna"
       },
       "pt": {
         "tipo": "Paleontológico",
         "horario": "Sexta a domingo",
-        "descripcionCorta": "Situado fora do sítio Patrimônio Mundial, no Real de San Carlos e perto da Plaza de Toros. Seu acervo reúne sobretudo fósseis da megafauna pampeana encontrados no departamento de Colônia, além de coleções de história natural."
+        "descripcionCorta": "Situado fora do sítio Patrimônio Mundial, no Real de San Carlos e perto da Plaza de Toros. Seu acervo reúne sobretudo fósseis da megafauna pampeana encontrados no departamento de Colônia, além de coleções de história natural.",
+        "gancho": "Fósseis da megafauna pampeana"
       }
     }
   }

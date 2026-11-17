@@ -6,7 +6,6 @@ import { useSesion } from '../hooks/useSesion'
 import { useIdioma } from '../hooks/useIdioma'
 import { tt } from '../i18n/motor'
 
-// Dirección de la página de cada tipo de actividad y su icono
 const PAGINAS = { taller: '/cursos/', charla: '/charlas/', recorrido: '/recorridos/' }
 const TIPOS = {
   taller: { get nombre() { return tt('tipo.taller') }, icono: 'fa-palette' },
@@ -77,10 +76,9 @@ function MisInscripciones() {
   const { usuario } = useSesion()
   const { datos: inscripciones, cargando, error, recargar } = useCarga(
     () => (usuario ? api.misInscripciones() : Promise.resolve([])),
-    [!!usuario],
+    [Boolean(usuario)],
   )
 
-  // Sin sesión se vuelve al login
   if (!usuario) return <Navigate to="/login" replace />
 
   return (

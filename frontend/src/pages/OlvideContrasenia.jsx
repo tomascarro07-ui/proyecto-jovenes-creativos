@@ -6,22 +6,21 @@ import { useIdioma } from '../hooks/useIdioma'
 function OlvideContrasenia() {
   const { t } = useIdioma()
   const [correo, setCorreo] = useState('')
-  const [mensaje, setMensaje] = useState(null) // { texto, esError }
+  const [mensaje, setMensaje] = useState(null)
   const [enviando, setEnviando] = useState(false)
 
-  async function alEnviar(e) {
-    e.preventDefault()
+  async function alEnviar(evento) {
+    evento.preventDefault()
     if (!correo.trim()) return
     setEnviando(true)
     setMensaje({ texto: 'Enviando…', esError: false })
     try {
-      const r = await api.olvideContrasenia(correo.trim())
-      setMensaje({ texto: r.mensaje, esError: false })
+      const respuesta = await api.olvideContrasenia(correo.trim())
+      setMensaje({ texto: respuesta.mensaje, esError: false })
       setCorreo('')
     } catch (err) {
       setMensaje({ texto: err.message, esError: true })
     } finally {
-      // Pequeña pausa para no invitar a reenviar varias veces seguidas
       setTimeout(() => setEnviando(false), 3000)
     }
   }
@@ -42,7 +41,7 @@ function OlvideContrasenia() {
             <div className="auth-campo">
               <label htmlFor="correo">{t('auth.correo')}</label>
               {' '}
-              <input type="email" id="correo" maxLength="60" placeholder={t('olvide.correoPh')} autoComplete="email" required value={correo} onChange={(e) => setCorreo(e.target.value)} />
+              <input type="email" id="correo" maxLength="60" placeholder={t('olvide.correoPh')} autoComplete="email" required value={correo} onChange={(evento) => setCorreo(evento.target.value)} />
             </div>
             {mensaje && (
               <p id="mensaje" role="status" aria-live="polite" className={`auth-mensaje${mensaje.esError ? ' auth-mensaje--error' : ''}`}>

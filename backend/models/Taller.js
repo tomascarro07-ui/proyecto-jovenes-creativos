@@ -14,12 +14,10 @@ const tallerSchema = new mongoose.Schema(
     descripcionCorta: { type: String, required: true },
     ...camposUbicacion,
     finalizada: { type: Boolean, default: false },
-    // Solo una actividad por sección puede estar destacada (se muestra en grande al principio de la página)
     destacada: { type: Boolean, default: false },
     fecha: { type: String, default: "", match: /^(\d{4}-\d{2}-\d{2})?$/ },
     hora: { type: String, default: "" },
     lugar: { type: String, trim: true, default: "" },
-    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
     traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
   },
   { timestamps: true }

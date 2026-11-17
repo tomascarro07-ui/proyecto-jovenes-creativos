@@ -17,23 +17,27 @@ async function cargar(Modelo, datos, nombre) {
   console.log(`${nombre}: ${datos.length} cargados`);
 }
 
-// Agrega los textos en inglés y portugués (seed/traducciones.js) a cada elemento, según su título
 function conTraducciones(lista, traducciones) {
-  return lista.map((item) => (traducciones[item.titulo] ? { ...item, traducciones: traducciones[item.titulo] } : item));
+  return lista.map((item) => {
+    const traduccionesDelItem = traducciones[item.titulo];
+    if (!traduccionesDelItem) return item;
+    return { ...item, traducciones: traduccionesDelItem };
+  });
 }
 
 async function conSede(lista, sedes) {
   const museos = await Museo.find();
-  const idPorNombre = new Map(museos.map((m) => [m.nombre, m._id]));
+  const idPorNombre = new Map(museos.map((museo) => [museo.nombre, museo._id]));
   return lista.map((item) => {
     const nombre = sedes[item.titulo];
-    return nombre && idPorNombre.has(nombre) ? { ...item, museo: idPorNombre.get(nombre) } : item;
+    if (nombre && idPorNombre.has(nombre)) return { ...item, museo: idPorNombre.get(nombre) };
+    return item;
   });
 }
 
 async function sembrar() {
   await mongoose.connect(process.env.MONGODB_URI);
-  const m = await sembrarMuseos(); // primero los museos, para poder asignarles sede a las actividades
+  const m = await sembrarMuseos();
   console.log(`Museos: ${m.museos} cargados`);
   await cargar(Taller, conTraducciones(await conSede(talleres, SEDES.talleres), TRADUCCIONES.talleres), "Talleres");
   await cargar(Charla, conTraducciones(await conSede(charlas, SEDES.charlas), TRADUCCIONES.charlas), "Charlas");

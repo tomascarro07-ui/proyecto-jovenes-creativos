@@ -6,8 +6,6 @@ import { useIdioma } from '../hooks/useIdioma'
 import { IDIOMAS } from '../i18n/motor'
 import TextoRico from '../components/TextoRico'
 
-// Menú principal. Para agregar o cambiar un enlace se edita solo esta lista.
-// (En el sitio original esta lista se llamaba HD_MENU, en scripts/base/headerSesion.js)
 const MENU = [
   { href: '/', texto: 'ft.inicio' },
   { href: '/museos', texto: 'ft.museos' },
@@ -40,14 +38,12 @@ function Chevron() {
   return <i className="fa-solid fa-chevron-down hd-chev" aria-hidden="true"></i>
 }
 
-// Una página "pertenece" a un grupo si su dirección es la de uno de sus enlaces (o una página de detalle suya).
 function grupoActivo(grupo, ruta) {
   return grupo.items.some((item) => ruta === item.href || ruta.startsWith(item.href + '/'))
 }
 
-// Iniciales de la persona para el avatar cuando no tiene foto
-function iniciales(u) {
-  return ((u.nombre || '?').charAt(0) + (u.apellido || '').charAt(0)).toUpperCase()
+function iniciales(usuario) {
+  return ((usuario.nombre || '?').charAt(0) + (usuario.apellido || '').charAt(0)).toUpperCase()
 }
 
 function Avatar({ usuario }) {
@@ -56,7 +52,6 @@ function Avatar({ usuario }) {
     : <span className="hdr-avatar">{iniciales(usuario)}</span>
 }
 
-// Franja debajo del encabezado para quienes todavía no confirmaron su correo
 function AvisoVerificacion({ usuario }) {
   const { t } = useIdioma()
   const [cerrado, setCerrado] = useState(() => {
@@ -76,7 +71,6 @@ function AvisoVerificacion({ usuario }) {
     try {
       sessionStorage.setItem('nc_aviso_cerrado', '1')
     } catch {
-      /* sin sessionStorage */
     }
     setCerrado(true)
   }
@@ -85,16 +79,16 @@ function AvisoVerificacion({ usuario }) {
     setBloqueado(true)
     setMensaje(t('hd.enviando'))
     try {
-      const r = await api.reenviarVerificacion()
-      if (r.correoVerificado) {
+      const respuesta = await api.reenviarVerificacion()
+      if (respuesta.correoVerificado) {
         actualizarUsuario({ ...usuario, correoVerificado: true })
         return
       }
-      setMensaje(r.mensaje)
+      setMensaje(respuesta.mensaje)
     } catch (error) {
       setMensaje(error.message)
     }
-    setTimeout(() => setBloqueado(false), 30000) // evita reenvíos seguidos
+    setTimeout(() => setBloqueado(false), 30000)
   }
 
   return (
@@ -119,16 +113,14 @@ function AvisoVerificacion({ usuario }) {
 
 function Header() {
   const { t, idioma, cambiarIdioma } = useIdioma()
-  // Estado del encabezado:
-  const [panelAbierto, setPanelAbierto] = useState(false) // menú hamburguesa (celular)
-  const [submenuAbierto, setSubmenuAbierto] = useState(null) // id del desplegable abierto: 'actividades', 'idioma'... o null
-  const [conSombra, setConSombra] = useState(false) // sombra suave cuando la página baja
+  const [panelAbierto, setPanelAbierto] = useState(false)
+  const [submenuAbierto, setSubmenuAbierto] = useState(null)
+  const [conSombra, setConSombra] = useState(false)
   const headerRef = useRef(null)
   const { pathname } = useLocation()
   const { usuario, esAdmin, salir } = useSesion()
   const navegar = useNavigate()
 
-  // Cambia el idioma de todo el sitio y cierra el desplegable
   function elegirIdioma(codigo) {
     cambiarIdioma(codigo)
     setSubmenuAbierto(null)
@@ -136,11 +128,11 @@ function Header() {
 
   useEffect(() => {
     const alScroll = () => setConSombra(window.scrollY > 4)
-    const alClickAfuera = (e) => {
-      if (headerRef.current && !headerRef.current.contains(e.target)) setSubmenuAbierto(null)
+    const alClickAfuera = (evento) => {
+      if (headerRef.current && !headerRef.current.contains(evento.target)) setSubmenuAbierto(null)
     }
-    const alTeclear = (e) => {
-      if (e.key === 'Escape') {
+    const alTeclear = (evento) => {
+      if (evento.key === 'Escape') {
         setSubmenuAbierto(null)
         setPanelAbierto(false)
       }
@@ -168,17 +160,15 @@ function Header() {
     setSubmenuAbierto((actual) => (actual === id ? null : id))
   }
 
-  // Con el teclado, al salir de un submenú de escritorio se cierra solo
-  function alSalirDelGrupo(e, id) {
+  function alSalirDelGrupo(evento, id) {
     if (!window.matchMedia(ESCRITORIO).matches) return
-    if (!e.currentTarget.contains(e.relatedTarget)) {
+    if (!evento.currentTarget.contains(evento.relatedTarget)) {
       setSubmenuAbierto((actual) => (actual === id ? null : actual))
     }
   }
 
-  // Al hacer clic en cualquier enlace del encabezado se cierran los menús (el cambio de página lo hace el Link)
-  function alHacerClic(e) {
-    if (e.target.closest('a')) {
+  function alHacerClic(evento) {
+    if (evento.target.closest('a')) {
       setPanelAbierto(false)
       setSubmenuAbierto(null)
     }
@@ -230,7 +220,7 @@ function Header() {
                   <li
                     key={entrada.id}
                     className={`hd-grupo${grupoActivo(entrada, pathname) ? ' hd-activo' : ''}`}
-                    onBlur={(e) => alSalirDelGrupo(e, entrada.id)}
+                    onBlur={(evento) => alSalirDelGrupo(evento, entrada.id)}
                   >
                     <button
                       type="button"
@@ -261,7 +251,7 @@ function Header() {
               <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
             </Link>
             <div className="hd-idioma-zona" id="zonaIdioma">
-              <div className="hd-grupo hd-idioma" onBlur={(e) => alSalirDelGrupo(e, 'idioma')}>
+              <div className="hd-grupo hd-idioma" onBlur={(evento) => alSalirDelGrupo(evento, 'idioma')}>
                 <button
                   type="button"
                   className="hd-trigger"
@@ -297,7 +287,7 @@ function Header() {
                   <Link to="/registro" className="nc-btn hd-registro">{t('hd.registrarme')}</Link>
                 </>
               ) : (
-                <div className="hd-grupo hd-usuario" onBlur={(e) => alSalirDelGrupo(e, 'usuario')}>
+                <div className="hd-grupo hd-usuario" onBlur={(evento) => alSalirDelGrupo(evento, 'usuario')}>
                   <button
                     type="button"
                     className="hd-trigger hd-cuenta-btn"

@@ -6,20 +6,19 @@ const Charla = require("../models/Charla");
 const Recorrido = require("../models/Recorrido");
 const { verificarToken, soloAdmin, exigirCorreoVerificado } = require("../middleware/auth");
 const { campoTraducido } = require("../config/idioma");
+const { limpiar } = require("../config/texto");
 
 const router = express.Router();
 const MODELOS = { taller: Taller, charla: Charla, recorrido: Recorrido };
-const limpiar = (t) => String(t || "").replace(/[<>]/g, "").trim();
 
-// POST /api/inscripciones → anotarse (descuenta cupos)
 router.post("/", verificarToken, exigirCorreoVerificado, async (req, res) => {
   try {
     const tipo = String(req.body.tipo || "");
     const Modelo = MODELOS[tipo];
     const idActividad = String(req.body.actividad || "");
     const cantidad = 1;
-    const nombre = limpiar(req.body.nombre);
-    const telefono = limpiar(req.body.telefono);
+    const nombre = limpiar(req.body.nombre, 80);
+    const telefono = limpiar(req.body.telefono, 20);
 
     if (!Modelo || !mongoose.isValidObjectId(idActividad)) {
       return res.status(400).json({ error: "Actividad inválida" });
@@ -36,7 +35,6 @@ router.post("/", verificarToken, exigirCorreoVerificado, async (req, res) => {
       return res.status(409).json({ error: "Ya estás inscripto en esta actividad" });
     }
 
-    // Descuento atómico: solo se aplica si hay cupos suficientes y la actividad no terminó
     const actividad = await Modelo.findOneAndUpdate(
       { _id: idActividad, finalizada: false, cupos: { $gte: cantidad } },
       { $inc: { cupos: -cantidad } },
@@ -58,46 +56,53 @@ router.post("/", verificarToken, exigirCorreoVerificado, async (req, res) => {
         cantidadPersonas: cantidad,
       });
       res.status(201).json(inscripcion);
-    } catch (e) {
-      await Modelo.findByIdAndUpdate(idActividad, { $inc: { cupos: cantidad } }); // devolver cupos
-      if (e.code === 11000) {
+    } catch (error) {
+      await Modelo.findByIdAndUpdate(idActividad, { $inc: { cupos: cantidad } });
+      if (error.code === 11000) {
         return res.status(409).json({ error: "Ya estás inscripto en esta actividad" });
       }
       throw e;
     }
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({ error: "No se pudo completar la inscripción" });
   }
 });
 
-// GET /api/inscripciones/mias → inscripciones del usuario logueado
 router.get("/mias", verificarToken, async (req, res) => {
   try {
     const lista = await Inscripcion.find({ usuario: req.usuario._id }).sort({ createdAt: -1 });
 
     const estado = {};
     for (const tipo of Object.keys(MODELOS)) {
-      const ids = lista.filter((i) => i.tipo === tipo).map((i) => i.actividad);
-      const docs = ids.length ? await MODELOS[tipo].find({ _id: { $in: ids } }).select("_id finalizada titulo traducciones") : [];
-      estado[tipo] = new Map(docs.map((d) => [String(d._id), { finalizada: d.finalizada, titulo: campoTraducido(d, "titulo", req.idioma) }]));
+      const ids = lista.filter((inscripcion) => inscripcion.tipo === tipo).map((inscripcion) => inscripcion.actividad);
+      let actividades = [];
+      if (ids.length > 0) {
+        actividades = await MODELOS[tipo].find({ _id: { $in: ids } }).select("_id finalizada titulo traducciones");
+      }
+      estado[tipo] = new Map(
+        actividades.map((actividad) => [
+          String(actividad._id),
+          { finalizada: actividad.finalizada, titulo: campoTraducido(actividad, "titulo", req.idioma) },
+        ])
+      );
     }
 
-    res.json(lista.map((i) => {
-      const actividad = estado[i.tipo].get(String(i.actividad));
+    res.json(lista.map((inscripcion) => {
+      const actividad = estado[inscripcion.tipo].get(String(inscripcion.actividad));
+      let tituloActividad = inscripcion.tituloActividad;
+      if (actividad) tituloActividad = actividad.titulo;
       return {
-        ...i.toJSON(),
-        // El título se muestra en el idioma de la persona (la inscripción guarda el original en español)
-        tituloActividad: actividad ? actividad.titulo : i.tituloActividad,
+        ...inscripcion.toJSON(),
+        tituloActividad,
         disponible: actividad !== undefined,
         finalizada: actividad !== undefined && actividad.finalizada === true,
       };
     }));
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({ error: "No se pudieron obtener tus inscripciones" });
   }
 });
 
-// GET /api/inscripciones/actividad/:tipo/:id → inscriptos (solo admin)
 router.get("/actividad/:tipo/:id", verificarToken, soloAdmin, async (req, res) => {
   try {
     const { tipo, id } = req.params;
@@ -106,12 +111,11 @@ router.get("/actividad/:tipo/:id", verificarToken, soloAdmin, async (req, res) =
     }
     const lista = await Inscripcion.find({ tipo, actividad: id }).sort({ createdAt: 1 });
     res.json(lista);
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({ error: "No se pudieron obtener los inscriptos" });
   }
 });
 
-// DELETE /api/inscripciones/:id → cancelar (dueño o admin) y devolver cupos
 router.delete("/:id", verificarToken, async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -128,7 +132,7 @@ router.delete("/:id", verificarToken, async (req, res) => {
     await ins.deleteOne();
     await MODELOS[ins.tipo].findByIdAndUpdate(ins.actividad, { $inc: { cupos: ins.cantidadPersonas } });
     res.json({ mensaje: "Inscripción cancelada" });
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({ error: "No se pudo cancelar la inscripción" });
   }
 });

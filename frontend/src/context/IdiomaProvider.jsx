@@ -2,12 +2,11 @@ import { useCallback, useMemo, useState } from 'react'
 import { IdiomaContext } from './IdiomaContext'
 import { fijarIdioma, idiomaActual, traducir, traducirDato } from '../i18n/motor'
 
-// Rodea la aplicación: cuando se cambia de idioma, todos los componentes que usan useIdioma() se redibujan.
 function IdiomaProvider({ children }) {
   const [idioma, setIdioma] = useState(idiomaActual)
 
   const cambiarIdioma = useCallback((codigo) => {
-    fijarIdioma(codigo) // guarda en el navegador y actualiza <html lang>
+    fijarIdioma(codigo)
     setIdioma(idiomaActual())
   }, [])
 

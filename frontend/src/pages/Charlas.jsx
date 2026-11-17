@@ -9,22 +9,21 @@ function Charlas() {
   const { t, tDato } = useIdioma()
   const { datos: charlas, cargando, error } = useCarga(() => api.charlas(), [])
 
-  // Cada charla se adapta al formato común de los listados de actividades
-  const items = charlas && charlas.map((c) => ({
-    id: c.id,
-    enlace: `/charlas/${c.id}`,
-    imagen: c.imagen,
-    titulo: c.titulo,
-    descripcion: c.descripcionCorta,
-    fecha: c.fecha,
-    chip: `${t('act.charla')} · ${tDato(c.tipo)}`,
+  const items = charlas && charlas.map((charla) => ({
+    id: charla.id,
+    enlace: `/charlas/${charla.id}`,
+    imagen: charla.imagen,
+    titulo: charla.titulo,
+    descripcion: charla.descripcionCorta,
+    fecha: charla.fecha,
+    chip: `${t('act.charla')} · ${tDato(charla.tipo)}`,
     meta: [
-      { icono: 'fa-regular fa-clock', texto: c.hora },
-      { icono: 'fa-solid fa-location-dot', texto: c.lugar },
+      { icono: 'fa-regular fa-clock', texto: charla.hora },
+      { icono: 'fa-solid fa-location-dot', texto: charla.lugar },
     ],
-    cupos: c.cupos,
-    finalizada: c.finalizada,
-    destacada: c.destacada,
+    cupos: charla.cupos,
+    finalizada: charla.finalizada,
+    destacada: charla.destacada,
     boton: t('act.inscribirme'),
   }))
 

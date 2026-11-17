@@ -3,7 +3,6 @@ import PildoraCupos from './PildoraCupos'
 import { separarFecha } from '../../utils/fechas'
 import { useIdioma } from '../../hooks/useIdioma'
 
-// Tarjeta de una actividad (charla, taller o recorrido) del listado.
 function TarjetaActividad({ item }) {
   const { t } = useIdioma()
   const fecha = separarFecha(item.fecha)
@@ -23,8 +22,8 @@ function TarjetaActividad({ item }) {
         <h3>{item.titulo}</h3>
         <p>{item.descripcion}</p>
         <ul className="ac-meta">
-          {item.meta.map((m) => (
-            <li key={m.icono}><i className={m.icono} aria-hidden="true"></i> {m.texto}</li>
+          {item.meta.map((dato) => (
+            <li key={dato.icono}><i className={dato.icono} aria-hidden="true"></i> {dato.texto}</li>
           ))}
         </ul>
         <div className="ac-tarjeta__pie">

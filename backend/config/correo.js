@@ -6,7 +6,6 @@ function obtenerTransporte() {
   if (transporte) return transporte;
 
   const usuario = process.env.EMAIL_USER;
-  // La contraseña de aplicación de Google se muestra con espacios: se los sacamos.
   const clave = (process.env.EMAIL_PASS || "").replace(/\s+/g, "");
 
   if (!usuario || !clave) {
@@ -22,7 +21,6 @@ function obtenerTransporte() {
   return transporte;
 }
 
-// Escapa texto del usuario antes de meterlo en el HTML de un correo.
 function escaparHTML(texto) {
   return String(texto || "")
     .replace(/&/g, "&amp;")
@@ -32,8 +30,6 @@ function escaparHTML(texto) {
     .replace(/'/g, "&#39;");
 }
 
-// IMPORTANTE: en Vercel hay que esperar (await) el envío antes de responder,
-// si no la función se congela y el correo no sale.
 async function enviarCorreo({ para, asunto, texto, html, responderA }) {
   const t = obtenerTransporte();
   await t.sendMail({

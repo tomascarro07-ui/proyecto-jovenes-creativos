@@ -7,15 +7,14 @@ import { useIdioma } from '../hooks/useIdioma'
 import TextoRico from '../components/TextoRico'
 import { tt } from '../i18n/motor'
 
-// Estrellas de solo lectura (con medias estrellas) para mostrar un promedio
 function Estrellas({ valor }) {
   return (
     <>
-      {[1, 2, 3, 4, 5].map((i) => {
+      {[1, 2, 3, 4, 5].map((numero) => {
         let clase = 'fa-regular fa-star'
-        if (valor >= i - 0.25) clase = 'fa-solid fa-star'
-        else if (valor >= i - 0.75) clase = 'fa-solid fa-star-half-stroke'
-        return <i key={i} className={clase}></i>
+        if (valor >= numero - 0.25) clase = 'fa-solid fa-star'
+        else if (valor >= numero - 0.75) clase = 'fa-solid fa-star-half-stroke'
+        return <i key={numero} className={clase}></i>
       })}
     </>
   )
@@ -27,18 +26,17 @@ function Avatar({ autor }) {
     : <span className="val-avatar">{autor.nombre.charAt(0).toUpperCase()}</span>
 }
 
-// Formulario para valorar: solo lo ve quien participó del recorrido (lo decide el servidor)
 function FormValoracion({ idRecorrido, elegibilidad, alPublicar }) {
   const { t } = useIdioma()
   const mia = elegibilidad.mia
   const [seleccion, setSeleccion] = useState(mia ? mia.estrellas : 0)
-  const [encima, setEncima] = useState(0) // estrella sobre la que está el mouse
+  const [encima, setEncima] = useState(0)
   const [comentario, setComentario] = useState(mia ? mia.comentario : '')
   const [enviando, setEnviando] = useState(false)
   const mostrar = encima || seleccion
 
-  async function alEnviar(e) {
-    e.preventDefault()
+  async function alEnviar(evento) {
+    evento.preventDefault()
     if (!seleccion) return alert(t('val.elegi'))
     setEnviando(true)
     try {
@@ -54,26 +52,25 @@ function FormValoracion({ idRecorrido, elegibilidad, alPublicar }) {
     <form className="val-form" id="formValoracion" onSubmit={alEnviar}>
       <h3>{mia ? t('val.tuValoracion') : t('val.comoEstuvo')}</h3>
       <div className="val-input" role="radiogroup" aria-label={t('val.puntuacion')} onMouseLeave={() => setEncima(0)}>
-        {[1, 2, 3, 4, 5].map((n) => (
+        {[1, 2, 3, 4, 5].map((numero) => (
           <button
-            key={n}
+            key={numero}
             type="button"
-            className={`val-estrella${n <= mostrar ? ' activa' : ''}`}
-            aria-label={t(n === 1 ? 'val.estrella' : 'val.estrellas', { n })}
-            onMouseEnter={() => setEncima(n)}
-            onClick={() => setSeleccion(n)}
+            className={`val-estrella${numero <= mostrar ? ' activa' : ''}`}
+            aria-label={t(numero === 1 ? 'val.estrella' : 'val.estrellas', { n: numero })}
+            onMouseEnter={() => setEncima(numero)}
+            onClick={() => setSeleccion(numero)}
           >
-            <i className={n <= mostrar ? 'fa-solid fa-star' : 'fa-regular fa-star'}></i>
+            <i className={numero <= mostrar ? 'fa-solid fa-star' : 'fa-regular fa-star'}></i>
           </button>
         ))}
       </div>
-      <textarea id="valComentario" rows="3" maxLength="300" placeholder={t('val.placeholder')} value={comentario} onChange={(e) => setComentario(e.target.value)}></textarea>
+      <textarea id="valComentario" rows="3" maxLength="300" placeholder={t('val.placeholder')} value={comentario} onChange={(evento) => setComentario(evento.target.value)}></textarea>
       <button type="submit" className="insc-btn insc-btn--primario" disabled={enviando}>{mia ? t('val.actualizar') : t('val.publicar')}</button>
     </form>
   )
 }
 
-// Sección de opiniones de un recorrido (antes: scripts/recorridos/valoraciones.js)
 function Valoraciones({ idRecorrido }) {
   const { t } = useIdioma()
   const { usuario, esAdmin } = useSesion()
@@ -82,20 +79,21 @@ function Valoraciones({ idRecorrido }) {
       api.valoraciones(idRecorrido),
       usuario && !esAdmin ? api.elegibilidad(idRecorrido) : Promise.resolve(null),
     ]),
-    [idRecorrido, !!usuario, esAdmin],
+    [idRecorrido, Boolean(usuario), esAdmin],
   )
 
-  // Si se llega con #valoraciones (por ejemplo desde "Mis inscripciones" > Valorar), baja hasta la sección
   const { hash } = useLocation()
-  const listo = !!datos
+  const listo = Boolean(datos)
   useEffect(() => {
-    if (listo && hash === '#valoraciones') document.getElementById('valoraciones')?.scrollIntoView()
+    if (listo && hash === '#valoraciones') {
+      const seccion = document.getElementById('valoraciones')
+      if (seccion) seccion.scrollIntoView()
+    }
   }, [listo, hash])
 
-  // Si algo falla, la sección simplemente no se muestra (igual que antes)
   if (error || !datos) return <section id="valoraciones" className="val-seccion"></section>
   const [resumen, elegibilidad] = datos
-  const maximo = Math.max(1, ...resumen.distribucion.map((d) => d.cantidad))
+  const maximo = Math.max(1, ...resumen.distribucion.map((grupo) => grupo.cantidad))
 
   let bloque = null
   if (!esAdmin) {
@@ -110,7 +108,6 @@ function Valoraciones({ idRecorrido }) {
     } else if (!elegibilidad.puede) {
       bloque = <div className="val-aviso"><i className="fa-solid fa-circle-info"></i> {elegibilidad.motivo}</div>
     } else {
-      // key: si cambia la valoración propia, el formulario se arma de nuevo con los datos actualizados
       bloque = <FormValoracion key={elegibilidad.mia ? elegibilidad.mia.estrellas + elegibilidad.mia.comentario : 'nueva'} idRecorrido={idRecorrido} elegibilidad={elegibilidad} alPublicar={recargar} />
     }
   }
@@ -126,11 +123,11 @@ function Valoraciones({ idRecorrido }) {
             <span>{t(resumen.total === 1 ? 'val.una' : 'val.varias', { n: resumen.total })}</span>
           </div>
           <div className="val-barras">
-            {resumen.distribucion.map((d) => (
-              <div className="val-barra" key={d.estrellas}>
-                <span>{d.estrellas} <i className="fa-solid fa-star"></i></span>
-                <div className="val-barra__fondo"><div style={{ width: `${(d.cantidad / maximo) * 100}%` }}></div></div>
-                <span>{d.cantidad}</span>
+            {resumen.distribucion.map((grupo) => (
+              <div className="val-barra" key={grupo.estrellas}>
+                <span>{grupo.estrellas} <i className="fa-solid fa-star"></i></span>
+                <div className="val-barra__fondo"><div style={{ width: `${(grupo.cantidad / maximo) * 100}%` }}></div></div>
+                <span>{grupo.cantidad}</span>
               </div>
             ))}
           </div>
@@ -140,16 +137,16 @@ function Valoraciones({ idRecorrido }) {
       <div className="val-lista">
         {resumen.valoraciones.length === 0
           ? <p className="val-vacio">{t('val.vacio')}</p>
-          : resumen.valoraciones.map((v, i) => (
-            <article className="val-item" key={i}>
-              <Avatar autor={v.autor} />
+          : resumen.valoraciones.map((valoracion, posicion) => (
+            <article className="val-item" key={posicion}>
+              <Avatar autor={valoracion.autor} />
               <div>
                 <div className="val-item__top">
-                  <strong>{v.autor.nombre}</strong>
-                  <span className="val-estrellas"><Estrellas valor={v.estrellas} /></span>
+                  <strong>{valoracion.autor.nombre}</strong>
+                  <span className="val-estrellas"><Estrellas valor={valoracion.estrellas} /></span>
                 </div>
-                {v.comentario && <p>{v.comentario}</p>}
-                <small>{new Date(v.creadaEn).toLocaleDateString(tt('fecha.locale'), { day: 'numeric', month: 'long', year: 'numeric' })}</small>
+                {valoracion.comentario && <p>{valoracion.comentario}</p>}
+                <small>{new Date(valoracion.creadaEn).toLocaleDateString(tt('fecha.locale'), { day: 'numeric', month: 'long', year: 'numeric' })}</small>
               </div>
             </article>
           ))}

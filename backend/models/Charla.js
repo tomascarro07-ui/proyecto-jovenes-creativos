@@ -17,9 +17,7 @@ const charlaSchema = new mongoose.Schema(
     cupos: { type: Number, required: true, min: 0 },
     ...camposUbicacion,
     finalizada: { type: Boolean, default: false },
-    // Solo una actividad por sección puede estar destacada (se muestra en grande al principio de la página)
     destacada: { type: Boolean, default: false },
-    // Textos en otros idiomas: { en: { titulo: "...", ... }, pt: { ... } }. Se cargan con `npm run traducir`.
     traducciones: { type: mongoose.Schema.Types.Mixed, default: undefined },
   },
   { timestamps: true }

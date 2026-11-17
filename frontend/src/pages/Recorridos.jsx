@@ -10,22 +10,21 @@ function Recorridos() {
   const { t, tDato } = useIdioma()
   const { datos: recorridos, cargando, error } = useCarga(() => api.recorridos(), [])
 
-  // Cada recorrido se adapta al formato común de los listados de actividades
-  const items = recorridos && recorridos.map((r) => ({
-    id: r.id,
-    enlace: `/recorridos/${r.id}`,
-    imagen: r.imagen,
-    titulo: r.titulo,
-    descripcion: r.descripcionCorta,
-    fecha: r.fecha,
-    chip: `${t('act.recorrido')} · ${tDato(r.tipo)}`,
+  const items = recorridos && recorridos.map((recorrido) => ({
+    id: recorrido.id,
+    enlace: `/recorridos/${recorrido.id}`,
+    imagen: recorrido.imagen,
+    titulo: recorrido.titulo,
+    descripcion: recorrido.descripcionCorta,
+    fecha: recorrido.fecha,
+    chip: `${t('act.recorrido')} · ${tDato(recorrido.tipo)}`,
     meta: [
-      { icono: 'fa-regular fa-clock', texto: formatearDuracion(r) },
-      { icono: 'fa-solid fa-location-dot', texto: r.puntoSalida },
+      { icono: 'fa-regular fa-clock', texto: formatearDuracion(recorrido) },
+      { icono: 'fa-solid fa-location-dot', texto: recorrido.puntoSalida },
     ],
-    cupos: r.cupos,
-    finalizada: r.finalizada,
-    destacada: r.destacada,
+    cupos: recorrido.cupos,
+    finalizada: recorrido.finalizada,
+    destacada: recorrido.destacada,
     boton: t('act.reservar'),
   }))
 

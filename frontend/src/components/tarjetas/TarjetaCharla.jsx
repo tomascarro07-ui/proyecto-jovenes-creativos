@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { separarFecha } from '../../utils/fechas'
 import { useIdioma } from '../../hooks/useIdioma'
 
-// Tarjeta de charla de la portada (clase act-card).
 function TarjetaCharla({ charla }) {
   const { t } = useIdioma()
   const fecha = separarFecha(charla.fecha)

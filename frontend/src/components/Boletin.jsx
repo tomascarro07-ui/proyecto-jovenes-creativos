@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { api } from '../api'
 import { useIdioma } from '../hooks/useIdioma'
 
-// Categorías entre las que se puede elegir al suscribirse. Al servidor se envía siempre el nombre en español (valor).
 const CATEGORIAS = [
   { valor: 'Museos', clave: 'index.cat.museos' },
   { valor: 'Historia', clave: 'index.cat.historia' },
@@ -15,22 +14,21 @@ const CATEGORIAS = [
   { valor: 'Actividades Familiares', clave: 'index.cat.familiares' },
 ]
 
-// Suscripción al boletín cultural (antes: scripts/boletin.js)
 function Boletin() {
   const { t } = useIdioma()
   const [email, setEmail] = useState('')
-  const [categorias, setCategorias] = useState([]) // categorías tildadas
+  const [categorias, setCategorias] = useState([])
   const [enviando, setEnviando] = useState(false)
-  const [mensaje, setMensaje] = useState(null) // { texto, esError }
+  const [mensaje, setMensaje] = useState(null)
 
   function alternarCategoria(categoria) {
     setCategorias((actuales) =>
-      actuales.includes(categoria) ? actuales.filter((c) => c !== categoria) : [...actuales, categoria],
+      actuales.includes(categoria) ? actuales.filter((otraCategoria) => otraCategoria !== categoria) : [...actuales, categoria],
     )
   }
 
-  async function alEnviar(e) {
-    e.preventDefault()
+  async function alEnviar(evento) {
+    evento.preventDefault()
     setEnviando(true)
     setMensaje(null)
     try {
@@ -64,7 +62,7 @@ function Boletin() {
             placeholder={t('index.boletinEmail')}
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(evento) => setEmail(evento.target.value)}
           />
           {' '}
           <button type="submit" className="nc-btn nc-btn--mini" disabled={enviando}>

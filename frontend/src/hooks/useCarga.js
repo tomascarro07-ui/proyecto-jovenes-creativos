@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useIdioma } from './useIdioma'
 
-// Carga datos del servidor al abrir la página y entrega { datos, cargando, error, recargar }.
-//   const { datos: charlas, cargando, error } = useCarga(() => api.charlas(), [])
-// Las dependencias (segundo parámetro) funcionan como en useEffect: si cambian, se vuelve a pedir.
-// También se vuelve a pedir al cambiar el idioma, porque el servidor devuelve los textos traducidos.
 export function useCarga(funcion, dependencias = []) {
   const [resultado, setResultado] = useState({ clave: null, datos: null, error: null })
   const [version, setVersion] = useState(0)
@@ -15,7 +11,6 @@ export function useCarga(funcion, dependencias = []) {
     funcionRef.current = funcion
   })
 
-  // "clave" identifica el pedido en curso; mientras el resultado guardado no sea el de esa clave, estamos cargando
   const clave = JSON.stringify([dependencias, version, idioma])
 
   useEffect(() => {
@@ -28,7 +23,7 @@ export function useCarga(funcion, dependencias = []) {
     }
   }, [clave])
 
-  const recargar = useCallback(() => setVersion((v) => v + 1), [])
+  const recargar = useCallback(() => setVersion((versionAnterior) => versionAnterior + 1), [])
   const cargando = resultado.clave !== clave
   return {
     datos: cargando ? null : resultado.datos,

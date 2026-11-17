@@ -3,15 +3,12 @@ import { CENTRO_COLONIA, LIMITES_COLONIA, capaBase, capaCalles } from '../../uti
 
 const formato = (ll) => ll.lat.toFixed(6) + ', ' + ll.lng.toFixed(6)
 
-// Acepta "-34.47, -57.85", "-34.47 -57.85", "-34.47;-57.85"
 function leerCoordenadas(texto) {
   const numeros = texto.replace(/−/g, '-').match(/-?\d+(?:\.\d+)?/g)
   if (!numeros || numeros.length < 2) return null
   return { lat: Number(numeros[0]), lng: Number(numeros[1]) }
 }
 
-// Ventana con un mapa para marcar una ubicación (antes: elegirUbicacion en selectorUbicacion.js).
-// "inicial" es { lat, lng } o null. alConfirmar recibe { lat, lng }; alCancelar no recibe nada.
 function DialogoUbicacion({ inicial, alConfirmar, alCancelar }) {
   const dialogoRef = useRef(null)
   const mapaDivRef = useRef(null)
@@ -19,9 +16,8 @@ function DialogoUbicacion({ inicial, alConfirmar, alCancelar }) {
   const marcadorRef = useRef(null)
   const [texto, setTexto] = useState(inicial ? formato(inicial) : '')
   const [error, setError] = useState('')
-  const [punto, setPunto] = useState(inicial || null) // { lat, lng } marcado
+  const [punto, setPunto] = useState(inicial || null)
 
-  // 1) Abrir la ventana y crear el mapa
   useEffect(() => {
     const L = window.L
     const dialogo = dialogoRef.current
@@ -36,10 +32,10 @@ function DialogoUbicacion({ inicial, alConfirmar, alCancelar }) {
     capaBase().addTo(mapa)
     capaCalles().addTo(mapa)
     const espera = setTimeout(() => mapa.invalidateSize(), 60)
-    mapa.on('click', (e) => {
-      setTexto(formato(e.latlng))
+    mapa.on('click', (evento) => {
+      setTexto(formato(evento.latlng))
       setError('')
-      setPunto({ lat: e.latlng.lat, lng: e.latlng.lng })
+      setPunto({ lat: evento.latlng.lat, lng: evento.latlng.lng })
     })
     mapaRef.current = mapa
     return () => {
@@ -52,7 +48,6 @@ function DialogoUbicacion({ inicial, alConfirmar, alCancelar }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // 2) Dibujar (o mover) el marcador cuando cambia el punto
   useEffect(() => {
     const L = window.L
     const mapa = mapaRef.current
@@ -62,44 +57,44 @@ function DialogoUbicacion({ inicial, alConfirmar, alCancelar }) {
     } else {
       const marcador = L.marker([punto.lat, punto.lng], { draggable: true }).addTo(mapa)
       marcador.on('dragend', () => {
-        const p = marcador.getLatLng()
-        setTexto(formato(p))
+        const posicion = marcador.getLatLng()
+        setTexto(formato(posicion))
         setError('')
-        setPunto({ lat: p.lat, lng: p.lng })
+        setPunto({ lat: posicion.lat, lng: posicion.lng })
       })
       marcadorRef.current = marcador
     }
   }, [punto])
 
-  function alEscribir(e) {
+  function alEscribir(evento) {
     const L = window.L
-    const valor = e.target.value
+    const valor = evento.target.value
     setTexto(valor)
     if (!valor.trim()) {
       setError('')
       return
     }
-    const c = leerCoordenadas(valor.trim())
-    if (!c) {
+    const coordenadas = leerCoordenadas(valor.trim())
+    if (!coordenadas) {
       setError('Escribí latitud y longitud, por ejemplo: -34.472171, -57.855030')
       return
     }
-    if (Math.abs(c.lat) > 90 || Math.abs(c.lng) > 180) {
+    if (Math.abs(coordenadas.lat) > 90 || Math.abs(coordenadas.lng) > 180) {
       setError('Coordenadas fuera de rango. ¿Invertiste latitud y longitud?')
       return
     }
-    const ll = L.latLng(c.lat, c.lng)
+    const ll = L.latLng(coordenadas.lat, coordenadas.lng)
     if (!L.latLngBounds(LIMITES_COLONIA).contains(ll)) {
       setError('Esa ubicación queda fuera de la zona de Colonia del Sacramento.')
       return
     }
     setError('')
-    setPunto({ lat: c.lat, lng: c.lng })
+    setPunto({ lat: coordenadas.lat, lng: coordenadas.lng })
     mapaRef.current.setView(ll, 18)
   }
 
   return (
-    <dialog ref={dialogoRef} className="ubic-dialogo" onCancel={(e) => { e.preventDefault(); alCancelar() }}>
+    <dialog ref={dialogoRef} className="ubic-dialogo" onCancel={(evento) => { evento.preventDefault(); alCancelar() }}>
       <h3>Marcá la ubicación</h3>
       <p>Pegá las coordenadas o hacé clic en el mapa.</p>
       <div className="ubic-campo">

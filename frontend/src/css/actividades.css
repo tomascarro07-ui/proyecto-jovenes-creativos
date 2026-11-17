@@ -1,9 +1,5 @@
-/* Listados de charlas, talleres y recorridos: actividad destacada + tarjetas, pasos y material descargable.
-   Usa los mismos colores del sitio (variables de styles.css). */
-
 .ac-listado { display: flex; flex-direction: column; gap: 1.25rem; }
 
-/* ── Etiquetas ── */
 .ac-chip {
   display: inline-flex; align-items: center; padding: .25rem .75rem; border-radius: 999px;
   background: var(--color-burbuja); color: #fff; font-size: .68rem; font-weight: 600;
@@ -22,7 +18,6 @@
 .ac-meta--claro { color: var(--nc-menta); font-size: .85rem; }
 .ac-meta--claro i { color: var(--nc-menta); }
 
-/* ── Actividad destacada ── */
 .ac-destacada {
   display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   background: var(--color-burbuja); border-radius: 14px; overflow: hidden; min-height: 340px;
@@ -46,7 +41,6 @@
 .ac-boton-claro:hover { background: transparent; color: var(--nc-bg); }
 .ac-boton-claro:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 
-/* ── Tarjetas ── */
 .ac-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
 .ac-tarjeta {
   display: flex; flex-direction: column; overflow: hidden; background: #fff; border: 1px solid var(--nc-linea);
@@ -74,7 +68,6 @@
 }
 .ac-tarjeta__pie .nc-btn { display: inline-flex; align-items: center; gap: .4rem; }
 
-/* ── Cómo participar ── */
 .ac-pasos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
 .ac-paso { background: #fff; border: 1px solid var(--nc-linea); border-radius: 14px; padding: 1.5rem 1.6rem 1.7rem; display: flex; flex-direction: column; gap: .6rem; }
 .ac-paso__cabecera { display: flex; align-items: center; justify-content: space-between; }
@@ -85,7 +78,6 @@
 .ac-notas { list-style: none; margin: 1.25rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; font-size: .8rem; color: var(--color-texto-claro); }
 .ac-notas i { color: var(--color-boton); margin-right: .35rem; }
 
-/* ── Material descargable ── */
 .ac-material { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .ac-pdf { display: grid; grid-template-columns: 96px minmax(0, 1fr); background: #fff; border: 1px solid var(--nc-linea); border-radius: 14px; overflow: hidden; }
 .ac-pdf__icono { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; background: var(--color-burbuja); color: var(--nc-bg); font-size: 1.7rem; }
@@ -96,7 +88,6 @@
 .ac-pdf__pie { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-top: auto; padding-top: .4rem; font-size: .75rem; color: var(--color-texto-claro); }
 .ac-pdf__pie .nc-btn { display: inline-flex; align-items: center; gap: .4rem; }
 
-/* ── Panel de administración: estrella "destacada" ── */
 .admin-panel--lista .admin-btn-destacar {
   width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 8px; border: 1px solid var(--nc-linea); background: #fff; color: #8a8a8a; font-size: .85rem;
@@ -120,3 +111,32 @@
   .ac-tarjeta { transition: none; }
   .ac-tarjeta:hover { transform: none; }
 }
+
+.auth-ayuda-campo { font-size: .72rem; line-height: 1.4; color: var(--color-texto-claro); }
+.admin-form-botones { display: flex; flex-wrap: wrap; gap: .75rem; }
+.admin-form-botones .nc-btn { width: auto; }
+.campo-imagen__acciones { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.campo-imagen__subir { cursor: pointer; display: inline-flex; align-items: center; gap: .4rem; position: relative; }
+.campo-imagen__subir:focus-within { outline: 3px solid rgb(9 52 58 / .45); outline-offset: 2px; }
+.campo-imagen__error { margin: 0; font-size: .78rem; color: #B5382B; }
+.campo-imagen__vista { max-width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px; border: 1px solid var(--nc-linea); align-self: flex-start; }
+.admin-dialogo { max-width: min(560px, 92vw); border: none; border-radius: 14px; padding: 1.6rem 1.8rem; background: var(--nc-card); color: var(--color-texto); box-shadow: 0 12px 40px rgb(9 25 28 / .3); }
+.admin-dialogo--ancho { max-width: min(860px, 94vw); }
+.admin-dialogo::backdrop { background: rgb(9 25 28 / .55); }
+.admin-dialogo h3 { margin: 0 0 .6rem; font-size: 1.15rem; color: var(--color-primario); }
+.admin-dialogo p { margin: 0 0 1.2rem; font-size: .92rem; line-height: 1.6; }
+.admin-dialogo .admin-dialogo__sub { margin: -.3rem 0 1rem; font-size: .8rem; color: var(--color-texto-claro); }
+.admin-dialogo__acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .75rem; margin-top: 1rem; }
+.nc-btn--peligro { background: #B5382B; border-color: #B5382B; color: #fff; }
+.nc-btn--peligro:hover { background: #fff; color: #B5382B; border-color: #B5382B; }
+.recurso-lista a.recurso-editar { color: var(--color-primario); }
+.admin-top { margin-top: 1.4rem; background: #fff; border: 1px solid var(--nc-linea); border-radius: 10px; padding: 1.1rem 1.3rem; }
+.admin-top h3 { margin: 0 0 .7rem; font-size: .95rem; font-weight: 600; color: var(--color-primario); }
+.admin-top ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.admin-top li { display: grid; grid-template-columns: 90px minmax(0, 1fr) auto; gap: .8rem; align-items: center; padding: .55rem 0; font-size: .85rem; }
+.admin-top li + li { border-top: 1px solid var(--nc-linea); }
+.admin-top__tipo { font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-boton); }
+.admin-top__titulo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 1000px) { .admin-resumen-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.charla-detalle__media{background:linear-gradient(135deg,#0F4B54,#09343A)}
