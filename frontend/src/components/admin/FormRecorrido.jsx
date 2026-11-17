@@ -4,6 +4,7 @@ import { leer, lugarInicial, lugarValido } from '../../utils/lugar'
 import SelectorLugar from './SelectorLugar'
 import CampoImagen from './CampoImagen'
 import BotonesForm from './BotonesForm'
+import { avisarAdmin } from '../../utils/avisos'
 
 function FormRecorrido({ museos, inicial = null, alGuardar, alCancelar }) {
   const datosIniciales = inicial || {}
@@ -37,7 +38,7 @@ function FormRecorrido({ museos, inicial = null, alGuardar, alCancelar }) {
       else await admin.crear('recorridos', datos)
       await alGuardar()
     } catch (error) {
-      alert('No se pudo guardar el recorrido: ' + error.message)
+      avisarAdmin('No se pudo guardar el recorrido: ' + error.message)
       setEnviando(false)
     }
   }

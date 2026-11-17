@@ -5,6 +5,7 @@ import { conActual } from '../../utils/formularios'
 import SelectorLugar from './SelectorLugar'
 import CampoImagen from './CampoImagen'
 import BotonesForm from './BotonesForm'
+import { avisarAdmin } from '../../utils/avisos'
 
 const TIPOS = [['Virtual', 'Virtual'], ['Presencial', 'Presencial']]
 
@@ -40,7 +41,7 @@ function FormCharla({ museos, inicial = null, alGuardar, alCancelar }) {
       else await admin.crear('charlas', datos)
       await alGuardar()
     } catch (error) {
-      alert('No se pudo guardar la charla: ' + error.message)
+      avisarAdmin('No se pudo guardar la charla: ' + error.message)
       setEnviando(false)
     }
   }

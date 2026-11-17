@@ -15,6 +15,7 @@ import FormRecorrido from '../components/admin/FormRecorrido'
 import FormRecurso from '../components/admin/FormRecurso'
 import FormTaller from '../components/admin/FormTaller'
 import ItemAdmin from '../components/admin/ItemAdmin'
+import { avisarAdmin } from '../utils/avisos'
 
 const RUTAS_UBICACION = { charla: 'charlas', taller: 'talleres', recorrido: 'recorridos', museo: 'museos' }
 
@@ -60,7 +61,7 @@ async function accionAdmin(accion, recargar) {
     await accion()
     await recargar()
   } catch (error) {
-    alert('No se pudo completar la acción: ' + error.message)
+    avisarAdmin('No se pudo completar la acción: ' + error.message)
   }
 }
 
@@ -139,7 +140,7 @@ function PanelAdmin() {
       const inscriptos = await api.inscriptosDeActividad(tipo, id)
       setDialogo({ tipo: 'inscriptos', titulo, inscriptos })
     } catch (error) {
-      alert('No se pudieron cargar los inscriptos: ' + error.message)
+      avisarAdmin('No se pudieron cargar los inscriptos: ' + error.message)
     }
   }
 
@@ -148,7 +149,7 @@ function PanelAdmin() {
       const item = await pedirApi('/' + RUTAS_UBICACION[tipo] + '/' + encodeURIComponent(id))
       setDialogo(tipo === 'museo' ? { tipo: 'ubicacion', seccion: tipo, id, item } : { tipo: 'lugar', seccion: tipo, id, item })
     } catch (error) {
-      alert('No se pudo guardar la ubicación: ' + error.message)
+      avisarAdmin('No se pudo guardar la ubicación: ' + error.message)
     }
   }
 
@@ -156,9 +157,9 @@ function PanelAdmin() {
     setDialogo(null)
     try {
       await admin.ubicacion(RUTAS_UBICACION[seccion], id, datos)
-      alert('Ubicación guardada. Ya aparece en el mapa cultural.')
+      avisarAdmin('Ubicación guardada. Ya aparece en el mapa cultural.', 'exito')
     } catch (error) {
-      alert('No se pudo guardar la ubicación: ' + error.message)
+      avisarAdmin('No se pudo guardar la ubicación: ' + error.message)
     }
   }
 

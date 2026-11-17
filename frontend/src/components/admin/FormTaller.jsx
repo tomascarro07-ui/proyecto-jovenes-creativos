@@ -5,6 +5,7 @@ import { conActual } from '../../utils/formularios'
 import SelectorLugar from './SelectorLugar'
 import CampoImagen from './CampoImagen'
 import BotonesForm from './BotonesForm'
+import { avisarAdmin } from '../../utils/avisos'
 
 const NIVELES = [['iniciacion', 'Iniciación'], ['todo-publico', 'Todo público'], ['avanzado', 'Avanzado']]
 const MODALIDADES = [['presencial', 'Presencial'], ['online', 'Online']]
@@ -41,7 +42,7 @@ function FormTaller({ museos, inicial = null, alGuardar, alCancelar }) {
       else await admin.crear('talleres', datos)
       await alGuardar()
     } catch (error) {
-      alert('No se pudo guardar el taller: ' + error.message)
+      avisarAdmin('No se pudo guardar el taller: ' + error.message)
       setEnviando(false)
     }
   }

@@ -10,11 +10,16 @@ const Museo = require("../models/Museo");
 const SEDES = require("./sedes");
 const { sembrarMuseos } = require("./seedMuseos");
 const TRADUCCIONES = require("./traducciones");
+const FECHAS = require("./fechas");
 
 async function cargar(Modelo, datos, nombre) {
   await Modelo.deleteMany({});
   await Modelo.insertMany(datos);
   console.log(`${nombre}: ${datos.length} cargados`);
+}
+
+function conFechas(lista, fechasPorTitulo) {
+  return lista.map((item) => ({ ...item, ...fechasPorTitulo[item.titulo] }));
 }
 
 function conTraducciones(lista, traducciones) {
@@ -39,9 +44,9 @@ async function sembrar() {
   await mongoose.connect(process.env.MONGODB_URI);
   const m = await sembrarMuseos();
   console.log(`Museos: ${m.museos} cargados`);
-  await cargar(Taller, conTraducciones(await conSede(talleres, SEDES.talleres), TRADUCCIONES.talleres), "Talleres");
-  await cargar(Charla, conTraducciones(await conSede(charlas, SEDES.charlas), TRADUCCIONES.charlas), "Charlas");
-  await cargar(Recorrido, conTraducciones(await conSede(recorridos, SEDES.recorridos), TRADUCCIONES.recorridos), "Recorridos");
+  await cargar(Taller, conTraducciones(conFechas(await conSede(talleres, SEDES.talleres), FECHAS.talleres), TRADUCCIONES.talleres), "Talleres");
+  await cargar(Charla, conTraducciones(conFechas(await conSede(charlas, SEDES.charlas), FECHAS.charlas), TRADUCCIONES.charlas), "Charlas");
+  await cargar(Recorrido, conTraducciones(conFechas(await conSede(recorridos, SEDES.recorridos), FECHAS.recorridos), TRADUCCIONES.recorridos), "Recorridos");
   await cargar(Recurso, conTraducciones(recursos, TRADUCCIONES.recursos), "Recursos");
   await Inscripcion.deleteMany({});
   await mongoose.disconnect();

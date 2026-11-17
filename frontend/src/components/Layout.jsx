@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
+import Avisos from './Avisos'
 import CargandoPagina from './CargandoPagina'
 import { useIdioma } from '../hooks/useIdioma'
 
@@ -47,6 +48,7 @@ function Layout() {
         <Outlet />
       </Suspense>
       <Footer />
+      <Avisos />
     </>
   )
 }

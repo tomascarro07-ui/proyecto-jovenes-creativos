@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { admin } from '../../api'
 import { leer } from '../../utils/lugar'
 import BotonesForm from './BotonesForm'
+import { avisarAdmin } from '../../utils/avisos'
 
 const MAX_MB = 3
 
@@ -24,15 +25,15 @@ function FormRecurso({ inicial = null, alGuardar, alCancelar }) {
     const form = evento.currentTarget
     const archivo = form.elements['recurso-archivo'].files[0]
     if (!archivo && !editando) {
-      alert('Elegí un archivo PDF.')
+      avisarAdmin('Elegí un archivo PDF.', 'advertencia')
       return
     }
     if (archivo && archivo.type !== 'application/pdf' && !archivo.name.toLowerCase().endsWith('.pdf')) {
-      alert('El archivo tiene que ser un PDF.')
+      avisarAdmin('El archivo tiene que ser un PDF.', 'advertencia')
       return
     }
     if (archivo && archivo.size > MAX_MB * 1024 * 1024) {
-      alert(`El PDF pesa más de ${MAX_MB} MB. Probá comprimirlo o subí uno más liviano.`)
+      avisarAdmin(`El PDF pesa más de ${MAX_MB} MB. Probá comprimirlo o subí uno más liviano.`, 'advertencia')
       return
     }
     setEnviando(true)
@@ -54,7 +55,7 @@ function FormRecurso({ inicial = null, alGuardar, alCancelar }) {
       else await admin.crear('recursos', datos)
       await alGuardar()
     } catch (error) {
-      alert('No se pudo guardar el recurso: ' + error.message)
+      avisarAdmin('No se pudo guardar el recurso: ' + error.message)
       setEnviando(false)
     }
   }

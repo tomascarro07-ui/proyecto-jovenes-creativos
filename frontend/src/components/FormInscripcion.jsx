@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { api } from '../api'
 import { useSesion } from '../hooks/useSesion'
 import { useIdioma } from '../hooks/useIdioma'
+import { avisar } from '../utils/avisos'
 
 function FormInscripcion({ tipo, idActividad, visible, alTerminar }) {
   const { t } = useIdioma()
@@ -17,15 +18,28 @@ function FormInscripcion({ tipo, idActividad, visible, alTerminar }) {
     setEnviando(true)
     try {
       await api.inscribirse({ tipo, actividad: idActividad, nombre: nombre.trim(), telefono: telefono.trim() })
-      alert(t('insc.ok'))
+      avisar(t('insc.ok'), {
+        tipo: 'exito',
+        titulo: t('insc.exitoTitulo'),
+        enlace: { texto: t('insc.verMis'), ruta: '/mis-inscripciones' },
+      })
       alTerminar()
     } catch (error) {
       if (error.status === 401) {
-        alert(t('insc.vencio'))
+        await avisar(t('insc.vencio'), { tipo: 'advertencia', titulo: t('insc.vencioTitulo') })
         navegar('/login')
         return
       }
-      alert(error.message)
+      if (error.status === 409 && error.codigo === 'ya_inscripto') {
+        avisar(t('insc.yaTexto'), {
+          tipo: 'info',
+          titulo: t('insc.yaTitulo'),
+          enlace: { texto: t('insc.verMis'), ruta: '/mis-inscripciones' },
+        })
+        alTerminar()
+        return
+      }
+      avisar(error.message, { tipo: 'error' })
     }
     setEnviando(false)
   }

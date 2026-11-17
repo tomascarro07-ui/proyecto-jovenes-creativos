@@ -1,18 +1,20 @@
+import { avisarAdmin } from './avisos'
+
 const LUGAR_VACIO = { sel: '', texto: '', lat: null, lng: null }
 
 export function lugarValido(lugar, museos) {
   if (!lugar.sel) {
-    alert('Elegí el lugar de la actividad.')
+    avisarAdmin('Elegí el lugar de la actividad.', 'advertencia')
     return null
   }
   if (lugar.sel === 'otro') {
     const nombre = lugar.texto.trim()
     if (!nombre) {
-      alert('Escribí el nombre del lugar.')
+      avisarAdmin('Escribí el nombre del lugar.', 'advertencia')
       return null
     }
     if (lugar.lat === null) {
-      alert('Marcá la ubicación del lugar en el mapa.')
+      avisarAdmin('Marcá la ubicación del lugar en el mapa.', 'advertencia')
       return null
     }
     return { museo: null, lugar: nombre, lat: lugar.lat, lng: lugar.lng }

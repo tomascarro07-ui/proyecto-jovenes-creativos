@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useInscripcion } from '../hooks/useInscripcion'
 import { useIdioma } from '../hooks/useIdioma'
+import { useYaInscripto } from '../hooks/useYaInscripto'
+import { avisar } from '../utils/avisos'
 import DetalleEstado from './DetalleEstado'
 import EtiquetaCupos from './EtiquetaCupos'
 import FormInscripcion from './FormInscripcion'
@@ -10,10 +12,25 @@ function DetalleActividad({ tipo, volverA, volverTexto, cargando, error, noEncon
   const { t } = useIdioma()
   const { formAbierto, modalAbierto, pedirInscripcion, cerrarModal, cerrarForm } = useInscripcion()
   const cerrada = Boolean(actividad) && (actividad.finalizada === true || actividad.cupos === 0)
+  const idActividad = actividad ? actividad.id : ''
+  const { yaInscripto, recargarInscripciones } = useYaInscripto(tipo, idActividad)
+
+  function alPedirInscripcion() {
+    if (yaInscripto) {
+      avisar(t('insc.yaTexto'), {
+        tipo: 'info',
+        titulo: t('insc.yaTitulo'),
+        enlace: { texto: t('insc.verMis'), ruta: '/mis-inscripciones' },
+      })
+      return
+    }
+    pedirInscripcion()
+  }
 
   function inscripcionHecha() {
     cerrarForm()
     recargar()
+    recargarInscripciones()
   }
 
   return (
@@ -56,7 +73,7 @@ function DetalleActividad({ tipo, volverA, volverTexto, cargando, error, noEncon
                           {t('det.cupos', { n: actividad.cupos })}
                         </span>
                         {!formAbierto && (
-                          <button type="button" id="btnMostrarForm" className="nc-btn" onClick={pedirInscripcion}>{t('act.inscribirme')}</button>
+                          <button type="button" id="btnMostrarForm" className="nc-btn" onClick={alPedirInscripcion}>{t('act.inscribirme')}</button>
                         )}
                       </>
                     )}

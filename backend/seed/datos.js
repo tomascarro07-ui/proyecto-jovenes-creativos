@@ -9,21 +9,21 @@ const talleres = [
 
 const charlas = [
   {
-    titulo: "Historia del Barrio Histórico", fecha: "2026-08-15", hora: "18:00", lugar: "Virtual", tipo: "Virtual",
+    titulo: "Historia del Barrio Histórico", fecha: "2026-11-14", hora: "18:00", lugar: "Virtual", tipo: "Virtual",
     imagen: "img/historia-barrio.webp", expositor: "Lic. María Fernández",
     descripcionCorta: "Un recorrido por la historia y el patrimonio cultural del departamento.",
     descripcionCompleta: "Esta charla propone un recorrido detallado por los orígenes del Barrio Histórico de Colonia del Sacramento, desde su fundación portuguesa hasta la actualidad. Se abordarán las principales edificaciones, su valor patrimonial y las historias que dieron forma a la identidad cultural de la ciudad.",
     cupos: 40,
   },
   {
-    titulo: "Turismo sostenible en Colonia", fecha: "2026-08-22", hora: "19:00", lugar: "Virtual", tipo: "Virtual",
+    titulo: "Turismo sostenible en Colonia", fecha: "2026-11-21", hora: "19:00", lugar: "Virtual", tipo: "Virtual",
     imagen: "img/turismo-sostenible.webp", expositor: "Ing. Javier Rodríguez",
     descripcionCorta: "Charla abierta sobre turismo sostenible y organizaciones locales.",
     descripcionCompleta: "Un espacio de debate sobre cómo desarrollar un turismo responsable en Colonia del Sacramento, con foco en la sostenibilidad ambiental, el cuidado del patrimonio y el trabajo conjunto con organizaciones locales.",
     cupos: 35,
   },
   {
-    titulo: "Referentes de museos y espacios culturales", fecha: "2026-08-29", hora: "18:30", lugar: "Virtual", tipo: "Virtual",
+    titulo: "Referentes de museos y espacios culturales", fecha: "2026-11-28", hora: "18:30", lugar: "Virtual", tipo: "Virtual",
     imagen: "img/referentes-museos.webp", expositor: "Panel de referentes locales",
     descripcionCorta: "Conversamos con referentes de museos y espacios culturales de la zona.",
     descripcionCompleta: "Conversamos con referentes de distintos museos y espacios culturales de la zona sobre los desafíos y proyectos futuros para la difusión del patrimonio local.",

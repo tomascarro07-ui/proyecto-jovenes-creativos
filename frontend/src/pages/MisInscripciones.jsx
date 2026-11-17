@@ -5,6 +5,7 @@ import { useCarga } from '../hooks/useCarga'
 import { useSesion } from '../hooks/useSesion'
 import { useIdioma } from '../hooks/useIdioma'
 import { tt } from '../i18n/motor'
+import { avisar, confirmar } from '../utils/avisos'
 
 const PAGINAS = { taller: '/cursos/', charla: '/charlas/', recorrido: '/recorridos/' }
 const TIPOS = {
@@ -24,13 +25,19 @@ function TarjetaInscripcion({ inscripcion: ins, alCancelar }) {
   const disponible = ins.disponible !== false
 
   async function cancelar() {
-    if (!window.confirm(t('misinsc.confirmarCancelar'))) return
+    const confirmado = await confirmar(t('misinsc.confirmarCancelar'), {
+      tipo: 'peligro',
+      titulo: t('misinsc.tituloCancelar'),
+      textoConfirmar: t('misinsc.siCancelar'),
+      textoCancelar: t('misinsc.mantener'),
+    })
+    if (!confirmado) return
     setCancelando(true)
     try {
       await api.cancelarInscripcion(ins.id)
       alCancelar()
     } catch (error) {
-      alert(error.message)
+      avisar(error.message, { tipo: 'error' })
       setCancelando(false)
     }
   }

@@ -1,0 +1,13 @@
+.aviso-modal { width: min(380px, 92vw); border: 1px solid var(--nc-linea); border-radius: 16px; padding: 1.8rem 1.6rem 1.5rem; background: var(--nc-card); color: var(--color-texto); box-shadow: 0 18px 40px rgb(9 52 58 / .22); text-align: center; }
+.aviso-modal::backdrop { background: rgb(9 25 28 / .55); }
+.aviso-modal[open] { display: flex; flex-direction: column; align-items: center; gap: .9rem; }
+.aviso-modal__icono { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; background: var(--nc-menta); color: var(--color-boton); }
+.aviso-modal--exito .aviso-modal__icono { background: #ddefe3; color: #2e7d4f; }
+.aviso-modal--advertencia .aviso-modal__icono { background: #fbefd5; color: #8a5a0b; }
+.aviso-modal--error .aviso-modal__icono, .aviso-modal--peligro .aviso-modal__icono { background: #f6e0dc; color: #b5382b; }
+.aviso-modal h3 { margin: 0; font-family: "Playfair Display", serif; font-size: 1.4rem; font-weight: 600; color: var(--color-burbuja); }
+.aviso-modal p { margin: 0; font-size: .9rem; line-height: 1.6; color: var(--color-texto-claro); }
+.aviso-modal__acciones { display: flex; flex-direction: column; gap: .5rem; width: 100%; margin-top: .4rem; }
+.aviso-modal__acciones .nc-btn { width: 100%; min-height: 44px; text-align: center; }
+.aviso-modal__secundario { min-height: 44px; border: 1.5px solid transparent; border-radius: 8px; background: transparent; color: var(--color-texto-claro); font: 500 .9rem var(--fuente-texto); cursor: pointer; }
+.aviso-modal__secundario:hover { color: var(--color-burbuja); text-decoration: underline; }

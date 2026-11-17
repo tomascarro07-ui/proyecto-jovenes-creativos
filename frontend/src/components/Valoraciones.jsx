@@ -6,6 +6,7 @@ import { useSesion } from '../hooks/useSesion'
 import { useIdioma } from '../hooks/useIdioma'
 import TextoRico from '../components/TextoRico'
 import { tt } from '../i18n/motor'
+import { avisar } from '../utils/avisos'
 
 function Estrellas({ valor }) {
   return (
@@ -37,13 +38,16 @@ function FormValoracion({ idRecorrido, elegibilidad, alPublicar }) {
 
   async function alEnviar(evento) {
     evento.preventDefault()
-    if (!seleccion) return alert(t('val.elegi'))
+    if (!seleccion) {
+      avisar(t('val.elegi'), { tipo: 'advertencia' })
+      return
+    }
     setEnviando(true)
     try {
       await api.valorar({ recorrido: idRecorrido, estrellas: seleccion, comentario })
       alPublicar()
     } catch (error) {
-      alert(error.message)
+      avisar(error.message, { tipo: 'error' })
     }
     setEnviando(false)
   }

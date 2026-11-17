@@ -32,7 +32,7 @@ router.post("/", verificarToken, exigirCorreoVerificado, async (req, res) => {
 
     const yaAnotado = await Inscripcion.findOne({ usuario: req.usuario._id, tipo, actividad: idActividad });
     if (yaAnotado) {
-      return res.status(409).json({ error: "Ya estás inscripto en esta actividad" });
+      return res.status(409).json({ error: "Ya estás inscripto en esta actividad", codigo: "ya_inscripto" });
     }
 
     const actividad = await Modelo.findOneAndUpdate(
@@ -59,9 +59,9 @@ router.post("/", verificarToken, exigirCorreoVerificado, async (req, res) => {
     } catch (error) {
       await Modelo.findByIdAndUpdate(idActividad, { $inc: { cupos: cantidad } });
       if (error.code === 11000) {
-        return res.status(409).json({ error: "Ya estás inscripto en esta actividad" });
+        return res.status(409).json({ error: "Ya estás inscripto en esta actividad", codigo: "ya_inscripto" });
       }
-      throw e;
+      throw error;
     }
   } catch (error) {
     res.status(500).json({ error: "No se pudo completar la inscripción" });

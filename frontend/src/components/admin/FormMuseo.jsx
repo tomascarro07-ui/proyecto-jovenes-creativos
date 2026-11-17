@@ -5,6 +5,7 @@ import BotonUbicacion from './BotonUbicacion'
 import CampoImagen from './CampoImagen'
 import CampoGaleria from './CampoGaleria'
 import BotonesForm from './BotonesForm'
+import { avisarAdmin } from '../../utils/avisos'
 
 function FormMuseo({ inicial = null, alGuardar, alCancelar }) {
   const datosIniciales = inicial || {}
@@ -20,7 +21,7 @@ function FormMuseo({ inicial = null, alGuardar, alCancelar }) {
     evento.preventDefault()
     const form = evento.currentTarget
     if (ubicacion.lat === null) {
-      alert('Marcá la ubicación del museo en el mapa.')
+      avisarAdmin('Marcá la ubicación del museo en el mapa.', 'advertencia')
       return
     }
     const datos = {
@@ -48,7 +49,7 @@ function FormMuseo({ inicial = null, alGuardar, alCancelar }) {
       else await admin.crear('museos', { ...datos, museo: null })
       await alGuardar()
     } catch (error) {
-      alert('No se pudo guardar el museo: ' + error.message)
+      avisarAdmin('No se pudo guardar el museo: ' + error.message)
       setEnviando(false)
     }
   }
